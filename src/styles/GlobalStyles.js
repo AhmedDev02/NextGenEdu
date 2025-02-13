@@ -124,7 +124,9 @@ body {
     display: none;
   }
   .full-width{
-    width: 100%!important;
+    max-width: 85%;
+    margin-right: auto;
   }
+
 `;
 export default GlobalStyles;

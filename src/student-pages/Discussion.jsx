@@ -1,5 +1,16 @@
+import ContentHeader from "../ui/ContentHeader";
+import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
+
 function Discussion() {
-  return <div></div>;
+  return (
+    <>
+      <ContentHeader
+        title={STUDENT_PAGES_PROPERTIES.DISCUSSION.title}
+        description={STUDENT_PAGES_PROPERTIES.DISCUSSION.description}
+        button={false}
+      />
+    </>
+  );
 }
 
 export default Discussion;

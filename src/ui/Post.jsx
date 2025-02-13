@@ -7,11 +7,13 @@ const PostBody = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 500px;
+  width: 80%;
+  margin: 0 auto;
   height: auto;
   background-color: white;
   border-radius: 25px;
   padding: 10px;
+  margin-bottom: 20px;
   box-shadow: var(--shadow-primary);
 `;
 

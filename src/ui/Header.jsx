@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Search from "./Search";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { useDispatch } from "react-redux";
+import { toggleSidebar } from "../store/sideBarSlice";
 
 import SignOutBar from "./SignOutBar";
 
@@ -44,10 +46,17 @@ const MenuIcon = styled(HiOutlineMenuAlt2)`
   }
 `;
 
-function Header({ profile = null, toggle }) {
+function Header({ profile = null }) {
+  const dispatch = useDispatch();
+
+  // handle toggle
+  function handleToggle() {
+    dispatch(toggleSidebar());
+  }
+
   return (
     <StyledHeader>
-      <Toggle onClick={toggle}>
+      <Toggle onClick={handleToggle}>
         <MenuIcon />
       </Toggle>
       <Search />

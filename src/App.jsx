@@ -50,14 +50,6 @@ const queryClient = new QueryClient({
   },
 });
 function App() {
-  // const data = {
-  //   src: "../public/download.jpeg",
-  //   identity: {
-  //     name: "أ.د. أحمد المنوفي",
-  //     subject: "مادة ال OOP",
-  //   },
-  //   date: "1/11/2025",
-  // };
   return (
     <QueryClientProvider client={queryClient}>
       <GlobalStyles />

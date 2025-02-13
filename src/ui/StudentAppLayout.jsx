@@ -5,34 +5,21 @@ import Content from "./Content";
 import Main from "./Main";
 import Side from "./Side";
 import StudentNav from "./StudentNav";
-import { useState } from "react";
 
 const Div = styled.div`
   display: flex;
   flex-direction: row;
   height: 100vh;
 `;
-function StudentAppLayout() {
-  const [sideBar, setSideBar] = useState(true);
 
-  //handling
-  function handleSideBar() {
-    setSideBar(!sideBar);
-  }
+function StudentAppLayout() {
   return (
     <Div>
-      {/* {sideBar && (
-        <Side isVisible={sideBar}>
-          <StudentNav />
-        </Side>
-      )} */}
-
-      <Side isVisible={sideBar}>
+      <Side>
         <StudentNav />
       </Side>
-
       <Main>
-        <Header profile={"profile"} toggle={handleSideBar} />
+        <Header profile={"profile"} />
         <Content>
           <Outlet />
         </Content>

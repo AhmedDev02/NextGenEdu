@@ -2,33 +2,37 @@ import styled from "styled-components";
 import Logo from "./Logo";
 import { useSpring, animated } from "@react-spring/web";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const StyledSideBar = styled(animated.div)`
   height: 100%;
   width: 15%;
   z-index: 0;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
 `;
 
-function Side({ children, isVisible }) {
-  const [shouldRender, setShouldRender] = useState(isVisible);
+function Side({ children }) {
+  const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
+  const [shouldRender, setShouldRender] = useState(isSidebarOpen);
 
   // Animation for expanding/collapsing
   const slideAnimation = useSpring({
-    width: isVisible ? "15%" : "0%",
-    overflow: isVisible ? "visible" : "hidden",
+    width: isSidebarOpen ? "15%" : "0%",
+    overflow: isSidebarOpen ? "visible" : "hidden",
     config: { tension: 200, friction: 30 },
     onRest: () => {
       // Set display to none after collapse animation completes
-      if (!isVisible) setShouldRender(false);
+      if (!isSidebarOpen) setShouldRender(false);
     },
   });
 
   useEffect(() => {
     // Render the sidebar immediately when becoming visible
-    if (isVisible) setShouldRender(true);
-  }, [isVisible]);
-
-  if (!shouldRender) return null; // Completely unmount when hidden
+    if (isSidebarOpen) setShouldRender(true);
+  }, [isSidebarOpen]);
+  console.log(shouldRender);
 
   return (
     <StyledSideBar style={slideAnimation}>

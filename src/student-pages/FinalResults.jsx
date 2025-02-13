@@ -1,5 +1,16 @@
+import ContentHeader from "../ui/ContentHeader";
+import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
+
 function FinalResults() {
-  return <div></div>;
+  return (
+    <>
+      <ContentHeader
+        title={STUDENT_PAGES_PROPERTIES.FINAL_RESULTS.title}
+        description={STUDENT_PAGES_PROPERTIES.FINAL_RESULTS.description}
+        button={false}
+      />
+    </>
+  );
 }
 
 export default FinalResults;

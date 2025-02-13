@@ -16,7 +16,8 @@ const Div = styled.div``;
 function PostFooter({ footerInfo }) {
   const {
     identity: { name },
-  } = footerInfo;
+  } = footerInfo || {};
+
   return (
     <MainFooter>
       <Div>

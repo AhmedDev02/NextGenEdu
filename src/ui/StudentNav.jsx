@@ -21,6 +21,18 @@ const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  /* position: fixed; */
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for IE, Edge */
+  -ms-overflow-style: none;
   /* overflow: hidden; */
 `;
 
@@ -67,10 +79,9 @@ const StyledNavLink = styled(NavLink)`
 const Nav = styled.nav`
   padding: 5px 10px;
   background-color: #fff;
-  /* height: auto; */
+
   box-shadow: var(--shadow-primary);
   z-index: 10;
-  /* overflow: hidden; */
 `;
 
 function StudentNav() {
@@ -144,7 +155,7 @@ function StudentNav() {
           fontSize="1.2rem"
           paddingTopBottom="1rem"
           paddingLeftRight="4rem"
-          margin="20px 0 20px 0 "
+          margin="20px 0 100px 0 "
           navigateTo={"/student-profile"}
         >
           الملف الشخصي
