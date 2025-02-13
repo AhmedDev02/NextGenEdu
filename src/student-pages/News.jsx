@@ -32,7 +32,7 @@ function News() {
           { label: "Control", value: "control" },
           { label: "Measurements", value: "measurement" },
           { label: "Fiber", value: "fiber" },
-          { label: "Neural Network", value: "neural-network" },
+          { label: "Neural Network", value: "neural_network" },
         ]}
       />
       <Div>

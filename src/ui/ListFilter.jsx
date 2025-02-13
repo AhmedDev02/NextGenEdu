@@ -34,24 +34,25 @@ const FilterItem = styled.li`
 
 function ListFilter({ items }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const selectedDays = decodeURIComponent(
-    searchParams.get("days") || "all"
-  ).split("-");
-
+  const selectedDays = searchParams.get("days")?.split("-") || ["all"];
   const toggleDay = (day) => {
     let updatedDays;
-    if (
-      day === "all" ||
-      (selectedDays.includes(day) && selectedDays.length === 1)
-    ) {
+
+    if (day === "all") {
       updatedDays = ["all"];
     } else if (selectedDays.includes(day)) {
       updatedDays = selectedDays.filter((d) => d !== day);
       if (updatedDays.length === 0) updatedDays = ["all"];
     } else {
-      updatedDays = [...selectedDays.filter((d) => d !== "all"), day];
+      updatedDays = selectedDays.filter((d) => d !== "all");
+      updatedDays.push(day);
     }
-    setSearchParams({ days: encodeURIComponent(updatedDays.join("-")) });
+
+    // Use replace instead of push to avoid adding repeatedly
+    setSearchParams(
+      { days: encodeURIComponent(updatedDays.join("-")) },
+      { replace: true }
+    );
   };
 
   return (
