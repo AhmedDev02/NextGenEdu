@@ -32,25 +32,26 @@ const FilterItem = styled.li`
   `}
 `;
 
-function ListFilter({ items }) {
+function ListFilter({ items, param, defaultItem }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const selectedDays = searchParams.get("days")?.split("-") || ["all"];
-  const toggleDay = (day) => {
-    let updatedDays;
+  const selectedItems = searchParams.get(param)?.split("-") || [defaultItem];
 
-    if (day === "all") {
-      updatedDays = ["all"];
-    } else if (selectedDays.includes(day)) {
-      updatedDays = selectedDays.filter((d) => d !== day);
-      if (updatedDays.length === 0) updatedDays = ["all"];
+  const toggleItem = (day) => {
+    let updatedItems;
+
+    if (day === defaultItem) {
+      updatedItems = [defaultItem];
+    } else if (selectedItems.includes(day)) {
+      updatedItems = selectedItems.filter((d) => d !== day);
+      if (updatedItems.length === 0) updatedItems = [defaultItem];
     } else {
-      updatedDays = selectedDays.filter((d) => d !== "all");
-      updatedDays.push(day);
+      updatedItems = selectedItems.filter((d) => d !== defaultItem);
+      updatedItems.push(day);
     }
 
     // Use replace instead of push to avoid adding repeatedly
     setSearchParams(
-      { days: encodeURIComponent(updatedDays.join("-")) },
+      { [param]: encodeURIComponent(updatedItems.join("-")) },
       { replace: true }
     );
   };
@@ -60,8 +61,8 @@ function ListFilter({ items }) {
       {items.map(({ label, value }) => (
         <FilterItem
           key={value}
-          active={selectedDays.includes(value)}
-          onClick={() => toggleDay(value)}
+          active={selectedItems.includes(value)}
+          onClick={() => toggleItem(value)}
         >
           {label}
         </FilterItem>

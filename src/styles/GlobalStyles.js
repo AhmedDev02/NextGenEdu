@@ -26,8 +26,13 @@ const GlobalStyles = createGlobalStyle`
 /* Primary Colors */
   --color-primary-green:  linear-gradient(180deg, #30BD58 0%, #399F63 100%);  
 
+  --color-green: #34ad5d;
+
+
+
   --color-danger-red:  linear-gradient(180deg, #FF3D60 0%, #B82D42 100%);
 
+  --color-red: #e63946;
 
   --color-secondary-darkblue: #2A3248 ;  
 
