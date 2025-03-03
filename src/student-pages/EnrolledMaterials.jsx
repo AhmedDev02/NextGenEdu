@@ -1,4 +1,4 @@
-import MaterialsContent from "../ui/MaterialsContent";
+import MaterialsContent from "../features/materials/MaterialsContent";
 
 function EnrolledMaterials() {
   return <MaterialsContent />;

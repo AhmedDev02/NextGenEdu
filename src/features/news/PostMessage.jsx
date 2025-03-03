@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ANNOUNCEMENT, NOTICE } from "../utils/constants";
+import { ANNOUNCEMENT, NOTICE } from "../../utils/constants";
 
 const MessagePost = styled.div`
   display: flex;

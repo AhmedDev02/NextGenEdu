@@ -1,16 +1,7 @@
-import ContentHeader from "../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
+import ChatContent from "../features/chat/ChatContent";
 
 function Chat() {
-  return (
-    <>
-      <ContentHeader
-        title={STUDENT_PAGES_PROPERTIES.CHAT.title}
-        description={STUDENT_PAGES_PROPERTIES.CHAT.description}
-        button={false}
-      />
-    </>
-  );
+  return <ChatContent />;
 }
 
 export default Chat;

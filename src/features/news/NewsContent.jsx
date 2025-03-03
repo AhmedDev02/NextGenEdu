@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import ContentHeader from "./ContentHeader";
-import ListFilter from "./ListFilter";
+import ListFilter from "../../ui/ListFilter";
 import Post from "./Post";
-import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
 
 const Div = styled.div`
   display: flex;
@@ -20,11 +18,6 @@ function NewsContent() {
   };
   return (
     <>
-      <ContentHeader
-        title={STUDENT_PAGES_PROPERTIES.NEWS.title}
-        description={STUDENT_PAGES_PROPERTIES.NEWS.description}
-        button={false}
-      />
       <ListFilter
         items={[
           { label: "All Subjects", value: "all" },
@@ -36,6 +29,7 @@ function NewsContent() {
         ]}
         param="subjects"
         defaultItem="all"
+        multipleChoose={true}
       />
       <Div>
         <Post postInformation={data} notice={"أي حد هيتأخر هيتنفخ"}>

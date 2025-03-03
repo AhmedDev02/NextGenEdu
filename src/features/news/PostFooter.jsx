@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BEST_WISHES } from "../utils/constants";
+import { BEST_WISHES } from "../../utils/constants";
 
 const H3 = styled.h3`
   font-size: 1.4rem;

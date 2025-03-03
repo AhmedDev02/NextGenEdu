@@ -29,7 +29,7 @@ const sizes = {
       return `${props.paddingTopBottom} ${props.paddingLeftRight}`;
     }};
     font-weight: var(--font-weight-bold);
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-md);
     margin: ${(props) => {
       return `${props.margin}`;
     }};

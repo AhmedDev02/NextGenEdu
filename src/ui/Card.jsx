@@ -51,6 +51,7 @@ const Span = styled.span`
   color: var(--color-green);
   padding: 10px 5px;
   border-radius: var(--border-radius-lg);
+  border: var(--color-green) 2px solid;
 `;
 
 function Card({
@@ -75,6 +76,7 @@ function Card({
           size="custom"
           paddingTopBottom="10px"
           paddingLeftRight="60px"
+          styles={"border"}
         >
           {cardButton}
         </Button>

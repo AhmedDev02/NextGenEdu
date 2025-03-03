@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import ContentHeader from "../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
-import ListFilter from "./ListFilter";
-import Card from "./Card";
+import ContentHeader from "../../ui/ContentHeader";
+import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
+import ListFilter from "../../ui/ListFilter";
+import Card from "../../ui/Card";
 
 const Div = styled.div`
   display: flex;
@@ -55,6 +55,24 @@ function MaterialsContent() {
             subjectName={"البرمجة كائنية التوجه “OOP”"}
             doctorName={"د. أحمد المنوفي"}
           />
+          <Card
+            src="../../public/logo.png"
+            alt="logo"
+            progressCheck={true}
+            percentageApi={{ percentage: "85%" }}
+            cardButton="دراسة"
+            subjectName={"البرمجة كائنية التوجه “OOP”"}
+            doctorName={"د. أحمد المنوفي"}
+          />
+          <Card
+            src="../../public/logo.png"
+            alt="logo"
+            progressCheck={true}
+            percentageApi={{ percentage: "85%" }}
+            cardButton="دراسة"
+            subjectName={"البرمجة كائنية التوجه “OOP”"}
+            doctorName={"د. أحمد المنوفي"}
+          />{" "}
           <Card
             src="../../public/logo.png"
             alt="logo"
