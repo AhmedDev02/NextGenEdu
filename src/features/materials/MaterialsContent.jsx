@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import ContentHeader from "../../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 import ListFilter from "../../ui/ListFilter";
 import Card from "../../ui/Card";
 
@@ -28,11 +26,6 @@ const Label = styled.label``;
 function MaterialsContent() {
   return (
     <>
-      <ContentHeader
-        title={STUDENT_PAGES_PROPERTIES.ENROLLED_MATERIALS.title}
-        description={STUDENT_PAGES_PROPERTIES.ENROLLED_MATERIALS.description}
-        button={false}
-      />
       <Div>
         <FilterContainer>
           <Label>الفصول:</Label>
