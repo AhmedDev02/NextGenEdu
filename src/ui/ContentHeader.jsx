@@ -28,7 +28,7 @@ const Div = styled.div`
   gap: 10px;
 `;
 
-function ContentHeader({ title, description, button }) {
+function ContentHeader({ title, description, button, subject }) {
   return (
     <StyledHeader>
       {button ? (
@@ -36,7 +36,9 @@ function ContentHeader({ title, description, button }) {
           <Button navigateTo={-1} variation="secondary" size="small">
             <HiArrowRight />
           </Button>
-          <H5 isButton={button}>{title}</H5>
+          <H5 isButton={button}>
+            {title} {subject}
+          </H5>
         </Div>
       ) : (
         <H5 isButton={button}>{title}</H5>

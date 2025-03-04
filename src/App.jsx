@@ -10,6 +10,8 @@ import PageNotFound from "./general-pages/PageNotFound";
 
 import News from "./student-pages/News";
 import EnrolledMaterials from "./student-pages/EnrolledMaterials";
+import Material from "./features/materials/Material";
+
 import Chat from "./student-pages/Chat";
 import Discussion from "./student-pages/Discussion";
 import Exams from "./student-pages/Exams";
@@ -61,6 +63,12 @@ function App() {
             <Route index element={<Navigate replace to="news" />} />
             <Route path="news" element={<News />} />
             <Route path="enrolled-materials" element={<EnrolledMaterials />} />
+
+            <Route
+              path="enrolled-materials/:materialId"
+              element={<Material />}
+            />
+
             <Route path="chat" element={<Chat />} />
             <Route path="discussion" element={<Discussion />} />
             <Route path="weekly-schedule" element={<WeeklySchedule />} />

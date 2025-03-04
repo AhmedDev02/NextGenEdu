@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ListFilter from "../../ui/ListFilter";
 import Card from "../../ui/Card";
+import { useMaterials } from "./useMaterials";
 
 const Div = styled.div`
   display: flex;
@@ -24,6 +25,12 @@ const CardContainer = styled.div`
 `;
 const Label = styled.label``;
 function MaterialsContent() {
+  const { materials, isLoading, error } = useMaterials();
+
+  if (isLoading) return <h2>Loading materials...</h2>;
+  if (error) return <h2>Error fetching materials: {error.message}</h2>;
+  if (!materials || materials.length === 0)
+    return <h2>No materials available.</h2>;
   return (
     <>
       <Div>
@@ -39,60 +46,20 @@ function MaterialsContent() {
           />
         </FilterContainer>
         <CardContainer>
-          <Card
-            src="../../public/logo.png"
-            alt="logo"
-            progressCheck={true}
-            percentageApi={{ percentage: "85%" }}
-            cardButton="دراسة"
-            subjectName={"البرمجة كائنية التوجه “OOP”"}
-            doctorName={"د. أحمد المنوفي"}
-          />
-          <Card
-            src="../../public/logo.png"
-            alt="logo"
-            progressCheck={true}
-            percentageApi={{ percentage: "85%" }}
-            cardButton="دراسة"
-            subjectName={"البرمجة كائنية التوجه “OOP”"}
-            doctorName={"د. أحمد المنوفي"}
-          />
-          <Card
-            src="../../public/logo.png"
-            alt="logo"
-            progressCheck={true}
-            percentageApi={{ percentage: "85%" }}
-            cardButton="دراسة"
-            subjectName={"البرمجة كائنية التوجه “OOP”"}
-            doctorName={"د. أحمد المنوفي"}
-          />{" "}
-          <Card
-            src="../../public/logo.png"
-            alt="logo"
-            progressCheck={true}
-            percentageApi={{ percentage: "85%" }}
-            cardButton="دراسة"
-            subjectName={"البرمجة كائنية التوجه “OOP”"}
-            doctorName={"د. أحمد المنوفي"}
-          />
-          <Card
-            src="../../public/logo.png"
-            alt="logo"
-            progressCheck={true}
-            percentageApi={{ percentage: "85%" }}
-            cardButton="دراسة"
-            subjectName={"البرمجة كائنية التوجه “OOP”"}
-            doctorName={"د. أحمد المنوفي"}
-          />{" "}
-          <Card
-            src="../../public/logo.png"
-            alt="logo"
-            progressCheck={true}
-            percentageApi={{ percentage: "85%" }}
-            cardButton="دراسة"
-            subjectName={"البرمجة كائنية التوجه “OOP”"}
-            doctorName={"د. أحمد المنوفي"}
-          />
+          {materials.map((card) => (
+            <Card
+              key={card.id}
+              id={card.id}
+              src={card.src}
+              alt={card.alt}
+              progressCheck={card.progressCheck}
+              percentage={card.percentage}
+              cardButton={card.cardButton}
+              subjectName={card.subjectName}
+              doctorName={card.doctorName}
+              navigateTo={`/enrolled-materials/${card.id}`}
+            />
+          ))}
         </CardContainer>
       </Div>
     </>

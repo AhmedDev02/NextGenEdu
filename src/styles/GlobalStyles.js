@@ -63,6 +63,7 @@ const GlobalStyles = createGlobalStyle`
 
 html {
   font-size: 62.5%; /* 1 rem = 10 px */ 
+  /* overflow-y: scroll; */
 
 
 } 
@@ -75,8 +76,12 @@ body {
     min-height: 100vh;
     line-height: 1.5;
     font-size: 1.6rem; 
+    
     direction: rtl;
   }
+  body {
+  overflow-y: auto;
+}
   
   button {
     cursor: pointer;
