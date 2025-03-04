@@ -59,11 +59,11 @@ function Card({
   alt,
   subjectName,
   progressCheck,
-  percentageApi,
+  percentage,
   cardButton,
   doctorName,
+  navigateTo,
 }) {
-  const { percentage } = percentageApi;
   return (
     <StyledCard>
       <Img src={src} alt={alt} />
@@ -77,6 +77,7 @@ function Card({
           paddingTopBottom="10px"
           paddingLeftRight="60px"
           styles={"border"}
+          navigateTo={navigateTo}
         >
           {cardButton}
         </Button>

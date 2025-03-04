@@ -10,7 +10,7 @@ function EnrolledMaterials() {
         description={STUDENT_PAGES_PROPERTIES.ENROLLED_MATERIALS.description}
         button={false}
       />
-      <MaterialsContent />;
+      <MaterialsContent />
     </>
   );
 }
