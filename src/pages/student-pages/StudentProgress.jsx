@@ -1,3 +1,4 @@
+import StudentProgressContent from "../../features/studentProgress/StudentProgressContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
@@ -9,6 +10,7 @@ function StudentProgress() {
         description={STUDENT_PAGES_PROPERTIES.STUDENT_PROGRESS.description}
         button={false}
       />
+      <StudentProgressContent />
     </>
   );
 }
