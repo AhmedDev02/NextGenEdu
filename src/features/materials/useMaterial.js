@@ -12,5 +12,6 @@ export function useMaterial() {
     queryKey: ["material", materialId],
     queryFn: () => getMaterial(materialId),
   });
+
   return { material, isLoading, error };
 }

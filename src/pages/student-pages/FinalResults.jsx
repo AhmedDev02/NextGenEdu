@@ -1,5 +1,5 @@
-import ContentHeader from "../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
+import ContentHeader from "../../ui/ContentHeader";
+import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
 function FinalResults() {
   return (
