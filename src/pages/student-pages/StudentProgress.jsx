@@ -1,6 +1,6 @@
-import StudentProgressContent from "../features/studentProgress/StudentProgressContent";
-import ContentHeader from "../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
+import StudentProgressContent from "../../features/studentProgress/StudentProgressContent";
+import ContentHeader from "../../ui/ContentHeader";
+import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
 function StudentProgress() {
   return (

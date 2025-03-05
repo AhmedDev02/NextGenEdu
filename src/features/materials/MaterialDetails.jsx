@@ -1,12 +1,22 @@
 import styled from "styled-components";
 import { useMaterial } from "./useMaterial";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
 import Button from "../../ui/Button";
 import { FiDownload, FiExternalLink, FiPlay } from "react-icons/fi";
 import { AiFillFileText, AiFillPlayCircle } from "react-icons/ai";
 import { FiCheck } from "react-icons/fi";
+import ListFilter from "../../ui/ListFilter";
+import { useLocation } from "react-router-dom";
+
+const categories = [
+  { label: "Quiz", value: "quiz" },
+  { label: "Assignment", value: "assignment" },
+  { label: "Videos", value: "videos" },
+  { label: "Section", value: "section" }, // Check if this is the correct label
+  { label: "Lecture", value: "lecture" },
+  { label: "All", value: "all" },
+];
 
 const Div = styled.div`
   display: flex;
@@ -64,8 +74,6 @@ const WeekDetail = styled.div`
   width: 700px;
   margin-left: 20px;
   padding: 10px;
-  /* box-shadow: ${({ open }) =>
-    open ? "-4px 4px 16px 1px #11231626;" : ""}; */
   border-radius: 16px;
 `;
 const LectureContainer = styled.div`
@@ -102,7 +110,6 @@ const Complete = styled.span`
   border-radius: 20px;
   font-size: 1.3rem;
   justify-content: center;
-  /* border: 2px var(--color-secondary-darkblue) solid; */
 `;
 
 const Icon = styled.div`
@@ -119,24 +126,58 @@ const Icon = styled.div`
 `;
 function MaterialDetails() {
   const { material, isLoading, error } = useMaterial();
-
-  // const weeks = [material];
-  const navigate = useNavigate();
-
-  const [openWeek, setOpenWeek] = useState(false);
-  const [selectedWeekId, setSelectedWeekId] = useState(null); // Store the clicked week ID
+  // console.log(material);
+  const [openWeek, setOpenWeek] = useState([]);
+  const location = useLocation();
+  const [filteredMaterials, setFilteredWeeks] = useState(material);
 
   useEffect(() => {
-    if (!isLoading && !material) {
-      navigate("/enrolled-materials"); // Redirect to enrolled materials
+    const params = new URLSearchParams(location.search);
+    const filterParam = params.get("filter"); // Example: "lectures-sections-quizzes"
+
+    if (filterParam === "all") {
+      // Reset to original state when "all" is selected
+      setFilteredWeeks(material);
+      return;
     }
-  }, [isLoading, material, navigate]);
+
+    if (filterParam) {
+      const keywords = filterParam.toLowerCase().split("-");
+
+      console.log("🔎 Filter Keywords:", keywords);
+
+      const filteredWeeks = material.weeks.map((week) => {
+        const filteredResources = week.resources.filter((resource) => {
+          // Clean the title - Remove "-" and numbers
+          const cleanedTitle = resource.title
+            .toLowerCase()
+            .replace(/[-\s]+/g, " ") // Normalize spaces and remove hyphens
+            .replace(/\d+$/, "") // Remove trailing numbers
+            .trim(); // Ensure no extra spaces
+          // Compare with filters
+          return keywords.some((keyword) => cleanedTitle.includes(keyword));
+        });
+
+        return { ...week, resources: filteredResources };
+      });
+
+      setFilteredWeeks({ ...material, weeks: filteredWeeks });
+    } else {
+      setFilteredWeeks(material);
+    }
+  }, [location.search, material]);
 
   function handleDetails(weekId, event) {
     event.stopPropagation();
-    // based on 101, the first digit represents the first week.
-    setOpenWeek((prev) => (prev === weekId ? null : weekId)); // Toggle visibility
-    setSelectedWeekId(weekId);
+
+    // setOpenWeek((prev) => (prev === weekId ? null : weekId)); // Toggle visibility
+    if (openWeek.includes(weekId)) {
+      // Remove weekId to close it
+      setOpenWeek(openWeek.filter((id) => id !== weekId));
+    } else {
+      // Add weekId so it remains open along with any others
+      setOpenWeek([...openWeek, weekId]);
+    }
   }
 
   if (isLoading) return <h2>Loading...</h2>;
@@ -144,10 +185,20 @@ function MaterialDetails() {
 
   return (
     <Div open={openWeek}>
-      {material.weeks.map((week) => (
-        <Container open={openWeek} key={week.weekId}>
-          <WeekTitle onClick={(event) => handleDetails(week.weekId, event)}>
-            {selectedWeekId === week.weekId && openWeek ? (
+      <ListFilter
+        items={categories}
+        param={"filter"}
+        defaultItem="all"
+        multipleChoose={true}
+        containerStyles={{ margin: "0  auto 20px auto" }}
+      />
+      {filteredMaterials?.weeks.map((week) => (
+        <Container open={openWeek.includes(week.weekId)} key={week.weekId}>
+          <WeekTitle
+            key={week.weekId}
+            onClick={(event) => handleDetails(week.weekId, event)}
+          >
+            {openWeek.includes(week.weekId) ? (
               <HiChevronDown />
             ) : (
               <HiChevronLeft />
@@ -156,65 +207,62 @@ function MaterialDetails() {
             <H1>{week.week}</H1>
           </WeekTitle>
 
-          {week.resources.map(
-            (weekDetail) =>
-              selectedWeekId === week.weekId && (
-                <Row key={weekDetail.id}>
-                  <WeekDetail open={openWeek}>
-                    <Icon>
-                      {weekDetail.fileType === "video" ? (
-                        <AiFillPlayCircle />
-                      ) : (
-                        <AiFillFileText />
-                      )}
-                    </Icon>
-                    <LectureContainer>
-                      <H4>{weekDetail.type}</H4>
-                      <H3>{weekDetail.title}</H3>
-                    </LectureContainer>
-                    <Complete status={weekDetail.status}>
-                      {weekDetail.status && <FiCheck />}{" "}
-                      {weekDetail.status ? "مكتمل" : "غير مكتمل"}
-                    </Complete>
-                  </WeekDetail>
-                  <ButtonsContainer>
-                    <Button
-                      variation="danger"
-                      size="custom"
-                      paddingLeftRight="37px"
-                      paddingTopBottom="10px"
-                      onClick={() => handleDetails(week.id)}
-                      style={!openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
-                    >
-                      {weekDetail.fileType === "pdf" ? (
-                        <Span style={{ padding: "0 11px" }}>
-                          <FiExternalLink />
-                          <P>فتح</P>
-                        </Span>
-                      ) : (
-                        <Span>
-                          <FiPlay />
-                          <P>تشغيل</P>
-                        </Span>
-                      )}
-                    </Button>
-                    <Button
-                      variation="danger"
-                      size="custom"
-                      paddingLeftRight="40px"
-                      paddingTopBottom="10px"
-                      onClick={() => handleDetails(week.id)}
-                      style={!openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
-                    >
-                      <Span>
-                        <FiDownload />
-                        <P>تحميل</P>
-                      </Span>
-                    </Button>
-                  </ButtonsContainer>
-                </Row>
-              )
-          )}
+          {week.resources.map((weekDetail) => (
+            <Row key={weekDetail.id}>
+              <WeekDetail open={openWeek}>
+                <Icon>
+                  {weekDetail.fileType === "video" ? (
+                    <AiFillPlayCircle />
+                  ) : (
+                    <AiFillFileText />
+                  )}
+                </Icon>
+                <LectureContainer>
+                  <H4>{weekDetail.type}</H4>
+                  <H3>{weekDetail.title}</H3>
+                </LectureContainer>
+                <Complete status={weekDetail.status}>
+                  {weekDetail.status && <FiCheck />}{" "}
+                  {weekDetail.status ? "مكتمل" : "غير مكتمل"}
+                </Complete>
+              </WeekDetail>
+              <ButtonsContainer>
+                <Button
+                  variation="danger"
+                  size="custom"
+                  paddingLeftRight="37px"
+                  paddingTopBottom="10px"
+                  onClick={() => handleDetails(week.id)}
+                  style={openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
+                >
+                  {weekDetail.fileType === "pdf" ? (
+                    <Span style={{ padding: "0 11px" }}>
+                      <FiExternalLink />
+                      <P>فتح</P>
+                    </Span>
+                  ) : (
+                    <Span>
+                      <FiPlay />
+                      <P>تشغيل</P>
+                    </Span>
+                  )}
+                </Button>
+                <Button
+                  variation="danger"
+                  size="custom"
+                  paddingLeftRight="40px"
+                  paddingTopBottom="10px"
+                  onClick={() => handleDetails(week.id)}
+                  style={!openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
+                >
+                  <Span>
+                    <FiDownload />
+                    <P>تحميل</P>
+                  </Span>
+                </Button>
+              </ButtonsContainer>
+            </Row>
+          ))}
         </Container>
       ))}
     </Div>
