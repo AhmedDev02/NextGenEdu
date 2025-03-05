@@ -5,33 +5,33 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 //pages
-import Login from "./general-pages/Login";
-import PageNotFound from "./general-pages/PageNotFound";
+import Login from "./pages/general-pages/Login";
+import PageNotFound from "./pages/general-pages/PageNotFound";
 
-import News from "./student-pages/News";
-import EnrolledMaterials from "./student-pages/EnrolledMaterials";
+import News from "./pages/student-pages/News";
+import EnrolledMaterials from "./pages/student-pages/EnrolledMaterials";
 import Material from "./features/materials/Material";
 
-import Chat from "./student-pages/Chat";
-import Discussion from "./student-pages/Discussion";
-import Exams from "./student-pages/Exams";
-import FinalResults from "./student-pages/FinalResults";
-import ProjectsTimeline from "./student-pages/ProjectsTimeline";
-import StudentProfile from "./student-pages/StudentProfile";
-import StudentProgress from "./student-pages/StudentProgress";
-import Tasks from "./student-pages/Tasks";
-import WeeklySchedule from "./student-pages/WeeklySchedule";
+import Chat from "./pages/student-pages/Chat";
+import Discussion from "./pages/student-pages/Discussion";
+import Exams from "./pages/student-pages/Exams";
+import FinalResults from "./pages/student-pages/FinalResults";
+import ProjectsTimeline from "./pages/student-pages/ProjectsTimeline";
+import StudentProfile from "./pages/student-pages/StudentProfile";
+import StudentProgress from "./pages/student-pages/StudentProgress";
+import Tasks from "./pages/student-pages/Tasks";
+import WeeklySchedule from "./pages/student-pages/WeeklySchedule";
 
-import AdminDashboard from "./admin-pages/AdminDashboard";
-import WeeklyScheduleManagement from "./admin-pages/WeeklyScheduleManagement";
-import DiscussionManagement from "./admin-pages/DiscussionManagement";
-import FinalResultsManagement from "./admin-pages/FinalResultsManagement";
-import MaterialsManagement from "./admin-pages/MaterialsManagement";
-import NewsManagement from "./admin-pages/NewsManagement";
-import QuizzesManagement from "./admin-pages/QuizzesManagement";
-import StudentsManagement from "./admin-pages/StudentsManagement";
-import TasksManagement from "./admin-pages/TasksManagement";
-import AdminProfile from "./admin-pages/AdminProfile";
+import AdminDashboard from "./pages/admin-pages/AdminDashboard";
+import WeeklyScheduleManagement from "./pages/admin-pages/WeeklyScheduleManagement";
+import DiscussionManagement from "./pages/admin-pages/DiscussionManagement";
+import FinalResultsManagement from "./pages/admin-pages/FinalResultsManagement";
+import MaterialsManagement from "./pages/admin-pages/MaterialsManagement";
+import NewsManagement from "./pages/admin-pages/NewsManagement";
+import QuizzesManagement from "./pages/admin-pages/QuizzesManagement";
+import StudentsManagement from "./pages/admin-pages/StudentsManagement";
+import TasksManagement from "./pages/admin-pages/TasksManagement";
+import AdminProfile from "./pages/admin-pages/AdminProfile";
 
 // ui
 // import Button from "./ui/Button";
