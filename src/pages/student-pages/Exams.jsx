@@ -1,6 +1,6 @@
-import ExamContent from "../features/exams/ExamContent";
-import ContentHeader from "../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
+import ExamContent from "../../features/exams/ExamContent";
+import ContentHeader from "../../ui/ContentHeader";
+import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
 function Exams() {
   return (

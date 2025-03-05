@@ -1,6 +1,6 @@
-import MaterialsContent from "../features/materials/MaterialsContent";
-import ContentHeader from "../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../utils/constants";
+import MaterialsContent from "../../features/materials/MaterialsContent";
+import ContentHeader from "../../ui/ContentHeader";
+import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
 function EnrolledMaterials() {
   return (
