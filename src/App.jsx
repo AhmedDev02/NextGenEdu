@@ -42,6 +42,7 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 
 // styles
 import GlobalStyles from "./styles/GlobalStyles";
+import { StudentProgressProvider } from "./context/StudentProgressProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,94 +54,101 @@ const queryClient = new QueryClient({
 });
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <GlobalStyles />
-      <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <Routes>
-          {/* Student */}
-          <Route path="/" element={<StudentAppLayout />}>
-            <Route index element={<Navigate replace to="news" />} />
-            <Route path="news" element={<News />} />
-            <Route path="enrolled-materials" element={<EnrolledMaterials />} />
+    <StudentProgressProvider>
+      <QueryClientProvider client={queryClient}>
+        <GlobalStyles />
+        <ReactQueryDevtools initialIsOpen={false} />
+        <BrowserRouter>
+          <Routes>
+            {/* Student */}
+            <Route path="/" element={<StudentAppLayout />}>
+              <Route index element={<Navigate replace to="news" />} />
+              <Route path="news" element={<News />} />
+              <Route
+                path="enrolled-materials"
+                element={<EnrolledMaterials />}
+              />
 
-            <Route
-              path="enrolled-materials/:materialId"
-              element={<Material />}
-            />
+              <Route
+                path="enrolled-materials/:materialId"
+                element={<Material />}
+              />
 
-            <Route path="chat" element={<Chat />} />
-            <Route path="discussion" element={<Discussion />} />
-            <Route path="weekly-schedule" element={<WeeklySchedule />} />
-            <Route path="projects-timeline" element={<ProjectsTimeline />} />
-            <Route path="exams" element={<Exams />} />
-            <Route path="tasks" element={<Tasks />} />
-            <Route path="student-progress" element={<StudentProgress />} />
-            <Route path="final-results" element={<FinalResults />} />
-            <Route path="student-profile" element={<StudentProfile />} />
-          </Route>
+              <Route path="chat" element={<Chat />} />
+              <Route path="discussion" element={<Discussion />} />
+              <Route path="weekly-schedule" element={<WeeklySchedule />} />
+              <Route path="projects-timeline" element={<ProjectsTimeline />} />
+              <Route path="exams" element={<Exams />} />
+              <Route path="tasks" element={<Tasks />} />
+              <Route path="student-progress" element={<StudentProgress />} />
+              <Route path="final-results" element={<FinalResults />} />
+              <Route path="student-profile" element={<StudentProfile />} />
+            </Route>
 
-          {/* Admin */}
-          <Route element={<AdminAppLayout />}>
-            <Route path="admin-dashboard" element={<AdminDashboard />} />
-            <Route path="admin-profile" element={<AdminProfile />} />
-            <Route
-              path="discussion-management"
-              element={<DiscussionManagement />}
-            />
-            <Route
-              path="final-result-management"
-              element={<FinalResultsManagement />}
-            />
-            <Route
-              path="materials-management"
-              element={<MaterialsManagement />}
-            />
-            <Route path="news-management" element={<NewsManagement />} />
-            <Route path="quizzes-management" element={<QuizzesManagement />} />
-            <Route
-              path="students-management"
-              element={<StudentsManagement />}
-            />
-            <Route path="tasks-management" element={<TasksManagement />} />
-            <Route
-              path="weekly-schedule-management"
-              element={<WeeklyScheduleManagement />}
-            />
-          </Route>
+            {/* Admin */}
+            <Route element={<AdminAppLayout />}>
+              <Route path="admin-dashboard" element={<AdminDashboard />} />
+              <Route path="admin-profile" element={<AdminProfile />} />
+              <Route
+                path="discussion-management"
+                element={<DiscussionManagement />}
+              />
+              <Route
+                path="final-result-management"
+                element={<FinalResultsManagement />}
+              />
+              <Route
+                path="materials-management"
+                element={<MaterialsManagement />}
+              />
+              <Route path="news-management" element={<NewsManagement />} />
+              <Route
+                path="quizzes-management"
+                element={<QuizzesManagement />}
+              />
+              <Route
+                path="students-management"
+                element={<StudentsManagement />}
+              />
+              <Route path="tasks-management" element={<TasksManagement />} />
+              <Route
+                path="weekly-schedule-management"
+                element={<WeeklyScheduleManagement />}
+              />
+            </Route>
 
-          {/* Super Admin */}
-          <Route element={<SuperAdminAppLayout />}>
-            {/* route */}
-            {/* route */}
-          </Route>
+            {/* Super Admin */}
+            <Route element={<SuperAdminAppLayout />}>
+              {/* route */}
+              {/* route */}
+            </Route>
 
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-      <Toaster
-        position="top-center"
-        gutter={12}
-        containerStyle={{ margin: "8px" }}
-        toastOptions={{
-          success: {
-            duration: 3000,
-          },
-          error: {
-            duration: 5000,
-          },
-          style: {
-            fontSize: "16px",
-            maxWidth: "500px",
-            padding: "16px 24px",
-            backgroundColor: "var(--color-grey-0)",
-            color: "var(--color-grey-700)",
-          },
-        }}
-      />
+            <Route path="login" element={<Login />} />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
+        </BrowserRouter>
+        <Toaster
+          position="top-center"
+          gutter={12}
+          containerStyle={{ margin: "8px" }}
+          toastOptions={{
+            success: {
+              duration: 3000,
+            },
+            error: {
+              duration: 5000,
+            },
+            style: {
+              fontSize: "16px",
+              maxWidth: "500px",
+              padding: "16px 24px",
+              backgroundColor: "var(--color-grey-0)",
+              color: "var(--color-grey-700)",
+            },
+          }}
+        />
 
-      {/* <Button variation="danger" size="large">
+        {/* <Button variation="danger" size="large">
         login
       </Button>
       <Button
@@ -149,10 +157,10 @@ function App() {
         fontSize="3rem"
         paddingTopBottom="1.3rem"
         paddingLeftRight="12rem"
-      >
+        >
         login
-      </Button>
-      <Button
+        </Button>
+        <Button
         variation="primary"
         size="custom"
         fontSize="3rem"
@@ -161,15 +169,16 @@ function App() {
         isTransparent="true"
       >
         login
-      </Button>
-      <Post postInformation={data} notice={"أي حد هيتأخر هيتنفخ"}>
+        </Button>
+        <Post postInformation={data} notice={"أي حد هيتأخر هيتنفخ"}>
         يرجى من جميع الطلاب الكرام الالتزام بحضور المحاضرة القادمة في موعدها
         المحدد، حيث سيتم اتخاذ إجراءات صارمة جدًا ضد أي طالب يتخلف عن الحضور
         بدون عذر مقبول. نعلم أن بعضكم قد يكون مشغولًا أو متعبًا، ولكن دعونا لا
         ننسى أن العلم نور، والغياب ظلام وجهل! ⚡ لذلك، نتوقع منكم جميعًا التواجد
         بكامل التركيز والجدية، وإلا فإن العواقب ستكون أشد قسوة مما تتخيلون!
-      </Post> */}
-    </QueryClientProvider>
+        </Post> */}
+      </QueryClientProvider>
+    </StudentProgressProvider>
   );
 }
 
