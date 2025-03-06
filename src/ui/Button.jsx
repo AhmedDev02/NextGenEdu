@@ -57,6 +57,16 @@ const variations = {
       color: var(--color-secondary-darkblue);
     }
   `,
+
+  transparent: css`
+    color: var(--color-secondary-darkblue);
+    background: transparent;
+    border: 2px solid var(--color-secondary-darkblue);
+    &:focus {
+      background: var(--color-secondary-darkblue);
+      color: var(--color-grey-0);
+    }
+  `,
   // red = danger
 
   danger: css`
@@ -64,7 +74,7 @@ const variations = {
     background: var(--color-danger-red);
 
     &:focus {
-      background: var(--color-grey-0);
+      background: transparent;
       color: var(--color-danger-red);
     }
   `,

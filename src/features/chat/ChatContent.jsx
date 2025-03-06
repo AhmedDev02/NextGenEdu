@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import ContentHeader from "../../ui/ContentHeader";
-import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
 import ChatHeader from "./ChatHeader";
 import ChatContainer from "./ChatContainer";
@@ -18,20 +16,13 @@ const Div = styled.div`
 
 function ChatContent() {
   return (
-    <>
-      <ContentHeader
-        title={STUDENT_PAGES_PROPERTIES.CHAT.title}
-        description={STUDENT_PAGES_PROPERTIES.CHAT.description}
-        button={false}
-      />
-      <Div>
-        <ChatContainer>
-          <ChatHeader level="X" />
-          <MessagesContainer />
-          <ChatFooter />
-        </ChatContainer>
-      </Div>
-    </>
+    <Div>
+      <ChatContainer>
+        <ChatHeader level="X" />
+        <MessagesContainer />
+        <ChatFooter />
+      </ChatContainer>
+    </Div>
   );
 }
 
