@@ -46,7 +46,6 @@ import { StudentProgressProvider } from "./context/StudentProgressProvider";
 import Answers from "./features/discussion/Answers";
 import Exam from "./features/exams/Exam";
 import Examination from "./features/exams/Examination";
-import ExaminationQuestionsPage from "./features/exams/ExaminationQuestionsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {

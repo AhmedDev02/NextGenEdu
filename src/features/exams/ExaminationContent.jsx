@@ -3,6 +3,9 @@ import styled from "styled-components";
 import Button from "../../ui/Button";
 import ExaminationQuestionsPage from "./ExaminationQuestionsPage";
 import QuestionsFilter from "./QuestionsFilter";
+import QuestionsButtons from "./QuestionsButtons";
+import { useSearchParams } from "react-router-dom";
+import ExaminationFinishForm from "./ExaminationFinishForm";
 
 const Div = styled.div`
   display: flex;
@@ -31,16 +34,24 @@ const P = styled.p`
 const ExamDetailsDiv = styled.div`
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   width: 100%;
   flex-direction: column;
-  background-color: #fff;
+  background-color: #e7f3f5;
   box-shadow: var(--shadow-primary);
-  padding: 20px;
+  padding: 50px 20px;
+
   border-radius: 10px;
   margin-bottom: 20px;
 `;
 function ExaminationContent({ timeLeft }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const questionNumber = searchParams.get("questionNumber") || 1;
+  const isFinished = searchParams.get("finished") || false;
+  console.log(isFinished);
+
+  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <Div>
       <ExamLogoDiv>
@@ -72,9 +83,35 @@ function ExaminationContent({ timeLeft }) {
       </ExamLogoDiv>
       <QuestionsFilter />
       <ExamDetailsDiv>
-        <ExaminationQuestionsPage />
+        {!isFinished ? (
+          <ExaminationQuestionsPage
+            examDetails={{
+              questionText:
+                "What is the main purpose of encapsulation in Object-Oriented Programming (OOP)?",
+
+              answers: [
+                {
+                  A: "To hide the implementation details of a class",
+                },
+                {
+                  B: "To make the code more readable",
+                },
+                {
+                  C: "To improve the performance of the code",
+                },
+                {
+                  D: "To make the code more secure",
+                },
+              ],
+              correctAnswer: "B",
+            }}
+          />
+        ) : (
+          <ExaminationFinishForm />
+        )}
       </ExamDetailsDiv>
-      <QuestionsFilter />
+
+      {!isFinished && <QuestionsButtons />}
     </Div>
   );
 }

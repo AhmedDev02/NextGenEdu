@@ -52,7 +52,7 @@ const variations = {
     color: var(--color-grey-0);
     background: var(--color-secondary-darkblue);
 
-    &:focus {
+    &:active {
       background: transparent;
       color: var(--color-secondary-darkblue);
     }
@@ -62,7 +62,7 @@ const variations = {
     color: var(--color-secondary-darkblue);
     background: transparent;
     border: 2px solid var(--color-secondary-darkblue);
-    &:focus {
+    &:active {
       background: var(--color-secondary-darkblue);
       color: var(--color-grey-0);
     }
@@ -73,7 +73,7 @@ const variations = {
     color: var(--color-grey-0);
     background: var(--color-danger-red);
 
-    &:focus {
+    &:active {
       background: transparent;
       color: var(--color-danger-red);
     }
