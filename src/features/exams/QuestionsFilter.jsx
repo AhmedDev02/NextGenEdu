@@ -30,6 +30,7 @@ function QuestionsFilter() {
   const updateQuestion = (newQuestion) => {
     setSearchParams({ questionNumber: newQuestion });
   };
+  const isFinished = searchParams.get("finished") || false;
 
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -45,16 +46,19 @@ function QuestionsFilter() {
             key={index}
             style={{
               fontSize: "1.5rem",
-              background:
-                question > questionNumber
+              background: !isFinished
+                ? question > questionNumber
                   ? "transparent"
                   : +question === +questionNumber
                   ? "var(--color-primary-green)"
-                  : "var(--color-secondary-darkblue)",
-              color:
-                question > questionNumber
+                  : "var(--color-secondary-darkblue)"
+                : "var(--color-secondary-darkblue)",
+              color: !isFinished
+                ? question > questionNumber
                   ? "var(--color-secondary-darkblue)"
-                  : "#fff",
+                  : "#fff"
+                : "#fff",
+
               border: "none",
               outline: "none",
             }}
