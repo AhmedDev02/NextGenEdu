@@ -10,7 +10,7 @@ function Examination() {
         subject={"البرمجة الكونية"}
         button={false}
       />
-      <ExaminationContent />
+      <ExaminationContent timeLeft={"0:02:25"} />
     </>
   );
 }
