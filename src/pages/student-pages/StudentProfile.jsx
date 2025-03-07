@@ -1,5 +1,6 @@
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
+import ProfileContent from "../../features/profile/ProfileContent";
 
 function StudentProfile() {
   return (
@@ -9,6 +10,7 @@ function StudentProfile() {
         description={STUDENT_PAGES_PROPERTIES.PROFILE.description}
         button={false}
       />
+      <ProfileContent />
     </>
   );
 }
