@@ -32,8 +32,8 @@ const subjectData = [
   },
 ];
 
-function ExamContent() {
+function ExamsContent() {
   return <ExamCards examData={subjectData} />;
 }
 
-export default ExamContent;
+export default ExamsContent;
