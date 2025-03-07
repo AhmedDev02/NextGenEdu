@@ -1,4 +1,4 @@
-import ExamContent from "../../features/exams/ExamContent";
+import ExamsContent from "../../features/exams/ExamsContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
@@ -10,7 +10,7 @@ function Exams() {
         description={STUDENT_PAGES_PROPERTIES.EXAMS.description}
         button={false}
       />
-      <ExamContent />
+      <ExamsContent />
     </>
   );
 }

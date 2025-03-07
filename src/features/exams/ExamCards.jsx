@@ -62,6 +62,7 @@ function ExamCards({ src, alt, examData }) {
               paddingTopBottom="10px"
               paddingLeftRight="60px"
               styles={"border"}
+              navigateTo={"/exams/1"}
             >
               {card.cardButtonName}
             </Button>

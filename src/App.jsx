@@ -44,6 +44,8 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 import GlobalStyles from "./styles/GlobalStyles";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
 import Answers from "./features/discussion/Answers";
+import Exam from "./features/exams/Exam";
+import Examination from "./features/exams/Examination";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -82,7 +84,14 @@ function App() {
 
               <Route path="weekly-schedule" element={<WeeklySchedule />} />
               <Route path="projects-timeline" element={<ProjectsTimeline />} />
+
               <Route path="exams" element={<Exams />} />
+              <Route path="exams/:examId" element={<Exam />} />
+              <Route
+                path="exams/:examId/:realExamId"
+                element={<Examination />}
+              />
+
               <Route path="tasks" element={<Tasks />} />
               <Route path="student-progress" element={<StudentProgress />} />
               <Route path="final-results" element={<FinalResults />} />
