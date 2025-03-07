@@ -57,6 +57,7 @@ function Question({ liked }) {
           paddingLeftRight="258px"
           paddingTopBottom="10px"
           style={{ borderRadius: "15px", border: "2px white solid" }}
+          navigateTo={`/discussion/1`}
         >
           عرض الإجابة
         </Button>

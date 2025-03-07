@@ -50,9 +50,9 @@ const Span = styled.span`
   color: var(--color-grey-500);
 `;
 
-function QuestionDetails({ name, level, avatar, question, date }) {
+function QuestionDetails({ name, level, avatar, question, date, ...rest }) {
   return (
-    <QuestionContainer>
+    <QuestionContainer {...rest}>
       <QuestionHead>
         <AvatarDiv>
           <Avatar src="https://picsum.photos/200/300" alt="user" />

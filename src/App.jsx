@@ -43,6 +43,7 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 // styles
 import GlobalStyles from "./styles/GlobalStyles";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
+import Answers from "./features/discussion/Answers";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -75,7 +76,10 @@ function App() {
               />
 
               <Route path="chat" element={<Chat />} />
+
               <Route path="discussion" element={<Discussion />} />
+              <Route path="discussion/:questionId" element={<Answers />} />
+
               <Route path="weekly-schedule" element={<WeeklySchedule />} />
               <Route path="projects-timeline" element={<ProjectsTimeline />} />
               <Route path="exams" element={<Exams />} />
