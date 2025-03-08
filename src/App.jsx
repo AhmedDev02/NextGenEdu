@@ -43,6 +43,7 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 // styles
 import GlobalStyles from "./styles/GlobalStyles";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
+import TaskPage from "./features/tasks/TaskPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -80,6 +81,7 @@ function App() {
               <Route path="projects-timeline" element={<ProjectsTimeline />} />
               <Route path="exams" element={<Exams />} />
               <Route path="tasks" element={<Tasks />} />
+              <Route path="tasks/:courseId" element={<TaskPage />} />
               <Route path="student-progress" element={<StudentProgress />} />
               <Route path="final-results" element={<FinalResults />} />
               <Route path="student-profile" element={<StudentProfile />} />
