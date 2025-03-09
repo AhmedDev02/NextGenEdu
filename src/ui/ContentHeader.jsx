@@ -40,6 +40,12 @@ function ContentHeader({ title, description, button, subject }) {
             {title} {subject}
           </H5>
         </Div>
+      ) : subject ? (
+        <Div>
+          <H5 isButton={button}>
+            {title} {subject}
+          </H5>
+        </Div>
       ) : (
         <H5 isButton={button}>{title}</H5>
       )}

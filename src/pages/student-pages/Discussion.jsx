@@ -1,3 +1,4 @@
+import DiscussionContent from "../../features/discussion/DiscussionContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
@@ -9,6 +10,7 @@ function Discussion() {
         description={STUDENT_PAGES_PROPERTIES.DISCUSSION.description}
         button={false}
       />
+      <DiscussionContent />
     </>
   );
 }
