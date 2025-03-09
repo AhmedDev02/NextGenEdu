@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Button from "../../ui/Button";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTasks } from "./useTasks";
 
 const StyledCard = styled.div`
   width: 300px;
@@ -46,6 +48,10 @@ const Div = styled.div`
 `;
 
 function TasksCards({ src, alt, tasksData }) {
+  const { tasks, isPending, error } = useTasks();
+
+  const { courseId } = useParams();
+  console.log(courseId);
   console.log(tasksData, src, alt);
   return (
     <Div>
@@ -62,6 +68,7 @@ function TasksCards({ src, alt, tasksData }) {
               paddingTopBottom="10px"
               paddingLeftRight="60px"
               styles={"border"}
+              navigateTo={`/tasks/${card.id}`}
             >
               {card.cardButtonName}
             </Button>

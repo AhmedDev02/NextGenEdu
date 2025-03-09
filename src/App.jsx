@@ -46,6 +46,7 @@ import { StudentProgressProvider } from "./context/StudentProgressProvider";
 import Answers from "./features/discussion/Answers";
 import Exam from "./features/exams/Exam";
 import Examination from "./features/exams/Examination";
+import TaskPage from "./features/tasks/TaskPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -93,6 +94,7 @@ function App() {
                 element={<Examination />}
               />
               <Route path="tasks" element={<Tasks />} />
+              <Route path="tasks/:courseId" element={<TaskPage />} />
               <Route path="student-progress" element={<StudentProgress />} />
               <Route path="final-results" element={<FinalResults />} />
               <Route path="student-profile" element={<StudentProfile />} />
