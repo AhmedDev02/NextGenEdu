@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import AddPrevTask from "./AddPrevTask";
 
 const TasksDone = styled.div`
-  width: clamp(50%, 80%, 90%);
+  width: clamp(50%, 90%, 100%);
   background-color: white;
   height: 14rem;
   border-radius: 2rem;
   display: flex;
   justify-content: space-between;
   position: relative;
+  padding: 1rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 const TaskDoneDetails = styled.div`
   display: flex;

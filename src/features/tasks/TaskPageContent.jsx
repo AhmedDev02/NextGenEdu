@@ -3,41 +3,44 @@ import LastTasks from "./LastTasks";
 import AddTask from "./AddTask";
 
 const Container = styled.div`
-  height: 100dvh;
-  width: 80dvw;
+  width: 100rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  padding: 1rem;
 `;
 const TaskDetailsTitle = styled.div`
-  width: clamp(50%, 80%, 90%);
-  font-size: 2.5rem;
+  width: 90%;
+  font-size: 2rem;
   font-weight: bold;
+  text-align: right;
 `;
 const TaskDetails = styled.div`
-  width: clamp(50%, 80%, 90%);
+  width: 90%;
   background-color: white;
   height: auto;
-  padding: 4rem;
+  padding: 2rem;
   border-radius: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 const TaskGoal = styled.div`
   width: 100%;
-  height: 8rem;
+  height: auto;
   border-bottom: 1px solid gray;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 600;
+  padding-bottom: 1rem;
 `;
 const TaskDate = styled.div`
   margin-top: 2rem;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 `;
 const StartDate = styled.div`
-  font-size: 3rem;
+  font-size: 2rem;
   font-weight: bold;
 `;
 const EndDate = styled(StartDate)``;

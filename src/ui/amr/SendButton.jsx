@@ -3,7 +3,6 @@ import styled from "styled-components";
 const StyledSendButton = styled.button`
   width: ${({ width }) => width || "100px"};
   height: ${({ height }) => height || "40px"};
-
   border: 2px solid gray;
   display: flex;
   justify-content: center;
@@ -16,7 +15,7 @@ const StyledSendButton = styled.button`
   background: var(--color-primary-green);
   font-weight: 600;
   font-size: 2.5rem;
-  transition: all 0.1sec;
+  transition: all 0.1s;
   ${({ type }) =>
     type === "secondary" &&
     `
@@ -34,7 +33,6 @@ const StyledSendButton = styled.button`
       type === "secondary" ? "translateY(-50%) scale(0.9)" : "scale(0.95)"};
   }
 `;
-
 function SendButton({ width, height, title, type }) {
   return (
     <StyledSendButton width={width} height={height} type={type}>
