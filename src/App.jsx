@@ -160,36 +160,6 @@ function App() {
             },
           }}
         />
-
-        {/* <Button variation="danger" size="large">
-        login
-      </Button>
-      <Button
-        variation="primary"
-        size="custom"
-        fontSize="3rem"
-        paddingTopBottom="1.3rem"
-        paddingLeftRight="12rem"
-        >
-        login
-        </Button>
-        <Button
-        variation="primary"
-        size="custom"
-        fontSize="3rem"
-        paddingTopBottom="1.3rem"
-        paddingLeftRight="12rem"
-        isTransparent="true"
-      >
-        login
-        </Button>
-        <Post postInformation={data} notice={"أي حد هيتأخر هيتنفخ"}>
-        يرجى من جميع الطلاب الكرام الالتزام بحضور المحاضرة القادمة في موعدها
-        المحدد، حيث سيتم اتخاذ إجراءات صارمة جدًا ضد أي طالب يتخلف عن الحضور
-        بدون عذر مقبول. نعلم أن بعضكم قد يكون مشغولًا أو متعبًا، ولكن دعونا لا
-        ننسى أن العلم نور، والغياب ظلام وجهل! ⚡ لذلك، نتوقع منكم جميعًا التواجد
-        بكامل التركيز والجدية، وإلا فإن العواقب ستكون أشد قسوة مما تتخيلون!
-        </Post> */}
       </QueryClientProvider>
     </StudentProgressProvider>
   );
