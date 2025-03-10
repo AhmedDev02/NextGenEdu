@@ -1,3 +1,4 @@
+import FinalResultsContent from "../../features/finalResults/FinalResultsContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
@@ -9,6 +10,7 @@ function FinalResults() {
         description={STUDENT_PAGES_PROPERTIES.FINAL_RESULTS.description}
         button={false}
       />
+      <FinalResultsContent />
     </>
   );
 }
