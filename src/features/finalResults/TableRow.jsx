@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Row = styled.div`
@@ -23,7 +24,7 @@ const Data = styled.div`
   font-size: 2.5rem;
 `;
 const DataStatus = styled.div`
-  background-color: #30bd58;
+  background-color: ${(props) => props.studentStatus};
   width: 25%;
   height: 100%;
   border-radius: 2rem;
@@ -43,6 +44,16 @@ const DataFormat = styled.div`
 `;
 
 function TableRow({ data }) {
+  const [studentStatus, setStudentStatus] = useState("#30bd58");
+
+  useEffect(() => {
+    function handleStatus() {
+      if (status === "راسب") {
+        setStudentStatus("#FF3D60");
+      }
+    }
+    handleStatus();
+  }, []);
   const { code, name, grade, status } = data;
   return (
     <Row>
@@ -57,7 +68,7 @@ function TableRow({ data }) {
           <p> {grade} </p>
         </Data>
       </DataFormat>
-      <DataStatus>
+      <DataStatus studentStatus={studentStatus}>
         <p style={{ textAlign: "center" }}> {status} </p>
       </DataStatus>
     </Row>

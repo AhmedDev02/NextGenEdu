@@ -4,13 +4,14 @@ import { useStudentProgress } from "../features/studentProgress/useStudentProgre
 const StudentProgressContext = createContext();
 
 function StudentProgressProvider({ children }) {
+  const [selectedDays, setSelectedDays] = useState([]);
+
   const [term, setTerm] = useState("Term1");
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("الفصل الدراسي الأول");
   const dropdownRef = useRef(null);
 
   const handleTerm = (option) => {
-    // Changed from object destructuring
     setSelectedOption(option);
     if (option === "الفصل الدراسي الأول") {
       setTerm("Term1");
@@ -31,6 +32,8 @@ function StudentProgressProvider({ children }) {
         term,
         setTerm,
         handleTerm,
+        selectedDays,
+        setSelectedDays,
       }}
     >
       {children}
