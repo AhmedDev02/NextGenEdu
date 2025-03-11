@@ -3,6 +3,9 @@ import Button from "../../ui/Button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../../store/sideBarSlice";
+import { useState } from "react";
+import Modal from "../../ui/amr/Modal";
+import ExamModal from "./ExamModal";
 
 const Div = styled.div`
   display: flex;
@@ -55,11 +58,12 @@ const QuestionStat = styled.div`
 const H4 = styled.h4`
   font-size: 1.5rem;
 `;
+
 function ExaminationFinishForm() {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-
+  const [examSubmit, setExamSubmit] = useState(false);
   const navigate = useNavigate();
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -121,10 +125,15 @@ function ExaminationFinishForm() {
         variation="danger"
         size="medium"
         style={{ outline: "none" }}
-        onClick={examIsFinished}
+        onClick={() => setExamSubmit((prev) => !prev)}
       >
         الإنهاء والتقديم
       </Button>
+
+      <ExamModal
+        modalFn={examIsFinished}
+        closeModal={() => setExamSubmit((prev) => !prev)}
+      />
     </Div>
   );
 }
