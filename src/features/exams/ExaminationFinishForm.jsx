@@ -59,11 +59,10 @@ const H4 = styled.h4`
   font-size: 1.5rem;
 `;
 
-function ExaminationFinishForm() {
+function ExaminationFinishForm({ onCloseModal }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
-  const [examSubmit, setExamSubmit] = useState(false);
   const navigate = useNavigate();
   const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -121,19 +120,8 @@ function ExaminationFinishForm() {
           </Row>
         ))}
       </Container>
-      <Button
-        variation="danger"
-        size="medium"
-        style={{ outline: "none" }}
-        onClick={() => setExamSubmit((prev) => !prev)}
-      >
-        الإنهاء والتقديم
-      </Button>
 
-      <ExamModal
-        modalFn={examIsFinished}
-        closeModal={() => setExamSubmit((prev) => !prev)}
-      />
+      <ExamModal onConfirm={() => examIsFinished()} />
     </Div>
   );
 }
