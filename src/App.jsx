@@ -10,7 +10,7 @@ import PageNotFound from "./pages/general-pages/PageNotFound";
 
 import News from "./pages/student-pages/News";
 import EnrolledMaterials from "./pages/student-pages/EnrolledMaterials";
-import Material from "./features/materials/Material";
+import Material from "./features/student-features/materials/Material";
 
 import Chat from "./pages/student-pages/Chat";
 import Discussion from "./pages/student-pages/Discussion";
@@ -21,6 +21,10 @@ import StudentProfile from "./pages/student-pages/StudentProfile";
 import StudentProgress from "./pages/student-pages/StudentProgress";
 import Tasks from "./pages/student-pages/Tasks";
 import WeeklySchedule from "./pages/student-pages/WeeklySchedule";
+import Answers from "./features/student-features/discussion/Answers";
+import Exam from "./features/student-features/exams/Exam";
+import Examination from "./features/student-features/exams/Examination";
+import TaskPage from "./features/student-features/tasks/TaskPage";
 
 import AdminDashboard from "./pages/admin-pages/AdminDashboard";
 import WeeklyScheduleManagement from "./pages/admin-pages/WeeklyScheduleManagement";
@@ -33,9 +37,17 @@ import StudentsManagement from "./pages/admin-pages/StudentsManagement";
 import TasksManagement from "./pages/admin-pages/TasksManagement";
 import AdminProfile from "./pages/admin-pages/AdminProfile";
 
+import SuperAdminDashboard from "./pages/super-admin-pages/SuperAdminDashboard";
+import SuperAdminProfile from "./pages/super-admin-pages/SuperAdminProfile";
+import SuperAdminMaterialsManagement from "./pages/super-admin-pages/SuperAdminMaterialsManagement";
+import SuperAdminDepartmentsManagement from "./pages/super-admin-pages/SuperAdminDepartmentsManagement";
+import SuperAdminNewsManagement from "./pages/super-admin-pages/SuperAdminNewsManagement";
+import SuperAdminNotificationsManagement from "./pages/super-admin-pages/SuperAdminNotificationsManagement";
+import SuperAdminReports from "./pages/super-admin-pages/SuperAdminReports";
+import SuperAdminSchedulesManagement from "./pages/super-admin-pages/SuperAdminSchedulesManagement";
+import SuperAdminUsersManagement from "./pages/super-admin-pages/SuperAdminUsersManagement";
+
 // ui
-// import Button from "./ui/Button";
-// import Post from "./ui/Post";
 import StudentAppLayout from "./ui/StudentAppLayout";
 import SuperAdminAppLayout from "./ui/SuperAdminAppLayout";
 import AdminAppLayout from "./ui/AdminAppLayout";
@@ -43,10 +55,6 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 // styles
 import GlobalStyles from "./styles/GlobalStyles";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
-import Answers from "./features/discussion/Answers";
-import Exam from "./features/exams/Exam";
-import Examination from "./features/exams/Examination";
-import TaskPage from "./features/tasks/TaskPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -97,45 +105,53 @@ function App() {
               <Route path="tasks/:courseId" element={<TaskPage />} />
               <Route path="student-progress" element={<StudentProgress />} />
               <Route path="final-results" element={<FinalResults />} />
-              <Route path="student-profile" element={<StudentProfile />} />
+              <Route path="profile" element={<StudentProfile />} />
             </Route>
 
             {/* Admin */}
-            <Route element={<AdminAppLayout />}>
-              <Route path="admin-dashboard" element={<AdminDashboard />} />
-              <Route path="admin-profile" element={<AdminProfile />} />
+            <Route path="/admin" element={<AdminAppLayout />}>
+              <Route index element={<Navigate replace to="dashboard" />} />
+
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="profile" element={<AdminProfile />} />
+              <Route path="discussion" element={<DiscussionManagement />} />
+              <Route path="final-result" element={<FinalResultsManagement />} />
+              <Route path="materials" element={<MaterialsManagement />} />
+              <Route path="news" element={<NewsManagement />} />
+              <Route path="quizzes" element={<QuizzesManagement />} />
+              <Route path="students" element={<StudentsManagement />} />
+              <Route path="tasks" element={<TasksManagement />} />
               <Route
-                path="discussion-management"
-                element={<DiscussionManagement />}
-              />
-              <Route
-                path="final-result-management"
-                element={<FinalResultsManagement />}
-              />
-              <Route
-                path="materials-management"
-                element={<MaterialsManagement />}
-              />
-              <Route path="news-management" element={<NewsManagement />} />
-              <Route
-                path="quizzes-management"
-                element={<QuizzesManagement />}
-              />
-              <Route
-                path="students-management"
-                element={<StudentsManagement />}
-              />
-              <Route path="tasks-management" element={<TasksManagement />} />
-              <Route
-                path="weekly-schedule-management"
+                path="weekly-schedule"
                 element={<WeeklyScheduleManagement />}
               />
             </Route>
 
             {/* Super Admin */}
-            <Route element={<SuperAdminAppLayout />}>
-              {/* route */}
-              {/* route */}
+            <Route path="/super-admin" element={<SuperAdminAppLayout />}>
+              <Route index element={<Navigate replace to="dashboard" />} />
+
+              <Route path="dashboard" index element={<SuperAdminDashboard />} />
+              <Route path="profile" element={<SuperAdminProfile />} />
+              <Route
+                path="departments"
+                element={<SuperAdminDepartmentsManagement />}
+              />
+              <Route
+                path="materials"
+                element={<SuperAdminMaterialsManagement />}
+              />
+              <Route
+                path="notifications"
+                element={<SuperAdminNotificationsManagement />}
+              />
+              <Route path="reports" element={<SuperAdminReports />} />
+              <Route
+                path="schedules"
+                element={<SuperAdminSchedulesManagement />}
+              />
+              <Route path="users" element={<SuperAdminUsersManagement />} />
+              <Route path="news" element={<SuperAdminNewsManagement />} />
             </Route>
 
             <Route path="login" element={<Login />} />

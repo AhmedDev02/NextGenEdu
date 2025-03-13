@@ -16,8 +16,7 @@ export const STUDENTS_ITEMS = {
   STUDENT_PROGRESS: "التقدم الأكاديمي",
   FINAL_RESULTS: "النتائج النهائية",
 };
-
-export const ADMIN_PANEL_ITEMS = {
+export const ADMIN_ITEMS = {
   DASHBOARD: "لوحة التحكم",
   NEWS_MANAGEMENT: "إدارة الأخبار",
   MATERIALS_MANAGEMENT: "إدارة المواد",
@@ -28,6 +27,18 @@ export const ADMIN_PANEL_ITEMS = {
   WEEKLY_SCHEDULE: "الجدول الأسبوعي",
   FINAL_GRADES: "الدرجات النهائية",
 };
+
+export const SUPER_ADMIN_ITEMS = {
+  DASHBOARD: "لوحة التحكم",
+  DEPARTMENTS_MANAGEMENT: "إدارة الأقسام",
+  MATERIALS_MANAGEMENT: "إدارة المواد الدراسية",
+  USERS_MANAGEMENT: "إدارة المستخدمين",
+  SCHEDULES: "الجداول الدراسية",
+  REPORTS: "التقارير",
+  NEWS_ANNOUNCEMENTS: "الأخبار والإعلانات",
+  NOTIFICATIONS: "إشعارات وتنبيهات",
+};
+
 export const STUDENT_PAGES_PROPERTIES = {
   NEWS: {
     title: "آخر المنشورات",

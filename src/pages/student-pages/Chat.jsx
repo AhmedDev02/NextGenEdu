@@ -1,4 +1,4 @@
-import ChatContent from "../../features/chat/ChatContent";
+import ChatContent from "../../features/student-features/chat/ChatContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

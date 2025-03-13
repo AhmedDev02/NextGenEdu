@@ -1,6 +1,6 @@
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
-import ProfileContent from "../../features/profile/ProfileContent";
+import ProfileContent from "../../features/student-features//profile/ProfileContent";
 
 function StudentProfile() {
   return (

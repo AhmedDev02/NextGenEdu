@@ -1,4 +1,4 @@
-import TasksContent from "../../features/tasks/TasksContent";
+import TasksContent from "../../features/student-features//tasks/TasksContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

@@ -1,4 +1,4 @@
-import FinalResultsContent from "../../features/finalResults/FinalResultsContent";
+import FinalResultsContent from "../../features/student-features/finalResults/FinalResultsContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
