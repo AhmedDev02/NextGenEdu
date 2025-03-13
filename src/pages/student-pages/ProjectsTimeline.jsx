@@ -1,5 +1,5 @@
 import ContentHeader from "../../ui/ContentHeader";
-import ProjectsTimelineContent from "../../features/timeline/ProjectsTimelineContent";
+import ProjectsTimelineContent from "../../features/student-features/timeline/ProjectsTimelineContent";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 
 function ProjectsTimeline() {
@@ -10,7 +10,7 @@ function ProjectsTimeline() {
         description={STUDENT_PAGES_PROPERTIES.TIMELINE.description}
         button={false}
       />
-      <ProjectsTimelineContent/>
+      <ProjectsTimelineContent />
     </>
   );
 }

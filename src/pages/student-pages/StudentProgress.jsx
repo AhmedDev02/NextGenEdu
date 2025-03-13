@@ -1,4 +1,4 @@
-import StudentProgressContent from "../../features/studentProgress/StudentProgressContent";
+import StudentProgressContent from "../../features/student-features//studentProgress/StudentProgressContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { useStudentProgress } from "../features/studentProgress/useStudentProgress";
+import { useStudentProgress } from "../features/student-features//studentProgress/useStudentProgress";
 
 const StudentProgressContext = createContext();
 

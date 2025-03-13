@@ -1,4 +1,4 @@
-import MaterialsContent from "../../features/materials/MaterialsContent";
+import MaterialsContent from "../../features/student-features/materials/MaterialsContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

@@ -1,4 +1,4 @@
-import DiscussionContent from "../../features/discussion/DiscussionContent";
+import DiscussionContent from "../../features/student-features/discussion/DiscussionContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

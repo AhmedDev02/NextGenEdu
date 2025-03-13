@@ -1,4 +1,4 @@
-import WeeklyScheduleContents from "../../features/table/WeeklyScheduleContents";
+import WeeklyScheduleContents from "../../features/student-features//table/WeeklyScheduleContents";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

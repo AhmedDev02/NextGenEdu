@@ -1,4 +1,4 @@
-import NewsContent from "../../features/news/NewsContent";
+import NewsContent from "../../features/student-features/news/NewsContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

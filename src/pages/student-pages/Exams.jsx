@@ -1,4 +1,4 @@
-import ExamsContent from "../../features/exams/ExamsContent";
+import ExamsContent from "../../features/student-features//exams/ExamsContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../utils/constants";
 

@@ -32,7 +32,6 @@ function Side({ children }) {
     // Render the sidebar immediately when becoming visible
     if (isSidebarOpen) setShouldRender(true);
   }, [isSidebarOpen]);
-  console.log(shouldRender);
 
   return (
     <StyledSideBar style={slideAnimation}>
