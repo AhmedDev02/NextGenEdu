@@ -9,7 +9,7 @@ const Container = styled.div`
   text-align: center;
 `;
 
-const NotFoundBox = styled.div`
+const ForbiddenBox = styled.div`
   background: #1e2235;
   padding: 2rem;
   border-radius: 10px;
@@ -21,20 +21,19 @@ const NotFoundBox = styled.div`
   width: 350px;
   color: #fff;
 `;
-
 const H3 = styled.h3``;
 const P = styled.p``;
 
-const PageNotFound = () => {
+const Forbidden = () => {
   return (
     <Container>
-      <NotFoundBox>
-        <H3>404 - الصفحة غير موجوده</H3>
-        <P>الصفحة التي تبحث عنها غير متوفرة.</P>
+      <ForbiddenBox>
+        <H3>403 - لا توجد صلاحية</H3>
+        <P>ليس لديك صلاحية للوصول إلى هذه الصفحة.</P>
         <Button navigateTo="/login">العودة إلى تسجيل الدخول</Button>
-      </NotFoundBox>
+      </ForbiddenBox>
     </Container>
   );
 };
 
-export default PageNotFound;
+export default Forbidden;
