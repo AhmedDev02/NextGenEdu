@@ -47,6 +47,11 @@ import SuperAdminReports from "./pages/super-admin-pages/SuperAdminReports";
 import SuperAdminSchedulesManagement from "./pages/super-admin-pages/SuperAdminSchedulesManagement";
 import SuperAdminUsersManagement from "./pages/super-admin-pages/SuperAdminUsersManagement";
 
+import Forbidden from "./features/auth/Forbidden";
+import ForgotPassword from "./features/auth/ForgotPassword";
+import ResetPassword from "./features/auth/ResetPassword";
+import PasswordResetSuccess from "./features/auth/PasswordResetSuccess";
+
 // ui
 import StudentAppLayout from "./ui/StudentAppLayout";
 import SuperAdminAppLayout from "./ui/SuperAdminAppLayout";
@@ -55,6 +60,7 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 // styles
 import GlobalStyles from "./styles/GlobalStyles";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
+import PasswordResetError from "./features/auth/PasswordResetError";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -72,6 +78,19 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
           <Routes>
+            <Route path="login" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
+            <Route
+              path="password-reset-success"
+              element={<PasswordResetSuccess />}
+            />
+            <Route
+              path="/password-reset-error"
+              element={<PasswordResetError />}
+            />
+            <Route path="*" element={<PageNotFound />} />
+            <Route path="403" element={<Forbidden />} />
             {/* Student */}
             <Route path="/" element={<StudentAppLayout />}>
               <Route index element={<Navigate replace to="news" />} />
@@ -153,9 +172,6 @@ function App() {
               <Route path="users" element={<SuperAdminUsersManagement />} />
               <Route path="news" element={<SuperAdminNewsManagement />} />
             </Route>
-
-            <Route path="login" element={<Login />} />
-            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
         <Toaster
