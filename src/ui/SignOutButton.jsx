@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { FiLogOut } from "react-icons/fi"; // Importing the logout icon
 import { useSpring, animated } from "@react-spring/web";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LogoutContainer = styled(animated.button)`
   position: absolute;
@@ -17,15 +18,13 @@ const LogoutContainer = styled(animated.button)`
   font-weight: bold;
   color: #111;
   border: none;
-  top: 90px;
+  top: 70px;
   font-family: "Changa", sans-serif;
-
-  z-index: 1000;
-
+  z-index: 9;
   &::before {
     content: "";
     position: absolute;
-    top: -10px; /* Position above the box */
+    top: -8px; /* Position above the box */
     left: 85%; /* Adjust based on where you want it */
     transform: translateX(-50%); /* Center horizontally */
 
@@ -33,24 +32,49 @@ const LogoutContainer = styled(animated.button)`
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-bottom: 10px solid #fff; /* Triangle color (black) */
-
-    /* Remove width/height as they are not needed for triangles */
   }
 
+  @media (max-width: 768px) {
+    top: 50px;
+    padding: 10px 50px;
+    gap: 10px;
+  }
+
+  /* 📟 Tablets (769px - 1024px) */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    font-size: 1rem;
+  }
   &:focus {
     outline: none;
   }
 `;
 const IconWrapper = styled.div`
   color: #e63946;
-  font-size: 24px;
+  font-size: 2.4rem;
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
+
+  /* 📟 Tablets (769px - 1024px) */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    font-size: 1rem;
+  }
 `;
 const H3 = styled.h3`
   font-size: 1.2rem;
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  /* 📟 Tablets (769px - 1024px) */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    font-size: 1rem;
+  }
 `;
 
 function SignOutButton({ isVisible }) {
   const [shouldRender, setShouldRender] = useState(isVisible);
+  const navigate = useNavigate();
 
   const fadeInDown = useSpring({
     opacity: isVisible ? 1 : 0,
@@ -69,7 +93,7 @@ function SignOutButton({ isVisible }) {
   return (
     <LogoutContainer
       onClick={function () {
-        console.log("hi");
+        navigate("/login");
       }}
       style={fadeInDown}
     >

@@ -7,6 +7,12 @@ const Div = styled.div`
   height: 70px;
   background-color: var(--color-secondary-darkblue);
   box-shadow: var(--shadow-primary);
+  @media (max-width: 768px) {
+    /* height: 40px; */
+  }
+  @media (max-width: 1024px) and (min-width: 769px) {
+    /* height: 40px; */
+  }
 `;
 const Img = styled.img`
   width: 50px;

@@ -11,6 +11,18 @@ const SearchContainer = styled.div`
   height: 25px;
   width: 300px;
   position: relative;
+  @media (max-width: 768px) {
+    padding: 0;
+    height: 25px;
+    justify-content: space-around;
+    max-width: 40%;
+  }
+  @media (max-width: 1024px) and (min-width: 769px) {
+    padding: 0;
+    height: 25px;
+    justify-content: space-around;
+    max-width: 40%;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -29,6 +41,22 @@ const StyledInput = styled.input`
     border-radius: 8px 8px 0 0;
     border-bottom: 2px solid var(--color-secondary-darkblue);
   }
+  @media (max-width: 768px) {
+    padding: 0;
+    font-size: 1.4rem;
+    padding-left: 10px;
+    height: 25px;
+    margin-left: auto;
+    max-width: 70%;
+  }
+  @media (max-width: 1024px) and (min-width: 769px) {
+    padding: 0;
+    font-size: 1.4rem;
+    padding-left: 10px;
+    height: 25px;
+    margin-left: auto;
+    max-width: 70%;
+  }
 `;
 
 const SearchIcon = styled(FiSearch)`
@@ -36,6 +64,12 @@ const SearchIcon = styled(FiSearch)`
   color: var(--color-grey-600);
   font-size: 2.5rem;
   cursor: pointer;
+  @media (max-width: 768px) {
+    padding: 0;
+    margin-right: 20px;
+
+    font-size: 2rem;
+  }
 `;
 
 function Search({ type, placeholder }) {

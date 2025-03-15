@@ -64,9 +64,22 @@ const GlobalStyles = createGlobalStyle`
 html {
   font-size: 62.5%; /* 1 rem = 10 px */ 
   /* overflow-y: scroll; */
+}
+body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,li,div,button {
+    font-size: 1.4rem!important; /* Default for laptops */
+  }
 
+  @media (max-width: 1024px) { /* Tablets */
+    body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,div,li,button {
+      font-size: 1.2rem!important;
+    }
+  }
 
-} 
+  @media (max-width: 768px) { /* Mobile */
+    body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,span,div,li,button {
+      font-size: 1rem!important;
+    }
+  } 
 body {
 
   font-family: "Changa", sans-serif;
