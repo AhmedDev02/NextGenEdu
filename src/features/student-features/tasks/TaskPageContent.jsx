@@ -3,19 +3,28 @@ import LastTasks from "./LastTasks";
 import AddTask from "./AddTask";
 
 const Container = styled.div`
-  width: 100rem;
+  max-width: 100rem;
+  width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
-  padding: 1rem;
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
 `;
+
 const TaskDetailsTitle = styled.div`
   width: 90%;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2vw, 2rem);
   font-weight: bold;
   text-align: right;
 `;
+
 const TaskDetails = styled.div`
   width: 90%;
   background-color: white;
@@ -23,15 +32,21 @@ const TaskDetails = styled.div`
   padding: 2rem;
   border-radius: 2rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
 `;
+
 const TaskGoal = styled.div`
   width: 100%;
   height: auto;
   border-bottom: 1px solid gray;
-  font-size: 1.8rem;
+  font-size: clamp(1.4rem, 1.8vw, 1.8rem);
   font-weight: 600;
   padding-bottom: 1rem;
 `;
+
 const TaskDate = styled.div`
   margin-top: 2rem;
   width: 100%;
@@ -39,10 +54,12 @@ const TaskDate = styled.div`
   flex-direction: column;
   gap: 1rem;
 `;
+
 const StartDate = styled.div`
-  font-size: 2rem;
+  font-size: clamp(1.6rem, 2vw, 2rem);
   font-weight: bold;
 `;
+
 const EndDate = styled(StartDate)``;
 
 function TaskPageContent() {

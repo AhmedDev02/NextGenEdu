@@ -3,51 +3,33 @@ import TableDegreesRow from "./TableDegreesRow";
 import { useStudentProgress } from "./useStudentProgress";
 import toast from "react-hot-toast";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import Spinner from "../../../ui/amr/Spinner";
 
-// Define breakpoints
-const breakpoints = {
-  mobile: "480px",
-  tablet: "768px",
-  desktop: "1024px",
-};
-
 const StyledTableDegrees = styled.div`
-  width: 100%;
-
-  @media (max-width: ${breakpoints.tablet}) {
-    padding: 0.5rem; /* Reduce padding on mobile/tablet */
-  }
-
-  @media (max-width: ${breakpoints.mobile}) {
-    padding: 0.3rem; /* Minimal padding on very small screens */
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 function TableDegrees() {
-  const [termData, setTermData] = useState([]);
   const { term } = useStudentProgressContext();
   const { data, isPending, error } = useStudentProgress();
   const { semesters } = data || {};
-  const { Term1, Term2 } = semesters || {};
+
+  const termData = useMemo(() => {
+    if (!semesters) return null;
+    return term === "Term1" ? semesters.Term1 : semesters.Term2;
+  }, [term, semesters]);
 
   useEffect(() => {
-    if (!semesters) return;
-
-    if (term === "Term1") {
-      setTermData(Term1);
-    } else if (term === "Term2") {
-      setTermData(Term2);
+    if (error) {
+      toast.error("Error loading data. Please try again.");
     }
-  }, [term, Term1, Term2, semesters]);
+  }, [error]);
 
   if (isPending) return <Spinner />;
-  if (error) {
-    toast.error("error loading data");
-    return null;
-  }
-  if (!termData?.courses) return null;
+  if (!termData?.courses) return <p>No courses available for this term.</p>;
 
   return (
     <StyledTableDegrees>
@@ -57,4 +39,5 @@ function TableDegrees() {
     </StyledTableDegrees>
   );
 }
+
 export default TableDegrees;

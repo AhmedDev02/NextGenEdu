@@ -7,18 +7,11 @@ const AccordionContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
-
-  @media (max-width: 768px) {
-    padding: 0 0.75rem;
-  }
-
-  @media (max-width: 480px) {
-    padding: 0 0.5rem;
-  }
 `;
 
 function YearAccordion({ data }) {
-  const { year, semesters, title } = data;
+  const { semesters, title } = data;
+
   return (
     <AccordionContainer>
       <Accordion type="year" title={title}>

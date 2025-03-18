@@ -13,12 +13,10 @@ const AccordionHeader = styled.button`
   font-family: "Changa", sans-serif;
   border-radius: 2.5rem;
   width: 100%;
-  padding-left: 6rem;
-  padding-right: 6rem;
+  padding: 0 6rem;
   border: none;
   text-align: right;
   cursor: pointer;
-  font-size: clamp(14px, 4vw, 16px);
   font-weight: 500;
   box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
@@ -27,14 +25,6 @@ const AccordionHeader = styled.button`
   background: ${(props) =>
     props.type === "year" ? "var(--color-grey-900)" : "white"};
   color: ${(props) => (props.type === "year" ? "white" : "black")};
-
-  @media (max-width: 768px) {
-    padding: 12px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 10px;
-  }
 
   &:active {
     background: ${(props) => (props.type === "year" ? "#1b243b" : "#d7d7d7")};
@@ -66,11 +56,14 @@ const HeaderContent = styled.div`
 `;
 
 const P = styled.p`
-  font-size: 3rem;
+  font-size: 3rem !important;
+  font-size: ${(props) =>
+    props.type === "year" ? "3rem" : "2.6rem"} !important;
   font-weight: bold;
 `;
 const Icon = styled(MdKeyboardArrowDown)`
-  font-size: 3rem;
+  font-size: ${(props) =>
+    props.type === "year" ? "3rem" : "2.6rem"} !important;
 `;
 function Accordion({ title, children, type }) {
   const [isOpen, setIsOpen] = useState(false);

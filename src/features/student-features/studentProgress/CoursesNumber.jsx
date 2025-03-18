@@ -10,18 +10,25 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-around;
   font-weight: bold;
-  font-size: 2rem;
+  font-size:2rem!important;;
+  padding: 1rem;
+  text-align: center;
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 function CoursesNumber({ courses, totalDegrees }) {
   return (
     <Container>
-      <div>
+      <InfoBox>
         <p>عدد المواد : {courses.length} </p>
-      </div>
-      <div>
+      </InfoBox>
+      <InfoBox>
         <p>مجموع الدرجات : {totalDegrees} </p>
-      </div>
+      </InfoBox>
     </Container>
   );
 }

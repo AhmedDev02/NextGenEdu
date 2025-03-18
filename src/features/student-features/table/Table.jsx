@@ -5,7 +5,7 @@ import { useStudentProgressContext } from "../../../context/StudentProgressProvi
 
 const TableContainer = styled.div`
   margin: 0 auto;
-  width: 100%;
+  width: 1200px;
   display: flex;
   flex-direction: column;
   align-items: center;

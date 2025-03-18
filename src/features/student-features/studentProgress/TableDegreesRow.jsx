@@ -2,80 +2,79 @@ import styled from "styled-components";
 
 const Row = styled.div`
   height: 7rem;
-  width: 100%;
+  width: 1150px; 
   background-color: white;
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: space-between;
   margin-top: 1rem;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
   border-radius: 2rem;
-  position: relative;
-  justify-content: flex-end;
 `;
+
 const Data = styled.div`
   background-color: white;
   border-right: 2px solid gray;
   height: 100%;
-  width: 17rem;
-  font-size: 2rem;
+  width: 164.28px;
+  font-size: 2rem!important;;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-size: 2.5rem;
 `;
+
 const DataCourse = styled.div`
   background-color: #30bd58;
-  width: 14%;
+  width: 164.28px;
   height: 100%;
-  position: absolute;
-  right: 0;
-  top: 0;
   border-top-right-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
   color: white;
   font-weight: 500;
-  font-size: 1.5rem;
   display: flex;
-  justify-content: flex-end;
-  padding-left: 1rem;
   align-items: center;
+  justify-content: center;
+  text-align: left;
+  padding: 0 8px;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow: hidden;
 `;
-const DataTotalDegree = styled.div`
-  background-color: white;
-  width: 14.5%;
-  height: 100%;
-  border-right: 2px solid gray;
+const P=styled.p`
+font-size: 1.6rem!important;
+`
+
+const DataTotalDegree = styled(Data)`
+  width: 164.28px;
   border-top-left-radius: 1.5rem;
   border-bottom-left-radius: 1.5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 500;
-  font-size: 2.5rem;
 `;
+
 const DataFormat = styled.div`
   display: flex;
+  justify-content: space-evenly;
   height: 100%;
-  width: 844.5px;
 `;
+
 function TableDegreesRow({ course }) {
   const {
-    assignmentScore,
-    finalExamScore,
-    courseName,
-    midtermScore,
-    percentage,
-    projectScore,
+    assignmentScore = "0/0",
+    finalExamScore = "0/0",
+    courseName = "N/A",
+    midtermScore = "0/0",
+    percentage = "0%",
+    projectScore = "0/0",
   } = course;
 
   function extractScoreParts(score) {
-    if (!score) return { numerator: 0, denominator: 0 };
-    const [numerator, denominator] = score
-      .split("/")
-      .map((num) => parseInt(num, 10));
-    return { numerator, denominator };
+    const match = score?.match(/^(\d+)\/(\d+)$/);
+    return match
+      ? {
+          numerator: parseInt(match[1], 10),
+          denominator: parseInt(match[2], 10),
+        }
+      : { numerator: 0, denominator: 0 };
   }
 
   const { numerator: projectNum, denominator: projectDen } =
@@ -88,34 +87,19 @@ function TableDegreesRow({ course }) {
   const semesterWorksNumerator = projectNum + assignmentNum + midtermNum;
   const semesterWorksDenominator = projectDen + assignmentDen + midtermDen;
 
-  const semesterWorks = `${semesterWorksNumerator}/${semesterWorksDenominator}`;
-
   return (
     <Row>
-      DataCourse
       <DataCourse>
-        <p style={{textAlign:'left'}}>{courseName || "N/A"}</p>
+        <P>{courseName}</P>
       </DataCourse>
       <DataFormat>
-        <Data>
-          <p>{projectScore || "0/0"}</p>
-        </Data>
-        <Data>
-          <p>{assignmentScore || "0/0"}</p>
-        </Data>
-        <Data>
-          <p>{midtermScore || "0/0"}</p>
-        </Data>
-        <Data>
-          <p>{semesterWorks || "0/0"}</p>
-        </Data>
-        <Data>
-          <p>{finalExamScore || "0/0"}</p>
-        </Data>
+        <Data>{projectScore}</Data>
+        <Data>{assignmentScore}</Data>
+        <Data>{midtermScore}</Data>
+        <Data>{`${semesterWorksNumerator}/${semesterWorksDenominator}`}</Data>
+        <Data>{finalExamScore}</Data>
       </DataFormat>
-      <DataTotalDegree>
-        <p>{percentage || "0%"}</p>
-      </DataTotalDegree>
+      <DataTotalDegree>{percentage}</DataTotalDegree>
     </Row>
   );
 }

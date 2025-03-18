@@ -8,13 +8,14 @@ const TableRowContainer = styled.div`
   background-color: white;
   border-radius: 2rem;
   box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  overflow-y: hidden;
 `;
 
 const TableSmallRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  width: 100%;
+  grid-template-columns: repeat(7, 1fr); /* 7 equal columns */
+  /* width: 1024px; Fixed width to prevent responsiveness */
   align-items: center;
   text-align: center;
 `;
@@ -28,7 +29,6 @@ const TableSmallRowCell = styled.div`
   padding: 1rem;
   height: 100%;
   color: black;
-  /* border-right: 1px solid #e0e0e0;  */
   border: 1px solid #e0e0e0;
 
   &:last-child {
@@ -44,12 +44,14 @@ const TableSmallRowCell = styled.div`
     border-bottom-right-radius: 2rem;
   `}
 `;
+
 const P = styled.p`
   font-size: clamp(1.2rem, 1.4rem, 1.6rem);
   font-weight: 500;
   text-align: center;
   margin: 0.5rem 0;
 `;
+
 const Icon = styled(GoDotFill)`
   color: ${({ type }) =>
     type === "inTime"

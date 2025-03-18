@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 const Container = styled.div`
   height: auto;
-  width: 100%;
+  width: clamp(25rem,50vw,50rem);
   padding: 2rem;
   text-align: center;
   display: flex;
