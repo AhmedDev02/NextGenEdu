@@ -25,6 +25,16 @@ const Div = styled.div`
   background-color: var(--color-secondary-darkblue);
   border: 2px white solid;
   min-height: 160px;
+  @media (max-width: 768px) {
+    width: 75%;
+    flex-direction: row;
+    min-height: 40px;
+    padding: 0 10px;
+    border-radius: 14px;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 
 const Span = styled.span`

@@ -9,6 +9,16 @@ const Div = styled.div`
   justify-content: space-between;
   width: 800px;
   gap: 20px;
+  @media (max-width: 768px) {
+    max-width: 90%;
+
+    display: flex;
+    margin: 0 auto;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
+  /* this is for tablets */
 `;
 
 function AnswersContent() {

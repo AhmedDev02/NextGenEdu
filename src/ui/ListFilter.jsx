@@ -15,6 +15,18 @@ const FilterMenuContainer = styled.ul`
     css`
       ${styles}
     `}
+  @media (max-width: 768px) {
+    min-width: 80%;
+    display: flex;
+    margin: 0 auto;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
+  /* this is for tablets */
 `;
 
 const FilterItem = styled.li`

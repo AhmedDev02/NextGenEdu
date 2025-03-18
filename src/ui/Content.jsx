@@ -7,6 +7,14 @@ const StyledContent = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 3.2rem;
+  @media (max-width: 768px) {
+    height: ${({ open }) => (open ? "auto" : "30px")};
+    max-width: 100%;
+    align-items: start;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 function Content({ children }) {
   return <StyledContent>{children}</StyledContent>;

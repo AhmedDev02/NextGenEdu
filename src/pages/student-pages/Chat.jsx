@@ -10,7 +10,7 @@ function Chat() {
         description={STUDENT_PAGES_PROPERTIES.CHAT.description}
         button={false}
       />
-      <ChatContent />;
+      <ChatContent />
     </>
   );
 }

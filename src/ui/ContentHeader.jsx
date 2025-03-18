@@ -7,13 +7,24 @@ const StyledHeader = styled.header`
   flex-direction: column;
   width: 100%;
   margin: 15px 10px;
+  @media (max-width: 768px) {
+    margin: 15px 5px;
+    width: 85%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const Subject = styled.span`
   justify-self: center;
   align-self: center;
   margin-top: 10px;
   padding: 0 100px;
+
   text-align: center;
+  @media (max-width: 768px) {
+    padding: 0 0px;
+  }
 `;
 const H5 = styled.h3`
   justify-self: center;

@@ -19,12 +19,28 @@ const QuestionsDiv = styled.div`
   align-items: center;
   gap: 10px;
   width: 100%;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 0 10px;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const ButtonsDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  @media (max-width: 768px) {
+    max-width: 72%;
+    flex-direction: row;
+    min-height: 30px;
+    /* padding: 0 10px; */
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const Span = styled.span`
   display: inline-block;
@@ -58,6 +74,7 @@ function Question({ liked }) {
           paddingTopBottom="10px"
           style={{ borderRadius: "15px", border: "2px white solid" }}
           navigateTo={`/discussion/1`}
+          phonePadding={"20px 40px"}
         >
           عرض الإجابة
         </Button>
@@ -66,6 +83,8 @@ function Question({ liked }) {
           size="custom"
           paddingLeftRight="65px"
           paddingTopBottom="17px"
+          phonePadding={"20px 50px"}
+          tabPadding={"20px"}
         >
           <Span>مهتم</Span>
           <FiThumbsUp />

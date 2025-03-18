@@ -32,6 +32,12 @@ const Container = styled.div`
   }
   padding-bottom: 25px;
   z-index: 1;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const H3 = styled.h3`
   font-size: 1.5rem;
