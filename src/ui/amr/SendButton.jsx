@@ -4,9 +4,6 @@ const StyledSendButton = styled.button`
   width: ${({ width }) => width || "100px"};
   height: ${({ height }) => height || "40px"};
   border: 2px solid gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 1rem;
   cursor: pointer;
   color: white;
@@ -14,8 +11,9 @@ const StyledSendButton = styled.button`
   outline: none;
   background: var(--color-primary-green);
   font-weight: 600;
-  font-size: 2.5rem;
-  transition: all 0.1s;
+  font-family: "Changa";
+  transition: all 0.1s ease-in-out;
+
   ${({ type }) =>
     type === "secondary" &&
     `
@@ -28,11 +26,32 @@ const StyledSendButton = styled.button`
   &:focus {
     outline: none;
   }
+
   &:active {
     transform: ${({ type }) =>
-      type === "secondary" ? "translateY(-50%) scale(0.9)" : "scale(0.95)"};
+      type === "secondary" ? "translateY(-50%) scale(0.9)" : "scale(0.9)"};
+  }
+
+  @media (max-width: 768px) {
+    width: ${({ type }) => (type === "secondary" ? "8rem" : "14rem")};
+    height: ${({ type }) => (type === "secondary" ? "4rem" : "4rem")};
+    font-size: 0.9rem;
+
+    &:active {
+      transform: ${({ type }) =>
+        type === "secondary" ? "translateY(0) scale(0.9)" : "scale(0.95)"};
+    }
+
+    ${({ type }) =>
+      type === "secondary" &&
+      `
+        position: static;
+        transform: none;
+        margin-top: 1rem;
+      `}
   }
 `;
+
 function SendButton({ width, height, title, type }) {
   return (
     <StyledSendButton width={width} height={height} type={type}>

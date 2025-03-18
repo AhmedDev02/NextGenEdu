@@ -13,17 +13,35 @@ const TasksDone = styled.div`
   position: relative;
   padding: 1rem;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem;
+  }
 `;
+
 const TaskDoneDetails = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 2rem;
-  right: 2rem;
   position: absolute;
+  right: 2rem;
   top: 50%;
   transform: translateY(-50%);
+
+  @media (max-width: 768px) {
+    position: static;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    transform: none;
+  }
 `;
+
 const IconContainer = styled.div`
   color: white;
   width: 7rem;
@@ -33,13 +51,24 @@ const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 5rem;
+    height: 5rem;
+  }
 `;
+
 const Icon = styled(MdOutlineTask)`
   font-size: 5rem;
+
+  @media (max-width: 768px) {
+    font-size: 3.5rem;
+  }
 `;
+
 const DoneOrNot = styled.div`
-  width: 10rem;
-  height: 5rem;
+  width: 14rem;
+  height: 6rem;
   position: absolute;
   left: 5rem;
   top: 50%;
@@ -49,6 +78,14 @@ const DoneOrNot = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 1rem;
+
+  @media (max-width: 768px) {
+    position: static;
+    transform: none;
+    width: 8rem;
+    height: 4rem;
+    margin-top: 1rem;
+  }
 `;
 
 function LastTasks({ status, title, week }) {
