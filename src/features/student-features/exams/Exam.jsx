@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import ContentHeader from "../../../ui/ContentHeader";
 import { STUDENT_PAGES_PROPERTIES } from "../../../utils/constants";
 import MaterialExamContent from "./MaterialExamContent";

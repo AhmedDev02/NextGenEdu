@@ -52,7 +52,6 @@ function Side({ children }) {
   });
 
   useEffect(() => {
-    // Render the sidebar immediately when becoming visible
     if (isSidebarOpen) setShouldRender(true);
   }, [isSidebarOpen]);
 

@@ -40,6 +40,7 @@ function AnswersContent() {
         answer={
           "لتحسين أداء كود بايثون مع البيانات الكبيرة، استخدم NumPy و Pandas لمعالجة البيانات بكفاءة، Dask أو Vaex للتعامل مع البيانات الضخمة، multiprocessing و Numba لتسريع العمليات، chunksize عند قراءة الملفات، وParquet أو Feather بدلاً من CSV لتقليل استهلاك الذاكرة. "
         }
+        isUser={true}
       />
     </Div>
   );

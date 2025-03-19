@@ -20,19 +20,15 @@ const Divider = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-const text = `
-                  هل أنت متأكد من أنك تريد إرسال جميع إجاباتك وإنهاء الكويز؟ تأكد من
-              مراجعة جميع الأسئلة قبل الإرسال. اضغط "تأكيد" لإرسال الإجابات، أو
-              "إلغاء" للعودة ومراجعتها.
-`;
+const text = `سيتم حذف سؤالك بشكل نهائي`;
 
-function ExamWindow({ onCloseModal, onConfirm }) {
+function QuestionWindow({ onCloseModal, onConfirm }) {
   return (
     <StyledExamModal>
-      <H4> 🔔 إرسال جميع الإجابات والإنهاء؟</H4>
+      <H4> 🔔 تحذير </H4>
       <H5> {text}</H5>
       <Divider>
-        <Button variation="primary" size="small" onClick={onConfirm}>
+        <Button variation="danger" size="small" onClick={onConfirm}>
           تأكيد
         </Button>
         <Button variation="transparent" size="small" onClick={onCloseModal}>
@@ -43,4 +39,4 @@ function ExamWindow({ onCloseModal, onConfirm }) {
   );
 }
 
-export default ExamWindow;
+export default QuestionWindow;

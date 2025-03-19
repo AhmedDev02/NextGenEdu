@@ -11,7 +11,15 @@ const Div = styled.div`
   width: 40%;
   padding: 20px;
   position: relative;
+  @media (max-width: 1024px) and (min-width: 769px) {
+    width: 90%;
+    padding: 40px;
+  }
 
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 40px;
+  }
   border-radius: 15px;
 `;
 const Breaker = styled.div`
@@ -63,6 +71,15 @@ const ImgEditor = styled.div`
   cursor: pointer;
   top: 60px;
   right: 120px;
+  /* For screens between 769px and 1024px */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    right: 220px;
+  }
+
+  /* For screens 768px and below */
+  @media (max-width: 768px) {
+    right: 190px;
+  }
 `;
 const Span = styled.span`
   display: flex;

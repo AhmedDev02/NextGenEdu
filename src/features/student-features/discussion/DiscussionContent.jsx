@@ -25,6 +25,7 @@ function DiscussionContent() {
       {data.map((item, index) => (
         <Question
           key={index}
+          isUser={true}
           liked={index === 1 || index === 3 || index === 7 ? false : true}
         />
       ))}

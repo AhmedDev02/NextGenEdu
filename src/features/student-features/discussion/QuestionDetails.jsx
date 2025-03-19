@@ -12,7 +12,7 @@ const QuestionContainer = styled.div`
     flex-direction: row;
     /* max-height: 20px; */
     min-height: 100px;
-    padding: 0 10px;
+    padding: 10px 10px;
   }
   /* this is for mobile */
   @media (max-width: 1024px) and (min-width: 769px) {
@@ -41,6 +41,14 @@ const Avatar = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const AvatarDiv = styled.div`
   display: flex;

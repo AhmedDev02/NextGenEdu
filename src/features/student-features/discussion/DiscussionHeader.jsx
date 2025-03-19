@@ -10,17 +10,18 @@ const Header = styled.header`
   flex-direction: column;
   gap: 15px;
   @media (max-width: 768px) {
-    max-width: 95%;
-    margin-top: auto;
+    max-width: 100%;
+    margin-top: 0;
     margin-right: auto;
     margin-left: auto;
-    padding: 80px;
+    padding: 15px;
     padding-bottom: 0;
+    padding-top: 0;
   }
   /* this is for mobile */
   @media (max-width: 1024px) and (min-width: 769px) {
     max-width: 95%;
-    margin-top: auto;
+    /* margin-top: auto; */
     margin-right: auto;
     margin-left: auto;
     /* padding: 80px; */
@@ -58,6 +59,7 @@ function DiscussionHeader({ questionsNum }) {
           paddingTopBottom="10px"
           fontSize="1.4rem"
           style={{ paddingBottom: "15px" }}
+          phonePadding={"5px 10px"}
         >
           <FiPlus style={{ fontSize: "1.4rem" }} />
           ضف سؤالك
