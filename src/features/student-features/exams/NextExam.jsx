@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
 import { toggleSidebar } from "../../../store/sideBarSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Div = styled.div`
@@ -10,6 +10,17 @@ const Div = styled.div`
   justify-content: space-between;
   width: 100%;
   align-items: center;
+  @media (max-width: 1024px) and (min-width: 769px) {
+    max-width: 90%;
+    padding: 40px;
+  }
+
+  /* this is for tablets */
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 40px;
+  }
 `;
 const H4 = styled.h4`
   align-self: start;
@@ -81,6 +92,15 @@ const Label = styled.span`
   border-radius: 10px;
   padding: 10px 0;
   color: #fff;
+  @media (max-width: 1024px) and (min-width: 769px) {
+    width: 150px;
+  }
+
+  /* this is for tablets */
+
+  @media (max-width: 768px) {
+    width: 110px;
+  }
 `;
 const LabelDetailsDiv = styled.div`
   display: flex;
@@ -107,6 +127,35 @@ const LabelDetails = styled.span`
     top: -5px;
     left: -30px;
     background-color: #000;
+  }
+  @media (max-width: 1024px) and (min-width: 769px) {
+    width: 120px;
+    &:not(:last-child)::before {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      position: absolute;
+      height: 65px;
+      top: -5px;
+      left: -30px;
+      background-color: #000;
+    }
+  }
+
+  /* this is for tablets */
+
+  @media (max-width: 768px) {
+    width: 110px;
+    &:not(:last-child)::before {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      position: absolute;
+      height: 60px;
+      top: -5px;
+      left: -30px;
+      background-color: #000;
+    }
   }
 `;
 
@@ -153,13 +202,23 @@ const AdviceNumber = styled.span`
   padding: 4px 0;
   right: -28px;
   text-align: center;
+  @media (max-width: 1024px) and (min-width: 769px) {
+    font-size: 3rem !important;
+  }
+
+  /* this is for tablets */
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem !important;
+  }
 `;
 function NextExam({ examGoal, startTime, endTime }) {
+  const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // handle toggle
   function handleToggle() {
-    dispatch(toggleSidebar());
+    if (isSidebarOpen) dispatch(toggleSidebar());
     navigate("/exams/1/1");
   }
 

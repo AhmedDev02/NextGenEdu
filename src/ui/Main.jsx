@@ -1,7 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { animated, useSpring } from "@react-spring/web";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import { setSidebarState } from "../store/sideBarSlice";
 
 const AnimatedMain = styled(animated.main)`
   display: flex;
@@ -18,6 +19,7 @@ const AnimatedMain = styled(animated.main)`
     margin-right: 0;
     flex: 1;
   }
+
   /* this is for tablets */
 
   @media (max-width: 768px) {
@@ -30,6 +32,7 @@ const AnimatedMain = styled(animated.main)`
 `;
 function Main({ children }) {
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
+  const dispatch = useDispatch();
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -37,9 +40,15 @@ function Main({ children }) {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+  useEffect(() => {
+    if (screenWidth <= 1024) {
+      dispatch(setSidebarState(false));
+    }
+  }, [screenWidth, dispatch]);
 
-  const getMainWidth = () =>
-    screenWidth <= 768 ? "100%" : isSidebarOpen ? "85%" : "100%";
+  const getMainWidth = () => {
+    return screenWidth <= 768 ? "100%" : isSidebarOpen ? "85%" : "100%";
+  };
 
   const mainAnimation = useSpring({
     // maxWidth: isSidebarOpen ? "85%" : "100%", // Full width when sidebar is hidden

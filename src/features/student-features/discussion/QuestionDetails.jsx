@@ -7,6 +7,16 @@ const QuestionContainer = styled.div`
   border-radius: 20px;
   min-height: 160px;
   border: 2px solid var(--color-secondary-darkblue);
+  @media (max-width: 768px) {
+    width: 75%;
+    flex-direction: row;
+    /* max-height: 20px; */
+    min-height: 100px;
+    padding: 10px 10px;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 
 const QuestionBody = styled.p`
@@ -31,6 +41,14 @@ const Avatar = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const AvatarDiv = styled.div`
   display: flex;

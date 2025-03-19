@@ -9,6 +9,12 @@ const Div = styled.div`
   justify-content: space-between;
   width: 800px;
   gap: 20px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 
 function DiscussionContent() {
@@ -19,6 +25,7 @@ function DiscussionContent() {
       {data.map((item, index) => (
         <Question
           key={index}
+          isUser={true}
           liked={index === 1 || index === 3 || index === 7 ? false : true}
         />
       ))}

@@ -23,6 +23,12 @@ const Div = styled.div`
   margin-left: ${({ open }) => (open ? "" : "auto")};
   margin-right: ${({ open }) => (open ? "" : "80px")};
   flex-direction: column;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const Container = styled.div`
   margin: 20px;
@@ -30,10 +36,19 @@ const Container = styled.div`
   flex-direction: column;
   gap: 20px;
   justify-content: space-between;
-
-  height: ${({ open }) => (open ? "auto" : "50px")};
+  height: ${({ open }) => (open ? "auto" : "40px")};
   justify-self: ${({ open }) => (open ? "" : "start")};
   overflow-y: hidden;
+  @media (max-width: 768px) {
+    height: ${({ open }) => (open ? "auto" : "30px")};
+    max-width: 100%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    height: ${({ open }) => (open ? "auto" : "30px")};
+
+    max-width: 100%;
+  }
 `;
 const WeekTitle = styled.div`
   display: flex;
@@ -46,6 +61,12 @@ const WeekTitle = styled.div`
 `;
 const Row = styled.div`
   display: flex;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const ButtonsContainer = styled.div`
   display: flex;
@@ -124,6 +145,11 @@ const Icon = styled.div`
   background: var(--color-danger-red);
   align-self: center;
 `;
+const DivContainer = styled.div`
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
 function MaterialDetails() {
   const { material, isLoading, error } = useMaterial();
   // console.log(material);
@@ -185,86 +211,88 @@ function MaterialDetails() {
 
   return (
     <Div open={openWeek}>
-      <ListFilter
-        items={categories}
-        param={"filter"}
-        defaultItem="all"
-        multipleChoose={true}
-        containerStyles={{ margin: "0  auto 20px auto" }}
-      />
-      {filteredMaterials?.weeks.map((week) => (
-        <Container open={openWeek.includes(week.weekId)} key={week.weekId}>
-          <WeekTitle
-            key={week.weekId}
-            onClick={(event) => handleDetails(week.weekId, event)}
-          >
-            {openWeek.includes(week.weekId) ? (
-              <HiChevronDown />
-            ) : (
-              <HiChevronLeft />
-            )}
+      <DivContainer>
+        <ListFilter
+          items={categories}
+          param={"filter"}
+          defaultItem="all"
+          multipleChoose={true}
+          containerStyles={{ margin: "0  auto 20px auto" }}
+        />
+        {filteredMaterials?.weeks.map((week) => (
+          <Container open={openWeek.includes(week.weekId)} key={week.weekId}>
+            <WeekTitle
+              key={week.weekId}
+              onClick={(event) => handleDetails(week.weekId, event)}
+            >
+              {openWeek.includes(week.weekId) ? (
+                <HiChevronDown />
+              ) : (
+                <HiChevronLeft />
+              )}
 
-            <H1>{week.week}</H1>
-          </WeekTitle>
+              <H1>{week.week}</H1>
+            </WeekTitle>
 
-          {week.resources.map((weekDetail) => (
-            <Row key={weekDetail.id}>
-              <WeekDetail open={openWeek}>
-                <Icon>
-                  {weekDetail.fileType === "video" ? (
-                    <AiFillPlayCircle />
-                  ) : (
-                    <AiFillFileText />
-                  )}
-                </Icon>
-                <LectureContainer>
-                  <H4>{weekDetail.type}</H4>
-                  <H3>{weekDetail.title}</H3>
-                </LectureContainer>
-                <Complete status={weekDetail.status}>
-                  {weekDetail.status && <FiCheck />}{" "}
-                  {weekDetail.status ? "مكتمل" : "غير مكتمل"}
-                </Complete>
-              </WeekDetail>
-              <ButtonsContainer>
-                <Button
-                  variation="danger"
-                  size="custom"
-                  paddingLeftRight="37px"
-                  paddingTopBottom="10px"
-                  onClick={() => handleDetails(week.id)}
-                  style={openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
-                >
-                  {weekDetail.fileType === "pdf" ? (
-                    <Span style={{ padding: "0 11px" }}>
-                      <FiExternalLink />
-                      <P>فتح</P>
-                    </Span>
-                  ) : (
+            {week.resources.map((weekDetail) => (
+              <Row key={weekDetail.id}>
+                <WeekDetail open={openWeek}>
+                  <Icon>
+                    {weekDetail.fileType === "video" ? (
+                      <AiFillPlayCircle />
+                    ) : (
+                      <AiFillFileText />
+                    )}
+                  </Icon>
+                  <LectureContainer>
+                    <H4>{weekDetail.type}</H4>
+                    <H3>{weekDetail.title}</H3>
+                  </LectureContainer>
+                  <Complete status={weekDetail.status}>
+                    {weekDetail.status && <FiCheck />}{" "}
+                    {weekDetail.status ? "مكتمل" : "غير مكتمل"}
+                  </Complete>
+                </WeekDetail>
+                <ButtonsContainer>
+                  <Button
+                    variation="danger"
+                    size="custom"
+                    paddingLeftRight="37px"
+                    paddingTopBottom="10px"
+                    onClick={() => handleDetails(week.id)}
+                    style={openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
+                  >
+                    {weekDetail.fileType === "pdf" ? (
+                      <Span style={{ padding: "0 11px" }}>
+                        <FiExternalLink />
+                        <P>فتح</P>
+                      </Span>
+                    ) : (
+                      <Span>
+                        <FiPlay />
+                        <P>تشغيل</P>
+                      </Span>
+                    )}
+                  </Button>
+                  <Button
+                    variation="danger"
+                    size="custom"
+                    paddingLeftRight="40px"
+                    paddingTopBottom="10px"
+                    onClick={() => handleDetails(week.id)}
+                    style={!openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
+                  >
                     <Span>
-                      <FiPlay />
-                      <P>تشغيل</P>
+                      <FiDownload />
+                      <P>تحميل</P>
                     </Span>
-                  )}
-                </Button>
-                <Button
-                  variation="danger"
-                  size="custom"
-                  paddingLeftRight="40px"
-                  paddingTopBottom="10px"
-                  onClick={() => handleDetails(week.id)}
-                  style={!openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
-                >
-                  <Span>
-                    <FiDownload />
-                    <P>تحميل</P>
-                  </Span>
-                </Button>
-              </ButtonsContainer>
-            </Row>
-          ))}
-        </Container>
-      ))}
+                  </Button>
+                </ButtonsContainer>
+              </Row>
+            ))}
+          </Container>
+        ))}
+      </DivContainer>
     </Div>
   );
 }

@@ -9,6 +9,13 @@ const Div = styled.div`
   flex-direction: column;
   width: 800px;
   gap: 10px;
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 40px;
+  }
 `;
 const PrevExamsDiv = styled.div`
   display: flex;

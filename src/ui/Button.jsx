@@ -102,6 +102,13 @@ const StyledButton = styled.button`
           }
         `
       : css``}
+  @media (max-width: 768px) {
+    padding: ${(props) => props.phonePadding};
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    padding: ${(props) => props.tabPadding};
+  }
 `;
 
 function Button({
@@ -114,6 +121,8 @@ function Button({
   margin = "",
   isTransparent = false,
   navigateTo, // New prop for navigation
+  phonePadding,
+  tabPadding,
   ...rest
 }) {
   const navigate = useNavigate();
@@ -135,6 +144,8 @@ function Button({
       margin={margin}
       isTransparent={isTransparent}
       onClick={handleClick}
+      phonePadding={phonePadding}
+      tabPadding={tabPadding}
       {...rest}
     >
       {children}

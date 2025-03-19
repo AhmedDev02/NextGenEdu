@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import AnswerStatus from "./AnswerStatus";
 import AnswerForm from "./AnswerForm";
+import QuestionModal from "./QuestionModal";
+import AnswerModal from "./AnswerModal";
 
 const Container = styled.div`
   position: relative;
@@ -32,6 +34,12 @@ const Container = styled.div`
   }
   padding-bottom: 25px;
   z-index: 1;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 const H3 = styled.h3`
   font-size: 1.5rem;
@@ -108,8 +116,17 @@ const AnswerBody = styled.p`
   margin: 10px 0;
   align-self: start;
 `;
+const AnswerStatusContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  height: 90%;
+`;
 
-function AnswersContainer({ name, level, date, answer }) {
+function AnswersContainer({ name, level, date, answer, isUser }) {
   const data = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <Container>
@@ -131,7 +148,13 @@ function AnswersContainer({ name, level, date, answer }) {
             </AnswerHead>
             <AnswerBody>{answer}</AnswerBody>
           </AnswerTextDiv>
-          <AnswerStatus first={+index === 0} likes={19} />
+          {!isUser && <AnswerStatus first={+index === 0} likes={19} />}
+          {isUser && (
+            <AnswerStatusContainer>
+              <AnswerStatus first={+index === 0} likes={19} />
+              <AnswerModal />
+            </AnswerStatusContainer>
+          )}
         </AnswerRow>
       ))}
       <AnswerForm />

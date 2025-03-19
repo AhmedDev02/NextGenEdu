@@ -9,6 +9,16 @@ const Div = styled.div`
   justify-content: space-between;
   width: 800px;
   gap: 20px;
+  @media (max-width: 768px) {
+    max-width: 90%;
+
+    display: flex;
+    margin: 0 auto;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
+  /* this is for tablets */
 `;
 
 function AnswersContent() {
@@ -30,6 +40,7 @@ function AnswersContent() {
         answer={
           "لتحسين أداء كود بايثون مع البيانات الكبيرة، استخدم NumPy و Pandas لمعالجة البيانات بكفاءة، Dask أو Vaex للتعامل مع البيانات الضخمة، multiprocessing و Numba لتسريع العمليات، chunksize عند قراءة الملفات، وParquet أو Feather بدلاً من CSV لتقليل استهلاك الذاكرة. "
         }
+        isUser={true}
       />
     </Div>
   );

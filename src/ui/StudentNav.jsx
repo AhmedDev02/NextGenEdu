@@ -156,7 +156,7 @@ function StudentNav() {
           paddingTopBottom="1rem"
           paddingLeftRight="4rem"
           margin="20px 0 100px 0 "
-          navigateTo={"/student-profile"}
+          navigateTo={"/profile"}
         >
           الملف الشخصي
         </Button>

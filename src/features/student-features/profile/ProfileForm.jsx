@@ -11,10 +11,19 @@ import { useState } from "react";
 
 const Container = styled.div`
   width: 60%;
-  /* max-width: 400px; */
-  /* background: #f5f5f5; */
+
   padding: 20px;
   border-radius: 10px;
+  @media (max-width: 1024px) and (min-width: 769px) {
+    min-width: 100%;
+    padding: 40px;
+  }
+
+  /* This is for tablets (screens smaller than 768px) */
+  @media (max-width: 768px) {
+    min-width: 100%;
+    padding: 40px;
+  }
 `;
 
 const Label = styled.label`

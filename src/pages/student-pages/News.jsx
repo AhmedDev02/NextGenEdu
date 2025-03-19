@@ -10,7 +10,7 @@ function News() {
         description={STUDENT_PAGES_PROPERTIES.NEWS.description}
         button={false}
       />
-      <NewsContent />;
+      <NewsContent />
     </>
   );
 }

@@ -12,6 +12,13 @@ const Div = styled.div`
   align-items: center;
   gap: 100px;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    max-width: 100%;
+    justify-content: end;
+  }
+  /* this is for mobile */
+  @media (max-width: 1024px) and (min-width: 769px) {
+  }
 `;
 
 function ChatContent() {
