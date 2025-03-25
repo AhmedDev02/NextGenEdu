@@ -1,5 +1,16 @@
+import ContentHeader from "../../ui/ContentHeader";
+import { ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
+
 function NewsManagement() {
-  return <div></div>;
+  return (
+    <>
+      <ContentHeader
+        title={ADMIN_PAGES_PROPERTIES.NEWS_ADMIN.title}
+        description={ADMIN_PAGES_PROPERTIES.DASHBOARD.description}
+        button={false}
+      />
+    </>
+  );
 }
 
 export default NewsManagement;
