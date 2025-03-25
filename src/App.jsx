@@ -61,6 +61,7 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 import GlobalStyles from "./styles/GlobalStyles";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
 import PasswordResetError from "./features/auth/PasswordResetError";
+import Curriculum from "./features/admin-features/dashboard/Curriculum";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -132,6 +133,8 @@ function App() {
               <Route index element={<Navigate replace to="dashboard" />} />
 
               <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="dashboard/:curriculumId" element={<Curriculum />} />
+
               <Route path="profile" element={<AdminProfile />} />
               <Route path="discussion" element={<DiscussionManagement />} />
               <Route path="final-result" element={<FinalResultsManagement />} />
