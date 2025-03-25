@@ -26,7 +26,7 @@ const Subject = styled.span`
     padding: 0 0px;
   }
 `;
-const H5 = styled.h3`
+const H3 = styled.h3`
   justify-self: center;
   ${({ isButton }) => !isButton && `margin-right: 20px;`}
 `;
@@ -47,18 +47,18 @@ function ContentHeader({ title, description, button, subject }) {
           <Button navigateTo={-1} variation="secondary" size="small">
             <HiArrowRight />
           </Button>
-          <H5 isButton={button}>
+          <H3 isButton={button}>
             {title} {subject}
-          </H5>
+          </H3>
         </Div>
       ) : subject ? (
         <Div>
-          <H5 isButton={button}>
+          <H3 isButton={button}>
             {title} {subject}
-          </H5>
+          </H3>
         </Div>
       ) : (
-        <H5 isButton={button}>{title}</H5>
+        <H3 isButton={button}>{title}</H3>
       )}
       <Subject>{description}</Subject>
     </StyledHeader>

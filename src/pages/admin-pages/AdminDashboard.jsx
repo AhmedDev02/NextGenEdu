@@ -1,5 +1,16 @@
+import ContentHeader from "../../ui/ContentHeader";
+import { ADMIN_ITEMS } from "../../utils/constants";
+
 function AdminDashboard() {
-  return <div></div>;
+  return (
+    <>
+      <ContentHeader
+        title={ADMIN_ITEMS.DASHBOARD}
+        description={ADMIN_ITEMS.DASHBOARD}
+        button={false}
+      />
+    </>
+  );
 }
 
 export default AdminDashboard;
