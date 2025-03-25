@@ -69,10 +69,34 @@ function ListFilter({
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedItems = searchParams.get(param)?.split("-") || [defaultItem];
 
-  const toggleItem = (day) => {
-    if (multipleChoose) {
-      let updatedItems;
+  // const toggleItem = (day) => {
+  //   if (multipleChoose) {
+  //     let updatedItems;
 
+  //     if (day === defaultItem) {
+  //       updatedItems = [defaultItem];
+  //     } else if (selectedItems.includes(day)) {
+  //       updatedItems = selectedItems.filter((d) => d !== day);
+  //       if (updatedItems.length === 0) updatedItems = [defaultItem];
+  //     } else {
+  //       updatedItems = selectedItems.filter((d) => d !== defaultItem);
+  //       updatedItems.push(day);
+  //     }
+
+  //     setSearchParams(
+  //       { [param]: encodeURIComponent(updatedItems.join("-")) },
+  //       { replace: true }
+  //     );
+  //   } else {
+  //     setSearchParams({ [param]: encodeURIComponent(day) }, { replace: true });
+  //   }
+  // };
+
+  const toggleItem = (day) => {
+    const currentParams = new URLSearchParams(searchParams); // Clone current search params
+    let updatedItems;
+
+    if (multipleChoose) {
       if (day === defaultItem) {
         updatedItems = [defaultItem];
       } else if (selectedItems.includes(day)) {
@@ -83,13 +107,12 @@ function ListFilter({
         updatedItems.push(day);
       }
 
-      setSearchParams(
-        { [param]: encodeURIComponent(updatedItems.join("-")) },
-        { replace: true }
-      );
+      currentParams.set(param, encodeURIComponent(updatedItems.join("-"))); // Update only the desired param
     } else {
-      setSearchParams({ [param]: encodeURIComponent(day) }, { replace: true });
+      currentParams.set(param, encodeURIComponent(day)); // Update the selected item for non-multiple
     }
+
+    setSearchParams(currentParams, { replace: true }); // Update search params with all existing params and the updated one
   };
 
   return (

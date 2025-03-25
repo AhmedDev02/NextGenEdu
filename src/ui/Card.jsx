@@ -7,11 +7,11 @@ const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
   box-shadow: var(--shadow-primary);
   border-radius: var(--border-radius-lg);
   gap: 10px;
   background-color: #fff;
+  ${({ style }) => style}
 `;
 const Img = styled.img`
   width: 100%;
@@ -53,6 +53,11 @@ const Span = styled.span`
   border-radius: var(--border-radius-lg);
   border: var(--color-green) 2px solid;
 `;
+const ButtonDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
 
 function Card({
   src,
@@ -63,25 +68,33 @@ function Card({
   cardButton,
   doctorName,
   navigateTo,
+  children,
+  cardStyle,
 }) {
   return (
-    <StyledCard>
+    <StyledCard style={cardStyle}>
       <Img src={src} alt={alt} />
       <H4>{subjectName}</H4>
       <H5>{doctorName}</H5>
       <Br />
       <Div>
-        <Button
-          variation="primary"
-          size="custom"
-          paddingTopBottom="10px"
-          paddingLeftRight="60px"
-          styles={"border"}
-          navigateTo={navigateTo}
-        >
-          {cardButton}
-        </Button>
-        {progressCheck && <Span>{`${percentage} مكتمل `}</Span>}
+        {!children ? (
+          <>
+            <Button
+              variation="primary"
+              size="custom"
+              paddingTopBottom="10px"
+              paddingLeftRight="60px"
+              styles={"border"}
+              navigateTo={navigateTo}
+            >
+              {cardButton}
+            </Button>
+            {progressCheck && <Span>{`${percentage} مكتمل `}</Span>}
+          </>
+        ) : (
+          <ButtonDiv>{children}</ButtonDiv>
+        )}
       </Div>
     </StyledCard>
   );
