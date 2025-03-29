@@ -58,7 +58,7 @@ import SuperAdminAppLayout from "./ui/SuperAdminAppLayout";
 import AdminAppLayout from "./ui/AdminAppLayout";
 
 // styles
-import GlobalStyles from "./styles/GlobalStyles";
+// import GlobalStyles from "./styles/GlobalStyles";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
 import PasswordResetError from "./features/auth/PasswordResetError";
 import Curriculum from "./features/admin-features/dashboard/Curriculum";
@@ -75,7 +75,7 @@ function App() {
   return (
     <StudentProgressProvider>
       <QueryClientProvider client={queryClient}>
-        <GlobalStyles />
+        {/* <GlobalStyles /> */}
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
           <Routes>
