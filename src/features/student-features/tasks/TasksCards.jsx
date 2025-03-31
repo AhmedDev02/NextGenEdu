@@ -57,7 +57,7 @@ function TasksCards({ src, alt, tasksData }) {
     <Div>
       {tasksData.map((card, index) => (
         <StyledCard key={index}>
-          <Img src={"../../../public/logo.png"} alt={"logo"} />
+          <Img src={"/logo.png"} alt={"logo"} />
           <H4>{card.subjectName}</H4>
           <H5>{card.doctorName}</H5>
           <Br />
@@ -68,7 +68,7 @@ function TasksCards({ src, alt, tasksData }) {
               paddingTopBottom="10px"
               paddingLeftRight="60px"
               styles={"border"}
-              navigateTo={`/tasks/${card.id}`}
+              navigateTo={`/tasks/:${card.id}`}
             >
               {card.cardButtonName}
             </Button>

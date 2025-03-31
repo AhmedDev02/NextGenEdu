@@ -82,7 +82,7 @@ const UploadButton = styled.button`
   }
 `;
 
-function AddTaskModal({ onCloseModal }) {
+function AddFileModal({ onCloseModal, setDescriptionText, onFileUpload }) {
   const [files, setFiles] = useState([]);
   const [uploadingFiles, setUploadingFiles] = useState([]);
 
@@ -93,12 +93,21 @@ function AddTaskModal({ onCloseModal }) {
       if (fileRejections.length > 0) {
         toast.error("Some files were rejected due to invalid extensions.");
       }
+
       const newFiles = acceptedFiles.map((file) => ({
         file,
         progress: 0,
       }));
+
       setUploadingFiles(newFiles);
       simulateUpload(newFiles);
+      setFiles(acceptedFiles);
+      onFileUpload(acceptedFiles);
+
+      const fileNames = acceptedFiles.map((file) => file.name).join(", ");
+      setDescriptionText((prev) =>
+        prev ? `${prev}, ${fileNames}` : fileNames
+      );
     },
   });
 
@@ -176,4 +185,4 @@ function AddTaskModal({ onCloseModal }) {
   );
 }
 
-export default AddTaskModal;
+export default AddFileModal;

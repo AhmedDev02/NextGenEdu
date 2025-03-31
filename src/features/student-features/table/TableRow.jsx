@@ -1,5 +1,7 @@
 import { GoDotFill } from "react-icons/go";
 import styled from "styled-components";
+import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
+import { useEffect } from "react";
 
 const TableRowContainer = styled.div`
   display: flex;
@@ -64,7 +66,15 @@ const Icon = styled(GoDotFill)`
   font-size: 1.8rem;
 `;
 function TableRow({ data }) {
-  const { day, status, place, teacher, type, course, time } = data;
+  const { day, place, teacher, type, course, time, id,status } = data;
+  const { lectureStatuses } = useStudentProgressContext();
+
+  const updatedStatus = lectureStatuses[id] ||status; // Ensure state update is detected
+
+  useEffect(() => {
+    console.log("Updated status for Lecture:", id, updatedStatus);
+  }, [updatedStatus]); // Re-run when status updates
+
   return (
     <TableRowContainer>
       <TableSmallRow>
@@ -87,14 +97,14 @@ function TableRow({ data }) {
           <P>{place}</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
-          {status === "في وقتها" ? (
+          {updatedStatus === "في موعدها" ? (
             <Icon type="inTime" />
-          ) : status === "تم التأجيل" ? (
+          ) : updatedStatus === "تم التأجيل" ? (
             <Icon type="postpone" />
           ) : (
             <Icon type="cancel" />
           )}
-          <P>{status}</P>
+          <P>{updatedStatus}</P>
         </TableSmallRowCell>
       </TableSmallRow>
     </TableRowContainer>

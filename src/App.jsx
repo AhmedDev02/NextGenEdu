@@ -62,6 +62,8 @@ import AdminAppLayout from "./ui/AdminAppLayout";
 import { StudentProgressProvider } from "./context/StudentProgressProvider";
 import PasswordResetError from "./features/auth/PasswordResetError";
 import Curriculum from "./features/admin-features/dashboard/Curriculum";
+import AddMaterial from "./pages/admin-pages/AddMaterial";
+import Attendance from "./pages/admin-pages/Attendance";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -139,6 +141,14 @@ function App() {
               <Route path="discussion" element={<DiscussionManagement />} />
               <Route path="final-result" element={<FinalResultsManagement />} />
               <Route path="materials" element={<MaterialsManagement />} />
+              <Route
+                path="materials/add-materials/:id"
+                element={<AddMaterial />}
+              />
+              <Route
+                path="materials/qr-attendance/:id"
+                element={<Attendance />}
+              />
               <Route path="news" element={<NewsManagement />} />
               <Route path="quizzes" element={<QuizzesManagement />} />
               <Route path="students" element={<StudentsManagement />} />
