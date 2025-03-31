@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { useStudentProgress } from "../features/student-features//studentProgress/useStudentProgress";
+import { createContext, useContext, useRef, useState } from "react";
 
 const StudentProgressContext = createContext();
 
@@ -8,9 +7,17 @@ function StudentProgressProvider({ children }) {
 
   const [term, setTerm] = useState("Term1");
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("الفصل الدراسي الأول");
   const dropdownRef = useRef(null);
+  const [selectedOption, setSelectedOption] = useState("الفصل الدراسي الأول");
+  const [lectureStatuses, setLectureStatuses] = useState({});
 
+  const setLectureStatus = (lectureId, status) => {
+    setLectureStatuses((prev) => {
+      const updatedStatuses = { ...prev, [lectureId]: status };
+      console.log("Updated Lecture Statuses:", updatedStatuses); 
+      return updatedStatuses;
+    });
+  };
   const handleTerm = (option) => {
     setSelectedOption(option);
     if (option === "الفصل الدراسي الأول") {
@@ -34,6 +41,9 @@ function StudentProgressProvider({ children }) {
         handleTerm,
         selectedDays,
         setSelectedDays,
+        lectureStatuses,
+        setLectureStatuses,
+        setLectureStatus,
       }}
     >
       {children}
