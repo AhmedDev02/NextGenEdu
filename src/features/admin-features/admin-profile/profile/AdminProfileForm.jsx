@@ -42,6 +42,8 @@ const InputWrapper = styled.div`
   padding: 10px;
   direction: rtl;
   margin-bottom: 15px;
+  background: ${({ isEditing }) => (!isEditing ? "" : "#1c2230")};
+  cursor: ${({ isEditing }) => (!isEditing ? "" : "not-allowed;")};
 `;
 
 const Input = styled.input`
@@ -91,7 +93,7 @@ const Button = styled.button`
 const AdminProfileForm = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: "إسلام إيهاب محمد لطفي",
+    name: "أحمد ثروت رفاعي",
     universityCode: "1234567890",
     email: "1234567890@zu.edu.eg",
     phone: "1234567890",
@@ -126,7 +128,7 @@ const AdminProfileForm = () => {
 
       {/* University Code */}
       <Label>الكود الجامعي</Label>
-      <InputWrapper>
+      <InputWrapper isEditing={isEditing}>
         <Input type="text" value={formData.universityCode} readOnly />
         <Icon>
           <FiKey />
@@ -135,7 +137,7 @@ const AdminProfileForm = () => {
 
       {/* University Email */}
       <Label>الإيميل الجامعي</Label>
-      <InputWrapper>
+      <InputWrapper isEditing={isEditing}>
         <Input
           type="email"
           name="email"

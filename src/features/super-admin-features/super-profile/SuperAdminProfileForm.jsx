@@ -3,9 +3,9 @@ import {
   FiUser,
   FiEdit2,
   FiMail,
-  FiPhone,
   FiKey,
   FiCheck,
+  FiPhone,
 } from "react-icons/fi";
 import { useState } from "react";
 
@@ -19,7 +19,6 @@ const Container = styled.div`
     padding: 40px;
   }
 
-  /* This is for tablets (screens smaller than 768px) */
   @media (max-width: 768px) {
     min-width: 100%;
     padding: 40px;
@@ -57,6 +56,7 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
+
   direction: rtl;
 `;
 
@@ -89,21 +89,49 @@ const Button = styled.button`
     background: #1c2230;
   }
 `;
+const Textarea = styled.textarea`
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  min-height: 150px;
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: none;
+  &:hover,
+  :focus,
+  :active {
+    outline: none;
+    border: none;
+  }
+  background: ${({ isEditing }) => (!isEditing ? "" : "#1c2230")};
+  cursor: ${({ isEditing }) => (!isEditing ? "" : "not-allowed;")};
+`;
 
-const ProfileForm = () => {
+const SuperAdminProfileForm = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: "أحمد ثروت رفاعي",
-    universityCode: "1234567890",
+    name: "أحمد ثروت رفاعي خليل",
     email: "1234567890@zu.edu.eg",
     phone: "1234567890",
+    autherty: [
+      "إدارة البنية التحتية التقنية للنظام",
+      "صيانة الخوادم وقواعد البيانات",
+      "حل مشكلات النظام والتواصل مع الدعم الفني",
+      "إعدادات الأمان والمصادقة الثنائية",
+      "متابعة أداء النظام والتأكد من عمله بكفاءة",
+    ],
   });
+  const formatAutherty = (authertyArray) => {
+    return authertyArray.map((item) => `• ${item}`).join("\n");
+  };
+  const formattedText = formatAutherty(formData.autherty);
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const toggleEdit = () => {
     if (isEditing) {
-      // Save changes here (e.g., send to API)
       console.log("Updated Data:", formData);
     }
     setIsEditing(!isEditing);
@@ -126,15 +154,6 @@ const ProfileForm = () => {
         </Icon>
       </InputWrapper>
 
-      {/* University Code */}
-      <Label>الكود الجامعي</Label>
-      <InputWrapper isEditing={isEditing}>
-        <Input type="text" value={formData.universityCode} readOnly />
-        <Icon>
-          <FiKey />
-        </Icon>
-      </InputWrapper>
-
       {/* University Email */}
       <Label>الإيميل الجامعي</Label>
       <InputWrapper isEditing={isEditing}>
@@ -149,8 +168,6 @@ const ProfileForm = () => {
           <FiMail />
         </Icon>
       </InputWrapper>
-
-      {/* Phone Number */}
       <Label>رقم الهاتف</Label>
       <InputWrapper>
         <Input
@@ -165,6 +182,21 @@ const ProfileForm = () => {
         </Icon>
       </InputWrapper>
 
+      <Label>الصلاحيات</Label>
+      <InputWrapper isEditing={isEditing}>
+        <Textarea
+          type="text"
+          name="autherty"
+          value={formattedText}
+          onChange={handleInputChange}
+          readOnly
+          isEditing={isEditing}
+        />
+        <Icon>
+          <FiKey />
+        </Icon>
+      </InputWrapper>
+
       {/* Edit Button */}
       <Button onClick={toggleEdit} isEditing={isEditing}>
         {isEditing ? <FiCheck /> : <FiEdit2 />}
@@ -174,4 +206,4 @@ const ProfileForm = () => {
   );
 };
 
-export default ProfileForm;
+export default SuperAdminProfileForm;
