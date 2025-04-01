@@ -64,25 +64,33 @@ const GlobalStyles = createGlobalStyle`
 html {
   font-size: 62.5%; /* 1 rem = 10 px */ 
   /* overflow-y: scroll; */
+  font-family: "Changa", sans-serif!important;
+
 }
-body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,li,div,button {
+body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,li,div,button,option,select,label {
     font-size: 1.4rem!important; /* Default for laptops */
+  font-family: "Changa", sans-serif!important;
+
   }
 
   @media (max-width: 1024px) { /* Tablets */
-    body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,div,li,button {
+    body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,div,li,button,option,select,label {
       font-size: 1.2rem!important;
+  font-family: "Changa", sans-serif!important;
+
     }
   }
 
   @media (max-width: 768px) { /* Mobile */
-    body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,span,div,li,button {
+    body, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea,span,div,li,button,option,select,label {
       font-size: 1rem!important;
+  font-family: "Changa", sans-serif!important;
+
     }
   } 
 body {
 
-  font-family: "Changa", sans-serif;
+  font-family: "Changa", sans-serif!important;
   color: var(--color-grey-700);
   background-color:#F1F1F1 ;
     transition: color 0.3s, background-color 0.3s;

@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import Select from "react-select";
 import { useNavigate, useLocation } from "react-router"; // Using React Router v6 hooks
 
+// the items should be like this
+// items={[
+//   { name: "مادة ال OOP", value: "oop" },
+//   { name: "مادة الكنترول", value: "control" },
+//   { name: "مادة البرمجة", value: "programming" },
+// ]}
+
 const Dropdown = ({ items }) => {
   // Convert the items to a format that react-select understands
   const options = items.map((item) => ({
