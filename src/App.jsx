@@ -67,6 +67,7 @@ import Attendance from "./pages/admin-pages/Attendance";
 import CreateTasks from "./pages/admin-pages/CreateTasks";
 import ScheduledTasks from "./pages/admin-pages/ScheduledTasks";
 import LastTasks from "./pages/admin-pages/LastTasks";
+import AddNews from "./features/admin-features/news-management/AddNews";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -153,6 +154,8 @@ function App() {
                 element={<Attendance />}
               />
               <Route path="news" element={<NewsManagement />} />
+              <Route path="news/add" element={<AddNews />} />
+
               <Route path="quizzes" element={<QuizzesManagement />} />
               <Route path="students" element={<StudentsManagement />} />
               <Route path="tasks" element={<TasksManagement />} />
