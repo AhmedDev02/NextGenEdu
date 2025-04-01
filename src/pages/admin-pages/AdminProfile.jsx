@@ -1,3 +1,4 @@
+import AdminProfileContent from "../../features/admin-features/admin-profile/profile/AdminProfileContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
 
@@ -9,6 +10,7 @@ function AdminProfile() {
         description={ADMIN_PAGES_PROPERTIES.PROFILE.description}
         button={false}
       />
+      <AdminProfileContent />
     </>
   );
 }
