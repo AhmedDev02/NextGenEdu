@@ -1,3 +1,4 @@
+import TasksManagementContent from "../../features/admin-features/tasks-management/TasksManagementContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
 
@@ -9,6 +10,7 @@ function TasksManagement() {
         description={ADMIN_PAGES_PROPERTIES.ASSIGNMENT_ADMIN.description}
         button={false}
       />
+      <TasksManagementContent />
     </>
   );
 }

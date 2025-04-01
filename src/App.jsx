@@ -64,6 +64,9 @@ import PasswordResetError from "./features/auth/PasswordResetError";
 import Curriculum from "./features/admin-features/dashboard/Curriculum";
 import AddMaterial from "./pages/admin-pages/AddMaterial";
 import Attendance from "./pages/admin-pages/Attendance";
+import CreateTasks from "./pages/admin-pages/CreateTasks";
+import ScheduledTasks from "./pages/admin-pages/ScheduledTasks";
+import LastTasks from "./pages/admin-pages/LastTasks";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -153,6 +156,12 @@ function App() {
               <Route path="quizzes" element={<QuizzesManagement />} />
               <Route path="students" element={<StudentsManagement />} />
               <Route path="tasks" element={<TasksManagement />} />
+              <Route path="tasks/create-tasks/:id" element={<CreateTasks />} />
+              <Route
+                path="tasks/scheduled-tasks/:id"
+                element={<ScheduledTasks />}
+              />
+              <Route path="tasks/old-tasks/:id" element={<LastTasks />} />
               <Route
                 path="weekly-schedule"
                 element={<WeeklyScheduleManagement />}
