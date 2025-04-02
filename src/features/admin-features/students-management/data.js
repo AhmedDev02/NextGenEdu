@@ -1,0 +1,58 @@
+const studentsData = [
+    {
+        name: "أحمد سامي محمد علي",
+        id: 123456789,
+        attendance: 9,
+        assignments: 7,
+        midterm: 15,
+        yearlyWork: 32,
+        finalScore: 30,
+    },
+    {
+        name: "سارة خالد مصطفى",
+        id: 987654321,
+        attendance: 8,
+        assignments: 9,
+        midterm: 18,
+        yearlyWork: 36,
+        finalScore: 38,
+    },
+    {
+        name: "محمود علي حسن",
+        id: 456123789,
+        attendance: 10,
+        assignments: 8,
+        midterm: 20,
+        yearlyWork: 39,
+        finalScore: 40,
+    },
+    {
+        name: "نورا إبراهيم جمال",
+        id: 852963741,
+        attendance: 7,
+        assignments: 6,
+        midterm: 14,
+        yearlyWork: 30,
+        finalScore: 28,
+    },
+    {
+        name: "ياسمين حسام عبد الله",
+        id: 159357486,
+        attendance: 6,
+        assignments: 5,
+        midterm: 12,
+        yearlyWork: 25,
+        finalScore: 22,
+    },
+    {
+        name: "حسن عمر فؤاد",
+        id: 753951852,
+        attendance: 9,
+        assignments: 9,
+        midterm: 19,
+        yearlyWork: 38,
+        finalScore: 39,
+    },
+];
+
+export default studentsData;
