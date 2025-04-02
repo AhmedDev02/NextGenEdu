@@ -1,8 +1,7 @@
-
 import styled from "styled-components";
 import { SlArrowDown } from "react-icons/sl";
-import { GoSearch } from "react-icons/go";
-import ProjectsTimelineCard from "./ProjectsTimelineCard";
+
+import ScheduledQuizCard2 from "./ScheduledQuizCard2"
 
 
 const StyledtimeContainer = styled.div`
@@ -36,7 +35,7 @@ const Styledbutton = styled.button`
   height: 46px;
   color: #ffffff;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 36.8px;
   font-family: Changa;
   outline: none;
@@ -45,12 +44,12 @@ const Styledbutton = styled.button`
   font-size: 10px;
   font-weight: 500;
   line-height:12px;
-  width:24%;
+  width:33%;
   
     
   }
   @media (max-width:1027px ) and (min-width: 760px){
-    width:24%;
+    width:33%;
     font-size: 12px;
   
   }
@@ -63,7 +62,7 @@ const Styledsearchbutton = styled.input`
   padding-inline: 16px;
   background-color: #f1f1f1;
   border-radius: 12px;
-  width: 37%;
+  width: 65%;
   height: 46px;
   color: #6d778a;
   font-size: 15px;
@@ -77,12 +76,12 @@ const Styledsearchbutton = styled.input`
     font-size: 10px;
   font-weight: 500;
   line-height:12px;
-  width: 45%;
+  width: 65%;
   text-align: center;
   }
   @media (max-width:1027px ) and (min-width: 760px){
     font-size: 12px;
-    width: 45%;
+    width: 65%;
    
   }
 `;
@@ -91,29 +90,24 @@ const Styledarrowicon = styled(SlArrowDown)`
  font-size: 13px;
  transform: translate(0px, 2px);
 `;
-const Styledsearchicon = styled(GoSearch)`
-  font-size: 13px;
-  transform: translate(5px, 2px);
-`;
-function ProjectsTimelineContent() {
-  return (
-    <>
-      <StyledtimeContainer>
-        <Styledbutton >
-          الأيام السبعة القادمين <Styledarrowicon />
-        </Styledbutton>
-        <Styledsearchbutton type="text" placeholder='   البحث حسب نوع النشاط والاسم' >
-         
-         
-        </Styledsearchbutton>
-        <Styledbutton style={{ borderRadius: "10px", height: "44px" }}>
-          اختبارات (كويز) <Styledarrowicon />
-        </Styledbutton>
-      </StyledtimeContainer>
 
-      <ProjectsTimelineCard></ProjectsTimelineCard>
-    </>
-  );
+
+
+function ScheduledQuizCard(){
+    return (
+        <>
+          <StyledtimeContainer>
+            <Styledbutton >
+             السبعة الأيام القادمين<Styledarrowicon />
+            </Styledbutton>
+            <Styledsearchbutton type="text" placeholder=' ابحث عن كويز معين باستخدام العنوان أو التاريخ أو الحالة.. ' >
+            </Styledsearchbutton>
+           
+          </StyledtimeContainer>
+         <ScheduledQuizCard2></ScheduledQuizCard2>
+        </>
+      );
 }
 
-export default ProjectsTimelineContent;
+
+export default ScheduledQuizCard;
