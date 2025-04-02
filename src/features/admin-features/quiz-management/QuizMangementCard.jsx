@@ -7,20 +7,20 @@ const AssighnmentData = [
   {
     Assighnmentdate: "السبت، 2 نوفمبر 2024",
     AssighnmentTime: "08:00 مساءً",
-    AssighnmentNumber: "اسايمنت الاسبوع الرابع",
-    Assighnmentsubject: "أسايمنت-البرمجة الشيئية(oop)",
+    AssighnmentNumber: "  اختبار الاسبوع الأول",
+    Assighnmentsubject: "كويز-البرمجة الشيئية(oop)",
   },
   {
     Assighnmentdate: "الأحد، 3 نوفمبر 2024",
     AssighnmentTime: "08:00 مساءً",
-    AssighnmentNumber: "اسايمنت الاسبوع الرابع",
-    Assighnmentsubject: "أسايمنت-البرمجة الشيئية(oop)",
+    AssighnmentNumber:"  اختبار الاسبوع الأول",
+    Assighnmentsubject: "كويز-البرمجة الشيئية(oop)",
   },
   {
     Assighnmentdate: "الإثنين،4 نوفمبر 2024",
     AssighnmentTime: "08:00 مساءً",
-    AssighnmentNumber: "اسايمنت الاسبوع الرابع",
-    Assighnmentsubject: "أسايمنت-البرمجة الشيئية(oop)",
+    AssighnmentNumber:"  اختبار الاسبوع الأول",
+    Assighnmentsubject: "كويز-البرمجة الشيئية(oop)",
   },
 ];
 
@@ -76,7 +76,7 @@ const Styledtitle = styled.div`
   height: 60px;
 `;
 
-function ProjectsTimelineCard() {
+function QuizMangementCard() {
   return (
     <>
       {AssighnmentData.map((card, index) => (
@@ -99,7 +99,7 @@ function ProjectsTimelineCard() {
             </StyledRightcontanier>
 
             <Button
-              variation="transparent"
+              variation="secondary"
               style={{ height: "46px", width: "200px", padding: "0px " }}
             >
               إضافة للإرسال
@@ -111,4 +111,4 @@ function ProjectsTimelineCard() {
   );
 }
 
-export default ProjectsTimelineCard;
+export default QuizMangementCard;
