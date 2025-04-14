@@ -36,9 +36,10 @@ import QuizzesManagement from "./pages/admin-pages/QuizzesManagement";
 import StudentsManagement from "./pages/admin-pages/StudentsManagement";
 import TasksManagement from "./pages/admin-pages/TasksManagement";
 import AdminProfile from "./pages/admin-pages/AdminProfile";
-import CreateQuiz from "./pages/admin-pages/CreateQuiz"
-import LastQuiz from "./pages/admin-pages/LastQuiz"
-import ScheduledQuiz from "./pages/admin-pages/ScheduledQuiz"
+import CreateQuiz from "./pages/admin-pages/CreateQuiz";
+import LastQuiz from "./pages/admin-pages/LastQuiz";
+import ScheduledQuiz from "./pages/admin-pages/ScheduledQuiz";
+import QuizResult from "./pages/admin-pages/QuizResult"
 
 import SuperAdminDashboard from "./pages/super-admin-pages/SuperAdminDashboard";
 import SuperAdminProfile from "./pages/super-admin-pages/SuperAdminProfile";
@@ -164,6 +165,10 @@ function App() {
               <Route
                 path="quizzes/scheduled-quizzes/:id"
                 element={<ScheduledQuiz />}
+              />
+              <Route
+                path="quizzes/old-quizzes/1/result"
+                element={<QuizResult />}
               />
               <Route path="quizzes/old-quizzes/:id" element={<LastQuiz />} />
               <Route path="students" element={<StudentsManagement />} />

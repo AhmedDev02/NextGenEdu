@@ -18,7 +18,7 @@ const StyledtimeContainer = styled.div`
   align-items: center;
 
   @media (max-width:760px ){
-    width:100%;
+    width:95%;
     gap:1px;
     justify-content: space-between;
   }

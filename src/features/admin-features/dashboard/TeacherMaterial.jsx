@@ -3,6 +3,7 @@ import ListFilter from "../../../ui/ListFilter";
 import Button from "../../../ui/Button";
 import Card from "../../../ui/Card";
 
+
 const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -56,6 +57,7 @@ function TeacherMaterial() {
           </Card>
         ))}
       </CardsContainer>
+      
     </>
   );
 }

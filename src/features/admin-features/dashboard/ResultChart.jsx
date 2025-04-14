@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import {
   CartesianGrid,
   XAxis,
@@ -115,8 +116,10 @@ function ResultChart() {
             />
           </Bar>
         </BarChart>
+        
       </ResponsiveContainer>
     </Div>
+  
   );
 }
 

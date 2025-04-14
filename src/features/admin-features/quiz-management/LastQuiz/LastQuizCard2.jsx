@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Button from "../../../../ui/Button";
 import { MdAssignmentAdd } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 
 const AssighnmentData = [
@@ -33,7 +34,7 @@ const StyledtimeContainer = styled.div`
   border-radius: 15px 15px 15px 15px;
   padding: 20px;
   @media (max-width:760px ){
-    width:100%;
+    width:95%;
     
   }
   @media (max-width:1024px ) and (min-width: 760px){
@@ -51,6 +52,8 @@ const Styledticon = styled.div`
   border-radius: 10px;
   color: white;
 `;
+
+
 
 const Styledcontanier = styled.div`
   display: flex;
@@ -76,7 +79,14 @@ const Styledtitle = styled.div`
   height: 60px;
 `;
 
+
+
 function LastQuizCard2() {
+
+  const navigate = useNavigate();
+
+  const goToAbout = () => {
+    navigate("result");}
   return (
     <>
       {AssighnmentData.map((card, index) => (
@@ -99,6 +109,7 @@ function LastQuizCard2() {
             </StyledRightcontanier>
 
             <Button
+              onClick={goToAbout}
               variation="danger"
               style={{ height: "46px", width: "200px", padding: "0px " }}
             >
