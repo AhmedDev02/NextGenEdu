@@ -33,7 +33,7 @@ const StyledtimeContainer = styled.div`
   border-radius: 15px 15px 15px 15px;
   padding: 20px;
   @media (max-width:760px ){
-    width:100%;
+    width:95%;
     
   }
   @media (max-width:1024px ) and (min-width: 760px){

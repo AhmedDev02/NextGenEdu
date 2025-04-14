@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { SlArrowDown } from "react-icons/sl";
+import RegisteredStudentContent from "./RegisteredStudentContent"
 
-import LastQuizCard2 from "./LastQuizCard2"
+
 
 
 const StyledtimeContainer = styled.div`
@@ -19,7 +19,7 @@ const StyledtimeContainer = styled.div`
   @media (max-width:760px ){
     width:95%;
     gap:1px;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   @media (max-width:1024px ) and (min-width: 769px){
     width:80%;
@@ -27,11 +27,37 @@ const StyledtimeContainer = styled.div`
    
   }
 `;
+
+const Styledcard = styled.div`
+ 
+  margin:auto;
+  width: 70%;
+  height: 20px;
+  background-color: transparent;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width:760px ){
+    width:95%;
+    gap:1px;
+    justify-content: space-between;
+    height: 20px;
+  }
+  @media (max-width:1024px ) and (min-width: 769px){
+    width:80%;
+    gap:5px;
+    height: 20px;
+    justify-content: space-between;
+  }
+`;
+
 const Styledbutton = styled.button`
   padding-inline: 16px;
   background: linear-gradient(to bottom, #30BD58, #399F63);
   border-radius: 12px;
-  width: 30%;
+  width: 12%;
   height: 46px;
   color: #ffffff;
   font-size: 15px;
@@ -44,12 +70,12 @@ const Styledbutton = styled.button`
   font-size: 10px;
   font-weight: 500;
   line-height:12px;
-  width:33%;
+  width:15%;
   
     
   }
   @media (max-width:1027px ) and (min-width: 760px){
-    width:33%;
+    width:15%;
     font-size: 12px;
   
   }
@@ -62,7 +88,7 @@ const Styledsearchbutton = styled.input`
   padding-inline: 16px;
   background-color: #f1f1f1;
   border-radius: 12px;
-  width: 65%;
+  width: 80%;
   height: 46px;
   color: #6d778a;
   font-size: 15px;
@@ -76,38 +102,42 @@ const Styledsearchbutton = styled.input`
     font-size: 10px;
   font-weight: 500;
   line-height:12px;
-  width: 65%;
+  width: 80%;
   text-align: center;
   }
   @media (max-width:1027px ) and (min-width: 760px){
     font-size: 12px;
-    width: 65%;
+    width: 80%;
    
   }
 `;
 
-const Styledarrowicon = styled(SlArrowDown)`
- font-size: 13px;
- transform: translate(0px, 2px);
-`;
 
 
 
-function LastQuizCard(){
+function RegisteredStudent(){
     return (
         <>
+          
           <StyledtimeContainer>
-            <Styledbutton >
-             اخر 28 يوم<Styledarrowicon />
-            </Styledbutton>
-            <Styledsearchbutton type="text" placeholder=' ابحث عن كويز معين باستخدام العنوان أو التاريخ أو الحالة.. ' >
+            
+            <Styledsearchbutton type="text" placeholder='   أدخل اسم الطالب أو رقم هويته لعرض بياناته.. ' >
             </Styledsearchbutton>
+            <Styledbutton >
+            بحث
+            </Styledbutton>
            
           </StyledtimeContainer>
-         <LastQuizCard2></LastQuizCard2>
+         <Styledcard>
+          <h5 style={{width:"42%"}}>الإسم</h5>
+          <h5 style={{width:"29%" ,display:"flex" , justifyContent:"center"}} >السكشن</h5>
+          <h5 style= {{ width:"29%" ,display:"flex" , justifyContent:"flex-end"}}>الحاله</h5>
+         </Styledcard>
+         <RegisteredStudentContent/>
+         
         </>
       );
 }
 
 
-export default LastQuizCard;
+export default RegisteredStudent;
