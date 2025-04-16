@@ -4,6 +4,7 @@ const StudentProgressContext = createContext();
 
 function StudentProgressProvider({ children }) {
   const [selectedDays, setSelectedDays] = useState([]);
+  const [SelectedCourse, setSelectedCourse] = useState([]);
   const [term, setTerm] = useState("Term1");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -60,6 +61,9 @@ function StudentProgressProvider({ children }) {
         setIsActive,
         currentDegree,
         setCurrentDegree,
+        SelectedCourse,
+        setSelectedCourse,
+
       }}
     >
       {children}

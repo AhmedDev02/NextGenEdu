@@ -53,7 +53,7 @@ function FilterButtons() {
       {days.map((day) => (
         <FilterButton
           key={day}
-          active={selectedDays.includes(day)}
+          active={selectedDays?.includes(day)}
           onClick={() => toggleDay(day)}
         >
           {day}

@@ -71,9 +71,6 @@ function TableRow({ data }) {
 
   const updatedStatus = lectureStatuses[id] ||status; // Ensure state update is detected
 
-  useEffect(() => {
-    console.log("Updated status for Lecture:", id, updatedStatus);
-  }, [updatedStatus]); // Re-run when status updates
 
   return (
     <TableRowContainer>
