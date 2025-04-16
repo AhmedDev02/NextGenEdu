@@ -8,7 +8,7 @@ const CreateQuiz = () => {
       <ContentHeader
         title={ADMIN_PAGES_PROPERTIES.NEW_QUIZ.title}
         description={ADMIN_PAGES_PROPERTIES.NEW_QUIZ.description}
-        button={false}
+        button={true}
       />
       <CreateQuizContent />
     </>
