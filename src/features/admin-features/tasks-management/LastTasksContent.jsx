@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { SlArrowDown } from "react-icons/sl";
 import { GoSearch } from "react-icons/go";
 import { MdAssignmentAdd } from "react-icons/md";
-
+import { useNavigate } from "react-router-dom";
 
 
 // container content
@@ -240,6 +240,14 @@ const StyledButton = styled.button`
 
 
 function TasksContent() {
+
+  const navigate = useNavigate();
+
+  const ShowResults = () => {
+    navigate("results");
+  }
+
+
   return (
     <>
       {AssignmentData.map((card, index) => (
@@ -264,7 +272,7 @@ function TasksContent() {
               
             </StyledRightcontanier>
 
-            <StyledButton>عرض النتائج</StyledButton>
+            <StyledButton onClick={ShowResults}>عرض النتائج</StyledButton>
 
           </Styledcontanier>
         </StyledtimeContainer>
