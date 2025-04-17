@@ -1,7 +1,7 @@
 
 import styled from "styled-components";
 import { SlArrowDown } from "react-icons/sl";
-import { GoSearch } from "react-icons/go";
+
 import ProjectsTimelineCard from "./ProjectsTimelineCard";
 
 
@@ -91,10 +91,7 @@ const Styledarrowicon = styled(SlArrowDown)`
  font-size: 13px;
  transform: translate(0px, 2px);
 `;
-const Styledsearchicon = styled(GoSearch)`
-  font-size: 13px;
-  transform: translate(5px, 2px);
-`;
+
 function ProjectsTimelineContent() {
   return (
     <>
