@@ -40,6 +40,7 @@ import CreateQuiz from "./pages/admin-pages/CreateQuiz";
 import LastQuiz from "./pages/admin-pages/LastQuiz";
 import ScheduledQuiz from "./pages/admin-pages/ScheduledQuiz";
 import QuizResult from "./pages/admin-pages/QuizResult"
+import TasksResults from "./pages/admin-pages/TasksResults"
 
 import SuperAdminDashboard from "./pages/super-admin-pages/SuperAdminDashboard";
 import SuperAdminProfile from "./pages/super-admin-pages/SuperAdminProfile";
@@ -179,6 +180,7 @@ function App() {
                 element={<ScheduledTasks />}
               />
               <Route path="tasks/old-tasks/:id" element={<LastTasks />} />
+              <Route path="tasks/old-tasks/1/results" element={<TasksResults />} />
               <Route
                 path="weekly-schedule"
                 element={<WeeklyScheduleManagement />}
