@@ -129,6 +129,36 @@ const Styledbutton = styled.button`
     color:black
   }
 `;
+const Styledbutton2 = styled.button`
+  width: 50%;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(to bottom, #FF3D60, #B82D42);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: Changa;
+
+  &:focus {
+    background: #ffffff;
+    color: black;
+  }
+  
+  @media (max-width:760px ){
+  font-size: 10px;
+  font-weight: 500;
+  line-height:12px;
+  
+  }
+  @media (max-width:1027px ) and (min-width: 760px){
+    
+    font-size: 12px;
+  
+  }
+ 
+`;
 const Styledinputcontainer = styled.div`
 
   position: relative;
@@ -268,9 +298,9 @@ const LastTasksResults = () => {
 
      <Styledinsidebegin>
      <h1>تحديد الكل و إعطاء درجة</h1>
-     <Styledinsidebegin style={{width:"45%" , backgroundColor:"transparent",padding:"8px" ,gap:"7px"}}>
-        <input type="number" placeholder="5" style={{width:"50%" , backgroundColor:"lightgray",borderRadius: "12px" ,height:"40px",textAlign:"center",outline:"none",border:"0",color:"black"}}/>
-        <Styledbutton style={{width:"50%" ,height:"40px" ,paddingInline:"0px",background:"linear-gradient(to bottom, #FF3D60, #B82D42)"}}>تقييم</Styledbutton>
+     <Styledinsidebegin style={{width:"60%" , backgroundColor:"transparent",padding:"8px" ,gap:"7px"}}>
+        <input type="number" min="0" defaultValue={5} style={{width:"50%" , backgroundColor:"lightgray",borderRadius: "12px" ,height:"40px",textAlign:"center",outline:"none",border:"0",color:"black",padding:"10px",fontWeight:"600"}}/>
+        <Styledbutton2>تقييم</Styledbutton2>
      </Styledinsidebegin>
 
      </Styledinsidebegin>
@@ -293,7 +323,7 @@ const LastTasksResults = () => {
           <h5 style={{width:"15%",backgroundColor:"transparent",textAlign:"center"}}>الأسايمنت</h5>
           <h5 style={{width:"10%",backgroundColor:"transparent",textAlign:"center"}}>درجة الطالب</h5>
           <h5 style={{width:"10%",backgroundColor:"transparent",textAlign:"center"}}>الدرجة</h5>
-          <h5 style={{width:"25%",backgroundColor:"transparent",textAlign:"left",paddingLeft:"40px"}}>إضافة تقييم</h5>
+          <h5 style={{width:"25%",backgroundColor:"transparent",textAlign:"center"}}>إضافة تقييم</h5>
          </Styledcard>
          
          <LastTasksResultsCards />
@@ -319,11 +349,11 @@ const LastTasksResults = () => {
           <h5 style={{width:"10%",backgroundColor:"transparent",textAlign:"center"}}>{card.StudentDegree}</h5>
           <h5 style={{width:"10%",backgroundColor:"transparent",textAlign:"center"}}>{card.FinalDegree}</h5>
         
-        <h5 style={{width:"25%",backgroundColor:"transparent",paddingLeft:"25px"}}>
+        <h5 style={{width:"25%",backgroundColor:"transparent"}}>
           
-        <Styledinsidebegin style={{width:"85%" , backgroundColor:"transparent",padding:"8px" ,gap:"7px",marginRight:"32%",textAlign:"left"}}>
-        <input type="number" placeholder="5" style={{width:"50%" , backgroundColor:"lightgray",borderRadius: "12px" ,height:"40px",textAlign:"center",outline:"none",border:"0",color:"black"}}/>
-        <Styledbutton style={{width:"50%" ,height:"40px" ,paddingInline:"0px",background:"linear-gradient(to bottom, #FF3D60, #B82D42)"}}>تقييم</Styledbutton>
+        <Styledinsidebegin style={{width:"100%" , backgroundColor:"transparent",padding:"8px" ,gap:"7px",textAlign:"left"}}>
+        <input type="number"  min="0" defaultValue={5} style={{width:"50%" , backgroundColor:"lightgray",borderRadius: "12px" ,height:"40px",textAlign:"center",outline:"none",border:"0",color:"black",padding:"7px",fontWeight:"600"}}/>
+        <Styledbutton2>تقييم</Styledbutton2>
         </Styledinsidebegin>
 
         </h5>
