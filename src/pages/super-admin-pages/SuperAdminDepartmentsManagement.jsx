@@ -6,8 +6,8 @@ function SuperAdminDepartmentsManagement() {
   return (
     <>
     <ContentHeader
-      title={ SUPER_ADMIN_PAGES_PROPERTIES.ADD_MATERIAL.title}
-      description={ SUPER_ADMIN_PAGES_PROPERTIES.ADD_MATERIAL.description}
+      title={ SUPER_ADMIN_PAGES_PROPERTIES.ADD_DEPT.title}
+      description={ SUPER_ADMIN_PAGES_PROPERTIES.ADD_DEPT.description}
       button={false}
     />
     <SuperAdminDeptManage/>
