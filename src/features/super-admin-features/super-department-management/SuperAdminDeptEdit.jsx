@@ -157,7 +157,7 @@ const StyledIconbutton = styled.button`
 `;
 
 
-const SuperAdminDeptManage = () => {
+const SuperAdminDeptEdit = () => {
     return (
         <>
       
