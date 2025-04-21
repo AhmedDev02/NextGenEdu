@@ -123,7 +123,7 @@ const Styledbutton = styled.button`
 
 
 
-const SuperAdminDeptManage = () => {
+const SuperAdminDeptAdd = () => {
     return (
         <>
       
