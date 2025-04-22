@@ -3,13 +3,11 @@ import { SlArrowDown } from "react-icons/sl";
 import { GoSearch } from "react-icons/go";
 import { MdAssignmentAdd } from "react-icons/md";
 
-
-
 // container content
 
 const StyledtimeContainer = styled.div`
   box-shadow: var(--shadow-primary);
-  margin:auto;
+  margin: auto;
   width: 70%;
   height: 75px;
   background-color: #fff;
@@ -19,17 +17,17 @@ const StyledtimeContainer = styled.div`
   justify-content: space-around;
   align-items: center;
 
-  @media (max-width:767px ){
-    width:80%;
+  @media (max-width: 767px) {
+    width: 80%;
     justify-content: space-between;
   }
-  @media (max-width:1027px ) and (min-width: 767px){
-    width:75%;
+  @media (max-width: 1027px) and (min-width: 767px) {
+    width: 75%;
   }
 `;
 const Styledbutton = styled.button`
   padding-inline: 16px;
-  background: linear-gradient(to bottom, #30BD58, #399F63);
+  background: linear-gradient(to bottom, #30bd58, #399f63);
   border-radius: 12px;
   width: 27%;
   height: 46px;
@@ -41,68 +39,66 @@ const Styledbutton = styled.button`
   outline: none;
   border: 0;
 
-  @media (max-width:767px ){
-  font-size: 10px;
-  font-weight: 500;
-  line-height:12px;
-  width: 35%;
-    
+  @media (max-width: 767px) {
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+    width: 35%;
   }
-  @media (max-width:1027px ) and (min-width: 767px){
+  @media (max-width: 1027px) and (min-width: 767px) {
     width: 31%;
     font-size: 12px;
   }
 `;
 const Styledinputcontainer = styled.div`
-
   position: relative;
   display: inline-block;
   width: 70%;
 
   input {
-  width: 100%;
-  border-radius: 12px;
-  padding-inline: 35px;
-  background-color: #f1f1f1;
-  height: 46px;
-  color: #6d778a;
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 36.8px;
-  font-family: Changa;
-  text-align: right;
-  outline: none;
-  overflow: visible;
-  text-overflow: ellipsis;
-  border: 0;
-  &:focus {
-    border: 1px solid black;
-  }
+    width: 100%;
+    border-radius: 12px;
+    padding-inline: 35px;
+    background-color: #f1f1f1;
+    height: 46px;
+    color: #6d778a;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 36.8px;
+    font-family: Changa;
+    text-align: right;
+    outline: none;
+    overflow: visible;
+    text-overflow: ellipsis;
+    border: 0;
+    &:focus {
+      border: 1px solid black;
+    }
 
-   @media (max-width:767px ){
-  font-size: 12px;
-  font-weight: 500;
-  line-height:12px;
-  width: 95%;
-  margin-inline:15px;
-  padding-inline:30px;
-  }
+    @media (max-width: 767px) {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 12px;
+      width: 95%;
+      margin-inline: 15px;
+      padding-inline: 30px;
+    }
 
-  @media (max-width:1027px ) and (min-width: 767px){
-    font-size: 12px;
-    width: 95%;
-    padding-inline:25px;
-    margin-inline:20px;
+    @media (max-width: 1027px) and (min-width: 767px) {
+      font-size: 12px;
+      width: 95%;
+      padding-inline: 25px;
+      margin-inline: 20px;
     }
   }
 `;
 
 const Styledarrowicon = styled(SlArrowDown)`
- font-size: 14px;
- transform: translate(0px, 3px);
+  font-size: 14px;
+  transform: translate(0px, 3px);
 
- @media (max-width:767px ){
-  font-size: 11px;
+  @media (max-width: 767px) {
+    font-size: 11px;
   }
 `;
 const Styledsearchicon = styled(GoSearch)`
@@ -110,14 +106,14 @@ const Styledsearchicon = styled(GoSearch)`
   position: absolute;
   transform: translate(-10px, 15px);
 
-  @media (max-width:1027px ) and (min-width: 767px){
+  @media (max-width: 1027px) and (min-width: 767px) {
     font-size: 16px;
     transform: translate(-25px, 15px);
-    }
+  }
 
-  @media (max-width:767px ){
-  font-size: 13px;
-  transform: translate(-25px, 16px);
+  @media (max-width: 767px) {
+    font-size: 13px;
+    transform: translate(-25px, 16px);
   }
 `;
 
@@ -144,7 +140,6 @@ const AssignmentData = [
   },
 ];
 
-
 const Stylediconcontainer = styled.div`
   display: flex;
   justify-content: center;
@@ -155,27 +150,26 @@ const Stylediconcontainer = styled.div`
   border-radius: 10px;
   color: white;
 
-  @media (max-width:1027px ) and (min-width: 767px){
+  @media (max-width: 1027px) and (min-width: 767px) {
     width: 55px;
     height: 55px;
-    }
+  }
 
- @media (max-width: 767px){
+  @media (max-width: 767px) {
     width: 45px;
     height: 45px;
-    }
-   
+  }
 `;
 const Styledicon = styled(MdAssignmentAdd)`
   font-size: 40px;
 
-  @media (max-width:1027px ) and (min-width: 767px){
+  @media (max-width: 1027px) and (min-width: 767px) {
     font-size: 35px;
-    }
+  }
 
-    @media (max-width: 767px){
+  @media (max-width: 767px) {
     font-size: 30px;
-    }
+  }
 `;
 const Styledcontanier = styled.div`
   display: flex;
@@ -197,8 +191,8 @@ const Styledtime = styled.div`
   display: flex;
   flex-direction: column;
   width: 45px;
-  text-align:center;
-  line-height:25px;
+  text-align: center;
+  line-height: 25px;
 `;
 const Styledtitle = styled.div`
   display: flex;
@@ -206,19 +200,19 @@ const Styledtitle = styled.div`
   justify-content: space-between;
   width: 200px;
   height: 60px;
-  @media (max-width:1027px ) and (min-width: 767px){
+  @media (max-width: 1027px) and (min-width: 767px) {
     height: 50px;
-    }
+  }
 
-    @media (max-width: 767px){
+  @media (max-width: 767px) {
     height: 45px;
-    } 
+  }
 `;
 const StyledButton = styled.button`
   border-radius: 12px;
   padding: 10px;
   width: 25%;
-  background-color: #2A3248;
+  background-color: #2a3248;
   color: #ffffff;
   font-size: 15px;
   font-weight: 500;
@@ -229,8 +223,8 @@ const StyledButton = styled.button`
 
   &:hover {
     background-color: #ffffff;
-    color: #2A3248;
-    border: 1px solid #2A3248;
+    color: #2a3248;
+    border: 1px solid #2a3248;
   }
 
   @media (max-width: 767px) {
@@ -242,29 +236,28 @@ function TasksContent() {
   return (
     <>
       {AssignmentData.map((card, index) => (
-        <StyledtimeContainer key={index} style={{height:"150px" , display:"inline-block"}}>
+        <StyledtimeContainer
+          key={index}
+          style={{ height: "150px", display: "inline-block" }}
+        >
           <h1>{card.Assignmentdate}</h1>
           <Styledcontanier>
-
             <StyledRightcontanier>
-           
               <Styledtime>
-              <h4>{card.AssignmentTime}</h4>
+                <h4>{card.AssignmentTime}</h4>
               </Styledtime>
 
               <Stylediconcontainer>
-                <Styledicon/>
+                <Styledicon />
               </Stylediconcontainer>
 
               <Styledtitle>
                 <h1>{card.AssignmentNumber}</h1>
                 <h5 style={{ color: "#6D778A" }}>{card.Assignmentsubject}</h5>
               </Styledtitle>
-              
             </StyledRightcontanier>
 
             <StyledButton>تفاصيل الأسيمنت</StyledButton>
-
           </Styledcontanier>
         </StyledtimeContainer>
       ))}
@@ -276,20 +269,23 @@ const AvailableTasksContent = () => {
   return (
     <>
       <StyledtimeContainer>
-
-        <Styledbutton>الأيام السبعة القادمين<Styledarrowicon/></Styledbutton> 
+        <Styledbutton>
+          الأيام السبعة القادمين
+          <Styledarrowicon />
+        </Styledbutton>
 
         <Styledinputcontainer>
-            <Styledsearchicon/>
-            <input  type="text" placeholder="ابحث عن أسايمنت معين باستخدام العنوان، تاريخ التسليم.."/>
+          <Styledsearchicon />
+          <input
+            type="text"
+            placeholder="ابحث عن أسايمنت معين باستخدام العنوان، تاريخ التسليم.."
+          />
         </Styledinputcontainer>
-        
       </StyledtimeContainer>
 
       <TasksContent />
     </>
-  )
-}
+  );
+};
 
-
-export default AvailableTasksContent
+export default AvailableTasksContent;
