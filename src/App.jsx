@@ -109,7 +109,14 @@ function App() {
             <Route path="*" element={<PageNotFound />} />
             <Route path="403" element={<Forbidden />} />
             {/* Student */}
-            <Route path="/" element={<StudentAppLayout />}>
+            <Route
+              path="/"
+              element={
+                // <Protector>
+                <StudentAppLayout />
+                //</Protector>
+              }
+            >
               <Route index element={<Navigate replace to="news" />} />
               <Route path="news" element={<News />} />
               <Route
@@ -145,7 +152,14 @@ function App() {
             </Route>
 
             {/* Admin */}
-            <Route path="/admin" element={<AdminAppLayout />}>
+            <Route
+              path="/admin"
+              element={
+                //   <Protector>
+                <AdminAppLayout />
+                //  </Protector>
+              }
+            >
               <Route index element={<Navigate replace to="dashboard" />} />
 
               <Route path="dashboard" element={<AdminDashboard />} />

@@ -7,10 +7,8 @@ const Protector = ({ children }) => {
   const location = useLocation(); // Get the current location to redirect to after login
 
   console.log(user);
-  if (!user || user.role !== "Super admin") {
-    // Redirect to login page for teachers if not authenticated or not a teacher
+  if (!user || !["Super admin", "Admin"].includes(user.role)) {
     localStorage.setItem("showLoginToast", "true");
-
     return (
       <Navigate
         to="/teachers/login"
@@ -19,6 +17,17 @@ const Protector = ({ children }) => {
       />
     );
   }
+
+  // if (!user || user.role !== "Student") {
+  //   localStorage.setItem("showLoginToast", "true");
+  //   return (
+  //     <Navigate
+  //       to="/students/login"
+  //       state={{ from: location, showToast: true }}
+  //       replace
+  //     />
+  //   );
+  // }
 
   // If the user is a teacher, render the protected content (children)
   return children;
