@@ -108,7 +108,7 @@ const Textarea = styled.textarea`
   cursor: ${({ isEditing }) => (!isEditing ? "" : "not-allowed;")};
 `;
 
-const SuperAdminProfileForm = () => {
+const SuperAdminProfileForm = ({ user }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: "أحمد ثروت رفاعي خليل",
@@ -145,7 +145,7 @@ const SuperAdminProfileForm = () => {
         <Input
           type="text"
           name="name"
-          value={formData.name}
+          value={user.name}
           onChange={handleInputChange}
           readOnly={!isEditing}
         />
@@ -160,7 +160,7 @@ const SuperAdminProfileForm = () => {
         <Input
           type="email"
           name="email"
-          value={formData.email}
+          value={user.email}
           onChange={handleInputChange}
           readOnly
         />
@@ -173,7 +173,7 @@ const SuperAdminProfileForm = () => {
         <Input
           type="tel"
           name="phone"
-          value={formData.phone}
+          value={user.number || formData.phone}
           onChange={handleInputChange}
           readOnly={!isEditing}
         />

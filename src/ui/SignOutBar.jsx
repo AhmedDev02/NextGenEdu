@@ -3,6 +3,7 @@ import SignOutToggle from "./SignOutToggle";
 import { NAME_TEST } from "../utils/constants";
 import { useState } from "react";
 import SignOutButton from "./SignOutButton";
+import { useSelector } from "react-redux";
 
 const Div = styled.div`
   height: 40px;
@@ -56,6 +57,7 @@ const Img = styled.img`
 // const
 function SignOutBar({ profile }) {
   const [signOutToggle, setSignOut] = useState(false);
+  const user = useSelector((state) => state.auth.user); // Get the user from Redux store
 
   // handling
   function handleSignOutToggle() {
@@ -66,12 +68,17 @@ function SignOutBar({ profile }) {
     <Div>
       <SignOutToggle toggle={handleSignOutToggle} />
       <Text>
-        {NAME_TEST}
-        {` (${20812020101866}) `}
+        {user?.name}
+        {` (${user?.email || "20812020101866"}) `}
       </Text>
       <Img src="../../public/download.jpeg" alt="profile.name" />
       {/* {signOutToggle && <SignOutButton />} */}
-      <SignOutButton isVisible={signOutToggle} />
+      <SignOutButton
+        isVisible={signOutToggle}
+        path={
+          user?.role === "Super admin" ? "/teachers/login" : "/students/login"
+        }
+      />
     </Div>
   );
 }

@@ -99,7 +99,7 @@ const StyledIcon = styled(FiEdit)`
   }
 `;
 
-function SuperAdminProfilePic() {
+function SuperAdminProfilePic({ user }) {
   const student = {
     name: "أحمد ثروت رفاعي خليل",
   };
@@ -108,7 +108,7 @@ function SuperAdminProfilePic() {
     <Div>
       <H3>الصورة الشخصية</H3>
       <ProfileImg src="../../../public/download.jpeg" alt="user" />
-      <Name>أ.د/ {name}</Name>
+      <Name>أ.د/ {user.name}</Name>
       <Breaker />
       <Divider>
         <P>

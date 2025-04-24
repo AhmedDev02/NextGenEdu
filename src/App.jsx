@@ -5,7 +5,9 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 //pages
-import Login from "./pages/general-pages/Login";
+import TeacherLogin from "./pages/general-pages/TeacherLogin";
+import StudentLogin from "./pages/general-pages/StudentLogin";
+
 import PageNotFound from "./pages/general-pages/PageNotFound";
 
 import News from "./pages/student-pages/News";
@@ -39,8 +41,8 @@ import AdminProfile from "./pages/admin-pages/AdminProfile";
 import CreateQuiz from "./pages/admin-pages/CreateQuiz";
 import LastQuiz from "./pages/admin-pages/LastQuiz";
 import ScheduledQuiz from "./pages/admin-pages/ScheduledQuiz";
-import QuizResult from "./pages/admin-pages/QuizResult"
-import TasksResults from "./pages/admin-pages/TasksResults"
+import QuizResult from "./pages/admin-pages/QuizResult";
+import TasksResults from "./pages/admin-pages/TasksResults";
 
 import SuperAdminDashboard from "./pages/super-admin-pages/SuperAdminDashboard";
 import SuperAdminProfile from "./pages/super-admin-pages/SuperAdminProfile";
@@ -73,6 +75,7 @@ import CreateTasks from "./pages/admin-pages/CreateTasks";
 import ScheduledTasks from "./pages/admin-pages/ScheduledTasks";
 import LastTasks from "./pages/admin-pages/LastTasks";
 import AddNews from "./features/admin-features/news-management/AddNews";
+import Protector from "./pages/general-pages/Protector";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -90,7 +93,9 @@ function App() {
         <ReactQueryDevtools initialIsOpen={false} />
         <BrowserRouter>
           <Routes>
-            <Route path="login" element={<Login />} />
+            <Route path="students/login" element={<StudentLogin />} />
+            <Route path="teachers/login" element={<TeacherLogin />} />
+
             <Route path="forgot-password" element={<ForgotPassword />} />
             <Route path="reset-password" element={<ResetPassword />} />
             <Route
@@ -162,7 +167,10 @@ function App() {
               <Route path="news/add" element={<AddNews />} />
 
               <Route path="quizzes" element={<QuizzesManagement />} />
-              <Route path="quizzes/create-quizzes/:id" element={<CreateQuiz />} />
+              <Route
+                path="quizzes/create-quizzes/:id"
+                element={<CreateQuiz />}
+              />
               <Route
                 path="quizzes/scheduled-quizzes/:id"
                 element={<ScheduledQuiz />}
@@ -180,7 +188,10 @@ function App() {
                 element={<ScheduledTasks />}
               />
               <Route path="tasks/old-tasks/:id" element={<LastTasks />} />
-              <Route path="tasks/old-tasks/1/results" element={<TasksResults />} />
+              <Route
+                path="tasks/old-tasks/1/results"
+                element={<TasksResults />}
+              />
               <Route
                 path="weekly-schedule"
                 element={<WeeklyScheduleManagement />}
@@ -188,7 +199,14 @@ function App() {
             </Route>
 
             {/* Super Admin */}
-            <Route path="/super-admin" element={<SuperAdminAppLayout />}>
+            <Route
+              path="/super-admin"
+              element={
+                <Protector>
+                  <SuperAdminAppLayout />
+                </Protector>
+              }
+            >
               <Route index element={<Navigate replace to="dashboard" />} />
 
               <Route path="dashboard" index element={<SuperAdminDashboard />} />
@@ -232,6 +250,7 @@ function App() {
               padding: "16px 24px",
               backgroundColor: "var(--color-grey-0)",
               color: "var(--color-grey-700)",
+              direction: "rtl",
             },
           }}
         />

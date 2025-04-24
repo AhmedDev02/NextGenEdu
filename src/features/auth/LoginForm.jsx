@@ -2,7 +2,16 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Button from "../../ui/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/authSlice";
+import { ENDPOINTS } from "../../utils/apiConstant";
+import axiosInstance from "../../services/api/axiosInstance";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import useLoginRedirectToast from "../../hooks/useLoginRedirectToast";
+import Spinner from "../../ui/amr/Spinner";
+import Loader from "../../ui/tharwat/Loader";
 
 // Styled Components
 const Container = styled.div`
@@ -96,16 +105,91 @@ const ErrorMsg = styled.p`
 `;
 
 export default function LoginForm() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
+  const [wasRedirected] = useLoginRedirectToast();
 
-  const onSubmit = (data) => {
-    console.log("Login Data:", data);
+  const onSubmit = async (data) => {
+    setIsLoading(true); // 🔁 Show spinner
+
+    try {
+      const endpoint = ENDPOINTS.TEACHER_LOGIN;
+      // Make the API call to login the user
+
+      const headers = {
+        "Content-Type": "application/json", // Required for JSON data
+        "X-Requested-With": "XMLHttpRequest", // For identifying the request
+        "X-Device-Type": "web", // To specify the device type (web or mobile)
+      };
+
+      const response = await axiosInstance.post(
+        endpoint,
+        {
+          email: data.email,
+          password: data.password,
+        },
+        { headers }
+      );
+
+      // Extract access token and user data from the response
+      console.log("this is the res:", response);
+      // returns
+      // 1. access token
+      // 2. type
+      // 3. user
+
+      const accessToken = response.data.data[0].access_token;
+      const userData = response.data.data[0].user;
+      // Store the token and user data in localStorage and Redux
+      const userToStore = {
+        id: userData.id,
+        avatar: userData.avatar,
+        created_at: userData.created_at,
+        name: userData.name,
+        email: userData.email,
+        role: userData.type, // Role such as 'super admin', 'teacher', etc.
+        token: accessToken, // Store token with user data
+      };
+      dispatch(login(userToStore)); // Store user data in Redux
+
+      console.log("Login successful", response.data);
+      toast.success(` تم تسجيل دخول
+        ${userData.name}`);
+
+      switch (userToStore.role) {
+        case "Super admin":
+          navigate("/super-admin");
+          break;
+        case "Admin":
+          navigate("/admin");
+          break;
+        case "Student":
+          navigate("/");
+          break;
+        default:
+          navigate("/"); // Default path in case no role matches
+          break;
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(`فشل الدخول: ${"الإيميل أو كلمة المرور غير صحيحة"}`);
+      } else if (error.request) {
+        toast.error("فشل الدخول: لم يتم استلام استجابة من السيرفر");
+      } else {
+        toast.error(`فشل الدخول: ${error.message}`);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -114,8 +198,9 @@ export default function LoginForm() {
 
   return (
     <Container>
+      {wasRedirected}
       <LoginBox>
-        <Logo src="../../../public/logo.png" alt="Logo" />{" "}
+        <Logo src="../../../public/logo.png" alt="Logo" />
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
             {!watch("email") && (
@@ -153,7 +238,7 @@ export default function LoginForm() {
             نسيت كلمة المرور؟
           </ForgotPassword>
 
-          <Button type="submit">تسجيل الدخول</Button>
+          {isLoading ? <Loader /> : <Button type="submit">تسجيل الدخول</Button>}
         </form>
       </LoginBox>
     </Container>
