@@ -1,6 +1,6 @@
 import LoginForm from "../../features/auth/LoginForm";
 
-function Login() {
+function StudentLogin() {
   // 1. User clicks "Forgot Password" → Redirects to /forgot-password.
   // 2️. User enters email → Sends request to backend → Email is sent.
   // 3️. User clicks reset link in email → Redirects to /reset-password?token=XYZ.
@@ -11,4 +11,4 @@ function Login() {
   return <LoginForm />;
 }
 
-export default Login;
+export default StudentLogin;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import AdminProfilePic from "./SuperAdminProfilePic";
 import AdminProfileForm from "./SuperAdminProfileForm";
+import { useSelector } from "react-redux";
 
 const Div = styled.div`
   display: flex;
@@ -64,6 +65,8 @@ const ProfileDataContainer = styled.div`
 `;
 
 function SuperAdminProfileContent() {
+  const user = useSelector((state) => state.auth.user); // Get the user from Redux store
+
   return (
     <Div>
       <Header>
@@ -71,8 +74,8 @@ function SuperAdminProfileContent() {
       </Header>
       <Breaker />
       <ProfileDataContainer>
-        <AdminProfilePic />
-        <AdminProfileForm />
+        <AdminProfilePic user={user} />
+        <AdminProfileForm user={user} />
       </ProfileDataContainer>
       <Breaker />
     </Div>

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: JSON.parse(localStorage.getItem("user")) || null, // Persist login
+  user: null, // Persist login
 };
 
 const authSlice = createSlice({
@@ -9,12 +9,13 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      state.user = action.payload;
-      localStorage.setItem("user", JSON.stringify(action.payload)); // Persist role
+      state.user = action.payload; // stored in memory (Redux)
     },
     logout: (state) => {
+      console.log(state.user);
+
       state.user = null;
-      localStorage.removeItem("user");
+      console.log(state.user);
     },
   },
 });

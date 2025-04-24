@@ -3,6 +3,8 @@ import { FiLogOut } from "react-icons/fi"; // Importing the logout icon
 import { useSpring, animated } from "@react-spring/web";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
 
 const LogoutContainer = styled(animated.button)`
   position: absolute;
@@ -61,7 +63,7 @@ const IconWrapper = styled.div`
   }
 `;
 const H3 = styled.h3`
-  font-size: 1.2rem;
+  font-size: 1rem !important;
   @media (max-width: 768px) {
     font-size: 1rem;
   }
@@ -72,9 +74,11 @@ const H3 = styled.h3`
   }
 `;
 
-function SignOutButton({ isVisible }) {
+function SignOutButton({ isVisible, path }) {
   const [shouldRender, setShouldRender] = useState(isVisible);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const fadeInDown = useSpring({
     opacity: isVisible ? 1 : 0,
@@ -93,7 +97,8 @@ function SignOutButton({ isVisible }) {
   return (
     <LogoutContainer
       onClick={function () {
-        navigate("/login");
+        dispatch(logout());
+        navigate(path);
       }}
       style={fadeInDown}
     >
