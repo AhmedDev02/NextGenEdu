@@ -239,6 +239,12 @@ export const ADMIN_PAGES_PROPERTIES = {
   },
 };
 
+export const SUB_SUPER_ADMIN_ITEMS = {
+  DASHBOARD: "لوحة التحكم",
+
+  USERS_MANAGEMENT: "إدارة المستخدمين",
+};
+
 export const SUPER_ADMIN_PAGES_PROPERTIES = {
   PROFILE: {
     title: "الملف الشخصي",

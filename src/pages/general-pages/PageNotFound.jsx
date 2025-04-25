@@ -31,7 +31,7 @@ const PageNotFound = () => {
       <NotFoundBox>
         <H3>404 - الصفحة غير موجوده</H3>
         <P>الصفحة التي تبحث عنها غير متوفرة.</P>
-        <Button navigateTo="/login">العودة إلى تسجيل الدخول</Button>
+        <Button navigateTo="/students/login">العودة إلى تسجيل الدخول</Button>
       </NotFoundBox>
     </Container>
   );
