@@ -1,16 +1,14 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Protector = ({ children }) => {
+const StudentProtector = ({ children }) => {
   const user = useSelector((state) => state.auth.user); // Get the user from Redux store
   const location = useLocation(); // Get the current location to redirect to after login
-
-  console.log(user);
-  if (!user || !["Super admin", "Teacher", "Admin"].includes(user.role)) {
+  if (!user || user.role !== "Student") {
     localStorage.setItem("showLoginToast", "true");
     return (
       <Navigate
-        to="/teachers/login"
+        to="/students/login"
         state={{ from: location, showToast: true }}
         replace
       />
@@ -21,4 +19,4 @@ const Protector = ({ children }) => {
   return children;
 };
 
-export default Protector;
+export default StudentProtector;

@@ -2,7 +2,7 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import Button from "../../ui/Button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/authSlice";
 import { ENDPOINTS } from "../../utils/apiConstant";
@@ -10,7 +10,6 @@ import axiosInstance from "../../services/api/axiosInstance";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import useLoginRedirectToast from "../../hooks/useLoginRedirectToast";
-import Spinner from "../../ui/amr/Spinner";
 import Loader from "../../ui/tharwat/Loader";
 
 // Styled Components
@@ -103,6 +102,13 @@ const ErrorMsg = styled.p`
   margin: -10px 0 10px;
   text-align: start;
 `;
+const TempSign = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 90%;
+  margin: 10px;
+  align-items: center;
+`;
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -115,6 +121,159 @@ export default function LoginForm() {
   } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [wasRedirected] = useLoginRedirectToast();
+
+  const onSuperAdmin = async () => {
+    const endpoint = ENDPOINTS.TEACHER_LOGIN;
+    // Make the API call to login the user
+
+    const headers = {
+      "Content-Type": "application/json", // Required for JSON data
+      "X-Requested-With": "XMLHttpRequest", // For identifying the request
+      "X-Device-Type": "web", // To specify the device type (web or mobile)
+    };
+    const response = await axiosInstance.post(
+      endpoint,
+      {
+        email: "superadmin@gmail.com",
+        password: "admin123",
+      },
+      { headers }
+    );
+
+    const accessToken = response.data.data[0].access_token;
+    const userData = response.data.data[0].user;
+    // Store the token and user data in localStorage and Redux
+    const userToStore = {
+      id: userData.id,
+      avatar: userData.avatar,
+      created_at: userData.created_at,
+      name: userData.name,
+      email: userData.email,
+      role: userData.type,
+      token: accessToken,
+    };
+    dispatch(login(userToStore)); // Store user data in Redux
+
+    console.log("Login successful", response.data);
+    toast.success(` تم تسجيل دخول
+      ${userData.name}`);
+
+    switch (userToStore.role) {
+      case "Super admin":
+        navigate("/super-admin");
+        break;
+      case "Admin":
+        navigate("/sub-super-admin");
+        break;
+      case "Teacher":
+        navigate("/admin");
+        break;
+      default:
+        navigate("/teachers/login"); // Default path in case no role matches
+        break;
+    }
+  };
+  const onAdmin = async () => {
+    const endpoint = ENDPOINTS.TEACHER_LOGIN;
+    // Make the API call to login the user
+
+    const headers = {
+      "Content-Type": "application/json", // Required for JSON data
+      "X-Requested-With": "XMLHttpRequest", // For identifying the request
+      "X-Device-Type": "web", // To specify the device type (web or mobile)
+    };
+    const response = await axiosInstance.post(
+      endpoint,
+      {
+        email: "admin12@gmail.com",
+        password: "admin123",
+      },
+      { headers }
+    );
+
+    const accessToken = response.data.data[0].access_token;
+    const userData = response.data.data[0].user;
+    // Store the token and user data in localStorage and Redux
+    const userToStore = {
+      id: userData.id,
+      avatar: userData.avatar,
+      created_at: userData.created_at,
+      name: userData.name,
+      email: userData.email,
+      role: userData.type,
+      token: accessToken,
+    };
+    dispatch(login(userToStore)); // Store user data in Redux
+
+    console.log("Login successful", response.data);
+    toast.success(` تم تسجيل دخول
+      ${userData.name}`);
+
+    switch (userToStore.role) {
+      case "Super admin":
+        navigate("/super-admin");
+        break;
+      case "Admin":
+        navigate("/sub-super-admin");
+        break;
+      case "Teacher":
+        navigate("/admin");
+        break;
+      default:
+        navigate("/teachers/login"); // Default path in case no role matches
+        break;
+    }
+  };
+  const onTeacher = async () => {
+    const endpoint = ENDPOINTS.TEACHER_LOGIN;
+    // Make the API call to login the user
+
+    const headers = {
+      "Content-Type": "application/json", // Required for JSON data
+      "X-Requested-With": "XMLHttpRequest", // For identifying the request
+      "X-Device-Type": "web", // To specify the device type (web or mobile)
+    };
+    const response = await axiosInstance.post(
+      endpoint,
+      {
+        email: "30812025000010@zu.edu.eg",
+        password: "30812025000010@zu.edu.eg",
+      },
+      { headers }
+    );
+    const accessToken = response.data.data[0].access_token;
+    const userData = response.data.data[0].user;
+    // Store the token and user data in localStorage and Redux
+    const userToStore = {
+      id: userData.id,
+      avatar: userData.avatar,
+      created_at: userData.created_at,
+      name: userData.name,
+      email: userData.email,
+      role: userData.type,
+      token: accessToken,
+    };
+    dispatch(login(userToStore)); // Store user data in Redux
+
+    console.log("Login successful", response.data);
+    toast.success(` تم تسجيل دخول
+      ${userData.name}`);
+
+    switch (userToStore.role) {
+      case "Super admin":
+        navigate("/super-admin");
+        break;
+      case "Admin":
+        navigate("/sub-super-admin");
+        break;
+      case "Teacher":
+        navigate("/admin");
+        break;
+      default:
+        navigate("/teachers/login"); // Default path in case no role matches
+        break;
+    }
+  };
 
   const onSubmit = async (data) => {
     setIsLoading(true); // 🔁 Show spinner
@@ -154,8 +313,8 @@ export default function LoginForm() {
         created_at: userData.created_at,
         name: userData.name,
         email: userData.email,
-        role: userData.type, // Role such as 'super admin', 'teacher', etc.
-        token: accessToken, // Store token with user data
+        role: userData.type,
+        token: accessToken,
       };
       dispatch(login(userToStore)); // Store user data in Redux
 
@@ -168,10 +327,10 @@ export default function LoginForm() {
           navigate("/super-admin");
           break;
         case "Admin":
-          navigate("/admin");
+          navigate("/sub-super-admin");
           break;
-        case "Student":
-          navigate("/");
+        case "Teacher":
+          navigate("/admin");
           break;
         default:
           navigate("/"); // Default path in case no role matches
@@ -239,6 +398,19 @@ export default function LoginForm() {
           </ForgotPassword>
 
           {isLoading ? <Loader /> : <Button type="submit">تسجيل الدخول</Button>}
+          {
+            <TempSign>
+              <Button type="submit" size="small" onClick={onSuperAdmin}>
+                Super admin
+              </Button>
+              <Button type="submit" size="small" onClick={onAdmin}>
+                Admin
+              </Button>
+              <Button type="submit" size="small" onClick={onTeacher}>
+                Teacher
+              </Button>
+            </TempSign>
+          }
         </form>
       </LoginBox>
     </Container>

@@ -76,6 +76,12 @@ import ScheduledTasks from "./pages/admin-pages/ScheduledTasks";
 import LastTasks from "./pages/admin-pages/LastTasks";
 import AddNews from "./features/admin-features/news-management/AddNews";
 import Protector from "./pages/general-pages/Protector";
+import StudentProtector from "./pages/general-pages/StudentProtector";
+
+import SubSuperAdminAppLayout from "./ui/SubSuperAdminAppLayout";
+import SubSuperAdminProfile from "./pages/sub-super-admin-pages/SubSuperAdminProfile";
+import SubSuperAdminDashboard from "./pages/sub-super-admin-pages/SubSuperAdminDashboard";
+import SubSuperAdminUsersManagement from "./pages/sub-super-admin-pages/SubSuperAdminUsersManagement";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -112,9 +118,9 @@ function App() {
             <Route
               path="/"
               element={
-                // <Protector>
-                <StudentAppLayout />
-                //</Protector>
+                <StudentProtector>
+                  <StudentAppLayout />
+                </StudentProtector>
               }
             >
               <Route index element={<Navigate replace to="news" />} />
@@ -155,9 +161,9 @@ function App() {
             <Route
               path="/admin"
               element={
-                //   <Protector>
-                <AdminAppLayout />
-                //  </Protector>
+                <Protector>
+                  <AdminAppLayout />
+                </Protector>
               }
             >
               <Route index element={<Navigate replace to="dashboard" />} />
@@ -244,6 +250,25 @@ function App() {
               />
               <Route path="users" element={<SuperAdminUsersManagement />} />
               <Route path="news" element={<SuperAdminNewsManagement />} />
+            </Route>
+            <Route
+              path="/sub-super-admin"
+              element={
+                <Protector>
+                  <SubSuperAdminAppLayout />
+                </Protector>
+              }
+            >
+              <Route index element={<Navigate replace to="dashboard" />} />
+
+              <Route
+                path="dashboard"
+                index
+                element={<SubSuperAdminDashboard />}
+              />
+              <Route path="profile" element={<SubSuperAdminProfile />} />
+
+              <Route path="users" element={<SubSuperAdminUsersManagement />} />
             </Route>
           </Routes>
         </BrowserRouter>

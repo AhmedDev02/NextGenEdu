@@ -1,4 +1,4 @@
-import LoginForm from "../../features/auth/LoginForm";
+import TeachersLoginForm from "../../features/auth/TeachersLoginForm";
 
 function TeacherLogin() {
   // 1. User clicks "Forgot Password" → Redirects to /forgot-password.
@@ -8,7 +8,7 @@ function TeacherLogin() {
   // 5️. ✅ Success: Redirects to /password-reset-success.
   // 6️. ❌ If failed (expired/invalid token): Redirects to /password-reset-error.
 
-  return <LoginForm />;
+  return <TeachersLoginForm />;
 }
 
 export default TeacherLogin;
