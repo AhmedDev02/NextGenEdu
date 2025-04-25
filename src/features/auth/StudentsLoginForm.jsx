@@ -107,6 +107,10 @@ const TempSign = styled.div`
   display: flex;
   justify-content: space-around;
   width: 90%;
+
+  align-items: center;
+  margin: 0 auto;
+  margin-top: 10px;
 `;
 
 export default function LoginForm() {
