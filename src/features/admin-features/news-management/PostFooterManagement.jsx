@@ -14,9 +14,7 @@ const MainFooter = styled.div`
 const Div = styled.div``;
 
 function PostFooterManagement({ footerInfo }) {
-  const {
-    identity: { name },
-  } = footerInfo || {};
+  const { name } = footerInfo;
 
   return (
     <MainFooter>

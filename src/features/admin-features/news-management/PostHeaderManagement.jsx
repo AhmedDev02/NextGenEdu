@@ -11,7 +11,7 @@ const HeaderIdentity = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
 `;
 const HeaderName = styled.span`
@@ -46,18 +46,20 @@ const Div = styled.div`
 `;
 
 function PostHeaderManagement({ headerInfo }) {
-  const {
-    src,
-    identity: { name, subject },
-    date,
-  } = headerInfo;
+  const { id, name, type, avatar, subject, date, department } = headerInfo;
+
   return (
     <StyledPostHeader>
       <Div>
-        <HeaderImage src={src} alt="Picture of doctor" />
+        <HeaderImage
+          src={avatar || "../../../../public/logo.png"}
+          alt="Picture of doctor"
+        />
         <HeaderIdentity>
           <HeaderName>{name}</HeaderName>
-          <HeaderSubject>{subject}</HeaderSubject>
+          <HeaderSubject>
+            {department} {subject}
+          </HeaderSubject>
         </HeaderIdentity>
       </Div>
       <HeaderDate>{date}</HeaderDate>
