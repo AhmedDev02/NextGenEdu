@@ -69,29 +69,6 @@ function ListFilter({
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedItems = searchParams.get(param)?.split("-") || [defaultItem];
 
-  // const toggleItem = (day) => {
-  //   if (multipleChoose) {
-  //     let updatedItems;
-
-  //     if (day === defaultItem) {
-  //       updatedItems = [defaultItem];
-  //     } else if (selectedItems.includes(day)) {
-  //       updatedItems = selectedItems.filter((d) => d !== day);
-  //       if (updatedItems.length === 0) updatedItems = [defaultItem];
-  //     } else {
-  //       updatedItems = selectedItems.filter((d) => d !== defaultItem);
-  //       updatedItems.push(day);
-  //     }
-
-  //     setSearchParams(
-  //       { [param]: encodeURIComponent(updatedItems.join("-")) },
-  //       { replace: true }
-  //     );
-  //   } else {
-  //     setSearchParams({ [param]: encodeURIComponent(day) }, { replace: true });
-  //   }
-  // };
-
   const toggleItem = (day) => {
     const currentParams = new URLSearchParams(searchParams); // Clone current search params
     let updatedItems;
