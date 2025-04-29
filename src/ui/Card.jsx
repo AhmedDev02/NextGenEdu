@@ -24,7 +24,7 @@ const H4 = styled.h4`
   font-weight: var(--font-weight-semibold);
 `;
 const H5 = styled.h5`
-  text-align: left;
+  text-align: center;
   font-weight: var(--font-weight-medium);
 `;
 
@@ -71,6 +71,7 @@ function Card({
   children,
   cardStyle,
 }) {
+  console.log(children);
   return (
     <StyledCard style={cardStyle}>
       <Img src={src} alt={alt} />

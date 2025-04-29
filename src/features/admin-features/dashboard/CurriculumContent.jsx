@@ -1,20 +1,17 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { HiChevronDown, HiChevronLeft } from "react-icons/hi";
 import Button from "../../../ui/Button";
 import { FiDownload, FiExternalLink, FiPlay } from "react-icons/fi";
 import { AiFillFileText, AiFillPlayCircle } from "react-icons/ai";
-import { FiCheck } from "react-icons/fi";
 import ListFilter from "../../../ui/ListFilter";
-import { useLocation } from "react-router-dom";
-import { CURRICULUM } from "./temp";
+import { useParams } from "react-router-dom";
+import { useCourseMaterial } from "./useCourseMaterial";
+import Modal from "../../../ui/amr/Modal";
+import CourseMaterialForm from "./CourseMaterialForm";
 
 const categories = [
-  { label: "Quiz", value: "quiz" },
-  { label: "Midterm", value: "midterm" },
-  { label: "Exam", value: "exam" },
-  { label: "Assignment", value: "assignment" },
   { label: "Videos", value: "videos" },
   { label: "Section", value: "section" }, // Check if this is the correct label
   { label: "Lecture", value: "lecture" },
@@ -153,50 +150,14 @@ const DivContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const ButtonDiv = styled.div``;
 function CurriculumContent() {
-  const material = CURRICULUM;
+  const { curriculumId } = useParams();
+  let { courseMaterial: material } = useCourseMaterial(curriculumId);
+  material = material.data;
   console.log(material);
+
   const [openWeek, setOpenWeek] = useState([]);
-  const location = useLocation();
-  const [filteredMaterials, setFilteredWeeks] = useState(
-    material ? material : null
-  );
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const filterParam = params.get("filter"); // Example: "lectures-sections-quizzes"
-
-    if (filterParam === "all") {
-      // Reset to original state when "all" is selected
-      setFilteredWeeks(material);
-      return;
-    }
-
-    if (filterParam) {
-      const keywords = filterParam.toLowerCase().split("-");
-
-      console.log("🔎 Filter Keywords:", keywords);
-
-      const filteredWeeks = material.weeks.map((week) => {
-        const filteredResources = week.resources.filter((resource) => {
-          // Clean the title - Remove "-" and numbers
-          const cleanedTitle = resource.title
-            .toLowerCase()
-            .replace(/[-\s]+/g, " ") // Normalize spaces and remove hyphens
-            .replace(/\d+$/, "") // Remove trailing numbers
-            .trim(); // Ensure no extra spaces
-          // Compare with filters
-          return keywords.some((keyword) => cleanedTitle.includes(keyword));
-        });
-
-        return { ...week, resources: filteredResources };
-      });
-
-      setFilteredWeeks({ ...material, weeks: filteredWeeks });
-    } else {
-      setFilteredWeeks(material);
-    }
-  }, [location.search, material]);
 
   function handleDetails(weekId, event) {
     event.stopPropagation();
@@ -204,25 +165,17 @@ function CurriculumContent() {
     // setOpenWeek((prev) => (prev === weekId ? null : weekId)); // Toggle visibility
     if (openWeek.includes(weekId)) {
       // Remove weekId to close it
-      setOpenWeek(openWeek.filter((id) => id !== weekId));
+      setOpenWeek(openWeek.filter((id) => +id !== +weekId));
+      console.log(openWeek);
     } else {
       // Add weekId so it remains open along with any others
       setOpenWeek([...openWeek, weekId]);
+      console.log(openWeek);
     }
   }
 
-  useEffect(() => {
-    if (material) {
-      setFilteredWeeks(material[0]);
-    }
-  }, [material]);
+  // if (material.length == 0) return <h2>empty...</h2>;
 
-  if (material.length == 0) return <h2>Loading...</h2>;
-  //   if (error) return <Div></Div>;
-
-  if (!filteredMaterials || !filteredMaterials.weeks) {
-    return <h2>No data available</h2>;
-  }
   return (
     <Div open={openWeek}>
       <DivContainer>
@@ -233,38 +186,54 @@ function CurriculumContent() {
           multipleChoose={true}
           containerStyles={{ margin: "0  auto 20px auto" }}
         />
-        {filteredMaterials?.weeks.map((week) => (
-          <Container open={openWeek.includes(week.weekId)} key={week.weekId}>
-            <WeekTitle
-              key={week.weekId}
-              onClick={(event) => handleDetails(week.weekId, event)}
-            >
-              {openWeek.includes(week.weekId) ? (
-                <HiChevronDown />
-              ) : (
-                <HiChevronLeft />
-              )}
 
-              <H1>{week.week}</H1>
-            </WeekTitle>
+        {material?.map((week) => {
+          return (
+            <Container open={openWeek.includes(week.id)} key={week.week}>
+              <WeekTitle
+                key={week.id}
+                onClick={(event) => handleDetails(week.id, event)}
+              >
+                {openWeek.includes(week.id) ? (
+                  <HiChevronDown />
+                ) : (
+                  <HiChevronLeft />
+                )}
 
-            {week.resources.map((weekDetail) => (
-              <Row key={weekDetail.id}>
+                <H1>{"الأسبوع" + " " + week.week}</H1>
+              </WeekTitle>
+              {/* here was a loop for all weeks */}
+              <Row key={week.id + week.week}>
                 <WeekDetail open={openWeek}>
                   <Icon>
-                    {weekDetail.fileType === "video" ? (
+                    {week.type === "other" ? (
                       <AiFillPlayCircle />
                     ) : (
                       <AiFillFileText />
                     )}
                   </Icon>
                   <LectureContainer>
-                    <H4>{weekDetail.type}</H4>
-                    <H3>{weekDetail.title}</H3>
+                    <H4>{week.type}</H4>
+                    <H3>{week.title}</H3>
                   </LectureContainer>
-                  <Complete status={weekDetail.status}>
-                    {weekDetail.status && <FiCheck />}{" "}
-                    {weekDetail.status ? "مكتمل" : "غير مكتمل"}
+
+                  <Complete style={{ outline: "none", border: "none" }}>
+                    <Modal>
+                      <Modal.Open opens="edit-material">
+                        <ButtonDiv>
+                          <Button
+                            variation="transparent"
+                            size="custom"
+                            paddingLeftRight="10px"
+                          >
+                            تعديل{" "}
+                          </Button>
+                        </ButtonDiv>
+                      </Modal.Open>
+                      <Modal.Window name="edit-material">
+                        <CourseMaterialForm />
+                      </Modal.Window>
+                    </Modal>
                   </Complete>
                 </WeekDetail>
                 <ButtonsContainer>
@@ -276,7 +245,7 @@ function CurriculumContent() {
                     onClick={() => handleDetails(week.id)}
                     style={openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
                   >
-                    {weekDetail.fileType === "pdf" ? (
+                    {week.type === "file" ? (
                       <Span style={{ padding: "0 11px" }}>
                         <FiExternalLink />
                         <P>فتح</P>
@@ -303,9 +272,9 @@ function CurriculumContent() {
                   </Button>
                 </ButtonsContainer>
               </Row>
-            ))}
-          </Container>
-        ))}
+            </Container>
+          );
+        })}
       </DivContainer>
     </Div>
   );

@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import useLoginRedirectToast from "../../hooks/useLoginRedirectToast";
 import Loader from "../../ui/tharwat/Loader";
 
+import { BASE_URL } from "../../utils/apiConstant";
 // Styled Components
 const Container = styled.div`
   display: flex;
@@ -244,7 +245,36 @@ export default function LoginForm() {
     const accessToken = response.data.data[0].access_token;
     const userData = response.data.data[0].user;
     // Store the token and user data in localStorage and Redux
-    const userToStore = {
+    const [
+      courses,
+      announcements,
+      semesters,
+      departments,
+      assignments,
+      quizzes,
+    ] = await Promise.all([
+      axiosInstance.get(`${BASE_URL}/teachers/courses`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axiosInstance.get(`${BASE_URL}/dashboard/announcements`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axiosInstance.get(`${BASE_URL}/teachers/semesters`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axiosInstance.get(`${BASE_URL}/teachers/departments`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axiosInstance.get(`${BASE_URL}/teachers/assignments`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axiosInstance.get(`${BASE_URL}/teachers/quizzes`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+    ]);
+
+    // Store the token and user data in localStorage and Redux
+    let userToStore = {
       id: userData.id,
       avatar: userData.avatar,
       created_at: userData.created_at,
@@ -252,7 +282,16 @@ export default function LoginForm() {
       email: userData.email,
       role: userData.type,
       token: accessToken,
+      courses: courses.data, // Add courses data
+      announcements: announcements.data, // Add announcements data
+      semesters: semesters.data, // Add semesters data
+      departments: departments.data, // Add departments data
+      assignments: assignments.data, // Add assignments data
+      quizzes: quizzes.data, // Add quizzes data
     };
+
+    // If the role is Teacher, add assignments and quizzes to the user object
+
     dispatch(login(userToStore)); // Store user data in Redux
 
     console.log("Login successful", response.data);
