@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
-import { getMaterial } from "../../../services/admin/apiCourseMaterial";
+import { getMaterial } from "../../../services/admin/apiCourses";
 
 export function useCourseMaterial(materialId) {
   const user = useSelector((state) => state.auth.user);

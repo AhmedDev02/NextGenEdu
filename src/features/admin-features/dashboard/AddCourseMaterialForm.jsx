@@ -1,8 +1,9 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import FileUploader from "./FileUploader";
-import { useEffect } from "react";
-import { useUpdatedCourseMaterial } from "./useUpdateCourseMaterials";
+import { useCourseMaterialAdd } from "./useCourseMaterialAdd";
+import { useParams } from "react-router-dom";
+import Button from "../../../ui/Button";
 
 const FormContainer = styled.div`
   max-width: 500px;
@@ -69,61 +70,33 @@ const ErrorMessage = styled.p`
   margin-top: 0.5rem;
 `;
 
-const SubmitButton = styled.button`
-  width: 100%;
-  padding: 1rem;
-  background-color: #30bd58;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #4b9f4f;
-  }
-
-  &:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-`;
-
-function CourseMaterialForm({ selectedRow }) {
+function AddCourseMaterialForm() {
+  const { curriculumId: id } = useParams();
+  console.log(id);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    reset,
-    watch,
   } = useForm();
-  const { mutate } = useUpdatedCourseMaterial(); // Use the mutation hook
+  const { mutate } = useCourseMaterialAdd(); // Use the mutation hook
 
-  useEffect(() => {
-    if (selectedRow) {
-      setValue("title", selectedRow.title);
-      setValue("week", selectedRow.week);
-      setValue("type", selectedRow.type);
-      setValue("file", selectedRow.file); // Use the file URL or file object
-    }
-  }, [selectedRow, setValue]);
   // This function handles form submission
   const onSubmit = async (data) => {
-    console.log(selectedRow.id);
-    const updatedData = {
+    console.log(data);
+    const formData = {
       title: data.title,
       week: data.week,
       type: data.type,
-      file: data.materialFile,
+      material: data.materialFile,
     };
 
+    console.log(formData);
     try {
       // Call the mutation function to update the course material
       await mutate({
-        courseId: selectedRow.id, // Pass the course ID of the selected row
-        updatedData, // Pass the updated data
+        courseId: id, // Pass the course ID of the selected row
+        data: formData, // Pass the updated data
       });
       // Optionally handle any additional actions on success (e.g., close modal)
     } catch (error) {
@@ -133,7 +106,7 @@ function CourseMaterialForm({ selectedRow }) {
 
   return (
     <FormContainer>
-      <FormTitle>تعديل البيانات</FormTitle>
+      <FormTitle>اضافة محتوى للمادة</FormTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField>
           <Label htmlFor="title">العنوان:</Label>
@@ -158,15 +131,17 @@ function CourseMaterialForm({ selectedRow }) {
         <FormField>
           <FileUploader
             name="materialFile" // Field name
-            label="إرفع الملف المراد تعديله"
+            label="إرفع الملف"
             required={false}
             setValue={setValue} // Pass setValue to update the form state
           />
         </FormField>
-        <SubmitButton type="submit">تعديل</SubmitButton>
+        <Button variation="primary" style={{ width: "100%" }} type="submit">
+          إدراج
+        </Button>
       </form>
     </FormContainer>
   );
 }
 
-export default CourseMaterialForm;
+export default AddCourseMaterialForm;

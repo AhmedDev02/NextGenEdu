@@ -1,27 +1,28 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateCourseMaterial } from "../../../services/admin/apiCourses"; // Import the API function
+import { deleteCourseMaterial } from "../../../services/admin/apiCourses"; // Import the API function
 import { useUser } from "../../../hooks/useUser"; // Import the API function
 
 import toast from "react-hot-toast";
 
-export function useUpdatedCourseMaterial() {
+export function useCourseMaterialDelete(id) {
   const { token } = useUser();
+  console.log(token);
 
   const queryClient = useQueryClient(); // Get the queryClient instance
 
   const mutation = useMutation({
-    mutationFn: async ({ courseId, updatedData }) => {
+    mutationFn: async () => {
       // Call the updateCourseMaterial function from apiUpdateCourse.js
-      return updateCourseMaterial(courseId, updatedData, token);
+      return deleteCourseMaterial(id, token);
     },
     onSuccess: () => {
       // Handle success (e.g., show a success toast, update local state)
-      toast.success("تم تعديل المحتوى بنجاح");
+      toast.success("تم حذف المحتوى بنجاح");
       queryClient.invalidateQueries(["coursesMaterial"]);
     },
     onError: () => {
       // Handle error (e.g., show an error toast)
-      toast.error("حدث خطأ اثناء تحديق المحتوى:");
+      toast.error("حدث خطأ اثناء حذف المحتوى:");
     },
   });
 
