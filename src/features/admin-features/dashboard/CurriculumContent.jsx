@@ -189,7 +189,10 @@ function CurriculumContent() {
 
         {material?.map((week) => {
           return (
-            <Container open={openWeek.includes(week.id)} key={week.week}>
+            <Container
+              open={openWeek.includes(week.id)}
+              key={week.week + week.id}
+            >
               <WeekTitle
                 key={week.id}
                 onClick={(event) => handleDetails(week.id, event)}

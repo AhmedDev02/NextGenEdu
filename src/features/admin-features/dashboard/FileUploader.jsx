@@ -8,14 +8,7 @@ const FileUploader = ({ control, name, label, required }) => {
         control={control}
         name={name}
         rules={{ required: required }}
-        render={({ field }) => (
-          <input
-            {...field}
-            id={name}
-            type="file"
-            // accept="image/*, video/*, application/pdf"
-          />
-        )}
+        render={({ field }) => <input {...field} id={name} type="file" />}
       />
     </div>
   );

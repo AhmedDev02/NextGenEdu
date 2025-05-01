@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import FileUploader from "./FileUploader";
@@ -9,7 +8,7 @@ const FormContainer = styled.div`
   padding: 2rem;
   border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(---shadow-primary);
   background-color: #fff;
 `;
 
@@ -41,7 +40,7 @@ const Input = styled.input`
   transition: border-color 0.3s;
 
   &:focus {
-    border-color: #30bd58;
+    border-color: var(--green-primary);
     outline: none;
   }
 `;
@@ -112,10 +111,10 @@ function CourseMaterialForm() {
 
   return (
     <FormContainer>
-      <FormTitle>Update Course Material</FormTitle>
+      <FormTitle>تعديل البيانات</FormTitle>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField>
-          <Label htmlFor="title">Title:</Label>
+          <Label htmlFor="title">العنوان:</Label>
           <Input
             id="title"
             type="text"
@@ -124,7 +123,7 @@ function CourseMaterialForm() {
           {errors.title && <ErrorMessage>{errors.title.message}</ErrorMessage>}
         </FormField>
         <FormField>
-          <Label htmlFor="week">Week:</Label>
+          <Label htmlFor="week">الأسبوع:</Label>
           <Input
             id="week"
             type="number"
@@ -133,12 +132,12 @@ function CourseMaterialForm() {
           {errors.week && <ErrorMessage>{errors.week.message}</ErrorMessage>}
         </FormField>
         <FormField>
-          <Label htmlFor="type">Type:</Label>
+          <Label htmlFor="type">النوع:</Label>
           <Select
             id="type"
             {...register("type", { required: "Type is required" })}
           >
-            <option value="">Select type</option>
+            <option value="">إختر نوع البيانات: </option>
             <option value="section">Section</option>
             <option value="lecture">Lecture</option>
             <option value="other">Other</option>
@@ -149,11 +148,11 @@ function CourseMaterialForm() {
           <FileUploader
             control={control}
             name="materialFile"
-            label="Upload Course Material"
+            label="إرفع الملف المراد تعديله"
             required={true}
           />
         </FormField>
-        <SubmitButton type="submit">Submit</SubmitButton>
+        <SubmitButton type="submit">تعديل</SubmitButton>
       </form>
     </FormContainer>
   );
