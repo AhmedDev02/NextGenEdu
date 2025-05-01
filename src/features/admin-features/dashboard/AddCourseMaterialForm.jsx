@@ -4,6 +4,7 @@ import FileUploader from "./FileUploader";
 import { useCourseMaterialAdd } from "./useCourseMaterialAdd";
 import { useParams } from "react-router-dom";
 import Button from "../../../ui/Button";
+import FileUploaderArray from "./FileUploaderArray";
 
 const FormContainer = styled.div`
   max-width: 500px;
@@ -91,6 +92,14 @@ function AddCourseMaterialForm() {
       material: data.materialFile,
     };
 
+    // formData.append("title", data.title);
+    // formData.append("week", data.week);
+    // formData.append("type", data.type);
+
+    // Append all the files to FormData
+    // data.materialFile.forEach((file) => {
+    //   formData.append("materialFile[]", file); // Append each file as an array
+    // });
     console.log(formData);
     try {
       // Call the mutation function to update the course material
@@ -129,7 +138,7 @@ function AddCourseMaterialForm() {
           {errors.type && <ErrorMessage>{errors.type.message}</ErrorMessage>}
         </FormField>
         <FormField>
-          <FileUploader
+          <FileUploaderArray
             name="materialFile" // Field name
             label="إرفع الملف"
             required={false}

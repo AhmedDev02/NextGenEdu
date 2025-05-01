@@ -102,7 +102,7 @@ export async function deleteCourseMaterial(id, token) {
   };
 
   try {
-    const response = await axios.put(
+    const response = await axios.delete(
       `${BASE_URL}/teachers/course-materials/${id}`, // Endpoint to update course material
       { headers }
     );
@@ -119,7 +119,7 @@ export async function addCourseMaterial(courseId, data, token) {
   }
 
   const headers = {
-    "Content-Type": "multipart/form-data", // Make sure to set the content type for file uploads
+    "Content-Type": "multipart/form-data",
     "X-Requested-With": "XMLHttpRequest",
     "X-Device-Type": "web",
     Authorization: `Bearer ${token}`,

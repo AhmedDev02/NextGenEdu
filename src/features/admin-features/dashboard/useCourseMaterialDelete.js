@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 export function useCourseMaterialDelete(id) {
   const { token } = useUser();
   console.log(token);
+  console.log(id);
 
   const queryClient = useQueryClient(); // Get the queryClient instance
 

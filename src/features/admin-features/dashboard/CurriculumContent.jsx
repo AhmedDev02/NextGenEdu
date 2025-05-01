@@ -160,6 +160,7 @@ const ButtonDiv = styled.div``;
 function CurriculumContent() {
   const { curriculumId } = useParams();
   let { courseMaterial: material } = useCourseMaterial(curriculumId);
+  // console.log(material);
   material = material.data;
 
   const [openWeek, setOpenWeek] = useState([]);
