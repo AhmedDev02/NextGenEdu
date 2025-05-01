@@ -73,7 +73,7 @@ const ErrorMessage = styled.p`
 
 function AddCourseMaterialForm() {
   const { curriculumId: id } = useParams();
-  console.log(id);
+
   const {
     register,
     handleSubmit,
@@ -91,16 +91,6 @@ function AddCourseMaterialForm() {
       type: data.type,
       material: data.materialFile,
     };
-
-    // formData.append("title", data.title);
-    // formData.append("week", data.week);
-    // formData.append("type", data.type);
-
-    // Append all the files to FormData
-    // data.materialFile.forEach((file) => {
-    //   formData.append("materialFile[]", file); // Append each file as an array
-    // });
-    console.log(formData);
     try {
       // Call the mutation function to update the course material
       await mutate({
