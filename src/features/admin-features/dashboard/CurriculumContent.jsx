@@ -10,6 +10,10 @@ import { useParams } from "react-router-dom";
 import { useCourseMaterial } from "./useCourseMaterial";
 import Modal from "../../../ui/amr/Modal";
 import CourseMaterialForm from "./CourseMaterialForm";
+import CourseMaterialDelete from "./CourseMaterialDelete";
+import { useCourseMaterialDelete } from "./useCourseMaterialDelete";
+import { FaPlus } from "react-icons/fa";
+import AddCourseMaterialForm from "./AddCourseMaterialForm";
 
 const categories = [
   { label: "Videos", value: "videos" },
@@ -115,7 +119,7 @@ const P = styled.p`
   margin-right: auto;
 `;
 
-const Complete = styled.span`
+const Complete = styled.div`
   margin: auto 0;
   background: ${({ status }) => (status ? " var(--color-primary-green);" : "")};
   color: ${({ status }) => (status ? " #fff;" : "")};
@@ -131,6 +135,8 @@ const Complete = styled.span`
   border-radius: 20px;
   font-size: 1.3rem;
   justify-content: center;
+  display: flex;
+  gap: 20px;
 `;
 
 const Icon = styled.div`
@@ -155,9 +161,13 @@ function CurriculumContent() {
   const { curriculumId } = useParams();
   let { courseMaterial: material } = useCourseMaterial(curriculumId);
   material = material.data;
-  console.log(material);
 
   const [openWeek, setOpenWeek] = useState([]);
+
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [deletedRowId, setDeletedRowId] = useState(null);
+
+  const { mutate } = useCourseMaterialDelete(deletedRowId);
 
   function handleDetails(weekId, event) {
     event.stopPropagation();
@@ -174,6 +184,18 @@ function CurriculumContent() {
     }
   }
 
+  const handleEdit = (data) => {
+    console.log("clicked");
+    setSelectedRow(data);
+  };
+  const handleDelete = (data) => {
+    handleGetId(data.id);
+    console.log(data);
+    setSelectedRow(data);
+  };
+  const handleGetId = (data) => {
+    setDeletedRowId(data);
+  };
   // if (material.length == 0) return <h2>empty...</h2>;
 
   return (
@@ -186,6 +208,22 @@ function CurriculumContent() {
           multipleChoose={true}
           containerStyles={{ margin: "0  auto 20px auto" }}
         />
+        <Modal>
+          <Modal.Open opens="add-material">
+            {/* <ButtonDiv> */}
+            <Button
+              size="custom"
+              style={{ marginTop: "30px" }}
+              paddingTopBottom="15px"
+            >
+              <FaPlus /> اضافة محتوى جديد
+            </Button>
+            {/* </ButtonDiv> */}
+          </Modal.Open>
+          <Modal.Window name="add-material">
+            <AddCourseMaterialForm />
+          </Modal.Window>
+        </Modal>
 
         {material?.map((week) => {
           return (
@@ -225,16 +263,36 @@ function CurriculumContent() {
                       <Modal.Open opens="edit-material">
                         <ButtonDiv>
                           <Button
-                            variation="transparent"
+                            variation="primary"
                             size="custom"
                             paddingLeftRight="10px"
+                            onClick={() => handleEdit(week)}
                           >
                             تعديل{" "}
                           </Button>
                         </ButtonDiv>
                       </Modal.Open>
+                      <Modal.Open opens="delete-material">
+                        <ButtonDiv>
+                          <Button
+                            variation="danger"
+                            size="custom"
+                            paddingLeftRight="10px"
+                            onClick={() => handleDelete(week)}
+                          >
+                            حذف{" "}
+                          </Button>
+                        </ButtonDiv>
+                      </Modal.Open>
+
                       <Modal.Window name="edit-material">
-                        <CourseMaterialForm />
+                        <CourseMaterialForm selectedRow={selectedRow} />
+                      </Modal.Window>
+                      <Modal.Window name="delete-material">
+                        <CourseMaterialDelete
+                          id={deletedRowId}
+                          onConfirm={() => mutate(deletedRowId)}
+                        />
                       </Modal.Window>
                     </Modal>
                   </Complete>
