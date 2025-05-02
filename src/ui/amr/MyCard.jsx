@@ -72,15 +72,15 @@ const P = styled.p`
 `;
 
 function MyCard({ data, buttonsContent }) {
-  const { id, name, students } = data;
+  const { id, name, semester } = data;
   // const { id } = useParams();
-
+  console.log(data);
   return (
     <Modal>
       <StyledCard>
         <Img src="../../../public/logo.png" alt="logo" />
         <H4>{name}</H4>
-        <H5>عدد الطلاب المسجلين : {students}</H5>
+        <H5> {semester?.name}</H5>
         <Br />
         <Div>
           <ButtonDiv>
