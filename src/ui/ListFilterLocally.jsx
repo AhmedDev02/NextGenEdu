@@ -43,9 +43,14 @@ function ListFilterLocally({
   onClickItem,
   clickedValue, // The value of the currently clicked item
 }) {
+  const uniqueItems = items.filter((value, index, self) => {
+    // Check if the value is the first occurrence of the semester.id (value)
+    return index === self.findIndex((t) => t.value === value.value);
+  });
+
   return (
     <FilterMenuContainer {...containerProps} styles={containerStyles}>
-      {items?.map(({ label, value }) => (
+      {uniqueItems?.map(({ label, value }) => (
         <FilterItem
           key={value}
           active={clickedValue === value} // Highlight selected item
