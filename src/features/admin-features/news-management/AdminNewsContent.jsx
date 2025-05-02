@@ -11,6 +11,8 @@ import Loader from "../../../ui/tharwat/Loader";
 import { useSelector } from "react-redux";
 import courses from "../material-management/courses";
 import ListFilterLocally from "../../../ui/ListFilterLocally";
+import { useCourses } from "../dashboard/useCourses";
+import { useAnnouncements } from "./useReadAnnouncements";
 
 const Div = styled.div`
   display: flex;
@@ -47,7 +49,8 @@ const Divider = styled.div`
 `;
 
 function AdminNewsContent() {
-  const user = useSelector((state) => state.auth.user); // Get the user from Redux store
+  const { courses } = useCourses(); // Fetch courses
+  const { announcements } = useAnnouncements(); // Fetch announcements
   const [isLoading, setIsLoading] = useState(false);
 
   const [data, setData] = useState({
@@ -55,105 +58,56 @@ function AdminNewsContent() {
     courses: [],
   });
 
-  console.log(data);
-  //level -> الفرقة الثالثة
-  // department -> هندسة صناعية
   const [filters, setFilters] = useState({
-    level: data?.news?.semester?.id || "", // Default to an empty string or any fallback value
-    department: data?.news?.department?.id || "", // Default to an empty string or any fallback value
+    level: "", // Default to an empty string
+    department: "", // Default to an empty string
   });
 
-  const fetchData = useCallback(async () => {
-    setIsLoading(true);
-    try {
-      const announcementEndpoint = BASE_URL + "/dashboard/my-announcements";
-      const coursesEndpoint = BASE_URL + "/teachers/courses";
-
-      const headers = {
-        "Content-Type": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-        "X-Device-Type": "web",
-        Authorization: `Bearer ${user.token}`,
-      };
-
-      // Use Promise.all to fetch both resources in parallel
-      const [announcementResponse, coursesResponse] = await Promise.all([
-        axiosInstance.get(announcementEndpoint, { headers }),
-        axiosInstance.get(coursesEndpoint, { headers }),
-      ]);
-
-      // Update the state once both requests have completed
-      setData({
-        news: announcementResponse.data.data.data,
-        courses: coursesResponse.data.data,
-      });
-    } catch (error) {
-      // Use a single function to handle errors
-      handleError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [user.token]); // Dependency array includes user.token to re-fetch data when it changes
-
-  const handleError = (error) => {
-    if (error.response) {
-      toast.error(error.response?.data?.message || error.message);
-    } else {
-      toast.error("An error occurred");
-    }
-  };
-
   useEffect(() => {
-    if (user.token) {
-      fetchData(); // Fetch data only if user.token is available
+    if (announcements && courses) {
+      setData({
+        news: announcements, // Set news data
+        courses: courses?.data || [], // Access courses.data if it exists, otherwise set an empty array
+      });
     }
-  }, [user.token, fetchData]); // Trigger fetchData when user.token changes
+  }, [announcements, courses]); // Update data whenever announcements or courses change
+
   useEffect(() => {
     if (data.news.length > 0) {
       setFilters({
-        level: data?.news[0]?.semester?.id || "",
-        department: data?.news[0]?.department?.id || "",
+        level: data.news[0]?.semester?.id || "",
+        department: data.news[0]?.department?.id || "",
       });
     }
   }, [data.news]);
+
   const handleFilterChange = (filterType, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [filterType]: value,
     }));
   };
-  console.log(filters, data);
 
   const filteredSemester = data.news.filter((newItem) => {
     return newItem.semester.id === +filters.level;
   });
-  console.log(filteredSemester);
 
-  const mappedSemester = data?.courses?.map((level) => {
+  const mappedSemester = data.courses?.map((level) => {
     return { label: level.semester.name, value: `${level.semester.id}` };
   });
-  console.log(mappedSemester);
 
-  const test = filteredSemester.filter(
-    (course) => course.department.id === +filters.department
-  );
-  console.log(test);
   const mappedDepartment = filteredSemester
-    .filter((course) => course.department.id === +filters.department) // Filter by selected department
+    .filter((course) => course.department.id === +filters.department)
     .map((course) => ({
-      label: course.department.name, // department name as the label
-      value: `${course.department.id}`, // department id as the value
+      label: course.department.name,
+      value: `${course.department.id}`,
     }))
     .filter(
-      (
-        value,
-        index,
-        self // Remove duplicates
-      ) => index === self.findIndex((t) => t.value === value.value) // Ensure uniqueness based on department id
+      (value, index, self) =>
+        index === self.findIndex((t) => t.value === value.value) // Ensure uniqueness
     );
 
-  console.log(mappedDepartment);
-
+  // Debugging output
   return (
     <>
       <FilterDiv>
@@ -188,9 +142,9 @@ function AdminNewsContent() {
       </FilterDiv>
       <Div>
         {!isLoading ? (
-          filteredSemester.map((newItem, index) => (
+          filteredSemester.map((newItem) => (
             <PostManagement
-              key={index}
+              key={newItem.id}
               postInformation={newItem}
               notice={"أي حد هيتأخر هيتنفخ"}
             />

@@ -32,17 +32,19 @@ const Span = styled.span`
   font-size: 1.3rem;
   font-weight: var(--font-weight-bold);
 `;
-function PostMessageManagement({ msg, notice }) {
+function PostMessageManagement({ title, msg, notice }) {
   return (
     <MessagePost>
-      <MessageAnnouncement>{ANNOUNCEMENT}</MessageAnnouncement>
+      <MessageAnnouncement>
+        {ANNOUNCEMENT} {title}
+      </MessageAnnouncement>
       <MessageBody>{msg}</MessageBody>
-      {notice && (
+      {/* {notice && (
         <MessageNotice>
           <Span>{NOTICE}</Span>
           {notice}
         </MessageNotice>
-      )}
+      )} */}
     </MessagePost>
   );
 }

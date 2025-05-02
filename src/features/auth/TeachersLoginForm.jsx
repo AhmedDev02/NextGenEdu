@@ -237,8 +237,8 @@ export default function LoginForm() {
     const response = await axiosInstance.post(
       endpoint,
       {
-        email: "30812025000001@zu.edu.eg",
-        password: "30812025000001@zu.edu.eg",
+        email: "30812025000002@zu.edu.eg",
+        password: "30812025000002@zu.edu.eg",
       },
       { headers }
     );
@@ -297,7 +297,6 @@ export default function LoginForm() {
     console.log("Login successful", response.data);
     toast.success(` تم تسجيل دخول
       ${userData.name}`);
-
     switch (userToStore.role) {
       case "Super admin":
         navigate("/super-admin");
