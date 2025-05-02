@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import MyCard from "../../../ui/amr/MyCard";
-import courses from "../material-management/courses";
 import { FaHourglassEnd, FaPlus } from "react-icons/fa";
 import { LuClock3 } from "react-icons/lu";
+import { useUser } from "../../../hooks/useUser";
 
 const Container = styled.div`
   margin: 50px;
@@ -37,10 +37,16 @@ const buttonsContent = [
   },
 ];
 const TasksManagementContent = () => {
+  const { user } = useUser();
+  const courses = user.courses.data;
   return (
     <Container>
       {courses.map((element, index) => (
-        <MyCard key={index} data={element} buttonsContent={buttonsContent} />
+        <MyCard
+          key={element.id}
+          data={element}
+          buttonsContent={buttonsContent}
+        />
       ))}
     </Container>
   );

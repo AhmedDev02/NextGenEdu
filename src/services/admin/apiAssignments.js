@@ -99,7 +99,7 @@ export async function getAllAssignments(token) {
   };
 
   try {
-    const response = await axios.get(`${BASE_URL}/teachers/assignment`, {
+    const response = await axios.get(`${BASE_URL}/teachers/assignments`, {
       headers,
     });
     console.log("Courses data:", response.data);
