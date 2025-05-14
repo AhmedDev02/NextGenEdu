@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ListFilter from "../../../ui/ListFilter";
 import Card from "../../../ui/Card";
 import { useMaterials } from "./useMaterials";
+import { useUser } from "../../../hooks/useUser";
 
 const Div = styled.div`
   display: flex;
@@ -25,12 +26,9 @@ const CardContainer = styled.div`
 `;
 const Label = styled.label``;
 function MaterialsContent() {
-  const { materials, isLoading, error } = useMaterials();
-
-  if (isLoading) return <h2>Loading materials...</h2>;
-  if (error) return <h2>Error fetching materials: {error.message}</h2>;
-  if (!materials || materials.length === 0)
-    return <h2>No materials available.</h2>;
+  const { user } = useUser();
+  console.log(user);
+  console.log(user.courses.data[0]);
   return (
     <>
       <Div>
@@ -46,16 +44,14 @@ function MaterialsContent() {
           />
         </FilterContainer>
         <CardContainer>
-          {materials.map((card) => (
+          {user.courses.data.map((card) => (
             <Card
               key={card.id}
               id={card.id}
-              src={card.src}
+              src={"../../../../public/logo.png"}
               alt={card.alt}
-              progressCheck={card.progressCheck}
-              percentage={card.percentage}
-              cardButton={card.cardButton}
-              subjectName={card.subjectName}
+              cardButton={"دراسة"}
+              subjectName={card.description}
               doctorName={card.doctorName}
               navigateTo={`/enrolled-materials/${card.id}`}
             />
