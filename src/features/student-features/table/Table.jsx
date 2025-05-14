@@ -1,11 +1,13 @@
 import styled from "styled-components";
-import { schedules } from "./data";
 import TableRow from "./TableRow";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
+import { useReadTable } from "./useReadTable";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
 
 const TableContainer = styled.div`
   margin: 0 auto;
-  width: 1200px;
+  width: 1000px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,19 +16,19 @@ const TableContainer = styled.div`
 `;
 
 const TableHeader = styled.div`
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   width: 100%;
   height: auto;
   background-color: white;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  grid-template-columns: repeat(6, 1fr);
   align-items: center;
   gap: 2rem;
   padding: 1rem;
   box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+    grid-template-columns: repeat(7, 1fr);
     padding: 0.8rem;
   }
 `;
@@ -34,7 +36,7 @@ const TableHeader = styled.div`
 const TableHeaderCell = styled.div`
   background-color: #eb3958;
   padding: 10px;
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   box-shadow: var(--shadow-primary);
   min-width: 8rem;
   color: white;
@@ -66,40 +68,103 @@ const TableBody = styled.div`
   width: 100%;
   height: auto;
 `;
+const DayHeaderRow = styled.div`
+  background-color: #30bd58;
+  border-radius: 1.5rem;
+  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 1.6rem;
+  font-weight: bold;
+  font-family: "Changa";
+`;
+
+const DayHeaderText = styled.p`
+  margin: 0;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-weight: 500;
+`;
+const Div = styled.div`
+  margin-bottom: 3rem;
+`;
+
+const arabicToEnglishDays = {
+  الأحد: "sunday",
+  الإثنين: "monday",
+  الثلاثاء: "tuesday",
+  الأربعاء: "wednesday",
+  الخميس: "thursday",
+  السبت: "saturday",
+};
 
 function Table() {
   const { selectedDays } = useStudentProgressContext();
+  const { tableData, isPending, error } = useReadTable();
 
-  const filteredSchedules =
-    selectedDays.length === 0 || selectedDays.includes("كل الأيام")
-      ? schedules
-      : schedules.filter((schedule) => selectedDays.includes(schedule.day));
+  if (isPending) return <Spinner />;
 
-  const groupedSchedules = filteredSchedules.reduce((acc, schedule) => {
-    if (!acc[schedule.day]) {
-      acc[schedule.day] = [];
-    }
-    acc[schedule.day].push(schedule);
-    return acc;
-  }, {});
+  if (error) {
+    toast.error("خطأ في تحميل معلومات الجدول يرجي المحاوله لاحقا");
+    return null;
+  }
+
+  if (!tableData?.data) {
+    return <div>لا توجد بيانات متاحة</div>;
+  }
+
+  const groupedSessions = {};
+
+  tableData.data.forEach((one) => {
+    Object.entries(one.sessions || {}).forEach(([dayKey, daySessions]) => {
+      const arabicDay = Object.keys(arabicToEnglishDays).find(
+        (key) => arabicToEnglishDays[key] === dayKey
+      );
+
+      if (
+        selectedDays.length === 0 ||
+        selectedDays.includes("كل الأيام") ||
+        selectedDays.includes(arabicDay)
+      ) {
+        if (!groupedSessions[arabicDay]) {
+          groupedSessions[arabicDay] = [];
+        }
+        groupedSessions[arabicDay].push(
+          ...daySessions.map((session) => ({
+            ...session,
+            day: arabicDay,
+          }))
+        );
+      }
+    });
+  });
+
+  const orderedDays = [
+    "السبت",
+    "الأحد",
+    "الإثنين",
+    "الثلاثاء",
+    "الأربعاء",
+    "الخميس",
+  ].filter((day) => groupedSessions[day]);
 
   return (
     <TableContainer>
       <TableHeader>
         <TableHeaderCell>
-          <P>الأيام</P>
-        </TableHeaderCell>
-        <TableHeaderCell>
           <P>أسم المادة</P>
         </TableHeaderCell>
         <TableHeaderCell>
-          <P>الوقت</P>
+          <P>من الساعة</P>
+        </TableHeaderCell>
+        <TableHeaderCell>
+          <P>حتي الساعة</P>
         </TableHeaderCell>
         <TableHeaderCell>
           <P>النوع</P>
-        </TableHeaderCell>
-        <TableHeaderCell>
-          <P>المعلم</P>
         </TableHeaderCell>
         <TableHeaderCell>
           <P>المكان</P>
@@ -110,15 +175,16 @@ function Table() {
       </TableHeader>
 
       <TableBody>
-        {Object.entries(groupedSchedules).map(([day, rows]) =>
-          rows.map((row, index) => (
-            <TableRow
-              key={row.id}
-              data={row}
-              rowSpan={index === 0 ? rows.length : 0}
-            />
-          ))
-        )}
+        {orderedDays.map((day) => (
+          <Div key={day}>
+            <DayHeaderRow>
+              <DayHeaderText>{day}</DayHeaderText>
+            </DayHeaderRow>
+            {groupedSessions[day].map((session) => (
+              <TableRow key={session.id} data={session} />
+            ))}
+          </Div>
+        ))}
       </TableBody>
     </TableContainer>
   );
