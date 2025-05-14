@@ -5,7 +5,7 @@ import Button from "../../ui/Button";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/authSlice";
-import { ENDPOINTS } from "../../utils/apiConstant";
+import { BASE_URL, ENDPOINTS } from "../../utils/apiConstant";
 import axiosInstance from "../../services/api/axiosInstance";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -142,8 +142,27 @@ export default function LoginForm() {
       },
       { headers }
     );
+
     const accessToken = response.data.data[0].access_token;
     const userData = response.data.data[0].user;
+    // Store the token and user data in localStorage and Redux
+    const [courses, announcements, assignments, quizzes] = await Promise.all([
+      axiosInstance.get(`${BASE_URL}/courses`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axiosInstance.get(`${BASE_URL}/announcements`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+
+      axiosInstance.get(`${BASE_URL}/assignments`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+      axiosInstance.get(`${BASE_URL}/quizzes`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }),
+    ]);
+
+    // Store the token and user data in localStorage and Redux
     let userToStore = {
       id: userData.id,
       avatar: userData.avatar,
@@ -152,12 +171,18 @@ export default function LoginForm() {
       email: userData.email,
       role: userData.type,
       token: accessToken,
+      courses: courses.data, // Add courses data
+      announcements: announcements.data, // Add announcements data
+      assignments: assignments.data, // Add assignments data
+      quizzes: quizzes.data, // Add quizzes data
     };
+
     if (userToStore.role === "Student") {
       dispatch(login(userToStore)); // Store user data in Redux
       console.log("Login successful", response.data);
       toast.success(` تم تسجيل دخول
       ${userData.name}`);
+      console.log(userToStore);
       navigate("/");
     } else {
       userToStore = null;
