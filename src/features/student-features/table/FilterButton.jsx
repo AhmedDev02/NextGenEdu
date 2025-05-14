@@ -3,26 +3,24 @@ import { days } from "./data";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 
 const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 1000px;
   gap: 20px;
-  flex-wrap: wrap;
   padding: 10px 0;
 `;
 
 const FilterButton = styled.button`
   font-size: 1.4rem;
   font-family: "Changa";
-  min-width: clamp(6rem, 12vw, 14rem);
-  max-width: 16rem;
+  width: 12rem;
   flex-grow: 1;
   border: 1px solid gray;
   outline: none;
   border-color: ${(props) => (props.active ? "#7cbd9c" : "#353434")};
   cursor: pointer;
   background: ${(props) => (props.active ? "#c9fad7" : "#eae8e8")};
-  border-radius: 2rem;
+  border-radius: 1.5rem;
   color: ${(props) => (props.active ? "#06722c" : "#353434")};
   font-weight: bold;
   padding: 10px 12px;
@@ -36,7 +34,6 @@ const FilterButton = styled.button`
   @media (max-width: 600px) {
     font-size: 1rem;
     padding: 6px 10px;
-    min-width: 8rem;
   }
 `;
 
@@ -50,13 +47,13 @@ function FilterButtons() {
   };
   return (
     <ButtonsContainer>
-      {days.map((day) => (
+      {days.map((day, index) => (
         <FilterButton
-          key={day}
-          active={selectedDays?.includes(day)}
-          onClick={() => toggleDay(day)}
+          key={index}
+          active={selectedDays?.includes(day.value)}
+          onClick={() => toggleDay(day.value)}
         >
-          {day}
+          {day.value}
         </FilterButton>
       ))}
     </ButtonsContainer>

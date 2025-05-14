@@ -1,25 +1,23 @@
 import { GoDotFill } from "react-icons/go";
 import styled from "styled-components";
-import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
-import { useEffect } from "react";
 
 const TableRowContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
   background-color: white;
   border-radius: 2rem;
   box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* Enables horizontal scrolling */
-  overflow-y: hidden;
+  overflow-x: auto;
 `;
 
 const TableSmallRow = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 equal columns */
-  /* width: 1024px; Fixed width to prevent responsiveness */
+  grid-template-columns: repeat(6, 1fr);
   align-items: center;
   text-align: center;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(6, 1fr);
+    font-size: 1rem;
+  }
 `;
 
 const TableSmallRowCell = styled.div`
@@ -66,46 +64,47 @@ const Icon = styled(GoDotFill)`
   font-size: 1.8rem;
 `;
 function TableRow({ data }) {
-  const { day, place, teacher, type, course, time, id,status } = data;
-  const { lectureStatuses } = useStudentProgressContext();
-
-  const updatedStatus = lectureStatuses[id] ||status; // Ensure state update is detected
-
+  const { course, status, from, to, hall, type } = data;
+  const updatedStatus = status;
 
   return (
     <TableRowContainer>
       <TableSmallRow>
-        <TableSmallRowCell type="day">
-          <P>{day}</P>
-        </TableSmallRowCell>
         <TableSmallRowCell>
           <P>{course}</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
-          <P>{time}</P>
+          <P>{from} صباحا</P>
+        </TableSmallRowCell>
+        <TableSmallRowCell>
+          <P>{to} صباحا</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
           <P>{type}</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
-          <P>{teacher}</P>
+          <P>{hall.hall_code}</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
-          <P>{place}</P>
-        </TableSmallRowCell>
-        <TableSmallRowCell>
-          {updatedStatus === "في موعدها" ? (
-            <Icon type="inTime" />
+          {updatedStatus === "in time" ? (
+            <>
+              <Icon type="inTime" />
+              <P>في موعدها</P>
+            </>
           ) : updatedStatus === "تم التأجيل" ? (
-            <Icon type="postpone" />
+            <>
+              <Icon type="postpone" />
+              <P>تم التأجيل</P>
+            </>
           ) : (
-            <Icon type="cancel" />
+            <>
+              <Icon type="cancel" />
+              <P>تم الالغاء</P>
+            </>
           )}
-          <P>{updatedStatus}</P>
         </TableSmallRowCell>
       </TableSmallRow>
     </TableRowContainer>
   );
 }
-
 export default TableRow;
