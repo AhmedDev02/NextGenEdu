@@ -9,6 +9,7 @@ import AssignmentEditWindow from "./AssignmentEditWindow";
 import AssignmentDeleteWindow from "./AssignmentDeleteWindow";
 import { useDeleteAssignment } from "./useDeleteAssignment";
 import { useState } from "react";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 
 const assignmentData = [
   {
@@ -243,6 +244,9 @@ function AllAssignments() {
               >
                 تفاصيل الأسيمنت
               </StyledButton>
+              <FaEye title="Show" style={{ cursor: "pointer" }} />
+              <FaEdit title="Edit" style={{ cursor: "pointer" }} />
+              <FaTrash title="Delete" style={{ cursor: "pointer" }} />
               <WindowContainer>
                 <Modal>
                   <Modal.Open opens="edit-assignment">
