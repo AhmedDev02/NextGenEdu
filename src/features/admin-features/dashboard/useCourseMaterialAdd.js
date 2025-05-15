@@ -9,6 +9,7 @@ export function useCourseMaterialAdd() {
 
   const mutation = useMutation({
     mutationFn: async ({ courseId, data }) => {
+      console.log(data);
       // Call the updateCourseMaterial function from apiUpdateCourse.js
       return addCourseMaterial(courseId, data, token);
     },

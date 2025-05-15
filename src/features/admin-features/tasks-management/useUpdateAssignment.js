@@ -10,9 +10,9 @@ export function useUpdateAssignment() {
   const queryClient = useQueryClient(); // Get the queryClient instance
 
   const mutation = useMutation({
-    mutationFn: async ({ courseId, updatedData }) => {
+    mutationFn: async ({ assignmentId, updatedData }) => {
       // Call the updateCourseMaterial function from apiUpdateCourse.js
-      return updateAssignment(courseId, updatedData, token);
+      return updateAssignment(assignmentId, updatedData, token);
     },
     onSuccess: () => {
       // Handle success (e.g., show a success toast, update local state)

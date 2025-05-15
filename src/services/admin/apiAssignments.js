@@ -7,7 +7,6 @@ export async function updateAssignment(assignmentId, updatedData, token) {
   }
 
   const headers = {
-    "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "X-Device-Type": "web",
     Authorization: `Bearer ${token}`,
@@ -16,12 +15,13 @@ export async function updateAssignment(assignmentId, updatedData, token) {
   try {
     const response = await axios.put(
       `${BASE_URL}/teachers/assignments/${assignmentId}`, // Endpoint to update course material
-      updatedData, // Send the updated data as the body
+      Object.fromEntries(updatedData), // Send the updated data as the body
       { headers }
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.error("Error updating course material:", error.message);
+    console.log(error.response.data.errors);
+    console.error("Error updating:", error);
     throw new Error(error.message); // Throw an error if the request fails
   }
 }

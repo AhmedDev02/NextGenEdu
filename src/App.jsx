@@ -202,12 +202,15 @@ function App() {
               <Route path="quizzes/old-quizzes/:id" element={<LastQuiz />} />
               <Route path="students" element={<StudentsManagement />} />
               <Route path="tasks" element={<TasksManagement />} />
-              <Route path="tasks/create-tasks/:id" element={<CreateTasks />} />
               <Route
-                path="tasks/scheduled-tasks/:id"
+                path="tasks/create-tasks/:taskId"
+                element={<CreateTasks />}
+              />
+              <Route
+                path="tasks/scheduled-tasks/:taskId"
                 element={<ScheduledTasks />}
               />
-              <Route path="tasks/old-tasks/:id" element={<LastTasks />} />
+              <Route path="tasks/old-tasks/:taskId" element={<LastTasks />} />
               <Route
                 path="tasks/old-tasks/1/results"
                 element={<TasksResults />}

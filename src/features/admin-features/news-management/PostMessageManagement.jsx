@@ -39,12 +39,6 @@ function PostMessageManagement({ title, msg, notice }) {
         {ANNOUNCEMENT} {title}
       </MessageAnnouncement>
       <MessageBody>{msg}</MessageBody>
-      {/* {notice && (
-        <MessageNotice>
-          <Span>{NOTICE}</Span>
-          {notice}
-        </MessageNotice>
-      )} */}
     </MessagePost>
   );
 }

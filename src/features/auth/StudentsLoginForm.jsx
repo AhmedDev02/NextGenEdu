@@ -137,8 +137,8 @@ export default function LoginForm() {
     const response = await axiosInstance.post(
       endpoint,
       {
-        email: "20812025000001@zu.edu.eg",
-        password: "20812025000001@zu.edu.eg",
+        email: "20812025000002@zu.edu.eg",
+        password: "20812025000002@zu.edu.eg",
       },
       { headers }
     );

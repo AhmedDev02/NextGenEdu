@@ -4,7 +4,7 @@ import { useUser } from "../../../hooks/useUser"; // Import the API function
 import toast from "react-hot-toast";
 import { deleteAssignment } from "../../../services/admin/apiAssignments";
 
-export function useDeleteAnnouncement(id) {
+export function useDeleteAssignment(id) {
   const { token } = useUser();
 
   const queryClient = useQueryClient(); // Get the queryClient instance

@@ -41,7 +41,7 @@ const TasksManagementContent = () => {
   const courses = user.courses.data;
   return (
     <Container>
-      {courses.map((element, index) => (
+      {courses.map((element) => (
         <MyCard
           key={element.id}
           data={element}
