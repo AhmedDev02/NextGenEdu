@@ -133,7 +133,8 @@ export async function addCourseMaterial(courseId, data, token) {
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.error("Error updating course material:", error.message);
+    console.log(error.message);
+    console.error("Error updating course material:", error);
     throw new Error(error.message); // Throw an error if the request fails
   }
 }

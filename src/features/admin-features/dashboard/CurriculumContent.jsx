@@ -160,8 +160,8 @@ const ButtonDiv = styled.div``;
 function CurriculumContent() {
   const { curriculumId } = useParams();
   let { courseMaterial: material } = useCourseMaterial(curriculumId);
-  // console.log(material);
   material = material.data;
+  console.log(material);
 
   const [openWeek, setOpenWeek] = useState([]);
 
@@ -171,7 +171,7 @@ function CurriculumContent() {
   const { mutate } = useCourseMaterialDelete(deletedRowId);
 
   function handleDetails(weekId, event) {
-    event.stopPropagation();
+    event.stopPropagation(); // Stop the event from bubbling up
 
     // setOpenWeek((prev) => (prev === weekId ? null : weekId)); // Toggle visibility
     if (openWeek.includes(weekId)) {
@@ -198,6 +198,29 @@ function CurriculumContent() {
     setDeletedRowId(data);
   };
   // if (material.length == 0) return <h2>empty...</h2>;
+  const handleDownload = (file, event) => {
+    event.stopPropagation(); // Stop the event from bubbling up
+    // PDF file URL (replace with your actual file path or URL)
+    const fileUrl = file; // Update with actual file URL
+    const fileName = fileUrl.split("/").pop();
+    console.log(fileName);
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    link.download = fileName; // Set the filename to be downloaded
+
+    // Append the link, click it, and remove it from the DOM after the download
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  const handleOpenInNewTab = (fileUrl) => {
+    // You can now open this file using the new URL without the base path
+    const url = fileUrl
+      .split("admin/dashboard/")
+      .substring(fileUrl.indexOf("nextgenedu-database"));
+    console.log(url);
+    window.open(url, "_blank"); // Open the file in a new tab
+  };
 
   return (
     <Div open={openWeek}>
@@ -304,7 +327,10 @@ function CurriculumContent() {
                     size="custom"
                     paddingLeftRight="37px"
                     paddingTopBottom="10px"
-                    onClick={() => handleDetails(week.id)}
+                    onClick={(event) => {
+                      handleOpenInNewTab(week.file);
+                      handleDetails(week.id, event);
+                    }}
                     style={openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
                   >
                     {week.type === "file" ? (
@@ -324,7 +350,10 @@ function CurriculumContent() {
                     size="custom"
                     paddingLeftRight="40px"
                     paddingTopBottom="10px"
-                    onClick={() => handleDetails(week.id)}
+                    onClick={(event) => {
+                      handleDownload(week.file, event);
+                      handleDetails(week.id, event);
+                    }}
                     style={!openWeek ? { boxShadow: "none" } : {}} // Dynamically remove shadow
                   >
                     <Span>

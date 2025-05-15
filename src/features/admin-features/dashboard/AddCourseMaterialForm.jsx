@@ -89,7 +89,7 @@ function AddCourseMaterialForm() {
       title: data.title,
       week: data.week,
       type: data.type,
-      material: data.materialFile,
+      "material[]": data.materialFile,
     };
     try {
       // Call the mutation function to update the course material

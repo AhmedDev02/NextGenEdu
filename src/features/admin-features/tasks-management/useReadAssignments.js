@@ -9,13 +9,13 @@ export function useReadAssignments() {
   const token = user ? user.token : null;
 
   const {
-    data: courses = [], // Default to an empty array if no courses are fetched
+    data: assignments = [], // Default to an empty array if no assignments are fetched
     isLoading,
     error,
   } = useQuery({
     queryKey: ["assignments", token], // The query key should depend on the token to refetch when it changes
-    queryFn: () => getAllAssignments(token), // Fetch courses only if token is available
+    queryFn: () => getAllAssignments(token), // Fetch assignments only if token is available
   });
 
-  return { courses, isLoading, error };
+  return { assignments, isLoading, error };
 }
