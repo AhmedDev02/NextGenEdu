@@ -21,11 +21,11 @@ function TeacherMaterial() {
   // const data = [1, 2, 3];
   const { courses, isLoading, error } = useCourses();
   console.log(courses);
-  const coursesData = courses.data;
+  const coursesData = courses?.data;
   const { user, token } = useUser();
-  console.log(user.semesters.data);
+  console.log(user?.semesters?.data);
 
-  const semester = user.semesters.data.map((semester) => {
+  const semester = user?.semesters?.data?.map((semester) => {
     return { label: semester.name, value: semester.id };
   });
 

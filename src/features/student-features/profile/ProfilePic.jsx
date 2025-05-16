@@ -1,5 +1,6 @@
-import { FiEdit, FiEdit2, FiEdit3 } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 import styled from "styled-components";
+import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 
 const Div = styled.div`
   display: flex;
@@ -81,19 +82,6 @@ const ImgEditor = styled.div`
     right: 190px;
   }
 `;
-const Span = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  &:hover {
-    box-shadow: var(--shadow-primary);
-  }
-
-  background-color: #fff;
-`;
 
 const StyledIcon = styled(FiEdit)`
   height: 20px;
@@ -103,32 +91,68 @@ const StyledIcon = styled(FiEdit)`
     transform: scale(1.1);
   }
 `;
+const Input = styled.input`
+  display: none;
+  cursor: pointer;
+`;
+const Label = styled.label`
+  cursor: pointer;
+`;
+const SendButton = styled.button`
+  background: var(--color-primary-green);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  &:active,
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    scale: 0.9;
+  }
+`;
+function ProfilePic({ name, uniCode, group, personalId, avatar, handleSave }) {
+  const { SelectedImage, setSelectedImage } = useStudentProgressContext();
 
-function ProfilePic() {
-  const student = {
-    name: "أحمد ثروت رفاعي خليل",
-    uniCode: "123456789",
-    group: "A",
-    section: "1",
-    degree: 85,
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      const base64Image = reader.result;
+      setSelectedImage(base64Image);
+    };
   };
-  const { name, uniCode, group, section } = student;
   return (
     <Div>
       <H3>الصورة الشخصية</H3>
-      <ProfileImg src="../../../public/download.jpeg" alt="user" />
+      <ProfileImg
+        src={SelectedImage || `https://${avatar}` || "/download.jpeg"}
+        alt="user"
+      />
+
       <Name>{name}</Name>
       <UniCode>({uniCode})</UniCode>
       <Breaker />
       <Divider>
         <Group>مجموعة: {group}</Group>
-        <Group>سكشن: {section}</Group>
+        <Group>الرقم القومي: {personalId}</Group>
       </Divider>
+
       <ImgEditor>
-        <Span>
+        <Label htmlFor="avatar-upload">
           <StyledIcon />
-        </Span>
+          <Input
+            onChange={handleImageUpload}
+            type="file"
+            id="avatar-upload"
+            accept="image/*"
+          />
+        </Label>
       </ImgEditor>
+      <SendButton onClick={handleSave}>حفظ الصوره</SendButton>
     </Div>
   );
 }
