@@ -360,6 +360,7 @@ export default function LoginForm() {
       toast.success(` تم تسجيل دخول
         ${userData.name}`);
 
+      console.log(userToStore.role);
       switch (userToStore.role) {
         case "Super admin":
           navigate("/super-admin");
@@ -372,6 +373,7 @@ export default function LoginForm() {
           break;
         default:
           navigate("/"); // Default path in case no role matches
+          dispatch(login(null));
           break;
       }
     } catch (error) {

@@ -94,7 +94,7 @@ function ListFilter({
 
   return (
     <FilterMenuContainer {...containerProps} styles={containerStyles}>
-      {items.map(({ label, value }) => (
+      {items?.map(({ label, value }) => (
         <FilterItem
           key={value}
           active={selectedItems.includes(value)}

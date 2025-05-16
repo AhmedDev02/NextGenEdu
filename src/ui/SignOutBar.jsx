@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import SignOutToggle from "./SignOutToggle";
-import { NAME_TEST } from "../utils/constants";
 import { useState } from "react";
 import SignOutButton from "./SignOutButton";
 import { useSelector } from "react-redux";
+import { useGetProfile } from "../features/student-features/profile/useGetProfile";
+import Spinner from "./amr/Spinner";
 
 const Div = styled.div`
   height: 40px;
@@ -57,27 +58,30 @@ const Img = styled.img`
 // const
 function SignOutBar({ profile }) {
   const [signOutToggle, setSignOut] = useState(false);
-  const user = useSelector((state) => state.auth.user); // Get the user from Redux store
+  // const user = useSelector((state) => state.auth.user);
+  // const { SelectedImage } = useStudentProgressContext();
+  const { ProfileInfo, isLoading } = useGetProfile();
+  if (isLoading) return <Spinner />;
+  const { avatar, name, email, type } = ProfileInfo.data;
+  console.log(ProfileInfo.data);
 
   // handling
   function handleSignOutToggle() {
     setSignOut(!signOutToggle);
   }
-  console.log(profile);
+
   return (
     <Div>
       <SignOutToggle toggle={handleSignOutToggle} />
       <Text>
-        {user?.name}
-        {` (${user?.email || "20812020101866"}) `}
+        {name}
+        {` (${email || "20812020101866"}) `}
       </Text>
-      <Img src="../../public/download.jpeg" alt="profile.name" />
+      <Img src={`https://${avatar}` || "/download.jpeg"} alt="profile.name" />
       {/* {signOutToggle && <SignOutButton />} */}
       <SignOutButton
         isVisible={signOutToggle}
-        path={
-          user?.role === "Super admin" ? "/teachers/login" : "/students/login"
-        }
+        path={type === "Super admin" ? "/teachers/login" : "/students/login"}
       />
     </Div>
   );

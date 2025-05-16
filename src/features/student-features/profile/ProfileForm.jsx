@@ -1,12 +1,6 @@
 import styled from "styled-components";
-import {
-  FiUser,
-  FiEdit2,
-  FiMail,
-  FiPhone,
-  FiKey,
-  FiCheck,
-} from "react-icons/fi";
+import { IoIosEyeOff, IoMdEye } from "react-icons/io";
+import { FiUser, FiEdit2, FiMail, FiKey, FiCheck } from "react-icons/fi";
 import { useState } from "react";
 
 const Container = styled.div`
@@ -47,6 +41,13 @@ const InputWrapper = styled.div`
 `;
 
 const Input = styled.input`
+  &::-ms-reveal,
+  &::-ms-clear,
+  &::-webkit-contacts-auto-fill-button,
+  &::-webkit-credentials-auto-fill-button,
+  &::-webkit-textfield-decoration-container {
+    display: none !important;
+  }
   all: unset;
   flex: 1;
   border: none;
@@ -89,37 +90,43 @@ const Button = styled.button`
     background: #1c2230;
   }
 `;
+const Div = styled.div`
+  cursor: pointer;
+`;
 
-const ProfileForm = () => {
-  const [isEditing, setIsEditing] = useState(false);
+const ProfileForm = ({
+  name,
+  uniCode,
+  email,
+  password,
+  setPassword,
+  isEditing,
+  handleSave,
+}) => {
+  const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
-    name: "أحمد ثروت رفاعي",
-    universityCode: "1234567890",
-    email: "1234567890@zu.edu.eg",
-    phone: "1234567890",
+    name,
+    uniCode,
+    email,
   });
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const toggleEdit = () => {
-    if (isEditing) {
-      // Save changes here (e.g., send to API)
-      console.log("Updated Data:", formData);
-    }
-    setIsEditing(!isEditing);
+  const handleShow = () => {
+    setShow((prev) => !prev);
   };
 
   return (
     <Container>
       {/* Full Name */}
       <Label>الإسم الكامل</Label>
-      <InputWrapper>
+      <InputWrapper isEditing={isEditing}>
         <Input
           type="text"
           name="name"
           value={formData.name}
           onChange={handleInputChange}
-          readOnly={!isEditing}
+          readOnly
         />
         <Icon>
           <FiUser />
@@ -129,7 +136,7 @@ const ProfileForm = () => {
       {/* University Code */}
       <Label>الكود الجامعي</Label>
       <InputWrapper isEditing={isEditing}>
-        <Input type="text" value={formData.universityCode} readOnly />
+        <Input type="text" value={formData.uniCode} readOnly />
         <Icon>
           <FiKey />
         </Icon>
@@ -151,22 +158,27 @@ const ProfileForm = () => {
       </InputWrapper>
 
       {/* Phone Number */}
-      <Label>رقم الهاتف</Label>
+      <Label>كلمة المرور</Label>
       <InputWrapper>
         <Input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleInputChange}
+          type={show ? "text" : "password"}
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           readOnly={!isEditing}
         />
         <Icon>
-          <FiPhone />
+          <Div
+            onClick={handleShow}
+            title={show ? "hide password" : "show password"}
+          >
+            {show ? <IoIosEyeOff size={18} /> : <IoMdEye size={18} />}
+          </Div>
         </Icon>
       </InputWrapper>
 
       {/* Edit Button */}
-      <Button onClick={toggleEdit} isEditing={isEditing}>
+      <Button onClick={handleSave} isEditing={isEditing}>
         {isEditing ? <FiCheck /> : <FiEdit2 />}
         {isEditing ? "حفظ التغييرات" : "تعديل"}
       </Button>

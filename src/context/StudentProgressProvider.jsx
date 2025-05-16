@@ -13,6 +13,7 @@ function StudentProgressProvider({ children }) {
   const [editDegree, setEditDegree] = useState(false);
   const [isActive, setIsActive] = useState(false);
   const [currentDegree, setCurrentDegree] = useState(0);
+  const [SelectedImage, setSelectedImage] = useState(null);
 
   const setLectureStatus = (lectureId, status) => {
     setLectureStatuses((prev) => {
@@ -63,7 +64,8 @@ function StudentProgressProvider({ children }) {
         setCurrentDegree,
         SelectedCourse,
         setSelectedCourse,
-
+        SelectedImage,
+        setSelectedImage,
       }}
     >
       {children}

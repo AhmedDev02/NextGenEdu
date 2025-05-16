@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import ProfilePic from "./ProfilePic";
 import ProfileForm from "./ProfileForm";
+import { useGetProfile } from "./useGetProfile";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
+import useUpdateProfile from "./useUpdateProfile";
+import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 
 const Div = styled.div`
   display: flex;
@@ -97,15 +103,57 @@ const ProfileDataContainer = styled.div`
 `;
 
 function ProfileContent() {
-  const student = {
-    name: "أحمد علي",
-    department: "علوم الحاسوب",
-    level: "3",
-    group: "أ",
-    section: "1",
-    degree: 85,
+  const [isEditing, setIsEditing] = useState(false);
+  const [password, setPassword] = useState("");
+  const { ProfileInfo, error, isLoading } = useGetProfile();
+  const { SelectedImage } = useStudentProgressContext();
+  const { mutate } = useUpdateProfile();
+
+  useEffect(() => {
+    if (error) toast.error("خطأ في تحميل بيانات الملف الشخصي");
+  }, [error]);
+
+  const handleSavePassword = () => {
+    if (isEditing) {
+      if (!password) {
+        toast.error("الرجاء إدخال كلمة المرور قبل الحفظ");
+        return;
+      }
+      mutate({
+        password: password,
+      });
+      setIsEditing(false);
+    } else {
+      setIsEditing(true);
+    }
   };
-  const { name, department, level, group, section, degree } = student;
+  const handleSaveAvatar = () => {
+    if (SelectedImage) {
+      mutate({
+        avatar: SelectedImage,
+      });
+    } else {
+      toast.error("اختر صورة قبل الحفظ");
+    }
+    setIsEditing(false);
+  };
+
+  if (isLoading) return <Spinner />;
+  if (!ProfileInfo) return null;
+
+  const {
+    avatar,
+    department,
+    email,
+    group,
+    id,
+    name,
+    personal_id,
+    uni_code,
+    semester,
+  } = ProfileInfo.data;
+  const { name: departmentName } = department;
+  const { name: semesterName } = semester;
   return (
     <Div>
       <Header>
@@ -118,29 +166,45 @@ function ProfileContent() {
         </StudentStat>
         <StudentStat>
           <Span>الكلية/القسم</Span>
-          <P>{department}</P>
+          <P>{departmentName}</P>
         </StudentStat>
         <StudentStat>
           <Span>الفرقة</Span>
-          <P>{level}</P>
+          <P>{semesterName}</P>
         </StudentStat>
         <StudentStat>
           <Span>المجموعة</Span>
           <P>{group}</P>
         </StudentStat>
         <StudentStat>
-          <Span>السكشن</Span>
-          <P>{section}</P>
+          <Span>رقم الجلوس</Span>
+          <P>{id}</P>
         </StudentStat>
         <StudentStat>
-          <Span>التقدير التراكمي</Span>
-          <P>{degree}</P>
+          <Span>الايميل الجامعي</Span>
+          <P>{email}</P>
         </StudentStat>
       </StudentStatus>
       <Breaker />
       <ProfileDataContainer>
-        <ProfilePic />
-        <ProfileForm />
+        <ProfilePic
+          name={name}
+          uniCode={uni_code}
+          group={group}
+          personalId={personal_id}
+          avatar={avatar}
+          handleSave={handleSaveAvatar}
+        />
+        <ProfileForm
+          name={name}
+          uniCode={uni_code}
+          email={email}
+          password={password}
+          setPassword={setPassword}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          handleSave={handleSavePassword}
+        />
       </ProfileDataContainer>
       <Breaker />
     </Div>
