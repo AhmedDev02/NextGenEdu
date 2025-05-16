@@ -4,13 +4,13 @@ import { useUser } from "../../../hooks/useUser"; // Import the API function
 import toast from "react-hot-toast";
 import { deleteAssignment } from "../../../services/admin/apiAssignments";
 
-export function useDeleteAssignment(id) {
+export function useDeleteAssignment() {
   const { token } = useUser();
 
   const queryClient = useQueryClient(); // Get the queryClient instance
 
   const mutation = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (id) => {
       // Call the updateCourseMaterial function from apiUpdateCourse.js
       return deleteAssignment(id, token);
     },

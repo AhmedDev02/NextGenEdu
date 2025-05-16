@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Button from "../../../ui/Button";
 import { useEffect, useState } from "react";
 import { useUser } from "../../../hooks/useUser";
-import DateSelector from "./DateSelector";
-import HoursSelector from "./HoursSelector";
+import DateSelector from "../../../ui/tharwat/DateSelector";
+import HoursSelector from "../../../ui/tharwat/HoursSelector";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { useCreateAnnouncement } from "./useCreateAnnouncement";
@@ -112,6 +112,7 @@ const Div = styled.div`
 
 const AddNewsContent = () => {
   const { user } = useUser();
+
   const semesters = user.semesters.data;
   const { mutate } = useCreateAnnouncement();
   const {

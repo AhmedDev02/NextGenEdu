@@ -1,9 +1,15 @@
 import styled from "styled-components";
 import { HiOutlineNewspaper } from "react-icons/hi2";
 import { CiTextAlignJustify } from "react-icons/ci";
-import { SlArrowLeft } from "react-icons/sl";
+import DateSelector from "../../../ui/tharwat/DateSelector";
+import { useState } from "react";
+import HoursSelector from "../../../ui/tharwat/HoursSelector";
+import { useForm } from "react-hook-form";
+import { format } from "date-fns";
+import { useParams } from "react-router-dom";
+import { useCreateAssignment } from "./useCreateAssignment";
 
-const CreateContainer = styled.div`
+const CreateContainer = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -49,21 +55,7 @@ const TextIcon = styled(CiTextAlignJustify)`
     transform: translate(-7px, 34px);
   }
 `;
-const ArrowIcon = styled(SlArrowLeft)`
-  font-size: 17px;
-  position: absolute;
-  transform: translate(-250px, 12px);
 
-  @media (max-width: 1027px) and (min-width: 767px) {
-    font-size: 18px;
-    transform: translate(-7px, 38px);
-  }
-
-  @media (max-width: 767px) {
-    font-size: 16px;
-    transform: translate(-7px, 34px);
-  }
-`;
 const ControlledContainer = styled.div`
   display: grid;
   grid-template-columns: 0.5fr 0.5fr;
@@ -126,29 +118,8 @@ const LastDiv2 = styled.div`
   font-family: "Changa", sans-serif;
   background-color: transparent;
 `;
-const StyledSelect = styled.select`
-  height: 40px;
-  padding: 5px;
-  background: transparent;
-  color: black;
-  margin-inline: 10px;
-  border: 1px black solid;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: right;
 
-  &:focus {
-    background: #ffffff;
-    outline: none;
-  }
-`;
-
-const StyledOption = styled.option`
-  color: black;
-`;
-const Styledbutton = styled.button`
+const StyledButton = styled.button`
   width: 15%;
   height: 40px;
   border-radius: 12px;
@@ -176,39 +147,86 @@ const Styledbutton = styled.button`
   }
 `;
 
-const options = ["2025/01/29", "2025/01/28", "2025/01/27", "2025/01/26"];
+const StyledFileInput = styled.input`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--green-primary);
+  }
+`;
 
 const CreateTasksContent = () => {
+  const { register, handleSubmit, reset } = useForm();
+  const [date, setDate] = useState(null);
+  const [hours, setHour] = useState(null);
+  // const [file, setFile] = useState(null);
+
+  const { taskId: courseId } = useParams();
+
+  const { mutate } = useCreateAssignment();
+  const onSubmit = (data) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    const formattedTime = format(hours, "HH:mm:ss");
+
+    // Final form data object
+    const finalData = {
+      course_id: courseId,
+      date: formattedDate,
+      time: formattedTime,
+      ...data,
+      file: data.file[0],
+    };
+    mutate({ createdData: finalData });
+    // reset(); // Reset form after submit
+    // setDate(null);
+    // setHour(null);
+  };
+
   return (
     <>
-      <CreateContainer>
+      <CreateContainer onSubmit={handleSubmit(onSubmit)}>
         <ControlledContainer>
           <Div>
-            <Label for="time">عنوان الأسايمنت</Label>
-            <NewsIcon></NewsIcon>
+            <Label htmlFor="title">عنوان الأسايمنت</Label>
+            <NewsIcon />
             <ControlledInput
+              {...register("title", { required: true })}
               name="title"
               type="text"
               placeholder=" أدخل عنوانًا يعبر عن محتوى الأسايمنت بشكل واضح."
             />
           </Div>
           <Div>
-            <Label for="time">درجة الأسايمنت</Label>
+            <Label htmlFor="file">ارفع الملف</Label>
+            <StyledFileInput
+              type="file"
+              {...register("file", { required: true })}
+            />
+          </Div>
+          <Div>
+            <Label htmlFor="total_degree">درجة الأسايمنت</Label>
             <ControlledInput
-              name="degree"
+              {...register("total_degree", { required: true, min: 0 })}
+              name="total_degree"
               type="number"
               min="0"
-              defaultValue={5}
+              defaultValue={10}
               style={{ padding: "10px" }}
             />
           </Div>
         </ControlledContainer>
 
         <InputContainer>
-          <Label for="description">وصف الأسايمنت</Label>
+          <Label htmlFor="description">وصف الأسايمنت</Label>
           <TextIcon />
 
           <Textarea
+            {...register("description", { required: true })}
             name="description"
             placeholder="قدم شرحًا تفصيليًا حول المطلوب في الأسايمنت، مع أي تعليمات إضافية."
           />
@@ -223,39 +241,6 @@ const CreateTasksContent = () => {
           <LastDiv2>
             <h5
               style={{
-                width: "10%",
-                backgroundColor: "transparent",
-                textAlign: "center",
-                padding: "8px",
-              }}
-            >
-              يبدأ في
-            </h5>
-
-            <StyledSelect defaultValue="" style={{ width: "22%" }}>
-              <StyledOption value="" disabled>
-                2025/01/25
-              </StyledOption>
-              {options.map((option, index) => (
-                <StyledOption key={index} value={option}>
-                  {option}
-                </StyledOption>
-              ))}
-            </StyledSelect>
-
-            <StyledSelect defaultValue="" style={{ width: "17%" }}>
-              <StyledOption value="" disabled>
-                12:10 ص
-              </StyledOption>
-              {options.map((option, index) => (
-                <StyledOption key={index} value={option}>
-                  {option}
-                </StyledOption>
-              ))}
-            </StyledSelect>
-
-            <h5
-              style={{
                 width: "12%",
                 backgroundColor: "transparent",
                 textAlign: "center",
@@ -264,32 +249,20 @@ const CreateTasksContent = () => {
             >
               ينتهي في
             </h5>
-
-            <StyledSelect defaultValue="" style={{ width: "22%" }}>
-              <StyledOption value="" disabled>
-                2025/01/25
-              </StyledOption>
-              {options.map((option, index) => (
-                <StyledOption key={index} value={option}>
-                  {option}
-                </StyledOption>
-              ))}
-            </StyledSelect>
-
-            <StyledSelect defaultValue="" style={{ width: "17%" }}>
-              <StyledOption value="" disabled>
-                12:10 ص
-              </StyledOption>
-              {options.map((option, index) => (
-                <StyledOption key={index} value={option}>
-                  {option}
-                </StyledOption>
-              ))}
-            </StyledSelect>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                gap: "20px",
+              }}
+            >
+              <DateSelector onDate={setDate} />
+              <HoursSelector onHours={setHour} />
+            </div>
           </LastDiv2>
 
           <LastDiv2 style={{ justifyContent: "flex-end" }}>
-            <Styledbutton>نشر !</Styledbutton>
+            <StyledButton type="submit">نشر !</StyledButton>
           </LastDiv2>
         </LastDiv>
       </CreateContainer>

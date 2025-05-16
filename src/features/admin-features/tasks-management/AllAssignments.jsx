@@ -9,7 +9,7 @@ import AssignmentEditWindow from "./AssignmentEditWindow";
 import AssignmentDeleteWindow from "./AssignmentDeleteWindow";
 import { useDeleteAssignment } from "./useDeleteAssignment";
 import { useState } from "react";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { FaDownload, FaEdit, FaEye, FaTrash } from "react-icons/fa";
 
 const assignmentData = [
   {
@@ -120,22 +120,75 @@ const StyledTitle = styled.div`
     height: 45px;
   }
 `;
-const StyledButton = styled.button`
+
+const Div = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  grid-auto-rows: auto;
+  justify-content: center; /* center horizontally */
+  align-items: center; /* center vertically */
+  gap: 4px; /* gap between items */
+  width: fit-content; /* shrink container to content size */
+  margin-right: auto;
+`;
+
+const ShowIcon = styled(FaEye)`
+  cursor: pointer;
+  font-size: 20px;
+  /* margin-right: 12px; */
+
+  &:hover {
+    color: #007bff;
+  }
+`;
+
+const EditIcon = styled(FaEdit)`
+  cursor: ${({ isDisabled }) => (isDisabled ? "loading" : "pointer")};
+  font-size: 20px;
+  /* margin-right: 12px; */
+
+  &:hover {
+    color: ${({ isDisabled }) => (isDisabled ? "" : "#28a745")};
+  }
+`;
+
+const DeleteIcon = styled(FaTrash)`
+  cursor: ${({ isDisabled }) => (isDisabled ? "loading" : "pointer")};
+  font-size: 20px;
+
+  &:hover {
+    color: ${({ isDisabled }) => (isDisabled ? "" : "#dc3545")};
+  }
+`;
+
+const DownloadIcon = styled(FaDownload)`
+  cursor: pointer;
+  font-size: 20px;
+
+  &:hover {
+    color: #17a2b8;
+  }
+`;
+const IconButton = styled.button`
   border-radius: 12px;
-  padding: 10px;
-  width: 100%;
-  background-color: ${({ bgColor }) => (!bgColor ? "#2a3248" : bgColor)};
-  color: #ffffff;
-  font-size: 15px;
+  padding: 8px;
+  width: 32px; /* fixed width for icons */
+  height: 32px;
+  background-color: ${({ bgColor }) => (bgColor ? bgColor : "#2a3248")};
+  color: #fff;
+  font-size: 18px;
   font-weight: 500;
-  font-family: Changa;
+  font-family: Changa, sans-serif;
   outline: none;
   border: 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: #ffffff;
-    color: #2a3248;
+    color: ${({ hoverColor }) => hoverColor + "!important"};
     border: 1px solid #2a3248;
   }
 
@@ -150,36 +203,10 @@ const StyledButton = styled.button`
     transform: translate(20px, 0px);
   }
 `;
-
-const Div = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2px;
-`;
-
-const WindowContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2px;
-`;
-
-const ButtonDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-`;
-
 function AllAssignments() {
   const { assignments } = useReadAssignments();
   const { taskId: courseId } = useParams();
-  const mutate = useDeleteAssignment();
+  const { mutate } = useDeleteAssignment();
 
   const filteredAssignmentsByCourseId = assignments?.data?.filter(
     (assignment) => {
@@ -239,53 +266,58 @@ function AllAssignments() {
               </StyledTitle>
             </StyledRightContainer>
             <Div>
-              <StyledButton
-                onClick={(event) => handleDownloading(assignment.file, event)}
-              >
-                تفاصيل الأسيمنت
-              </StyledButton>
-              <FaEye title="Show" style={{ cursor: "pointer" }} />
-              <FaEdit title="Edit" style={{ cursor: "pointer" }} />
-              <FaTrash title="Delete" style={{ cursor: "pointer" }} />
-              <WindowContainer>
-                <Modal>
-                  <Modal.Open opens="edit-assignment">
-                    <ButtonDiv>
-                      <StyledButton
-                        bgColor={"var(--color-green)"}
-                        onClick={(e) => handleEdit(assignment, e)}
-                        disabled={assignment.status === "finished"}
-                      >
-                        تعديل
-                      </StyledButton>
-                    </ButtonDiv>
-                  </Modal.Open>
+              <IconButton hoverColor={"blue"}>
+                <ShowIcon
+                  isDisabled={assignment.status === "finished"}
+                  title="Show"
+                />
+              </IconButton>
+              <IconButton hoverColor={"green"}>
+                <DownloadIcon
+                  title="Download"
+                  isDisabled={assignment.status === "finished"}
+                  onClick={(event) => handleDownloading(assignment.file, event)}
+                />
+              </IconButton>
+              {/* <WindowContainer> */}
+              <Modal>
+                <Modal.Open opens="edit-assignment">
+                  <IconButton
+                    disabled={assignment.status === "finished"}
+                    hoverColor={assignment.status !== "finished" && "green"}
+                  >
+                    <EditIcon
+                      onClick={(e) => handleEdit(assignment, e)}
+                      isDisabled={assignment.status === "finished"}
+                      title="Edit"
+                    />
+                  </IconButton>
+                </Modal.Open>
 
-                  <Modal.Open opens="delete-assignment">
-                    <ButtonDiv>
-                      <StyledButton
-                        bgColor={"var(--color-red)"}
-                        onClick={handleDelete}
-                        disabled={assignment.status === "finished"}
-                      >
-                        حذف
-                      </StyledButton>
-                    </ButtonDiv>
-                  </Modal.Open>
-                  <Modal.Window name="edit-assignment">
-                    <AssignmentEditWindow
-                      selectedAssignment={selectedAssignment}
+                <Modal.Open opens="delete-assignment">
+                  <IconButton
+                    hoverColor={assignment.status !== "finished" && "red"}
+                    disabled={assignment.status === "finished"}
+                  >
+                    <DeleteIcon
+                      isDisabled={assignment.status === "finished"}
+                      onClick={handleDelete}
                     />
-                  </Modal.Window>
-                  <Modal.Window name="delete-assignment">
-                    <AssignmentDeleteWindow
-                      //   id={assignment.id}
-                      selectedAssignment={selectedAssignment}
-                      onConfirm={() => mutate(assignment.id)}
-                    />
-                  </Modal.Window>
-                </Modal>
-              </WindowContainer>
+                  </IconButton>
+                </Modal.Open>
+                <Modal.Window name="edit-assignment">
+                  <AssignmentEditWindow
+                    selectedAssignment={selectedAssignment}
+                  />
+                </Modal.Window>
+                <Modal.Window name="delete-assignment">
+                  <AssignmentDeleteWindow
+                    selectedAssignment={selectedAssignment}
+                    onConfirm={() => mutate(assignment.id)}
+                  />
+                </Modal.Window>
+              </Modal>
+              {/* </WindowContainer> */}
             </Div>
           </StyledContainer>
         </TimeContainer>
