@@ -50,7 +50,7 @@ export async function deleteAssignment(id, token) {
   }
 }
 
-export async function createAssignment(assignmentId, data, token) {
+export async function createAssignment(data, token) {
   if (!token) {
     throw new Error("Token is required");
   }
@@ -64,13 +64,13 @@ export async function createAssignment(assignmentId, data, token) {
 
   try {
     const response = await axios.post(
-      `${BASE_URL}/teachers/assignments/${assignmentId}`, // Endpoint to update course material
+      `${BASE_URL}/teachers/assignments`, // Endpoint to update course material
       data, // Send the updated data as the body
       { headers }
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.error("Error updating course material:", error.message);
+    console.log("Error updating course material:", error);
     throw new Error(error.message); // Throw an error if the request fails
   }
 }
