@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { updateTeacherProfile } from "../../../services/admin/apiTeacherProfile"
 import { useUser } from "../../../hooks/useUser";
-import { updateProfileData } from "../../../services/student/apiProfile";
 import toast from "react-hot-toast";
 
 const useUpdateProfile = () => {
     const { token } = useUser();
     const queryClient = useQueryClient()
     const { mutate, isPending } = useMutation({
-        mutationFn: ({ password, avatar }) => updateProfileData(password, avatar, token),
+        mutationFn: ({ password, avatar }) => updateTeacherProfile(password, avatar, token),
         onSuccess: () => {
             queryClient.invalidateQueries(['Profile']);
             toast.success('تم تحديث معلومات الصفحه الشخصية بنجاح')

@@ -19,14 +19,25 @@ const PostBody = styled.div`
 
 /* Footer consists of only one part*/
 
-function Post({ children, notice = null, postInformation }) {
+function Post({ notice = null, postInformation }) {
   // children here represents the message
-
+  const {
+    body,
+    course,
+    date,
+    department,
+    from,
+    id,
+    semester,
+    time,
+    title,
+    user,
+  } = postInformation;
   return (
     <PostBody>
-      <PostHeader headerInfo={postInformation} />
-      <PostMessage msg={children} notice={notice} />
-      <PostFooter footerInfo={postInformation} />
+      <PostHeader date={date} course={course} user={user} />
+      <PostMessage title={title} msg={body} notice={notice} />
+      <PostFooter user={user} />
     </PostBody>
   );
 }

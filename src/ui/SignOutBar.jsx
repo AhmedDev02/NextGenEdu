@@ -63,7 +63,6 @@ function SignOutBar({ profile }) {
   const { ProfileInfo, isLoading } = useGetProfile();
   if (isLoading) return <Spinner />;
   const { avatar, name, email, type } = ProfileInfo.data;
-  console.log(ProfileInfo.data);
 
   // handling
   function handleSignOutToggle() {

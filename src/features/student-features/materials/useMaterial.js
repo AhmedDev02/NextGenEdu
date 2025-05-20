@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMaterial } from "../../../services/student/apiMaterials";
-import { useParams } from "react-router-dom";
+import { useUser } from "../../../hooks/useUser";
 
-export function useMaterial() {
-  const { materialId } = useParams();
+export function useMaterial(materialId) {
+  const { token } = useUser()
   const {
     data: material,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["material", materialId],
-    queryFn: () => getMaterial(materialId),
+    queryKey: ["material", token, materialId],
+    queryFn: () => getMaterial(token, materialId),
   });
 
   return { material, isLoading, error };

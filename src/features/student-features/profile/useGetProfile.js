@@ -6,7 +6,6 @@ export const useGetProfile = () => {
     const { token, user } = useUser();
     // const user = useSelector((state) => state.auth.user); 
     // const token = user ? user.token : null;
-    console.log(user)
     const queryEnabled = !!token;
     const { data: ProfileInfo, error, isLoading } = useQuery({
         queryKey: ['Profile', token],

@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
-import { useNavigate, useParams } from "react-router-dom";
-import { useTasks } from "./useTasks";
+import { useGetCourses } from "./useGetAssignments";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
+// import { useTasks } from "./useTasks";
 
 const StyledCard = styled.div`
   width: 300px;
@@ -16,6 +18,7 @@ const StyledCard = styled.div`
 `;
 const Img = styled.img`
   width: 100%;
+  height: 50%;
   object-fit: contain;
   /* margin-bottom: auto; */
 `;
@@ -27,6 +30,7 @@ const H4 = styled.h4`
 const H5 = styled.h5`
   text-align: left;
   font-weight: var(--font-weight-medium);
+  opacity: 0.7;
 `;
 
 const Br = styled.div`
@@ -43,23 +47,26 @@ const Div = styled.div`
   display: flex;
   flex-direction: row;
   gap: 20px;
-  justify-content: space-evenly;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 7rem;
 `;
 
-function TasksCards({ src, alt, tasksData }) {
-  const { tasks, isPending, error } = useTasks();
+function TasksCards() {
+  const { assignmentsData, isLoading, error } = useGetCourses();
 
-  const { courseId } = useParams();
-  console.log(courseId);
-  console.log(tasksData, src, alt);
+  if (isLoading) return <Spinner />;
+  if (error) return toast.error("خطأ في تحميل المهام");
+
   return (
     <Div>
-      {tasksData.map((card, index) => (
-        <StyledCard key={index}>
+      {assignmentsData?.data.map((card) => (
+        <StyledCard key={card.id}>
           <Img src={"/logo.png"} alt={"logo"} />
-          <H4>{card.subjectName}</H4>
-          <H5>{card.doctorName}</H5>
+          <H4>{card.name}</H4>
+          <H5>
+            {card.semester.name} / {card.department.name}
+          </H5>
           <Br />
           <Div>
             <Button
@@ -68,9 +75,9 @@ function TasksCards({ src, alt, tasksData }) {
               paddingTopBottom="10px"
               paddingLeftRight="60px"
               styles={"border"}
-              navigateTo={`/tasks/:${card.id}`}
+              navigateTo={`/tasks/${card.id}`}
             >
-              {card.cardButtonName}
+              رؤية المهام
             </Button>
           </Div>
         </StyledCard>

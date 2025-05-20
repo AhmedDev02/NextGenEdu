@@ -32,10 +32,10 @@ const Span = styled.span`
   font-size: 1.3rem;
   font-weight: var(--font-weight-bold);
 `;
-function PostMessage({ msg, notice }) {
+function PostMessage({ msg, notice, title }) {
   return (
     <MessagePost>
-      <MessageAnnouncement>{ANNOUNCEMENT}</MessageAnnouncement>
+      <MessageAnnouncement>{title || ANNOUNCEMENT}</MessageAnnouncement>
       <MessageBody>{msg}</MessageBody>
       {notice && (
         <MessageNotice>

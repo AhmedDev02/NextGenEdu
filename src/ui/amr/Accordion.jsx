@@ -40,6 +40,11 @@ const AccordionContent = styled.div`
   overflow: hidden;
   transition: all 0.3s ease;
   background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 
   @media (max-width: 768px) {
     padding: ${(props) => (props.isOpen ? "12px" : "0")};

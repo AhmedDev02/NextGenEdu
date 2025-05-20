@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import ProfilePic from "./ProfilePic";
-import ProfileForm from "./ProfileForm";
-import { useGetProfile } from "./useGetProfile";
+import AdminProfilePic from "./AdminProfilePic";
+import AdminProfileForm from "./AdminProfileForm";
+import useGetProfile from "./useGetProfile";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import useUpdateProfile from "./useUpdateProfile";
+import { useEffect, useState } from "react";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
+import { set } from "date-fns";
 
 const Div = styled.div`
   display: flex;
@@ -42,39 +43,6 @@ const H1 = styled.h1`
   color: #fff;
 `;
 
-const StudentStatus = styled.div`
-  text-align: center;
-  background: var(--color-danger-red);
-  width: 100%;
-  display: flex;
-  padding: 20px 0;
-  border-radius: 20px;
-`;
-const StudentStat = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px;
-  align-items: center;
-  width: 100%;
-`;
-
-const Span = styled.span`
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #fff;
-  text-align: center;
-`;
-const P = styled.p`
-  display: block;
-  font-size: 1.3rem;
-  font-weight: 700;
-
-  color: #fff;
-  text-align: center;
-`;
 const Breaker = styled.div`
   height: 2px;
   width: 100%;
@@ -102,15 +70,17 @@ const ProfileDataContainer = styled.div`
   }
 `;
 
-function ProfileContent() {
+function AdminProfileContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [password, setPassword] = useState("");
+  const { data: profileInfo, isPending, error } = useGetProfile();
+  const { mutate, isPending: isUpdating } = useUpdateProfile();
   const { setSelectedImage } = useStudentProgressContext();
-  const { ProfileInfo, error, isLoading } = useGetProfile();
-  const { mutate } = useUpdateProfile();
 
-  if (error) toast.error("خطأ في تحميل بيانات الملف الشخصي");
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
+  if (error) return toast.error("حدث خطأ في تحميل البيانات");
+  const { avatar, department, description, email, id, name, type, uni_code } =
+    profileInfo.data;
 
   const handleSavePassword = () => {
     if (isEditing) {
@@ -128,80 +98,39 @@ function ProfileContent() {
   };
   const handleSaveAvatar = (selectedFile) => {
     if (selectedFile) {
-      mutate({
-        avatar: selectedFile,
-      });
+      mutate({ avatar: selectedFile });
     } else {
-      toast.error("اختر صورة قبل الحفظ");
+      toast.error("يجب اختيار صوره اولا");
     }
     setSelectedImage(null);
     setIsEditing(false);
   };
-
-  const {
-    avatar,
-    department,
-    email,
-    group,
-    id,
-    name,
-    personal_id,
-    uni_code,
-    semester,
-  } = ProfileInfo.data;
-  const { name: departmentName } = department;
-  const { name: semesterName } = semester;
   const formInfo = { name, uni_code, email };
-  const updateFormInfo = {
+  const ProfilePicInfo = { avatar, description, name };
+  const updateInfo = {
     password,
     setPassword,
     isEditing,
     setIsEditing,
     handleSavePassword,
   };
-  const profilePicInfo = { name, uni_code, group, personal_id, avatar };
   return (
     <Div>
       <Header>
         <H1>المعلومات الأساسية</H1>
       </Header>
-      <StudentStatus>
-        <StudentStat>
-          <Span>الإسم</Span>
-          <P>{name}</P>
-        </StudentStat>
-        <StudentStat>
-          <Span>الكلية/القسم</Span>
-          <P>{departmentName}</P>
-        </StudentStat>
-        <StudentStat>
-          <Span>الفرقة</Span>
-          <P>{semesterName}</P>
-        </StudentStat>
-        <StudentStat>
-          <Span>المجموعة</Span>
-          <P>{group}</P>
-        </StudentStat>
-        <StudentStat>
-          <Span>رقم الجلوس</Span>
-          <P>{id}</P>
-        </StudentStat>
-        <StudentStat>
-          <Span>الايميل الجامعي</Span>
-          <P>{email}</P>
-        </StudentStat>
-      </StudentStatus>
       <Breaker />
       <ProfileDataContainer>
-        <ProfilePic
-          profilePicInfo={profilePicInfo}
-          handleSave={handleSaveAvatar}
+        <AdminProfilePic
+          isUpdating={isUpdating}
+          handleSaveAvatar={handleSaveAvatar}
+          ProfilePicInfo={ProfilePicInfo}
         />
-        <ProfileForm formInfo={formInfo} updateFormInfo={updateFormInfo} />
+        <AdminProfileForm updateInfo={updateInfo} formInfo={formInfo} />
       </ProfileDataContainer>
       <Breaker />
     </Div>
   );
 }
 
-export default ProfileContent;
+export default AdminProfileContent;

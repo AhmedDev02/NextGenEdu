@@ -1,6 +1,7 @@
 import { FiEdit } from "react-icons/fi";
 import styled from "styled-components";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
+import { useState } from "react";
 
 const Div = styled.div`
   display: flex;
@@ -99,7 +100,11 @@ const Label = styled.label`
   cursor: pointer;
 `;
 const SendButton = styled.button`
-  background: var(--color-primary-green);
+  background: ${({ type }) =>
+    type === "cancel"
+      ? "var(--color-danger-red)"
+      : "var(--color-primary-green)"};
+  width: ${({ type }) => (type === "cancel" ? "9rem" : "15rem")};
   color: white;
   border: none;
   padding: 1rem;
@@ -112,18 +117,16 @@ const SendButton = styled.button`
     scale: 0.9;
   }
 `;
-function ProfilePic({ name, uniCode, group, personalId, avatar, handleSave }) {
+function ProfilePic({ profilePicInfo, handleSave }) {
   const { SelectedImage, setSelectedImage } = useStudentProgressContext();
-
+  const [selectedFile, setSelectedFile] = useState(null);
+  const { name, uni_code, group, personal_id, avatar } = profilePicInfo;
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = async () => {
-      const base64Image = reader.result;
-      setSelectedImage(base64Image);
-    };
+    const previewUrl = URL.createObjectURL(file);
+    setSelectedImage(previewUrl); // for preview
+    setSelectedFile(file);
   };
   return (
     <Div>
@@ -134,11 +137,11 @@ function ProfilePic({ name, uniCode, group, personalId, avatar, handleSave }) {
       />
 
       <Name>{name}</Name>
-      <UniCode>({uniCode})</UniCode>
+      <UniCode>({uni_code})</UniCode>
       <Breaker />
       <Divider>
         <Group>مجموعة: {group}</Group>
-        <Group>الرقم القومي: {personalId}</Group>
+        <Group>الرقم القومي: {personal_id}</Group>
       </Divider>
 
       <ImgEditor>
@@ -152,7 +155,19 @@ function ProfilePic({ name, uniCode, group, personalId, avatar, handleSave }) {
           />
         </Label>
       </ImgEditor>
-      <SendButton onClick={handleSave}>حفظ الصوره</SendButton>
+      <SendButton onClick={() => handleSave(selectedFile, setSelectedFile)}>
+        حفظ الصوره
+      </SendButton>
+      {SelectedImage && (
+        <SendButton
+          onClick={() => {
+            setSelectedImage(null);
+          }}
+          type="cancel"
+        >
+          الغاء الحفظ
+        </SendButton>
+      )}
     </Div>
   );
 }

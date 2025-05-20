@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
+import useUploadTask from "./useUploadTask";
 
 const Container = styled.div`
   height: auto;
@@ -77,21 +78,41 @@ const UploadButton = styled.button`
   margin-top: 20px;
   cursor: pointer;
   width: 100%;
-  &:hover {
-    background: #4b9f4f;
+  transition: all 0.2s;
+  &:active {
+    scale: 0.95;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
-function AddTaskModal({ onCloseModal }) {
+function AddTaskModal({ onCloseModal, AssId }) {
   const [files, setFiles] = useState([]);
   const [uploadingFiles, setUploadingFiles] = useState([]);
+  //the response that comes from backend after uploading
+  // const handleSuccess = (response) => {
+
+  // };
+
+  const { mutate, isLoading } = useUploadTask(onCloseModal);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*,video/*,application/pdf,.doc,.docx,.ppt,.pptx",
+    accept: {
+      "application/pdf": [],
+      "application/msword": [],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [],
+      "application/vnd.ms-powerpoint": [],
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+        [],
+    },
     multiple: true,
     onDrop: (acceptedFiles, fileRejections) => {
       if (fileRejections.length > 0) {
-        toast.error("Some files were rejected due to invalid extensions.");
+        toast.error(
+          "هناك ملفات غير مدعومه الرجاء ارسال الملفات المدعومه امامك"
+        );
       }
       const newFiles = acceptedFiles.map((file) => ({
         file,
@@ -126,24 +147,44 @@ function AddTaskModal({ onCloseModal }) {
     setFiles(files.filter((file) => file.name !== fileName));
   };
 
+  //uploading to server
+  const handleUploadFile = () => {
+    if (!files || files.length === 0) {
+      toast.error("يجب تحميل الملف اولا");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", files[0]);
+    if (files.length > 1) {
+      toast.error("الرجاء تحميل ملف واحد فقط ");
+      return;
+    }
+    mutate({ AssId, uploadedSolution: formData });
+  };
+
   return (
     <Container>
-      <h2>Upload</h2>
+      <h2>تحميل الملفات</h2>
       <DropArea {...getRootProps()}>
         <input {...getInputProps()} />
         <FaCloudUploadAlt size={50} color="#30bd58" />
         <p>
-          Drag & drop files or{" "}
-          <span style={{ color: "#30bd58", cursor: "pointer" }}>Browse</span>
+          قم بسحب الملف الي هنا او{" "}
+          <span style={{ color: "#30bd58", cursor: "pointer" }}>
+            قم بالبحث علي جهازك
+          </span>
         </p>
         <p style={{ fontSize: "12px", color: "#777" }}>
-          Supported formats: JPEG, PNG, GIF, MP4, PDF, PSD, AI, Word, PPT
+          الملفات المدعومة: PDF, Word, PPT
+        </p>
+        <p style={{ fontSize: "12px", color: "#404040" }}>
+          يجب الا يتعدي حجم الملف عن 1 MB
         </p>
       </DropArea>
 
       {uploadingFiles.length > 0 && (
         <UploadingContainer>
-          <p>Uploading - {uploadingFiles.length} file(s)</p>
+          <p>جاري التحميل.... - {uploadingFiles.length} file(s)</p>
           {uploadingFiles.map((fileObj, index) => (
             <div key={index}>
               <p>{fileObj.file.name}</p>
@@ -156,7 +197,7 @@ function AddTaskModal({ onCloseModal }) {
       {files.length > 0 && (
         <FileList>
           <p>
-            Uploaded {files.length} {files.length === 1 ? "file" : "files"}
+            تم التحميل {files.length} {files.length === 1 ? "file" : "files"}
           </p>
           {files.map((file, index) => (
             <FileItem key={index}>
@@ -169,7 +210,7 @@ function AddTaskModal({ onCloseModal }) {
         </FileList>
       )}
 
-      <UploadButton onClick={onCloseModal}>
+      <UploadButton onClick={handleUploadFile} disabled={isLoading}>
         <p style={{ fontFamily: "Changa", fontSize: "2rem" }}>رفع الملفات</p>
       </UploadButton>
     </Container>

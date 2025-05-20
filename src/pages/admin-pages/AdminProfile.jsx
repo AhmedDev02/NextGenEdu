@@ -1,4 +1,4 @@
-import AdminProfileContent from "../../features/admin-features/admin-profile/profile/AdminProfileContent";
+import AdminProfileContent from "../../features/admin-features/admin-profile/AdminProfileContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
 

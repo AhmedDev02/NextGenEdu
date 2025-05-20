@@ -1,5 +1,7 @@
 import { FiEdit } from "react-icons/fi";
 import styled from "styled-components";
+import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
+import { useState } from "react";
 
 const Div = styled.div`
   display: flex;
@@ -60,8 +62,8 @@ const ImgEditor = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  top: 60px;
-  right: 120px;
+  top: 50px;
+  right: 100px;
   /* For screens between 769px and 1024px */
   @media (max-width: 1024px) and (min-width: 769px) {
     right: 220px;
@@ -98,32 +100,81 @@ const StyledIcon = styled(FiEdit)`
     transform: scale(1.1);
   }
 `;
+const Input = styled.input`
+  display: none;
+`;
+const Label = styled.label`
+  cursor: pointer;
+`;
+const SendButton = styled.button`
+  background: ${({ type }) =>
+    type === "cancel"
+      ? "var(--color-danger-red)"
+      : "var(--color-primary-green)"};
+  width: ${({ type }) => (type === "cancel" ? "9rem" : "15rem")};
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  &:active,
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    scale: 0.9;
+  }
+`;
+function AdminProfilePic({ ProfilePicInfo, handleSaveAvatar, isUpdating }) {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const { avatar, description, name } = ProfilePicInfo;
+  const { SelectedImage, setSelectedImage } = useStudentProgressContext();
 
-function AdminProfilePic() {
-  const student = {
-    name: "أحمد ثروت رفاعي خليل",
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const previewUrl = URL.createObjectURL(file);
+    setSelectedImage(previewUrl);
+    setSelectedFile(file);
   };
-  const { name } = student;
   return (
     <Div>
       <H3>الصورة الشخصية</H3>
-      <ProfileImg src="../../../public/download.jpeg" alt="user" />
+      <ProfileImg
+        src={SelectedImage || `https://${avatar}` || "/download.jpeg"}
+        alt="user"
+      />
       <Name>أ.د/ {name}</Name>
       <Breaker />
       <Divider>
-        <P>
-          أستاذ متميز في قسم علوم الحاسب، تخرج عام 1941 وما زال ينبض بالحيوية
-          وكأنه في ريعان الشباب بخبرة 39 عامًا ليس علي كوكب الأرض، بل امتدت إلى
-          المريخ وزحل، حيث استلهم من عوالمهما تقنيات لم تصل إليها البشرية بعد.
-          عاد إلينا بتواضعه المعهود ليشارك معرفته، ويدفع طلابه للأمام، نحو آفاق
-          لم يسبقهم إليها أحد!
-        </P>
+        <P>{description}</P>
       </Divider>
       <ImgEditor>
-        <Span>
+        <Label htmlFor="avatar">
           <StyledIcon />
-        </Span>
+          <Input
+            onChange={handleImageUpload}
+            type="file"
+            accept="image/*"
+            id="avatar"
+          />
+        </Label>
       </ImgEditor>
+      <SendButton
+        disabled={isUpdating}
+        onClick={() => handleSaveAvatar(selectedFile)}
+      >
+        حفظ الصوره
+      </SendButton>
+      {SelectedImage && (
+        <SendButton
+          onClick={() => {
+            setSelectedImage(null);
+          }}
+          type="cancel"
+        >
+          الغاء الحفظ
+        </SendButton>
+      )}
     </Div>
   );
 }

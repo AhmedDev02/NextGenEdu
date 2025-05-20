@@ -3,10 +3,11 @@ import ListFilter from "../../../ui/ListFilter";
 import Card from "../../../ui/Card";
 import { useMaterials } from "./useMaterials";
 import { useUser } from "../../../hooks/useUser";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
 
 const Div = styled.div`
-  display: flex;
-  flex-direction: column;
+  width: 100%;
 `;
 
 const FilterContainer = styled.div`
@@ -20,19 +21,20 @@ const FilterContainer = styled.div`
 `;
 const CardContainer = styled.div`
   display: flex;
-  gap: 20px;
-  justify-content: space-evenly;
+  margin: 50px;
+  justify-content: center;
+  gap: 7rem;
   flex-wrap: wrap;
 `;
 const Label = styled.label``;
 function MaterialsContent() {
-  const { user } = useUser();
-  console.log(user);
-  console.log(user.courses.data[0]);
+  const { materials, isLoading, error } = useMaterials();
+  if (isLoading) return <Spinner />;
+  if (error) return toast.error("خطأ في تحميل المواد");
   return (
     <>
       <Div>
-        <FilterContainer>
+        {/* <FilterContainer>
           <Label>الفصول:</Label>
           <ListFilter
             items={[
@@ -42,17 +44,17 @@ function MaterialsContent() {
             param="semester"
             defaultItem="first"
           />
-        </FilterContainer>
+        </FilterContainer> */}
         <CardContainer>
-          {user.courses.data.map((card) => (
+          {materials.data.map((card) => (
             <Card
               key={card.id}
               id={card.id}
-              src={"../../../../public/logo.png"}
-              alt={card.alt}
-              cardButton={"دراسة"}
-              subjectName={card.description}
-              doctorName={card.doctorName}
+              src={"/logo.png"}
+              alt="logo"
+              cardButton={"دراســـة"}
+              courseName={card.name}
+              description={card.description}
               navigateTo={`/enrolled-materials/${card.id}`}
             />
           ))}

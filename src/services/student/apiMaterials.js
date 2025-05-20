@@ -1,22 +1,38 @@
-export async function getMaterial(materialId) {
-  const response = await fetch(`http://localhost:3000/material`);
+import axios from "axios";
+import { BASE_URL } from "../../utils/apiConstant";
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch material");
+export async function getMaterial(token, materialId) {
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "X-Device-Type": "web",
+    Authorization: `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.get(`${BASE_URL}/course-materials/${materialId}`, {
+      headers
+    })
+    return response.data
+  } catch (error) {
+    console.error("Error fetching Materials:", error.message);
+    throw error;
   }
-  const data = await response.json();
-
-  const material = data.find((item) => item.id === String(materialId));
-
-  return material || null;
 }
 
-export async function getMaterials() {
-  const response = await fetch("http://localhost:3000/materials");
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch material");
+export const getMaterials = async (token) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "X-Device-Type": "web",
+    Authorization: `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.get(`${BASE_URL}/courses`, {
+      headers
+    })
+    return response.data
+  } catch (error) {
+    console.error("Error fetching the Materials:", error.message);
+    throw error;
   }
-  const data = await response.json();
-  return data;
 }
