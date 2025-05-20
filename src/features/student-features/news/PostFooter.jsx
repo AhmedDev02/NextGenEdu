@@ -13,10 +13,8 @@ const MainFooter = styled.div`
 
 const Div = styled.div``;
 
-function PostFooter({ footerInfo }) {
-  const {
-    identity: { name },
-  } = footerInfo || {};
+function PostFooter({ user }) {
+  const { name } = user;
 
   return (
     <MainFooter>

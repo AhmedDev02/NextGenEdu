@@ -1,16 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { useUser } from "../../../hooks/useUser";
 import { getCourses } from "../../../services/student/apiTasks";
+import { useUser } from "../../../hooks/useUser";
 
-export function useMaterials() {
+export function useGetCourses() {
   const { token } = useUser()
   const {
-    data: materials,
+    data: assignmentsData,
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["materials", token],
+    queryKey: ["tasks", token],
     queryFn: () => getCourses(token),
+    enabled: !!token
   });
-  return { materials, isLoading, error };
+  return { assignmentsData, isLoading, error };
 }

@@ -8,6 +8,7 @@ import {
   FiCheck,
 } from "react-icons/fi";
 import { useState } from "react";
+import { IoIosEyeOff, IoMdEye } from "react-icons/io";
 
 const Container = styled.div`
   width: 60%;
@@ -47,6 +48,13 @@ const InputWrapper = styled.div`
 `;
 
 const Input = styled.input`
+  &::-ms-reveal,
+  &::-ms-clear,
+  &::-webkit-contacts-auto-fill-button,
+  &::-webkit-credentials-auto-fill-button,
+  &::-webkit-textfield-decoration-container {
+    display: none !important;
+  }
   all: unset;
   flex: 1;
   border: none;
@@ -88,32 +96,53 @@ const Button = styled.button`
   &:hover {
     background: #1c2230;
   }
+  &:active {
+    scale: 0.97;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+const Div = styled.div`
+  cursor: pointer;
+`;
+const CancelButton = styled.button`
+  border-radius: 1rem;
+  padding: 0.5rem 2rem;
+  margin-top: 1rem;
+  color: #fff;
+  outline: none;
+  border: none;
+  background: var(--color-danger-red);
+  &:active {
+    outline: none;
+    scale: 0.9;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
-const AdminProfileForm = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "أحمد ثروت رفاعي",
-    universityCode: "1234567890",
-    email: "1234567890@zu.edu.eg",
-    phone: "1234567890",
-  });
+const AdminProfileForm = ({ formInfo, updateInfo }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const { name, email, uni_code } = formInfo;
+  const [formData, setFormData] = useState({ name, email, uni_code });
+  const { password, setPassword, isEditing, setIsEditing, handleSavePassword } =
+    updateInfo;
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const toggleEdit = () => {
-    if (isEditing) {
-      // Save changes here (e.g., send to API)
-      console.log("Updated Data:", formData);
-    }
-    setIsEditing(!isEditing);
+
+  const handleShowPassword = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
     <Container>
       {/* Full Name */}
       <Label>الإسم الكامل</Label>
-      <InputWrapper>
+      <InputWrapper isEditing={isEditing}>
         <Input
           type="text"
           name="name"
@@ -129,7 +158,7 @@ const AdminProfileForm = () => {
       {/* University Code */}
       <Label>الكود الجامعي</Label>
       <InputWrapper isEditing={isEditing}>
-        <Input type="text" value={formData.universityCode} readOnly />
+        <Input type="text" value={formData.uni_code} readOnly />
         <Icon>
           <FiKey />
         </Icon>
@@ -151,25 +180,37 @@ const AdminProfileForm = () => {
       </InputWrapper>
 
       {/* Phone Number */}
-      <Label>رقم الهاتف</Label>
+      <Label>كلمة المرور</Label>
       <InputWrapper>
         <Input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleInputChange}
+          type={showPassword ? "text" : "password"}
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           readOnly={!isEditing}
         />
         <Icon>
-          <FiPhone />
+          <Div onClick={handleShowPassword}>
+            {showPassword ? <IoIosEyeOff size={18} /> : <IoMdEye size={18} />}
+          </Div>
         </Icon>
       </InputWrapper>
 
       {/* Edit Button */}
-      <Button onClick={toggleEdit} isEditing={isEditing}>
+      <Button onClick={handleSavePassword} isEditing={isEditing}>
         {isEditing ? <FiCheck /> : <FiEdit2 />}
         {isEditing ? "حفظ التغييرات" : "تعديل"}
       </Button>
+      {isEditing && (
+        <CancelButton
+          onClick={() => {
+            setIsEditing(false);
+            setPassword("");
+          }}
+        >
+          الغاء التعديل
+        </CancelButton>
+      )}
     </Container>
   );
 };

@@ -89,24 +89,41 @@ const Button = styled.button`
   &:hover {
     background: #1c2230;
   }
+  &:active {
+    outline: none;
+    scale: 0.97;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 const Div = styled.div`
   cursor: pointer;
 `;
-
-const ProfileForm = ({
-  name,
-  uniCode,
-  email,
-  password,
-  setPassword,
-  isEditing,
-  handleSave,
-}) => {
+const CancelButton = styled.button`
+  border-radius: 1rem;
+  padding: 0.5rem 2rem;
+  margin-top: 1rem;
+  color: #fff;
+  outline: none;
+  border: none;
+  background: var(--color-danger-red);
+  &:active {
+    outline: none;
+    scale: 0.9;
+  }
+  &:focus {
+    outline: none;
+  }
+`;
+const ProfileForm = ({ formInfo, updateFormInfo }) => {
   const [show, setShow] = useState(false);
+  const { name, uni_code, email } = formInfo;
+  const { password, setPassword, isEditing, setIsEditing, handleSavePassword } =
+    updateFormInfo;
   const [formData, setFormData] = useState({
     name,
-    uniCode,
+    uni_code,
     email,
   });
   const handleInputChange = (e) => {
@@ -136,7 +153,7 @@ const ProfileForm = ({
       {/* University Code */}
       <Label>الكود الجامعي</Label>
       <InputWrapper isEditing={isEditing}>
-        <Input type="text" value={formData.uniCode} readOnly />
+        <Input type="text" value={formData.uni_code} readOnly />
         <Icon>
           <FiKey />
         </Icon>
@@ -178,10 +195,20 @@ const ProfileForm = ({
       </InputWrapper>
 
       {/* Edit Button */}
-      <Button onClick={handleSave} isEditing={isEditing}>
+      <Button onClick={handleSavePassword} isEditing={isEditing}>
         {isEditing ? <FiCheck /> : <FiEdit2 />}
         {isEditing ? "حفظ التغييرات" : "تعديل"}
       </Button>
+      {isEditing && (
+        <CancelButton
+          onClick={() => {
+            setIsEditing(false);
+            setPassword("");
+          }}
+        >
+          الغاء التعديل
+        </CancelButton>
+      )}
     </Container>
   );
 };

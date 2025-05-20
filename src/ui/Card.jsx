@@ -16,16 +16,17 @@ const StyledCard = styled.div`
 const Img = styled.img`
   width: 100%;
   object-fit: contain;
+  height: 50%;
   /* margin-bottom: auto; */
 `;
 const H4 = styled.h4`
   margin-top: 10px;
-  text-align: right;
-  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  font-weight: var(--font-weight-medium);
 `;
 const H5 = styled.h5`
   text-align: center;
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-bold);
 `;
 
 const Br = styled.div`
@@ -62,21 +63,21 @@ const ButtonDiv = styled.div`
 function Card({
   src,
   alt,
-  subjectName,
+  description,
   progressCheck,
   percentage,
   cardButton,
-  doctorName,
+  courseName,
   navigateTo,
   children,
   cardStyle,
 }) {
-  console.log(children);
   return (
     <StyledCard style={cardStyle}>
       <Img src={src} alt={alt} />
-      <H4>{subjectName}</H4>
-      <H5>{doctorName}</H5>
+      <Br />
+      <H5>{courseName}</H5>
+      <H4>{description}</H4>
       <Br />
       <Div>
         {!children ? (

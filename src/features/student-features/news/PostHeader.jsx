@@ -45,19 +45,16 @@ const Div = styled.div`
   justify-content: center;
 `;
 
-function PostHeader({ headerInfo }) {
-  const {
-    src,
-    identity: { name, subject },
-    date,
-  } = headerInfo;
+function PostHeader({ course, user, date }) {
+  const { avatar, name } = user;
+  const { name: courseName } = course;
   return (
     <StyledPostHeader>
       <Div>
-        <HeaderImage src={src} alt="Picture of doctor" />
+        <HeaderImage src={`https://${avatar}`} alt="Picture of doctor" />
         <HeaderIdentity>
           <HeaderName>{name}</HeaderName>
-          <HeaderSubject>{subject}</HeaderSubject>
+          <HeaderSubject>{courseName}</HeaderSubject>
         </HeaderIdentity>
       </Div>
       <HeaderDate>{date}</HeaderDate>
