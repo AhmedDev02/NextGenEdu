@@ -6,7 +6,7 @@ name: Build and deploy container app to Azure Web App - NextGen-react
 on:
   push:
     branches:
-      - Automation
+      - main
   workflow_dispatch:
 
 jobs:
@@ -50,4 +50,5 @@ jobs:
         app-name: 'NextGen-react'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_cea16eb698424a00ba8864bc05ce4494 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_3e63724f1dbb4054bb895226eac58d1f }}/ahmed377/nextgent:${{ github.sha }}'
+        #images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_3e63724f1dbb4054bb895226eac58d1f }}/ahmed377/nextgent:${{ github.sha }}'
+        images: ahmed377/nextgent:${{ github.sha }}
