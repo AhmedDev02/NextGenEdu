@@ -30,7 +30,9 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_3e63724f1dbb4054bb895226eac58d1f }}/ahmed377/nextgent:${{ github.sha }}
+        #tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_3e63724f1dbb4054bb895226eac58d1f }}/ahmed377/nextgent:${{ github.sha }}
+        tags: ahmed377/nextgent:${{ github.sha }}
+
         file: ./Dockerfile
 
   deploy:
