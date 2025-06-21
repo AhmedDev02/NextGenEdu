@@ -18,6 +18,7 @@ const Container = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
+  background-color: red;
 `;
 
 const LoginBox = styled.div`
