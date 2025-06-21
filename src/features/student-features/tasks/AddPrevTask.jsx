@@ -1,5 +1,5 @@
 import Modal from "../../../ui/amr/Modal";
-import SendButton from "../../../ui/amr/sendButton";
+import SendButton from "../../../ui/amr/SendButton";
 import AddTaskModal from "./AddTaskModal";
 
 function AddPrevTask({ AssId, type }) {
