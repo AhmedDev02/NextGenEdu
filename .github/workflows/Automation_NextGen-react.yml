@@ -6,7 +6,7 @@ name: Build and deploy container app to Azure Web App - NextGen-react
 on:
   push:
     branches:
-      - Automation
+      - main
   workflow_dispatch:
 
 jobs:
