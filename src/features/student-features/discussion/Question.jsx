@@ -57,7 +57,7 @@ const Break = styled.div`
   margin: 5px auto;
 `;
 
-function Question({ liked, isUser }) {
+function Question({ interested, isUser }) {
   return (
     <Div>
       <QuestionsDiv>
@@ -86,7 +86,7 @@ function Question({ liked, isUser }) {
           عرض الإجابة
         </Button>
         <Button
-          variation={liked ? "primary" : "transparent"}
+          variation={interested ? "primary" : "transparent"}
           size="custom"
           paddingLeftRight="65px"
           paddingTopBottom="17px"
