@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import DiscussionHeader from "./DiscussionHeader";
 import Question from "./Question";
+import { useReadQuestions } from "./useReadQuestions";
 
 const Div = styled.div`
   display: flex;
@@ -18,15 +19,17 @@ const Div = styled.div`
 `;
 
 function DiscussionContent() {
-  const data = [1, 2, 3, 4, 5, 6, 7, 8];
+  const { questions } = useReadQuestions();
+  const data = questions.questions;
+  console.log(data);
   return (
     <Div>
-      <DiscussionHeader questionsNum={20} />
+      <DiscussionHeader questionsNum={data.length} />
       {data.map((item, index) => (
         <Question
           key={index}
           isUser={true}
-          liked={index === 1 || index === 3 || index === 7 ? false : true}
+          interested={index === 1 || index === 3 || index === 7 ? false : true}
         />
       ))}
     </Div>
