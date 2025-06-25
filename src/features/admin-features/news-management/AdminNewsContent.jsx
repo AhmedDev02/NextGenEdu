@@ -11,7 +11,7 @@ import { useAnnouncements } from "./useReadAnnouncements";
 const Div = styled.div`
   display: flex;
   flex-direction: column;
-  min-width: 80%;
+width: 100%;
 `;
 
 const FilterDiv = styled.div`
