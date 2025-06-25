@@ -1,7 +1,7 @@
 import { FaFilePdf } from "react-icons/fa";
 import Modal from "../../../ui/amr/Modal";
 import { useState } from "react";
-import AddFileModal from "./AddFileModal";
+
 import useAddMaterial from "./useAddMaterial";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -27,6 +27,7 @@ import {
 } from "./Styles";
 import { AiOutlineDelete } from "react-icons/ai";
 import styled from "styled-components";
+import AddFileModal from "./addFileModal";
 
 export const FileItem = styled.div`
   background: #f0fff0;
