@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import styled from "styled-components";
 import { FaCloudUploadAlt } from "react-icons/fa";
@@ -7,12 +7,12 @@ import toast from "react-hot-toast";
 
 const Container = styled.div`
   height: auto;
-  width: clamp(25rem, 50vw, 50rem);
+  width: clamp(25rem, 50%, 50rem);
   padding: 2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  /* gap: 2rem; */
 `;
 
 const DropArea = styled.div`
@@ -82,15 +82,19 @@ const UploadButton = styled.button`
   }
 `;
 
-function AddFileModal({ onCloseModal, onSelectFile }) {
+function EditFileModal({ onCloseModal, onSelectFile }) {
   const [files, setFiles] = useState([]);
   const [uploadingFiles, setUploadingFiles] = useState([]);
 
-  const setSelectedFile = () => {
-    if (files.length > 0) {
-      onSelectFile(files[0]); // single File
-    }
-  };
+  // const setSelectedFile = () => {
+  //   if (files.length > 0) {
+  //     onSelectFile(files[0]);
+  //   }
+  // };
+
+  useEffect(() => {
+    files.length > 0 && onSelectFile(files[0]);
+  }, [files, onSelectFile]);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -160,7 +164,7 @@ function AddFileModal({ onCloseModal, onSelectFile }) {
 
       {files.length > 0 ? (
         <FileList>
-          <p>Uploaded {files.length} file</p>
+          <p>تم رفع {files.length} ملف</p>
           {files.map((file, index) => (
             <FileItem key={index}>
               <DeleteButton onClick={() => removeFile()}>
@@ -172,7 +176,7 @@ function AddFileModal({ onCloseModal, onSelectFile }) {
         </FileList>
       ) : (
         <>
-          <h2>Upload</h2>
+          <h2>رفع ملف جديد</h2>
           <DropArea {...getRootProps()}>
             <input {...getInputProps()} />
             <FaCloudUploadAlt size={50} color="#30bd58" />
@@ -188,17 +192,17 @@ function AddFileModal({ onCloseModal, onSelectFile }) {
           </DropArea>
         </>
       )}
-
+      {/* 
       <UploadButton
         onClick={() => {
           setSelectedFile();
-          onCloseModal();
         }}
+        disabled={!files.length}
       >
         <p style={{ fontFamily: "Changa", fontSize: "2rem" }}>رفع الملفات</p>
-      </UploadButton>
+      </UploadButton> */}
     </Container>
   );
 }
 
-export default AddFileModal;
+export default EditFileModal;

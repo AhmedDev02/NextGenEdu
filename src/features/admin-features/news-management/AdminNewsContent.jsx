@@ -1,15 +1,9 @@
 import styled from "styled-components";
-import ListFilter from "../../../ui/ListFilter";
 import PostManagement from "./PostManagement";
 import Button from "../../../ui/Button";
 import { FaPlus } from "react-icons/fa";
-import toast from "react-hot-toast";
-import { BASE_URL } from "../../../utils/apiConstant";
-import axiosInstance from "../../../services/api/axiosInstance";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../../../ui/tharwat/Loader";
-import { useSelector } from "react-redux";
-import courses from "../material-management/courses";
 import ListFilterLocally from "../../../ui/ListFilterLocally";
 import { useCourses } from "../dashboard/useCourses";
 import { useAnnouncements } from "./useReadAnnouncements";
@@ -59,8 +53,8 @@ function AdminNewsContent() {
   });
 
   const [filters, setFilters] = useState({
-    level: "", // Default to an empty string
-    department: "", // Default to an empty string
+    level: "",
+    department: "",
   });
 
   useEffect(() => {
@@ -104,7 +98,7 @@ function AdminNewsContent() {
     }))
     .filter(
       (value, index, self) =>
-        index === self.findIndex((t) => t.value === value.value) // Ensure uniqueness
+        index === self.findIndex((t) => t.value === value.value) 
     );
 
   // Debugging output
@@ -117,7 +111,7 @@ function AdminNewsContent() {
           paddingTopBottom="15px"
           navigateTo={"/admin/news/add"}
         >
-          <FaPlus /> خبر جديد!
+          <FaPlus /> اضافة خبر جديد
         </Button>
         <Divider>
           <FilterContainer>
@@ -126,7 +120,7 @@ function AdminNewsContent() {
               items={mappedSemester}
               containerStyles={{ padding: "10px" }}
               clickedValue={filters.level}
-              onClickItem={(value) => handleFilterChange("level", value)} // Handle level filter click
+              onClickItem={(value) => handleFilterChange("level", value)}
             />
           </FilterContainer>
           <FilterContainer>

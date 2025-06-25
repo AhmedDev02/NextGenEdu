@@ -74,7 +74,6 @@ const P = styled.p`
 function MyCard({ data, buttonsContent }) {
   const { id, name, semester } = data;
   // const { id } = useParams();
-  console.log(data);
   return (
     <Modal>
       <StyledCard>

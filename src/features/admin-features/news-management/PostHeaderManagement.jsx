@@ -47,12 +47,11 @@ const Div = styled.div`
 
 function PostHeaderManagement({ headerInfo }) {
   const { id, name, type, avatar, subject, date, department } = headerInfo;
-
   return (
     <StyledPostHeader>
       <Div>
         <HeaderImage
-          src={avatar || "../../../../public/logo.png"}
+          src={`https://${avatar}` || "/logo.png"}
           alt="Picture of doctor"
         />
         <HeaderIdentity>

@@ -19,29 +19,30 @@ function NewsContent() {
     .get("subjects")
     ?.split("-")
     .map(decodeURIComponent) || ["all"];
-
   if (isLoading) return <Spinner />;
   if (error) return toast.error("حدث خطأ في تحميل الاخبار");
-  console.log(newsData?.data?.data);
 
   const subjectNames = Array.from(
-    new Set(newsData?.data?.data?.map((post) => post.course.name))
+    new Map(
+      newsData?.data?.data?.map((post) => [
+        post.course.id,
+        { name: post.course.name, id: post.course.id },
+      ])
+    ).values()
   );
-  const subjects = subjectNames.map((name) => ({
-    label: name,
-    value: name.toLowerCase(),
+  const subjects = subjectNames.map((course) => ({
+    label: course.name,
+    value: course.id,
   }));
-
   const filteredPosts = selectedSubjects.includes("all")
     ? newsData.data.data
     : newsData.data.data.filter((post) =>
-        selectedSubjects.includes(post.course.name.toLowerCase())
+        selectedSubjects.includes(String(post.course.id))
       );
-
   return (
     <>
       <ListFilter
-        items={[{ label: "All", value: "all" }, ...subjects]}
+        items={[{ label: "الكل", value: "all" }, ...subjects]}
         param="subjects"
         defaultItem="all"
         multipleChoose={true}

@@ -1,414 +1,196 @@
-import styled from "styled-components";
-import Accordion from "../../../ui/amr/Accordion";
-import Button from "../../../ui/Button";
-import { FaFilePdf, FaFileWord } from "react-icons/fa";
-import { IoIosLink } from "react-icons/io";
-import { LuUpload } from "react-icons/lu";
+import { FaFilePdf } from "react-icons/fa";
 import Modal from "../../../ui/amr/Modal";
-import AddTaskModal from "../../student-features/tasks/AddTaskModal";
-import { useRef, useState } from "react";
-import AddFileModal from "./addFileModal";
+import { useState } from "react";
+import AddFileModal from "./AddFileModal";
+import useAddMaterial from "./useAddMaterial";
+import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+import {
+  Amr,
+  ButtonsContainer,
+  Container,
+  Content,
+  Description,
+  DescriptionInput,
+  Label,
+  P,
+  Publish,
+  RemoveButton,
+  Select,
+  SelectGroup,
+  Selections,
+  SendButton,
+  Title,
+  TitleInput,
+  UploadItem,
+  UploadsContainer,
+} from "./Styles";
+import { AiOutlineDelete } from "react-icons/ai";
+import styled from "styled-components";
 
-const Container = styled.div`
-  width: 100rem;
-  display: flex;
-  flex-direction: column;
-  gap: 5rem;
-`;
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5rem;
-  margin-top: 5rem;
-`;
-const Title = styled.div``;
-const Description = styled.div``;
-const ButtonsContainer = styled.div`
-  display: flex;
-  gap: 2rem;
-`;
-const P = styled.p`
-  font-size: 3rem !important;
-  margin-bottom: 2rem;
-  font-weight: bold;
-`;
-const TitleInput = styled.input`
-  width: 100%;
-  height: 5rem;
-  border-radius: 1rem;
-  border: none;
-  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
-  font-size: 2rem !important;
+export const FileItem = styled.div`
+  background: #f0fff0;
+  border: 1px solid #30bd58;
+  border-radius: 5px;
   padding: 1rem;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    font-family: "Changa", sans-serif;
-    font-size: 1.7rem;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-  }
-
-  &:focus::placeholder {
-    opacity: 0;
-  }
-`;
-
-const DescriptionInput = styled.input`
-  width: 100%;
-  height: 20rem;
-  border-radius: 1rem;
-  border: none;
-  outline: none;
-  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
-  font-size: 2rem !important;
-  padding: 1rem;
-  font-family: "Changa", sans-serif;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    font-family: "Changa", sans-serif;
-    font-size: 2rem;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-  }
-
-  &:focus::placeholder {
-    opacity: 0;
-  }
-`;
-const Amr = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 1rem;
-  font-size: 4rem !important;
-`;
-
-const FormWrapper = styled.div`
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #f8f8f8;
-  border-radius: 0.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  gap: 0.5rem;
+  justify-content: space-between;
   align-items: center;
-
-  input {
-    flex: 1;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    &::placeholder {
-      font-family: "Changa", sans-serif;
-      font-size: 2rem;
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-    }
-
-    &:focus::placeholder {
-      opacity: 0;
-    }
-  }
-
-  button {
-    white-space: nowrap;
-  }
+  margin-top: 0.5rem;
+  font-size: 14px;
 `;
-const UploadsContainer = styled.div`
-  width: 100%;
-  background: #f9f9f9;
-  border-radius: 1rem;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-
-const UploadItem = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  background: #f9f9f9;
-  width: 100%;
-
-  a {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-  }
-`;
-
-const MediaPreview = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-
-  img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 0.5rem;
-    border: 1px solid #ddd;
-  }
-
-  video {
-    width: 150px;
-    height: auto;
-    border-radius: 0.5rem;
-    border: 1px solid #ddd;
-  }
-
-  a {
-    text-decoration: none;
-    color: #30bd58;
-    font-weight: bold;
-  }
-`;
-const RemoveButton = styled.button`
+export const DeleteButton = styled.button`
   background: none;
-  border: none;
-  color: red;
-  font-size: 1.6rem;
+  border: 1px solid red;
   cursor: pointer;
-  margin-right: 10px;
-
-  &:hover {
-    color: darkred;
-  }
-`;
-const Publish = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  button {
-    width: 13rem;
-    height: 6rem;
-    background: var(--color-danger-red);
-    border: none;
-    outline: none;
-    color: white;
-    font-family: "Changa", sans-serif;
-    font-weight: bold;
-    font-size: 2rem !important;
-    border-radius: 2rem;
-    &:active {
-      background: transparent;
-      color: var(--color-danger-red);
-      border: 2px solid black;
-    }
-  }
+  color: red;
+  font-size: 16px;
+  border-radius: 0.5rem;
+  padding: 0.25rem;
 `;
 
 const AddMaterialContent = () => {
-  const [showForm, setShowForm] = useState(false);
-  const fileInputRef = useRef(null);
-  const [uploads, setUploads] = useState([]);
-  const [link, setLink] = useState("");
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  function handleFileUpload() {
-    fileInputRef.current.click();
-  }
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [week, setWeek] = useState("1");
+  const [type, setType] = useState("lecture");
+  const { id } = useParams();
+  const { mutate, isPending } = useAddMaterial();
 
-  function handleAdd() {
-    if (link) {
-      setUploads((prev) => [...prev, { type: "link", content: link }]);
-      setLink("");
+  const handleSubmit = () => {
+    if (!selectedFile) {
+      toast.error("يجب اختيار الملف اولا");
+      return;
     }
-    setShowForm(false);
-  }
-
-  function handleFileSelect(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    let fileType = "file";
-    let fileURL = URL.createObjectURL(file);
-
-    console.log("Selected File:", file.name, "Type:", file.type);
-
-    if (file.type.startsWith("image")) {
-      fileType = "image";
-    } else if (file.type.startsWith("video")) {
-      fileType = "video";
-    } else if (file.type === "application/pdf") {
-      fileType = "pdf";
-    } else if (
-      file.type === "application/msword" ||
-      file.type ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    ) {
-      fileType = "word";
+    if (!title || !week || !type) {
+      toast.error("يرجى ملء جميع الحقول المطلوبة");
+      return;
     }
 
-    setUploads((prev) => [
-      ...prev,
-      { type: fileType, content: fileURL, name: file.name },
-    ]);
-  }
+    const formData = new FormData();
+    formData.append("material[]", selectedFile);
 
-  function handleRemove(index) {
-    setUploads((prev) => prev.filter((_, i) => i !== index));
-  }
+    formData.append("title", title);
+    formData.append("week", week);
+    formData.append("type", type);
+    if (description) {
+      formData.append("description", description);
+    }
+    mutate(
+      { courseId: id, data: formData },
+      {
+        onSuccess: () => {
+          toast.success("تم إضافة الملف بنجاح");
+          setSelectedFile(null);
+          setTitle("");
+          setDescription("");
+          setWeek("1");
+          setType("lecture");
+        },
+        onError: () => {
+          toast.error("حدث خطأ أثناء إضافة الملف، يرجى المحاولة مرة أخرى");
+        },
+      }
+    );
+  };
 
   return (
     <Container>
-      <Accordion title="الاسبوع الاول">
-        <Content>
-          <Title>
-            <P>عنوان المحاضره</P>
-            <TitleInput
-              placeholder="ادخل عنوانا واضحا يعكس موضوع المحاضره بدقه"
-              type="text"
-            />
-          </Title>
-          <Description>
-            <P>وصف المحاضره</P>
-            <DescriptionInput
-              placeholder="قدم شرحا مختصرا حول محتوي المحاضرة وأهدافها التعليمية"
-              type="text"
-            />
-          </Description>
-
-          {uploads.length > 0 && (
-            <UploadsContainer>
-              {uploads.map((item, index) => (
-                <UploadItem key={index}>
-                  <RemoveButton onClick={() => handleRemove(index)}>
-                    ❌
-                  </RemoveButton>
-
-                  {item.type === "link" ? (
-                    <a
-                      href={item.content}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      🔗 {item.content}
-                    </a>
-                  ) : item.type === "image" ? (
-                    <MediaPreview>
-                      <img src={item.content} alt={item.name} />
-                    </MediaPreview>
-                  ) : item.type === "video" ? (
-                    <MediaPreview>
-                      <video src={item.content} controls />
-                    </MediaPreview>
-                  ) : item.type === "pdf" ? (
-                    <MediaPreview>
-                      <a
-                        href={item.content}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FaFilePdf size={50} color="#ff0000" />
-                        <span>{item.name}</span>
-                      </a>
-                    </MediaPreview>
-                  ) : item.type === "word" ? (
-                    <MediaPreview>
-                      <a
-                        href={item.content}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FaFileWord size={50} color="#2b579a" />{" "}
-                        <span>{item.name}</span>
-                      </a>
-                    </MediaPreview>
-                  ) : (
-                    <span>📁 {item.name}</span>
-                  )}
-                </UploadItem>
+      <Content>
+        <Title>
+          <P>العنوان</P>
+          <TitleInput
+            placeholder="ادخل عنوانا واضحا يعكس موضوع المحاضره بدقه"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </Title>
+        <Description>
+          <P>الوصف</P>
+          <DescriptionInput
+            placeholder="قدم شرحا مختصرا حول محتوي المحاضرة وأهدافها التعليمية"
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Description>
+        <Selections>
+          <SelectGroup>
+            <Label>اختر الأسبوع</Label>
+            <Select value={week} onChange={(e) => setWeek(e.target.value)}>
+              {Array.from({ length: 15 }, (_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  الأسبوع {i + 1}
+                </option>
               ))}
-            </UploadsContainer>
-          )}
+            </Select>
+          </SelectGroup>
+          <SelectGroup>
+            <Label>اختر نوع المحتوي</Label>
+            <Select value={type} onChange={(e) => setType(e.target.value)}>
+              <option value="section">سكشن</option>
+              <option value="lecture">محاضرة</option>
+              <option value="other">اخر</option>
+            </Select>
+          </SelectGroup>
+        </Selections>
 
-          <ButtonsContainer>
-            <Modal>
-              <Modal.Open opens="add-task">
-                <Button size="large" variation="danger">
+        <ButtonsContainer>
+          <Modal>
+            <Modal.Open opens="add-task">
+              {selectedFile === null ? (
+                <SendButton
+                  // disabled={selectedFile}
+                  size="large"
+                  variation="primary"
+                >
                   <Amr>
                     <p>
                       <FaFilePdf />
                     </p>
-                    <p>
-                      {uploadedFiles.length > 0
-                        ? uploadedFiles.map((file) => file.name).join(", ")
-                        : "رفع ملف"}
-                    </p>
+                    <p>رفع ملف</p>
                   </Amr>
-                </Button>
-              </Modal.Open>
-              <Modal.Window name="add-task">
-                <AddFileModal onFileUpload={setUploadedFiles} />
-              </Modal.Window>
-            </Modal>
+                </SendButton>
+              ) : (
+                <p></p>
+              )}
+            </Modal.Open>
+            <Modal.Window name="add-task">
+              <AddFileModal onSelectFile={setSelectedFile} />
+            </Modal.Window>
+          </Modal>
+        </ButtonsContainer>
 
-            <Button
-              size="large"
-              variation="transparent"
-              onClick={() => setShowForm((prev) => !prev)}
-            >
-              <Amr>
-                <p>
-                  <IoIosLink />
-                </p>
-                <p>اضافة رابط</p>
-              </Amr>
-            </Button>
+        {/* {selectedFile && (
+          <UploadsContainer>
+            <UploadItem>
+              <RemoveButton onClick={() => setSelectedFile(null)}>
+                ❌
+              </RemoveButton>
+              <span>📁 {selectedFile.name}</span>
+            </UploadItem>
+          </UploadsContainer>
+        )} */}
+        {selectedFile && (
+          <UploadsContainer>
+            <FileItem>
+              <DeleteButton onClick={() => setSelectedFile(null)}>
+                <AiOutlineDelete />
+              </DeleteButton>
+              {selectedFile.name}
+            </FileItem>
+          </UploadsContainer>
+        )}
 
-            <Button
-              size="large"
-              variation="transparent"
-              onClick={handleFileUpload}
-            >
-              <Amr>
-                <p>
-                  <LuUpload />
-                </p>
-                <p>رفع فيديو او صوره</p>
-              </Amr>
-            </Button>
-            <input
-              type="file"
-              accept="image/*, video/*, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              style={{ display: "none" }}
-              ref={fileInputRef}
-              onChange={handleFileSelect}
-            />
-          </ButtonsContainer>
-          {showForm && (
-            <FormWrapper>
-              <input
-                value={link}
-                onChange={(e) => setLink(e.target.value)}
-                type="text"
-                placeholder="ادخل الرابط هنا..."
-              />
-              <Button onClick={handleAdd} size="small" variation="primary">
-                حفظ
-              </Button>
-            </FormWrapper>
-          )}
-          <Publish>
-            <button>انشر</button>
-          </Publish>
-        </Content>
-      </Accordion>
+        <Publish>
+          <button onClick={handleSubmit} disabled={isPending}>
+            نشر !
+          </button>
+        </Publish>
+      </Content>
     </Container>
   );
 };

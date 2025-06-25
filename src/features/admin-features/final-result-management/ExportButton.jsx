@@ -4,41 +4,72 @@ import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import { data } from "./data";
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 100%;
-  position: relative;
+  max-width: 60rem;
+  margin: 0 auto;
 `;
-const Button = styled.button`
+
+export const Button = styled.button`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   border: none;
-  padding: 1.5rem;
+  padding: 1.2rem;
   background: var(--color-primary-green);
-  border-radius: 2rem;
-  outline: none;
-  position: absolute;
-  top: 0;
+  border-radius: 1.5rem;
+  cursor: pointer;
+
   &:active {
-    outline: none;
-    border: none;
-    transform: translateY(5%);
+    transform: scale(0.95); /* Slightly smaller scale for better UX */
   }
+
   &:focus {
     outline: none;
-    border: none;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.8rem;
+    gap: 0.6rem;
   }
 `;
-const P = styled.p`
+
+// Responsive Paragraph
+export const P = styled.p`
   color: white;
   font-weight: 500;
-  font-size: 2rem !important;
+  font-size: 1.8rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.4rem;
+  }
 `;
-const Icon = styled(FaDownload)`
+
+// Responsive Icon
+export const Icon = styled(FaDownload)`
   color: white;
+  font-size: 1.8rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.4rem;
+  }
 `;
+
 const ExportButton = () => {
   const TransferedData = data.map((student) => {
     const { id, name, scores } = student;
@@ -54,7 +85,7 @@ const ExportButton = () => {
       FinalResult,
     };
   });
-  console.log(TransferedData);
+
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(TransferedData);
     const workbook = XLSX.utils.book_new();
@@ -67,10 +98,11 @@ const ExportButton = () => {
     const data = new Blob([excelBuffer], { type: "application/octet-stream" });
     saveAs(data, "students.xlsx");
   };
+
   return (
     <Container>
       <Button onClick={exportToExcel}>
-        <Icon size={22} />
+        <Icon />
         <P>اصدار تقرير</P>
       </Button>
     </Container>

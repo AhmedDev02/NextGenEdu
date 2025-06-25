@@ -4,6 +4,8 @@ import Button from "../../../ui/Button";
 import Card from "../../../ui/Card";
 import { useCourses } from "./useCourses";
 import { useUser } from "../../../hooks/useUser";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
 
 const CardsContainer = styled.div`
   display: flex;
@@ -20,9 +22,10 @@ const FilterDiv = styled.div`
 function TeacherMaterial() {
   // const data = [1, 2, 3];
   const { courses, isLoading, error } = useCourses();
-  console.log(courses);
+  const { user } = useUser();
+  if (isLoading) return <Spinner />;
+  if (error) return toast.error("حدث خطأ أثناء تحميل البيانات");
   const coursesData = courses?.data;
-  const { user, token } = useUser();
   console.log(user?.semesters?.data);
 
   const semester = user?.semesters?.data?.map((semester) => {
@@ -41,19 +44,20 @@ function TeacherMaterial() {
       <CardsContainer>
         {coursesData?.map((course) => (
           <Card
-            src={"../../../../public/logo.png"}
+            src={"/logo.png"}
             alt={"logo"}
             key={course.id}
             subjectName={course.name}
             doctorName={course.description}
             cardStyle={{ height: "auto" }}
+            description={course.description}
           >
             <Button
               size="custom"
               paddingTopBottom="5px"
               variation="danger"
               margin=" 0 0 10px 0"
-              navigateTo={`/admin/dashboard/${course.id}`}
+              navigateTo={`/admin/materials/show-materials/${course.id}`}
             >
               عرض المنهج الدراسي
             </Button>

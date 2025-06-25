@@ -52,9 +52,9 @@ const LectureStatus = ({ onCloseModal, lectureId }) => {
       return;
     }
 
-    setLectureStatus(lectureId, newStatus); // Update state
+    setLectureStatus(lectureId, newStatus);
     toast.success("تم تحديث حالة المحاضرة بنجاح");
-    onCloseModal(); // Close modal after update
+    onCloseModal();
   }
 
   return (
@@ -96,7 +96,7 @@ const LectureStatus = ({ onCloseModal, lectureId }) => {
       <ButtonsContainer>
         <Button
           variation="primary"
-          onClick={() => handleChange(selectedStatus)} // Now updates status before closing
+          onClick={() => handleChange(selectedStatus)}
         >
           تأكيد
         </Button>
