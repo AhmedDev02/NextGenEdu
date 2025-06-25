@@ -136,7 +136,7 @@ function AddFileModal({ onCloseModal, onSelectFile }) {
           setFiles([fileObj.file]); // single file array
           setUploadingFiles([]);
         }
-      }, 1000);
+      }, 300);
     });
   };
 

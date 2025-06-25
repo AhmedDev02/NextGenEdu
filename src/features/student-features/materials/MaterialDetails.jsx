@@ -3,7 +3,7 @@ import { useMaterial } from "./useMaterial";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
 import Accordion from "../../../ui/amr/Accordion";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import SingleMaterialContent from "./SingleMaterialContent";
 import { useState } from "react";
 
@@ -15,26 +15,40 @@ const FILTERS = [
 ];
 
 const FilterButton = styled.button`
-  font-size: 1.4rem;
-  font-family: "Changa";
-  width: 12rem;
-  min-width: 8rem;
-  flex-grow: 1;
-  border: 1px solid gray;
-  outline: none;
-  border-color: ${(props) => (props.active ? "#7cbd9c" : "#353434")};
+  padding: ${({ padding }) => padding || "8px 16px"};
+  border: ${({ border }) => border || "2px solid var(--color-grey-500)"};
+  border-radius: ${({ borderRadius }) => borderRadius || "20px"};
   cursor: pointer;
-  background: ${(props) => (props.active ? "#c9fad7" : "#eae8e8")};
-  border-radius: 1.5rem;
-  color: ${(props) => (props.active ? "#06722c" : "#353434")};
-  font-weight: bold;
-  padding: 10px 12px;
+  transition: all 0.3s ease;
+  user-select: none;
+  font-family: "Changa";
+  font-size: 1.4rem;
   text-align: center;
-  transition: all 0.3s ease-in-out;
+  background-color: transparent;
+  color: #353434;
 
-  &:focus {
-    outline: none;
+  &:hover {
+    background-color: #e0f7e9;
   }
+
+  ${({ active }) =>
+    active &&
+    `
+    border: 2px solid #34ad5d;
+    background-color: var(--color-active);
+    color: #34ad5d;
+  `}
+  &:focus{
+    outline:none
+  }
+
+  ${({ styles }) =>
+    styles &&
+    css`
+      ${styles}
+    `}
+
+
 
   @media (max-width: 900px) {
     font-size: 1.1rem;

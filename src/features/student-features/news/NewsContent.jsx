@@ -4,10 +4,10 @@ import Post from "./Post";
 import useGetNews from "./useGetNews";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const Div = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;

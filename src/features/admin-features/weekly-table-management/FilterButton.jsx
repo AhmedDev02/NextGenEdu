@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { days } from "./data";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 
@@ -13,19 +13,31 @@ const ButtonsContainer = styled.div`
 const FilterButton = styled.button`
   font-size: 1.4rem;
   font-family: "Changa";
+  text-align: center;
+  user-select: none;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+
   width: 12rem;
   flex-grow: 1;
-  border: 1px solid gray;
-  outline: none;
-  border-color: ${(props) => (props.active ? "#7cbd9c" : "#353434")};
-  cursor: pointer;
-  background: ${(props) => (props.active ? "#c9fad7" : "#eae8e8")};
-  border-radius: 1.5rem;
-  color: ${(props) => (props.active ? "#06722c" : "#353434")};
-  font-weight: bold;
-  padding: 10px 12px;
-  text-align: center;
-  transition: all 0.3s ease-in-out;
+  padding: 5px 12px;
+  border-radius: 3rem;
+
+  border: 2px solid var(--color-grey-500);
+  background-color: #eae8e8;
+  color: #353434;
+
+  ${({ active }) =>
+    active &&
+    `
+    border: 2px solid #34ad5d;
+    background-color: var(--color-active, #c9fad7);
+    color: #06722c;
+  `}
+
+  &:hover {
+    background-color: #e0f7e9;
+  }
 
   &:focus {
     outline: none;
@@ -35,6 +47,12 @@ const FilterButton = styled.button`
     font-size: 1rem;
     padding: 6px 10px;
   }
+
+  ${({ styles }) =>
+    styles &&
+    css`
+      ${styles}
+    `}
 `;
 
 function FilterButtons() {
