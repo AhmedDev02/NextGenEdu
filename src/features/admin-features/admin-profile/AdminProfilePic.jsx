@@ -160,7 +160,7 @@ function AdminProfilePic({ ProfilePicInfo, handleSaveAvatar, isUpdating }) {
         </Label>
       </ImgEditor>
       <SendButton
-        disabled={isUpdating}
+        disabled={selectedFile === null || isUpdating}
         onClick={() => handleSaveAvatar(selectedFile)}
       >
         حفظ الصوره

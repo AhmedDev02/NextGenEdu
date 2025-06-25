@@ -159,7 +159,6 @@ function CurrentAssignment({ data }) {
       window.open(`https://${file}`, "_blank");
     }
   };
-  if (isLoading) return <Spinner />;
   if (error) return toast.error("حدث خطأ في تحميل البيانات");
   return (
     <TasksDone>

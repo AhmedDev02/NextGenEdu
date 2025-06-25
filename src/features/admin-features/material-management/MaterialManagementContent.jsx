@@ -1,8 +1,11 @@
 import styled from "styled-components";
-import courses from "./courses.js";
 import MyCard from "../../../ui/amr/MyCard";
-import { IoQrCodeSharp } from "react-icons/io5";
 import { MdOutlineFileUpload, MdUpdate } from "react-icons/md";
+import useGetCourses from "./useGetCourses";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
+import { FaEye } from "react-icons/fa";
+
 const MaterialContainer = styled.div`
   margin: 50px;
   width: 100%;
@@ -14,14 +17,14 @@ const MaterialContainer = styled.div`
 
 const buttonsContent = [
   {
-    label: "تسجيل حضور  `QR` ",
-    logo: <IoQrCodeSharp />,
+    label: "رؤية المواد الدراسية",
+    logo: <FaEye />,
     variation: "primary",
     state: "page",
-    path: "materials/qr-attendance",
+    path: "materials/show-materials",
   },
   {
-    label: "اضافة مواد دراسيه",
+    label: "اضافة المواد دراسيه",
     logo: <MdOutlineFileUpload />,
     variation: "primary",
     state: "page",
@@ -36,10 +39,18 @@ const buttonsContent = [
 ];
 
 const MaterialManagementContent = () => {
+  const { courses, isPending, error } = useGetCourses();
+  if (isPending) return <Spinner />;
+  if (error)
+    return toast.error("حدث خطأ أثناء تحميل المواد. يرجى المحاولة لاحقًا.");
   return (
     <MaterialContainer>
-      {courses.map((element, index) => (
-        <MyCard key={index} data={element} buttonsContent={buttonsContent} />
+      {courses?.data?.map((element) => (
+        <MyCard
+          key={element.id}
+          data={element}
+          buttonsContent={buttonsContent}
+        />
       ))}
     </MaterialContainer>
   );

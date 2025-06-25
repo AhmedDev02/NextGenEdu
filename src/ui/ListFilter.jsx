@@ -91,10 +91,9 @@ function ListFilter({
 
     setSearchParams(currentParams, { replace: true }); // Update search params with all existing params and the updated one
   };
-
   return (
     <FilterMenuContainer {...containerProps} styles={containerStyles}>
-      {items?.map(({ label, value }) => (
+      {items?.map(({ label, value, id }) => (
         <FilterItem
           key={value}
           active={selectedItems.includes(value)}

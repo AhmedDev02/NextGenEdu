@@ -2,7 +2,9 @@ import styled from "styled-components";
 import MyCard from "../../../ui/amr/MyCard";
 import { FaHourglassEnd, FaPlus } from "react-icons/fa";
 import { LuClock3 } from "react-icons/lu";
-import { useUser } from "../../../hooks/useUser";
+import useGetCourses from "../material-management/useGetCourses";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
 
 const Container = styled.div`
   margin: 50px;
@@ -37,11 +39,12 @@ const buttonsContent = [
   },
 ];
 const TasksManagementContent = () => {
-  const { user } = useUser();
-  const courses = user.courses.data;
+  const { courses, isPending, error } = useGetCourses();
+  if (isPending) return <Spinner />;
+  if (error) return toast.error("خطا في عرض الواجبات");
   return (
     <Container>
-      {courses.map((element) => (
+      {courses.data.map((element) => (
         <MyCard
           key={element.id}
           data={element}

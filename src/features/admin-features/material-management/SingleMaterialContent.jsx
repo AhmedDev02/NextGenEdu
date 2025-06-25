@@ -1,10 +1,14 @@
 import { MdOutlineTask } from "react-icons/md";
 import styled from "styled-components";
-import { LuSquareArrowOutUpRight } from "react-icons/lu";
-import { BsDownload } from "react-icons/bs";
 import toast from "react-hot-toast";
-import { FiDownload } from "react-icons/fi";
+import { AiOutlineDelete } from "react-icons/ai";
 import { IoOpenOutline } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
+import { FiDownload } from "react-icons/fi";
+import Modal from "../../../ui/amr/Modal";
+import DeleteMaterial from "./DeleteMaterial";
+import { useParams } from "react-router-dom";
+import EditMaterial from "./EditMaterial";
 
 const Container = styled.div`
   width: 100%;
@@ -87,12 +91,6 @@ const FileIcon = styled(MdOutlineTask)`
   }
 `;
 
-// const VideoIcon = styled(FaRegFileVideo)`
-//   font-size: 5rem;
-//   @media (max-width: 900px) { font-size: 3.5rem; }
-//   @media (max-width: 600px) { font-size: 2rem; }
-// `;
-
 const TitlesContainer = styled.div``;
 
 const Title = styled.p`
@@ -122,11 +120,11 @@ const Description = styled.p`
 const ButtonsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-
-  @media (max-width: 600px) {
-    gap: 0.5rem;
-  }
+  gap: 0.5rem;
+`;
+const InsideContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
 `;
 
 const Button = styled.div`
@@ -156,25 +154,12 @@ const Button = styled.div`
   }
 `;
 
-const P = styled.p`
-  color: white;
-  font-size: 2rem !important;
-
-  @media (max-width: 900px) {
-    font-size: 1.2rem !important;
-  }
-  @media (max-width: 600px) {
-    font-size: 1rem !important;
-  }
-`;
-const InsideContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
-`;
 const SingleMaterialContent = ({ data }) => {
+  const { id: courseId } = useParams();
   const handleOpenFile = (Url) => {
     window.open(`https://${Url}`, "_blank");
   };
+
   const DownloadunAvailable = () => {
     toast.error("هذه الميزة غير متاحة حاليا");
   };
@@ -204,6 +189,30 @@ const SingleMaterialContent = ({ data }) => {
                   <FiDownload size={20} />
                 </Button>
               </InsideContainer>
+              <InsideContainer>
+                <Modal>
+                  <Modal.Open opens="edit-task">
+                    <Button title="تعديل">
+                      <FaRegEdit size={20} />
+                    </Button>
+                  </Modal.Open>
+                  <Modal.Open opens="delete-task">
+                    <Button title="حذف">
+                      <AiOutlineDelete size={20} />
+                    </Button>
+                  </Modal.Open>
+                  <Modal.Window name="edit-task">
+                    <EditMaterial data={item} onCloseModal />
+                  </Modal.Window>
+                  <Modal.Window name="delete-task">
+                    <DeleteMaterial
+                      courseId={courseId}
+                      id={item.id}
+                      onCloseModal
+                    />
+                  </Modal.Window>
+                </Modal>
+              </InsideContainer>
             </ButtonsContainer>
           </MainContainer>
         </Container>
@@ -211,12 +220,5 @@ const SingleMaterialContent = ({ data }) => {
     </>
   );
 };
-
-// function getMaterialKind(filePath) {
-//   if (!filePath) return "file";
-//   const ext = filePath.split(".").pop().toLowerCase();
-//   const videoExts = ["mp4", "mov", "avi", "wmv", "flv", "webm", "mkv"];
-//   return videoExts.includes(ext) ? "فيديو" : "ملف";
-// }
 
 export default SingleMaterialContent;

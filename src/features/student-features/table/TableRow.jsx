@@ -66,6 +66,7 @@ const Icon = styled(GoDotFill)`
 function TableRow({ data }) {
   const { course, status, from, to, hall, type } = data;
   const updatedStatus = status;
+  const formatTime = (timeStr) => timeStr.split(":").slice(0, 2).join(":");
 
   return (
     <TableRowContainer>
@@ -74,10 +75,10 @@ function TableRow({ data }) {
           <P>{course}</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
-          <P>{from} صباحا</P>
+          <P>{formatTime(from)} صباحا</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
-          <P>{to} صباحا</P>
+          <P>{formatTime(to)} صباحا</P>
         </TableSmallRowCell>
         <TableSmallRowCell>
           <P>{type}</P>

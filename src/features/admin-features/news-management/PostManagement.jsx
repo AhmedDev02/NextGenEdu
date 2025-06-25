@@ -81,10 +81,13 @@ function PostManagement({ notice = null, postInformation }) {
           </Modal.Open>
 
           <Modal.Window name="edit-announcement">
-            <AnnouncementEditWindow selectedAnnouncement={postInformation} />
+            <AnnouncementEditWindow
+              selectedAnnouncement={postInformation}
+              onCloseModal
+            />
           </Modal.Window>
           <Modal.Window name="delete-announcement">
-            <AnnouncementDeleteWindow id={id} onConfirm={() => mutate(id)} />
+            <AnnouncementDeleteWindow id={id} onConfirm={() => mutate(id)} onCloseModal />
           </Modal.Window>
         </Modal>
       </Div>

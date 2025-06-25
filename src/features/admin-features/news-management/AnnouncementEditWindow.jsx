@@ -1,9 +1,7 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-// import FileUploader from "./FileUploader";
 import { useEffect } from "react";
 import { useUpdateAnnouncement } from "./useUpdateAnnouncement";
-import { format } from "date-fns";
 
 const FormContainer = styled.div`
   min-width: 400px;
@@ -47,13 +45,6 @@ const Input = styled.input`
     outline: none;
   }
 `;
-const DateContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-const Div = styled.div``;
 
 const ErrorMessage = styled.p`
   color: red;
@@ -92,8 +83,6 @@ const Textarea = styled.textarea`
   resize: none;
   font-size: 18px;
 
-  /* box-shadow: var(--shadow-primary); */
-  /* Apply red border for required fields */
   ${({ required }) =>
     required &&
     `
@@ -108,7 +97,7 @@ const Textarea = styled.textarea`
   background-color: #f9f9f9;
   transition: border-color 0.3s;
 `;
-function AnnouncementEditWindow({ selectedAnnouncement }) {
+function AnnouncementEditWindow({ selectedAnnouncement, onCloseModal }) {
   const {
     register,
     handleSubmit,
@@ -117,36 +106,29 @@ function AnnouncementEditWindow({ selectedAnnouncement }) {
     reset,
     watch,
   } = useForm();
-  const { mutate } = useUpdateAnnouncement(); // Use the mutation hook
-
+  const { mutate, isPending } = useUpdateAnnouncement();
   useEffect(() => {
     if (selectedAnnouncement) {
       setValue("title", selectedAnnouncement.title);
       setValue("body", selectedAnnouncement.body);
     }
   }, [selectedAnnouncement, setValue]);
-  // This function handles form submission
-  const onSubmit = async (data) => {
-    // const formattedDate = format(new Date(), "yyyy-MM-dd");
-    const formattedTime = format(new Date(), "HH:mm");
+  const onSubmit = (data) => {
     const updatedData = {
       course_id: selectedAnnouncement.course.id,
       title: data.title,
       body: data.body,
-      date: "2025-5-4",
-      time: formattedTime,
     };
 
     try {
-      // Call the mutation function to update the course material
-      await mutate({
-        announcementId: selectedAnnouncement.id, // Pass the course ID of the selected row
-        updatedData, // Pass the updated data
+      mutate({
+        announcementId: selectedAnnouncement.id,
+        updatedData,
       });
-      // Optionally handle any additional actions on success (e.g., close modal)
     } catch (error) {
       console.error("Error updating course material:", error);
     }
+    onCloseModal();
   };
 
   return (
@@ -164,7 +146,9 @@ function AnnouncementEditWindow({ selectedAnnouncement }) {
           {errors.week && <ErrorMessage>{errors.week.message}</ErrorMessage>}
         </FormField>
 
-        <SubmitButton type="submit">تعديل</SubmitButton>
+        <SubmitButton type="submit" disabled={isPending}>
+          تعديل
+        </SubmitButton>
       </form>
     </FormContainer>
   );

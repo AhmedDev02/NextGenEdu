@@ -78,7 +78,6 @@ const Dropdown = styled.select`
   margin-bottom: 15px;
   background-color: white;
   box-shadow: var(--shadow-primary);
-  /* Apply red border for required fields */
   ${({ required }) =>
     required &&
     `
@@ -113,7 +112,7 @@ const Div = styled.div`
 const AddNewsContent = () => {
   const { user } = useUser();
 
-  const semesters = user.semesters.data;
+  const semesters = user?.semesters?.data;
   const { mutate } = useCreateAnnouncement();
   const {
     register,

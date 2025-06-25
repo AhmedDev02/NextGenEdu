@@ -27,7 +27,6 @@ export async function getCourses(token) {
     const response = await axios.get(`${BASE_URL}/teachers/courses`, {
       headers,
     });
-    console.log("Courses data:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching courses:", error.message);
@@ -35,13 +34,12 @@ export async function getCourses(token) {
   }
 }
 
-export async function updateCourseMaterial(courseId, updatedData, token) {
+export async function updateCourseMaterial(materialId, updatedData, token) {
   if (!token) {
     throw new Error("Token is required");
   }
 
   const headers = {
-    "Content-Type": "application/json",
     "X-Requested-With": "XMLHttpRequest",
     "X-Device-Type": "web",
     Authorization: `Bearer ${token}`,
@@ -49,15 +47,43 @@ export async function updateCourseMaterial(courseId, updatedData, token) {
 
   try {
     const response = await axios.put(
-      `${BASE_URL}/teachers/course-materials/${courseId}`, // Endpoint to update course material
+      `${BASE_URL}/teachers/course-materials/${materialId}`, // Endpoint to update course material
       updatedData, // Send the updated data as the body
       { headers }
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.error("Error updating course material:", error.message);
+    console.error("Error updating course material:", error.response.data);
     throw new Error(error.message); // Throw an error if the request fails
   }
+}
+
+export async function getMaterials({ courseId, token }) {
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "X-Device-Type": "web",
+    Authorization: `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/teachers/course-materials/${courseId}`,
+      { headers }
+    );
+
+    // Checking the response status code (status code 200 means success)
+    if (response.status !== 200) {
+      toast.error(
+        "حدث خطأ أثناء تحميل البيانات، يرجى المحاولة مرة أخرى لاحقًا."
+      );
+    }
+    // Return the fetched data
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching material: ", error);
+  }
+
+  return null; // Return null if there was an error
 }
 
 export async function getMaterial({ queryKey }) {
@@ -108,7 +134,7 @@ export async function deleteCourseMaterial(id, token) {
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.error("Error updating course material:", error.message);
+    console.error("Error deleting material:", error.response.data);
     throw new Error(error.message); // Throw an error if the request fails
   }
 }
@@ -119,7 +145,6 @@ export async function addCourseMaterial(courseId, data, token) {
   }
 
   const headers = {
-    "Content-Type": "multipart/form-data",
     "X-Requested-With": "XMLHttpRequest",
     "X-Device-Type": "web",
     Authorization: `Bearer ${token}`,
@@ -127,14 +152,42 @@ export async function addCourseMaterial(courseId, data, token) {
 
   try {
     const response = await axios.post(
-      `${BASE_URL}/teachers/course-materials/${courseId}`, // Endpoint to update course material
-      data, // Send the updated data as the body
+      `${BASE_URL}/teachers/course-materials/${courseId}`,
+      data,
+      { headers }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating course material:", error?.response?.data || error);
+    if (error?.response?.data?.errors) {
+      console.log("Validation errors:", error.response.data.errors);
+    }
+    throw new Error(error?.response?.data?.message || error.message);
+  }
+}
+
+
+export async function updateLectureStatus(lectureId, newStatus, token) {
+  if (!token) {
+    throw new Error("Token is required");
+  }
+
+  const headers = {
+    "X-Requested-With": "XMLHttpRequest",
+    "X-Device-Type": "web",
+    Authorization: `Bearer ${token}`,
+  };
+
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/teachers/lectures/${lectureId}/status`,
+      { status: newStatus },
       { headers }
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.log(error.message);
-    console.error("Error updating course material:", error);
+    console.error("Error updating lecture status:", error.response.data);
     throw new Error(error.message); // Throw an error if the request fails
   }
 }

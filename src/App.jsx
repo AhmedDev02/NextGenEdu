@@ -70,7 +70,7 @@ import { StudentProgressProvider } from "./context/StudentProgressProvider";
 import PasswordResetError from "./features/auth/PasswordResetError";
 import Curriculum from "./features/admin-features/dashboard/Curriculum";
 import AddMaterial from "./pages/admin-pages/AddMaterial";
-import Attendance from "./pages/admin-pages/Attendance";
+import Attendance from "./pages/admin-pages/ShowMaterials";
 import CreateTasks from "./pages/admin-pages/CreateTasks";
 import ScheduledTasks from "./pages/admin-pages/ScheduledTasks";
 import LastTasks from "./pages/admin-pages/LastTasks";
@@ -180,7 +180,7 @@ function App() {
                 element={<AddMaterial />}
               />
               <Route
-                path="materials/qr-attendance/:id"
+                path="materials/show-materials/:id"
                 element={<Attendance />}
               />
               <Route path="news" element={<NewsManagement />} />

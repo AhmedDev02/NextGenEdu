@@ -26,7 +26,6 @@ function TaskPageContent() {
   const { assignmentData, error, isLoading } = useGetAssignment(courseId);
   if (isLoading) return <Spinner />;
   if (error) return toast.error("خطأ في تحميل المهام الخاصه بهذه الماده");
-  console.log(assignmentData)
   return (
     <Container>
       {assignmentData.data.map((assignment) => (

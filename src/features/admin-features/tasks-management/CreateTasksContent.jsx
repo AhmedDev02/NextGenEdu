@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 import { useParams } from "react-router-dom";
 import { useCreateAssignment } from "./useCreateAssignment";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const CreateContainer = styled.form`
   display: flex;
@@ -164,27 +166,38 @@ const CreateTasksContent = () => {
   const { register, handleSubmit, reset } = useForm();
   const [date, setDate] = useState(null);
   const [hours, setHour] = useState(null);
-  // const [file, setFile] = useState(null);
-
   const { taskId: courseId } = useParams();
+  const queryClient = useQueryClient();
 
   const { mutate } = useCreateAssignment();
   const onSubmit = (data) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     const formattedTime = format(hours, "HH:mm:ss");
-
-    // Final form data object
-    const finalData = {
-      course_id: courseId,
-      date: formattedDate,
-      time: formattedTime,
-      ...data,
-      file: data.file[0],
-    };
-    mutate({ createdData: finalData });
-    // reset(); // Reset form after submit
-    // setDate(null);
-    // setHour(null);
+    const formData = new FormData();
+    formData.append("course_id", courseId);
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("week", data.week);
+    formData.append("type", data.type);
+    formData.append("date", formattedDate);
+    formData.append("time", formattedTime);
+    console.log(formattedDate, formattedTime);
+    if (data.total_degree) {
+      formData.append("total_degree", data.total_degree);
+    }
+    if (data.file && data.file[0]) {
+      formData.append("file", data.file[0]);
+    }
+    mutate(formData, {
+      onSuccess: () => {
+        toast.success("تم اضافة المحتوى بنجاح");
+        queryClient.invalidateQueries(["assignments"]);
+        reset();
+      },
+      onError: () => {
+        toast.error("حدث خطأ اثناء اضافة المحتوى:");
+      },
+    });
   };
 
   return (

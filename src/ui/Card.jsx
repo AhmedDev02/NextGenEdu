@@ -71,12 +71,14 @@ function Card({
   navigateTo,
   children,
   cardStyle,
+  subjectName,
 }) {
   return (
     <StyledCard style={cardStyle}>
       <Img src={src} alt={alt} />
       <Br />
       <H5>{courseName}</H5>
+      <H5>{subjectName}</H5>
       <H4>{description}</H4>
       <Br />
       <Div>

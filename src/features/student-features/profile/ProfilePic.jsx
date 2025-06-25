@@ -155,7 +155,10 @@ function ProfilePic({ profilePicInfo, handleSave }) {
           />
         </Label>
       </ImgEditor>
-      <SendButton onClick={() => handleSave(selectedFile, setSelectedFile)}>
+      <SendButton
+        disabled={selectedFile === null}
+        onClick={() => handleSave(selectedFile, setSelectedFile)}
+      >
         حفظ الصوره
       </SendButton>
       {SelectedImage && (

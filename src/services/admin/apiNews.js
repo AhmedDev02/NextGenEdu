@@ -13,17 +13,16 @@ export async function updateAnnouncement(announcementId, updatedData, token) {
     Authorization: `Bearer ${token}`,
   };
 
-  console.log(announcementId, updatedData);
   try {
     const response = await axios.put(
-      `${BASE_URL}/dashboard/announcements/${announcementId}`, // Endpoint to update course material
-      updatedData, // Send the updated data as the body
+      `${BASE_URL}/dashboard/announcements/${announcementId}`,
+      updatedData,
       { headers }
     );
-    return response.data; // Return the response data
+    return response.data;
   } catch (error) {
-    console.log("Error updating ", error.response.data.errors);
-    throw new Error(error.message); // Throw an error if the request fails
+    console.log("Error updating ", error.response.data);
+    throw new Error(error.message);
   }
 }
 

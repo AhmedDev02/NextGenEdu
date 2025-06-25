@@ -56,7 +56,7 @@ export async function createAssignment(data, token) {
   }
 
   const headers = {
-    "Content-Type": "multipart/form-data",
+    // "Content-Type": "multipart/form-data",
     "X-Requested-With": "XMLHttpRequest",
     "X-Device-Type": "web",
     Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ export async function createAssignment(data, token) {
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.log("Error updating course material:", error);
+    console.log("Error updating course material:", error.response.data.errors);
     throw new Error(error.message); // Throw an error if the request fails
   }
 }
