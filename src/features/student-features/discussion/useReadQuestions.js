@@ -3,8 +3,8 @@ import { useUser } from "../../../hooks/useUser";
 import { getQuestions } from "../../../services/student/apiDiscussion";
 
 export function useReadQuestions() {
-  console.log("hi");
-  const { token } = useUser();
+  const { token, user } = useUser();
+  const { id } = user || {};
   const {
     data: questions,
     isLoading,
@@ -12,6 +12,8 @@ export function useReadQuestions() {
   } = useQuery({
     queryKey: ["questions", token],
     queryFn: () => getQuestions(token),
+    enabled: !!token, // Ensure the query only runs if the token exists
   });
-  return { questions, isLoading, error };
+  console.log(id);
+  return { questions, isLoading, error, id };
 }

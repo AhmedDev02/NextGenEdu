@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../../../ui/Button";
-import { FaTelegramPlane } from "react-icons/fa";
-import styled from "styled-components";
+import { FaSpinner, FaTelegramPlane } from "react-icons/fa";
+import styled, { keyframes } from "styled-components";
+import { useAddAnswer } from "./useAddAnswer";
 
 const TextArea = styled.textarea`
   z-index: 1; /* Optional: Ensure it stays above other content */
@@ -36,6 +37,16 @@ const TextArea = styled.textarea`
     border-bottom: 1px solid var(--color-secondary-darkblue);
   }
 `;
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const SpinnerIcon = styled(FaSpinner)`
+  font-size: 3rem;
+  animation: ${spin} 1s linear infinite;
+  vertical-align: middle;
+`;
 
 const Form = styled.form`
   margin-top: 5px;
@@ -52,15 +63,17 @@ const Form = styled.form`
   z-index: 10;
 `;
 
-function AnswerForm({ onSendMessage }) {
-  const { register, handleSubmit, reset } = useForm();
-  const [message, setMessage] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+function AnswerForm({ onSendMessage, questionID }) {
+  const { register, handleSubmit, reset, setValue, watch } = useForm();
+
+  const { mutate, isPending: isLoading } = useAddAnswer();
+  console.log(isLoading);
 
   const handleChange = (e) => {
-    setMessage(e.target.value);
-    e.target.style.height = "40px";
-    e.target.style.height = `${e.target.scrollHeight}px`;
+    const textarea = e.target;
+    setValue("message", textarea.value);
+    textarea.style.height = "40px";
+    textarea.style.height = `${textarea.scrollHeight}px`;
   };
 
   const handleKeyDown = (event) => {
@@ -71,25 +84,28 @@ function AnswerForm({ onSendMessage }) {
   };
 
   const onSubmit = (data) => {
-    if (!data.message.trim() && !selectedFile) return; // Prevent empty messages
-    onSendMessage({ text: data.message, file: selectedFile }); // Pass both
-    setSelectedFile(null); // Reset file
-    reset(); // Reset form fields
+    if (!data.message.trim()) return;
+    mutate({ questionID, text: data.message }); // ✅ send data via mutation
+    reset();
   };
+
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Button type="submit">
-        <FaTelegramPlane />
-      </Button>
+      {isLoading ? (
+        <SpinnerIcon />
+      ) : (
+        <Button type="submit">
+          <FaTelegramPlane />
+        </Button>
+      )}
+
       <TextArea
         placeholder="إبدأ في كتابة إجابة مناسبة.."
         {...register("message")}
-        value={message}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
     </Form>
   );
 }
-
 export default AnswerForm;

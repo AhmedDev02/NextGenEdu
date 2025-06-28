@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
 import Modal from "../../../ui/amr/Modal";
-import QuestionWindow from "./QuestionWindow";
 import { FaTrash } from "react-icons/fa";
 import AnswerWindow from "./AnswerWindow";
+import useDeleteAnswer from "./useDeleteAnswer";
 
 const ExamButton = styled.div`
   display: flex;
@@ -12,7 +12,9 @@ const ExamButton = styled.div`
   width: 100%;
 `;
 
-function AnswerModal({ onConfirm, onCloseModal }) {
+function AnswerModal({ onCloseModal, answerID }) {
+  const { mutate: deleteAnswer, isPending: isLoading } = useDeleteAnswer();
+  console.log(isLoading);
   return (
     <div>
       <Modal>
@@ -23,6 +25,7 @@ function AnswerModal({ onConfirm, onCloseModal }) {
               size="custom"
               paddingLeftRight="10px"
               style={{ borderRadius: "15px", border: "2px white solid" }}
+              disabled={isLoading}
             >
               <FaTrash
                 style={{
@@ -33,7 +36,11 @@ function AnswerModal({ onConfirm, onCloseModal }) {
           </ExamButton>
         </Modal.Open>
         <Modal.Window name="submit-delete">
-          <AnswerWindow onConfirm={onConfirm} onCloseModal={onCloseModal} />
+          <AnswerWindow
+            onConfirm={() => deleteAnswer(answerID)}
+            onCloseModal={onCloseModal}
+            isLoading={isLoading}
+          />
         </Modal.Window>
       </Modal>
     </div>

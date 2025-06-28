@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
+import CustomFaSpinner from "../../../ui/tharwat/CustomFaSpinner";
 
 const StyledExamModal = styled.div`
   height: auto;
@@ -22,7 +23,9 @@ const Divider = styled.div`
 `;
 const text = `سيتم حذف سؤالك بشكل نهائي`;
 
-function QuestionWindow({ onCloseModal, onConfirm }) {
+function QuestionWindow({ onCloseModal, onConfirm, isLoading }) {
+  if (isLoading) return <CustomFaSpinner />;
+
   return (
     <StyledExamModal>
       <H4> 🔔 تحذير </H4>

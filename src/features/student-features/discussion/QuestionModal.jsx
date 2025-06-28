@@ -3,6 +3,7 @@ import Button from "../../../ui/Button";
 import Modal from "../../../ui/amr/Modal";
 import QuestionWindow from "./QuestionWindow";
 import { FaTrash } from "react-icons/fa";
+import useDeleteQuestion from "./useDeleteQuestion";
 
 const ExamButton = styled.div`
   display: flex;
@@ -11,7 +12,8 @@ const ExamButton = styled.div`
   width: 100%;
 `;
 
-function QuestionModal({ onConfirm, onCloseModal }) {
+function QuestionModal({ onCloseModal, questionID }) {
+  const { mutate: deleteQuestion, isPending } = useDeleteQuestion();
   return (
     <div>
       <Modal>
@@ -32,7 +34,11 @@ function QuestionModal({ onConfirm, onCloseModal }) {
           </ExamButton>
         </Modal.Open>
         <Modal.Window name="submit-delete">
-          <QuestionWindow onConfirm={onConfirm} onCloseModal={onCloseModal} />
+          <QuestionWindow
+            onConfirm={() => deleteQuestion(questionID)}
+            isLoading={isPending}
+            onCloseModal={onCloseModal}
+          />
         </Modal.Window>
       </Modal>
     </div>

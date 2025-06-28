@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
 
 const QuestionContainer = styled.div`
   background: #fff;
@@ -6,6 +7,7 @@ const QuestionContainer = styled.div`
   padding: 20px;
   border-radius: 20px;
   min-height: 160px;
+  min-width: 100%;
   border: 2px solid var(--color-secondary-darkblue);
   @media (max-width: 768px) {
     width: 75%;
@@ -69,25 +71,29 @@ const Span = styled.span`
   color: var(--color-grey-500);
 `;
 
-function QuestionDetails({ name, level, avatar, question, date, ...rest }) {
-  console.log(name, level, avatar, question, date, rest);
+function LoadedQuestionDetails({ allQuestions, loadedQuestionID }) {
+  const filteredQuestion = allQuestions.questions
+    .filter((question) => question._id == loadedQuestionID)
+    .at(0);
+  const { user, body, createdAt: date } = filteredQuestion;
+  const { name, avatar, semester } = user;
   return (
-    <QuestionContainer {...rest}>
+    <QuestionContainer>
       <QuestionHead>
         <AvatarDiv>
-          <Avatar src={avatar} alt="user" />
+          <Avatar src={"https://" + avatar} alt="user" />
           <QuestionUserInfoDiv>
             <Name>{name}</Name>
             <StudentLevel>
-              <Span>{level}</Span>
+              <Span>{getStudentYear(semester)}</Span>
             </StudentLevel>
           </QuestionUserInfoDiv>
         </AvatarDiv>
-        <QuestionDate>{date}</QuestionDate>
+        <QuestionDate>{getTimeFormatted(date)}</QuestionDate>
       </QuestionHead>
-      <QuestionBody>{question}</QuestionBody>
+      <QuestionBody>{body}</QuestionBody>
     </QuestionContainer>
   );
 }
 
-export default QuestionDetails;
+export default LoadedQuestionDetails;

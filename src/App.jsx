@@ -138,7 +138,7 @@ function App() {
               <Route path="chat" element={<Chat />} />
 
               <Route path="discussion" element={<Discussion />} />
-              <Route path="discussion/:questionId" element={<Answers />} />
+              <Route path="discussion/:questionID" element={<Answers />} />
 
               <Route path="weekly-schedule" element={<WeeklySchedule />} />
               <Route path="projects-timeline" element={<ProjectsTimeline />} />

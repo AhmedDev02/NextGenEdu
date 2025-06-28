@@ -41,7 +41,7 @@ const variations = {
     color: var(--color-grey-0);
     background: var(--color-primary-green);
 
-    &:focus {
+    &:active {
       background: transparent;
       color: var(--color-primary-green);
     }
@@ -62,10 +62,10 @@ const variations = {
     color: var(--color-secondary-darkblue);
     background: transparent;
     border: 2px solid var(--color-secondary-darkblue);
-    &:active {
+    /* &:active {
       background: var(--color-secondary-darkblue);
       color: var(--color-grey-0);
-    }
+    } */
   `,
   // red = danger
 

@@ -1,8 +1,12 @@
 import { FiThumbsUp } from "react-icons/fi";
 import styled from "styled-components";
+import { useLikeAnswer } from "./useLikeAnswer";
+import { FaThumbsUp } from "react-icons/fa";
+import CustomFaSpinner from "../../../ui/tharwat/CustomFaSpinner";
 
 const StatNumber = styled.h5`
-  color: #fff;
+  color: ${({ first, liked }) =>
+    first ? "#fff" : !liked ? "var(--color-secondary-darkblue)" : "#fff"};
 `;
 
 const StatDiv = styled.div`
@@ -20,10 +24,19 @@ const Div = styled.div`
   justify-content: space-around;
   padding: 0 20px;
   border-radius: 20px;
-  background-color: ${({ first }) =>
-    first ? "var(--color-green)" : "var(--color-secondary-darkblue)"};
+  background-color: ${({ first, liked }) =>
+    first
+      ? "var(--color-green)"
+      : !liked
+      ? "#fff"
+      : "var(--color-secondary-darkblue)"};
   border: 2px white solid;
+  color: ${({ liked }) =>
+    !liked ? "var(--color-secondary-darkblue)" : "#fff"};
+  color: ${({ first }) => first && "#fff!important"};
   height: 90%;
+  box-shadow: var(--shadow-primary);
+
   cursor: pointer;
   &:hover {
     box-shadow: var(--shadow-primary);
@@ -31,12 +44,20 @@ const Div = styled.div`
   }
 `;
 
-function AnswerStatus({ first, likes }) {
+function AnswerStatus({ first, likes, answerID, liked }) {
+  const { mutate, isPending } = useLikeAnswer(); // Destructure mutate from the hook
+
+  const handleLike = () => {
+    mutate({ answerID });
+  };
+  if (isPending) return <CustomFaSpinner />;
   return (
-    <Div onClick={() => console.log("clicked")} first={first}>
+    <Div disabled={liked} liked={liked} onClick={handleLike} first={first}>
       <StatDiv>
-        <FiThumbsUp style={{ color: "#fff" }} />
-        <StatNumber>{likes}</StatNumber>
+        {liked ? <FaThumbsUp /> : <FiThumbsUp />}
+        <StatNumber liked={liked} first={first}>
+          {likes}
+        </StatNumber>
       </StatDiv>
     </Div>
   );
