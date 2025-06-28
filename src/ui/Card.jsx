@@ -78,7 +78,7 @@ function Card({
       <Img src={src} alt={alt} />
       <Br />
       <H5>{courseName}</H5>
-      <H5>{subjectName}</H5>
+      {/* <H5>{subjectName}</H5> */}
       <H4>{description}</H4>
       <Br />
       <Div>
