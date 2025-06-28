@@ -3,6 +3,7 @@ import Button from "../../../ui/Button";
 import ListFilter from "../../../ui/ListFilter";
 
 import { FiPlus } from "react-icons/fi";
+import AddQuestionModal from "./AddQuestionModal";
 
 const Header = styled.header`
   width: 100%;
@@ -53,7 +54,7 @@ function DiscussionHeader({ questionsNum }) {
         <Span>{questionsNum} سؤال حتي الآن!</Span>
       </HeaderDiv>
       <HeaderFilter>
-        <Button
+        {/* <Button
           size="custom"
           paddingLeftRight="30px"
           paddingTopBottom="10px"
@@ -63,7 +64,8 @@ function DiscussionHeader({ questionsNum }) {
         >
           <FiPlus style={{ fontSize: "1.4rem" }} />
           ضف سؤالك
-        </Button>
+        </Button> */}
+        <AddQuestionModal />
         <ListFilter
           items={[
             { label: "Academic Questions", value: "academic" },

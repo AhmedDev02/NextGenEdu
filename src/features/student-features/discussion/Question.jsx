@@ -3,8 +3,13 @@ import Button from "../../../ui/Button";
 import QuestionStatus from "./QuestionStatus";
 import QuestionDetails from "./QuestionDetails";
 import { FiThumbsUp } from "react-icons/fi";
-import { FaTrash } from "react-icons/fa";
+import { FaSpinner, FaTrash } from "react-icons/fa";
 import QuestionModal from "./QuestionModal";
+import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
+import { useLikeQuestion } from "./useLikeQuestion";
+import CustomFaSpinner from "../../../ui/tharwat/CustomFaSpinner";
+
+const IMAGE_URL = "https://nextgenedu-database.azurewebsites.net/storage/";
 
 const Div = styled.div`
   display: flex;
@@ -57,46 +62,59 @@ const Break = styled.div`
   margin: 5px auto;
 `;
 
-function Question({ interested, isUser }) {
+function Question({ interested, isUser, body, questionDetails }) {
+  const { mutate, isPending } = useLikeQuestion(); // Destructure mutate from the hook
+  const handleLike = (event) => {
+    event.stopPropagation(); // prevents bubbling up to parent
+    mutate({ questionID: questionDetails._id });
+  };
   return (
     <Div>
       <QuestionsDiv>
         <QuestionDetails
-          level={"الثانية"}
-          name={"احمد ثروت رفاعي"}
-          date={"2022-01-01"}
-          question={
-            "كيف يمكنني تحسين أداء كود في لغة البرمجة بايثون عند التعامل مع البيانات الكبيرة؟"
-          }
+          level={getStudentYear(questionDetails.user.semester)}
+          name={questionDetails.user.name}
+          date={getTimeFormatted(questionDetails.createdAt)}
+          question={body}
+          avatar={`https://${questionDetails?.user?.avatar}`}
         />
-        <QuestionStatus likes={49} answers={10} watch={100} />
+        <QuestionStatus
+          likes={questionDetails.likes}
+          answers={questionDetails.answers}
+          watch={questionDetails.views}
+        />
       </QuestionsDiv>
       <ButtonsDiv isUser={isUser}>
-        {isUser && <QuestionModal />}
+        {isUser && <QuestionModal questionID={questionDetails._id} />}
         <Button
           variation="secondary"
           size="custom"
           paddingLeftRight={isUser ? "208px" : "258px"}
           paddingTopBottom="10px"
           style={{ borderRadius: "15px", border: "2px white solid" }}
-          navigateTo={`/discussion/1`}
+          navigateTo={`/discussion/${questionDetails._id}`}
           phonePadding={isUser ? "10px 30px" : "10px 90px"}
           tabPadding={!isUser ? "15px 267px" : "10px 200px"}
         >
           عرض الإجابة
         </Button>
-        <Button
-          variation={interested ? "primary" : "transparent"}
-          size="custom"
-          paddingLeftRight="65px"
-          paddingTopBottom="17px"
-          phonePadding={isUser ? "10px 30px" : "10px 80px"}
-          tabPadding={"20px 65px"}
-          // tabPadding={!isUser ? "20px 65px" : "10px 80px"}
-        >
-          <Span>مهتم</Span>
-          <FiThumbsUp />
-        </Button>
+
+        {!isPending ? (
+          <Button
+            variation={interested ? "primary" : "transparent"}
+            size="custom"
+            paddingLeftRight="65px"
+            paddingTopBottom="17px"
+            phonePadding={isUser ? "10px 30px" : "10px 80px"}
+            tabPadding={"20px 65px"}
+            onClick={handleLike}
+          >
+            <Span>مهتم</Span>
+            <FiThumbsUp />
+          </Button>
+        ) : (
+          <CustomFaSpinner />
+        )}
       </ButtonsDiv>
 
       <Break />

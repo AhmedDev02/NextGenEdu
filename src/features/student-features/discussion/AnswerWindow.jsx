@@ -1,5 +1,6 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Button from "../../../ui/Button";
+import { FaSpinner } from "react-icons/fa";
 
 const StyledExamModal = styled.div`
   height: auto;
@@ -20,13 +21,25 @@ const Divider = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+const spin = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+const SpinnerIcon = styled(FaSpinner)`
+  font-size: 3rem;
+  animation: ${spin} 1s linear infinite;
+  vertical-align: middle;
+`;
+
 const text = `سيتم حذف جوابك بشكل نهائي`;
 
-function AnswerWindow({ onCloseModal, onConfirm }) {
+function AnswerWindow({ onCloseModal, onConfirm, isLoading }) {
+  if (isLoading) return <SpinnerIcon />;
   return (
     <StyledExamModal>
       <H4> 🔔 تحذير </H4>
       <H5> {text}</H5>
+
       <Divider>
         <Button variation="danger" size="small" onClick={onConfirm}>
           تأكيد

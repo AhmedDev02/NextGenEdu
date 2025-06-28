@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import AnswerStatus from "./AnswerStatus";
 import AnswerForm from "./AnswerForm";
-import QuestionModal from "./QuestionModal";
 import AnswerModal from "./AnswerModal";
+import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
+import useDeleteAnswer from "./useDeleteAnswer";
 
 const Container = styled.div`
   position: relative;
@@ -107,6 +108,7 @@ const Span = styled.span`
 
 const AnswerDate = styled.p`
   font-size: 1rem;
+  direction: ltr;
   color: var(--color-grey-400);
 `;
 const AnswerBody = styled.p`
@@ -126,38 +128,49 @@ const AnswerStatusContainer = styled.div`
   height: 90%;
 `;
 
-function AnswersContainer({ name, level, date, answer, isUser }) {
-  const data = [1, 2, 3, 4, 5, 6, 7, 8];
+function AnswersContainer({ id, answers, questionID }) {
   return (
     <Container>
       <H3>أحدث الإجابات</H3>
-      {data.map((item, index) => (
-        <AnswerRow key={index}>
+      {answers?.map((answer, index) => (
+        <AnswerRow key={answer._id}>
           <AnswerTextDiv>
             <AnswerHead>
               <AvatarDiv>
-                <Avatar src="https://picsum.photos/200/300" alt="user" />
+                <Avatar src={"https://" + answer.user.avatar} alt="user" />
                 <AnswerUserInfoDiv>
-                  <Name first={index === 0}>{name}</Name>
+                  <Name first={index === 0}>{answer.user.name}</Name>
                   <StudentLevel>
-                    <Span> طالب فرقة {level}</Span>
+                    <Span>{getStudentYear(answer.user.semester)}</Span>
                   </StudentLevel>
                 </AnswerUserInfoDiv>
               </AvatarDiv>
-              <AnswerDate>{date}</AnswerDate>
+              <AnswerDate>{getTimeFormatted(answer.createdAt)}</AnswerDate>
             </AnswerHead>
-            <AnswerBody>{answer}</AnswerBody>
+            <AnswerBody>{answer.body}</AnswerBody>
           </AnswerTextDiv>
-          {!isUser && <AnswerStatus first={+index === 0} likes={19} />}
-          {isUser && (
+          {answer.user.id == id && (
             <AnswerStatusContainer>
-              <AnswerStatus first={+index === 0} likes={19} />
-              <AnswerModal />
+              <AnswerStatus
+                liked={answer.user.liked}
+                answerID={answer._id}
+                first={+index === 0}
+                likes={answer.likes}
+              />
+              <AnswerModal answerID={answer._id} />
             </AnswerStatusContainer>
+          )}
+          {answer.user.id !== id && (
+            <AnswerStatus
+              answerID={answer._id}
+              first={+index === 0}
+              liked={answer.user.liked}
+              likes={answer.likes}
+            />
           )}
         </AnswerRow>
       ))}
-      <AnswerForm />
+      <AnswerForm questionID={questionID} />
     </Container>
   );
 }

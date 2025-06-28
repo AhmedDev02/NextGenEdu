@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import QuestionDetails from "./QuestionDetails";
 import AnswersContainer from "./AnswersContainer";
+import { useParams } from "react-router-dom";
+import { useReadOneQuestion } from "./useReadOneQuestion";
+import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
+import { useUser } from "../../../hooks/useUser";
+import Spinner from "../../../ui/amr/Spinner";
+import LoadedQuestionDetails from "./LoadedQuestionDetails";
+import { useReadQuestions } from "./useReadQuestions";
 
 const Div = styled.div`
   display: flex;
@@ -22,26 +29,35 @@ const Div = styled.div`
 `;
 
 function AnswersContent() {
+  const { questionID } = useParams(); // `userId` is the parameter from the URL
+  console.log(questionID);
+  const { question, isLoading } = useReadOneQuestion(questionID) || {};
+  const { questions: allQuestions, error } = useReadQuestions();
+
+  const questionData = question?.data?.question;
+  const answersData = question?.data?.answers;
+  const { user } = useUser();
+  const { id } = user;
+  if (isLoading) return <Spinner />;
   return (
     <Div>
-      <QuestionDetails
-        level={"الثانية"}
-        name={"احمد ثروت رفاعي"}
-        date={"2022-01-01"}
-        question={
-          "كيف يمكنني تحسين أداء كود في لغة البرمجة بايثون عند التعامل مع البيانات الكبيرة؟"
-        }
-        style={{ width: "100%" }}
-      />
-      <AnswersContainer
-        level={"الثانية"}
-        name={"احمد ثروت رفاعي"}
-        date={"2022-01-01"}
-        answer={
-          "لتحسين أداء كود بايثون مع البيانات الكبيرة، استخدم NumPy و Pandas لمعالجة البيانات بكفاءة، Dask أو Vaex للتعامل مع البيانات الضخمة، multiprocessing و Numba لتسريع العمليات، chunksize عند قراءة الملفات، وParquet أو Feather بدلاً من CSV لتقليل استهلاك الذاكرة. "
-        }
-        isUser={true}
-      />
+      {questionData ? (
+        <QuestionDetails
+          level={getStudentYear(questionData?.user?.semester)}
+          name={questionData?.user?.name}
+          date={questionData && getTimeFormatted(questionData?.createdAt)}
+          question={questionData?.body}
+          style={{ width: "100%" }}
+          avatar={`https://${questionData?.user?.avatar}`}
+        />
+      ) : (
+        <LoadedQuestionDetails
+          loadedQuestionID={questionID}
+          allQuestions={allQuestions}
+        />
+      )}
+
+      <AnswersContainer questionID={questionID} id={id} answers={answersData} />
     </Div>
   );
 }

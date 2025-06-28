@@ -2,6 +2,8 @@ import styled from "styled-components";
 import DiscussionHeader from "./DiscussionHeader";
 import Question from "./Question";
 import { useReadQuestions } from "./useReadQuestions";
+import { useUser } from "../../../hooks/useUser";
+import Spinner from "../../../ui/amr/Spinner";
 
 const Div = styled.div`
   display: flex;
@@ -19,19 +21,24 @@ const Div = styled.div`
 `;
 
 function DiscussionContent() {
-  const { questions } = useReadQuestions();
-  const data = questions.questions;
-  console.log(data);
+  const { questions, isLoading, error, id } = useReadQuestions();
+  const data = questions?.questions ? questions?.questions : [];
+
+  if (isLoading) return <Spinner />;
   return (
     <Div>
       <DiscussionHeader questionsNum={data.length} />
-      {data.map((item, index) => (
-        <Question
-          key={index}
-          isUser={true}
-          interested={index === 1 || index === 3 || index === 7 ? false : true}
-        />
-      ))}
+      {data.map((item, index) => {
+        return (
+          <Question
+            key={index}
+            isUser={item.user.id == id}
+            interested={item.user.liked}
+            body={item.body}
+            questionDetails={item}
+          />
+        );
+      })}
     </Div>
   );
 }
