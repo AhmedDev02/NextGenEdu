@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 import SingleMaterialContent from "./SingleMaterialContent";
 import { useState } from "react";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const FILTERS = [
   { label: "الكل", value: "all" },
@@ -107,7 +107,7 @@ const MaterialDetails = () => {
   if (isPending) return <Spinner />;
   if (error)
     return (
-      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+      <ErrorFallBack message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
     );
 
   if (!material || material.data.length === 0)

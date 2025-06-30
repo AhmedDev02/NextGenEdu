@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Spinner from "../../../ui/amr/Spinner";
 import SingleMaterialContent from "./SingleMaterialContent";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const FILTERS = [
   { label: "الكل", value: "all" },
@@ -87,7 +87,7 @@ const ShowMaterialsContent = () => {
 
   if (error) {
     return (
-      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+      <ErrorFallBack message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
     );
   }
 

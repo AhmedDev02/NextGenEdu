@@ -5,7 +5,7 @@ import useGetCourses from "./useGetCourses";
 import Spinner from "../../../ui/amr/Spinner";
 import { FaEye } from "react-icons/fa";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const MaterialContainer = styled.div`
   width: 100%;
@@ -50,7 +50,7 @@ const MaterialManagementContent = () => {
   if (isPending) return <Spinner />;
 
   if (error) {
-    return <ErrorFallback message="خطأ في تحميل المواد" onRetry={refetch} />;
+    return <ErrorFallBack message="خطأ في تحميل المواد" onRetry={refetch} />;
   }
 
   if (!courses || courses.data.length === 0) {

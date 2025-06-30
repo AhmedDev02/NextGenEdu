@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import AddPrevTask from "./AddPrevTask";
 import useShowAssignment from "./useShowAssignment";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const AssignmentContainer = styled.div`
   width: 100%;
@@ -164,7 +164,7 @@ function CurrentAssignment({ data }) {
   };
   if (error) {
     return (
-      <ErrorFallback message="حدث خطأ اثناء عرض الواجب" onRetry={refetch} />
+      <ErrorFallBack message="حدث خطأ اثناء عرض الواجب" onRetry={refetch} />
     );
   }
 

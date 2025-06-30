@@ -8,7 +8,7 @@ import useUpdateProfile from "./useUpdateProfile";
 import { useState } from "react";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const Div = styled.div`
   display: flex;
@@ -81,7 +81,7 @@ function AdminProfileContent() {
   if (isPending) return <Spinner />;
   if (error) {
     return (
-      <ErrorFallback
+      <ErrorFallBack
         message="حدث خطأ اثناء عرض الملف الشخصي"
         onRetry={refetch}
       />

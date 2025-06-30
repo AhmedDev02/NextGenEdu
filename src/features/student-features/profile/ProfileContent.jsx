@@ -8,7 +8,7 @@ import { useState } from "react";
 import useUpdateProfile from "./useUpdateProfile";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 const Div = styled.div`
   display: flex;
   justify-content: center;
@@ -113,7 +113,7 @@ function ProfileContent() {
   if (isPending) return <Spinner />;
   if (error) {
     return (
-      <ErrorFallback message="خطأ في تحميل الملف الشخصي" onRetry={refetch} />
+      <ErrorFallBack message="خطأ في تحميل الملف الشخصي" onRetry={refetch} />
     );
   }
   if (!ProfileInfo) {

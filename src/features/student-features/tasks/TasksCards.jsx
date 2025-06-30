@@ -3,7 +3,7 @@ import Button from "../../../ui/Button";
 import { useGetCourses } from "./useGetAssignments";
 import Spinner from "../../../ui/amr/Spinner";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const CardFlexContainer = styled.div`
   display: flex;
@@ -70,7 +70,7 @@ function TasksCards() {
 
   if (error) {
     return (
-      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+      <ErrorFallBack message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
     );
   }
 
