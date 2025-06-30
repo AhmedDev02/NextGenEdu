@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useMaterial } from "./useMaterial";
 import Spinner from "../../../ui/amr/Spinner";
-import toast from "react-hot-toast";
 import Accordion from "../../../ui/amr/Accordion";
 import styled, { css } from "styled-components";
 import SingleMaterialContent from "./SingleMaterialContent";
 import { useState } from "react";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const FILTERS = [
   { label: "الكل", value: "all" },

@@ -3,10 +3,9 @@ import MyCard from "../../../ui/amr/MyCard";
 import { MdOutlineFileUpload, MdUpdate } from "react-icons/md";
 import useGetCourses from "./useGetCourses";
 import Spinner from "../../../ui/amr/Spinner";
-import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const MaterialContainer = styled.div`
   width: 100%;

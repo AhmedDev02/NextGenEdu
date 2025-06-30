@@ -5,8 +5,8 @@ import useGetMaterials from "./useGetMaterials";
 import { useParams } from "react-router-dom";
 import Spinner from "../../../ui/amr/Spinner";
 import SingleMaterialContent from "./SingleMaterialContent";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const FILTERS = [
   { label: "الكل", value: "all" },
