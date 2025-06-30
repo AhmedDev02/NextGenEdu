@@ -13,6 +13,7 @@ const Div = styled.div`
   flex-direction: column;
   align-items: center; /* Center the posts container */
   gap: 2rem; /* Add a gap between posts */
+  
 `;
 
 function NewsContent() {
