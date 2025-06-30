@@ -4,6 +4,7 @@ import { useState } from "react";
 import useAddMaterial from "./useAddMaterial";
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import AddFileModal from "./AddFileModal";
 import {
   Amr,
   ButtonsContainer,
@@ -24,7 +25,7 @@ import {
 } from "./Styles";
 import { AiOutlineDelete } from "react-icons/ai";
 import styled from "styled-components";
-import AddFileModal from "./AddFileModal";
+
 import { useForm } from "react-hook-form";
 
 export const FileItem = styled.div`
