@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { HiOutlineExclamationTriangle } from "react-icons/hi2";
 import toast from "react-hot-toast";
 
-const StyledErrorFallback = styled.div`
+const StyledErrorFallBack = styled.div`
   width: 90%;
   max-width: 70rem;
   margin: 4rem auto;
@@ -85,12 +85,12 @@ function ErrorFallBack({ message = "لم نستطع عرض المعلومات", 
   message && toast.error(message);
 
   return (
-    <StyledErrorFallback>
+    <StyledErrorFallBack>
       <ErrorIcon />
       <Title>عفواً، حدث خطأ ما</Title>
       <Message>{message}</Message>
       {onRetry && <RetryButton onClick={onRetry}>حاول مجدداً</RetryButton>}
-    </StyledErrorFallback>
+    </StyledErrorFallBack>
   );
 }
 
