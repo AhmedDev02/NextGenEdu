@@ -4,54 +4,74 @@ import useDeleteMaterial from "./useDeleteMaterial";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4rem;
-  padding: 2rem;
+  gap: 2.5rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 40rem;
 `;
-const H1 = styled.h1``;
+
+const H1 = styled.h1`
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--color-grey-800);
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+`;
 
 const ButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1.5rem;
 `;
 
-const Confirm = styled.button`
-  background: var(--color-primary-green);
+const ButtonBase = styled.button`
   outline: none;
   border: none;
   border-radius: 1rem;
-  padding: 0.5rem 1.5rem;
-  transition: all 0.1s;
+  padding: 1rem 2.5rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: white;
+  transition: all 0.2s;
+  cursor: pointer;
+
   &:active {
-    scale: 0.9;
+    transform: scale(0.95);
   }
+
   &:focus {
     outline: none;
-    border: none;
   }
 `;
-const Cancel = styled(Confirm)`
+
+const Confirm = styled(ButtonBase)`
+  background: var(--color-primary-green);
+`;
+const Cancel = styled(ButtonBase)`
   background: var(--color-danger-red);
 `;
-const P = styled.p`
-  color: white;
-`;
-const DeleteMaterial = ({ id, onCloseModal,courseId }) => {
-  const { mutate: deleting, isPending: isDeleting } = useDeleteMaterial(courseId);
+
+const DeleteMaterial = ({ id, onCloseModal, courseId }) => {
+  const { mutate: deleting, isPending: isDeleting } =
+    useDeleteMaterial(courseId);
+
   const handleDelete = () => {
-    deleting(id);
-    onCloseModal();
+    deleting(id, {
+      onSuccess: () => onCloseModal?.(),
+    });
   };
+
   return (
     <Container>
       <H1>هل أنت متأكد من حذف هذا المحتوى؟</H1>
       <ButtonsContainer>
+        <Cancel onClick={onCloseModal}>الغاء</Cancel>
         <Confirm onClick={handleDelete} disabled={isDeleting}>
-          <P>تأكيد</P>
+          تأكيد
         </Confirm>
-        <Cancel>
-          <P>الغاء</P>
-        </Cancel>
       </ButtonsContainer>
     </Container>
   );

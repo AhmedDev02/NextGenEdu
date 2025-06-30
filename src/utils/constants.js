@@ -12,7 +12,7 @@ export const STUDENTS_ITEMS = {
   WEEKLY_SCHEDULE: "جدول أسبوعي",
   TIMELINE: "الجدول الزمني",
   EXAMS: "الاختبارات",
-  TASKS: "المهام",
+  TASKS: "التكاليف",
   STUDENT_PROGRESS: "التقدم الأكاديمي",
   FINAL_RESULTS: "النتائج النهائية",
 };

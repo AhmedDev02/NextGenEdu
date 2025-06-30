@@ -4,42 +4,52 @@ import { ANNOUNCEMENT, NOTICE } from "../../../utils/constants";
 const MessagePost = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: center; */
-  padding: 0 6.5rem;
   text-align: right;
+  gap: 1rem;
+  padding: 0 1rem; /* Add slight horizontal padding for alignment */
 `;
 
-const MessageAnnouncement = styled.span`
-  font-size: 1.4rem;
+const MessageTitle = styled.h2`
+  font-size: 1.8rem;
   font-weight: var(--font-weight-bold);
-  margin-bottom: 10px;
-`; // This is a fixed component
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+`;
 
 const MessageBody = styled.p`
   font-size: 1.6rem;
-  color: var(--color-grey-900);
-  text-align: right;
-`; // This is a dynamic component
+  color: var(--color-grey-800);
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-wrap;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+`;
 
 const MessageNotice = styled.p`
-  margin-top: 10px;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: var(--font-weight-semibold);
-`; // This is a fixed component
+  color: var(--color-red-700, #b91c1c);
+  margin: 0;
+`;
 
-const Span = styled.span`
-  font-size: 1.3rem;
+const NoticeLabel = styled.span`
   font-weight: var(--font-weight-bold);
 `;
+
 function PostMessage({ msg, notice, title }) {
   return (
     <MessagePost>
-      <MessageAnnouncement>{title || ANNOUNCEMENT}</MessageAnnouncement>
+      <MessageTitle>{title || ANNOUNCEMENT}</MessageTitle>
       <MessageBody>{msg}</MessageBody>
       {notice && (
         <MessageNotice>
-          <Span>{NOTICE}</Span>
+          <NoticeLabel>{NOTICE}: </NoticeLabel>
           {notice}
         </MessageNotice>
       )}

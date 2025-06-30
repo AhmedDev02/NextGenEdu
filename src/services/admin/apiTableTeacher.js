@@ -16,6 +16,6 @@ export const apiReadTableTeacher = async (token) => {
         return response.data;
     } catch (error) {
         console.error("Error fetching table of Teachers:", error.message);
-        return null;
+        throw error
     }
 }

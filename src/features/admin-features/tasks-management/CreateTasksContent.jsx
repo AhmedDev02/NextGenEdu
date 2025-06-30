@@ -181,7 +181,6 @@ const CreateTasksContent = () => {
     formData.append("type", data.type);
     formData.append("date", formattedDate);
     formData.append("time", formattedTime);
-    console.log(formattedDate, formattedTime);
     if (data.total_degree) {
       formData.append("total_degree", data.total_degree);
     }

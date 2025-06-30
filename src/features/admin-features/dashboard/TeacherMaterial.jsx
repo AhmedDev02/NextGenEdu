@@ -6,6 +6,8 @@ import { useCourses } from "./useCourses";
 import { useUser } from "../../../hooks/useUser";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const CardsContainer = styled.div`
   display: flex;
@@ -21,12 +23,18 @@ const FilterDiv = styled.div`
 `;
 function TeacherMaterial() {
   // const data = [1, 2, 3];
-  const { courses, isLoading, error } = useCourses();
+  const { courses, isLoading, error, refetch } = useCourses();
   const { user } = useUser();
   if (isLoading) return <Spinner />;
-  if (error) return toast.error("حدث خطأ أثناء تحميل البيانات");
+  if (error) {
+    return (
+      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+    );
+  }
+  if (!courses || courses.data.length === 0) {
+    return <Empty resourceName="معلومات" />;
+  }
   const coursesData = courses?.data;
-  console.log(user?.semesters?.data);
 
   const semester = user?.semesters?.data?.map((semester) => {
     return { label: semester.name, value: semester.id };

@@ -84,8 +84,16 @@ const variations = {
  */
 const StyledButton = styled.button`
   font-family: "Changa", sans-serif;
-
+  transition: all 0.2s;
   border: none;
+  outline: none;
+  &:focus,
+  &:active {
+    outline: none;
+  }
+  &:active {
+    scale: 0.95;
+  }
   box-shadow: var(--shadow-primary);
   ${(props) => sizes[props.size]};
   ${(props) => variations[props.variation]};
@@ -95,11 +103,6 @@ const StyledButton = styled.button`
           background: transparent;
           color: var(--color-secondary-darkblue);
           border: var(--color-secondary-darkblue) 2px solid;
-
-          &:focus {
-            background: var(--color-secondary-darkblue);
-            color: var(--color-grey-0);
-          }
         `
       : css``}
   @media (max-width: 768px) {
@@ -123,6 +126,7 @@ function Button({
   navigateTo, // New prop for navigation
   phonePadding,
   tabPadding,
+  disabled,
   ...rest
 }) {
   const navigate = useNavigate();
@@ -147,6 +151,7 @@ function Button({
       phonePadding={phonePadding}
       tabPadding={tabPadding}
       {...rest}
+      disabled={disabled}
     >
       {children}
     </StyledButton>

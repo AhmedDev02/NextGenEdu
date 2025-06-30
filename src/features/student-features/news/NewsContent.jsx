@@ -3,24 +3,34 @@ import ListFilter from "../../../ui/ListFilter";
 import Post from "./Post";
 import useGetNews from "./useGetNews";
 import Spinner from "../../../ui/amr/Spinner";
-import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const Div = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center; /* Center the posts container */
+  gap: 2rem; /* Add a gap between posts */
 `;
 
 function NewsContent() {
-  const { data: newsData, isLoading, error } = useGetNews();
+  const { data: newsData, isPending, error, refetch } = useGetNews();
   const [searchParams] = useSearchParams();
+
   const selectedSubjects = searchParams
     .get("subjects")
     ?.split("-")
     .map(decodeURIComponent) || ["all"];
-  if (isLoading) return <Spinner />;
-  if (error) return toast.error("حدث خطأ في تحميل الاخبار");
+
+  if (isPending) return <Spinner />;
+  if (error) {
+    return <ErrorFallback message="خطأ في عرض الاخبار" onRetry={refetch} />;
+  }
+  if (!newsData || newsData.data.length === 0) {
+    return <Empty resourceName="معلومات" />;
+  }
 
   const subjectNames = Array.from(
     new Map(
@@ -30,15 +40,18 @@ function NewsContent() {
       ])
     ).values()
   );
+
   const subjects = subjectNames.map((course) => ({
     label: course.name,
     value: course.id,
   }));
+
   const filteredPosts = selectedSubjects.includes("all")
     ? newsData.data.data
     : newsData.data.data.filter((post) =>
         selectedSubjects.includes(String(post.course.id))
       );
+
   return (
     <>
       <ListFilter

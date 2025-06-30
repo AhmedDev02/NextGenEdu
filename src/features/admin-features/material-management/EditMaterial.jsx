@@ -17,20 +17,124 @@ import { useForm } from "react-hook-form";
 import useEditMaterial from "./useEditMaterial";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useDropzone } from "react-dropzone";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const Group = styled.div`
   width: 100%;
   display: flex;
-  /* justify-content: center; */
-  justify-content: flex-start;
+  gap: 2rem;
+  align-items: flex-start;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
+
 const InsideGroup = styled.div`
-  width: 50%;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+const DropAreaContainer = styled.div`
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const DropArea = styled.div`
+  border: 2px dashed #bbbbbb;
+  border-radius: 10px;
+  padding: 3rem;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f7f7f7;
+  cursor: pointer;
+  transition: border 0.3s ease-in-out;
+
+  &:hover {
+    border-color: #30bd58;
+  }
+
+  p {
+    font-size: 1.6rem;
+    color: #404040;
+    margin: 0.5rem 0;
+  }
+
+  span {
+    color: #30bd58;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    p {
+      font-size: 1.4rem;
+    }
+  }
+`;
+
+const FileList = styled.div`
+  width: 100%;
+  margin-top: 1rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const FileItem = styled.div`
+  background: #f0fff0;
+  border: 1px solid #30bd58;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.4rem;
+  word-break: break-all;
+`;
+
+const DeleteButton = styled.button`
+  background: none;
+  border: 1px solid var(--color-red-500, red);
+  cursor: pointer;
+  color: var(--color-red-500, red);
+  font-size: 1.8rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-red-100, #fee2e2);
+  }
+`;
+
+const HelperText = styled.p`
+  font-size: 1.2rem !important;
+  color: #777 !important;
 `;
 
 const EditMaterial = ({ data, onCloseModal }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
   const {
     id: materialId,
     title: materialTitle,
@@ -55,7 +159,24 @@ const EditMaterial = ({ data, onCloseModal }) => {
     },
   });
 
-  // Reset form when component loads or when data changes
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      "application/pdf": [],
+      "application/msword": [],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+        [],
+      "application/vnd.ms-powerpoint": [],
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+        [],
+    },
+    multiple: false,
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        setSelectedFile(acceptedFiles[0]);
+      }
+    },
+  });
+
   useEffect(() => {
     reset({
       title: materialTitle || "",
@@ -65,23 +186,13 @@ const EditMaterial = ({ data, onCloseModal }) => {
   }, [materialTitle, materialWeek, materialType, reset]);
 
   const onSubmit = (formData) => {
-    // const dataToSend = new FormData();
-    // dataToSend.append("title", formData.title);
-    // dataToSend.append("week", formData.week);
-    // dataToSend.append("type", formData.type);
-    // if (selectedFile) {
-    //   dataToSend.append("file", selectedFile);
-    // }
-    const dataToSend = {
-      title: formData.title,
-      week: formData.week,
-      type: formData.type,
-    };
-
-    // console.log("Data to send:");
-    // for (let pair of dataToSend.entries()) {
-    //   console.log(pair[0] + ": " + pair[1]);
-    // }
+    const dataToSend = new FormData();
+    dataToSend.append("title", formData.title);
+    dataToSend.append("week", formData.week);
+    dataToSend.append("type", formData.type);
+    if (selectedFile) {
+      dataToSend.append("material", selectedFile);
+    }
 
     mutate(
       { materialId, updatedData: dataToSend },
@@ -89,19 +200,18 @@ const EditMaterial = ({ data, onCloseModal }) => {
         onSuccess: () => {
           toast.success("تم تحديث المادة بنجاح");
           queryClient.invalidateQueries({ queryKey: ["materials", courseId] });
-          onCloseModal();
+          onCloseModal?.();
         },
         onError: (error) => {
           console.error("Error updating material:", error);
           toast.error("حدث خطأ أثناء تحديث المادة، يرجى المحاولة مرة أخرى");
-          onCloseModal();
         },
       }
     );
   };
 
   return (
-    <Container style={{ width: "100rem" }}>
+    <Container>
       <h1 style={{ textAlign: "center" }}>نافذة تعديل الملف</h1>
       <Content>
         <form
@@ -135,7 +245,7 @@ const EditMaterial = ({ data, onCloseModal }) => {
                 <SelectGroup>
                   <Label>اختر الأسبوع</Label>
                   <Select {...register("week")}>
-                    {Array.from({ length: 15 }, (_, i) => (
+                    {Array.from({ length: 14 }, (_, i) => (
                       <option key={i + 1} value={i + 1}>
                         الأسبوع {i + 1}
                       </option>
@@ -145,21 +255,47 @@ const EditMaterial = ({ data, onCloseModal }) => {
 
                 <SelectGroup>
                   <Label>اختر نوع المحتوي</Label>
-                  <Select {...register("type")}>
+                  <Select
+                    {...register("type", { required: "يجب اختيار النوع اولا" })}
+                  >
                     <option value="section">سكشن</option>
                     <option value="lecture">محاضرة</option>
                     <option value="other">اخر</option>
                   </Select>
                 </SelectGroup>
+                {errors.type && (
+                  <p style={{ color: "red" }}>{errors.type.message}</p>
+                )}
               </Selections>
             </InsideGroup>
 
-            {/* <EditFileModal onSelectFile={setSelectedFile} /> */}
+            <DropAreaContainer>
+              {selectedFile ? (
+                <FileList>
+                  <Label>قائمة الملفات</Label>
+                  <FileItem>
+                    <span>{selectedFile.name}</span>
+                    <DeleteButton onClick={() => setSelectedFile(null)}>
+                      <AiOutlineDelete />
+                    </DeleteButton>
+                  </FileItem>
+                </FileList>
+              ) : (
+                <DropArea {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <FaCloudUploadAlt size={40} color="#30bd58" />
+                  <p>
+                    <span>اضغط هنا</span> لرفع ملف جديد
+                  </p>
+                  <HelperText>أو قم بسحب الملف وإفلاته هنا</HelperText>
+                </DropArea>
+              )}
+            </DropAreaContainer>
           </Group>
 
           <Publish>
             <button disabled={isPending} type="submit">
-              تعديل !
+              {isPending ? "جاري التعديل..." : "تعديل !"}
             </button>
           </Publish>
         </form>

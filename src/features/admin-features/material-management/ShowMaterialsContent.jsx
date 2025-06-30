@@ -4,8 +4,9 @@ import Accordion from "../../../ui/amr/Accordion";
 import useGetMaterials from "./useGetMaterials";
 import { useParams } from "react-router-dom";
 import Spinner from "../../../ui/amr/Spinner";
-import toast from "react-hot-toast";
 import SingleMaterialContent from "./SingleMaterialContent";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const FILTERS = [
   { label: "الكل", value: "all" },
@@ -21,26 +22,21 @@ const FilterButton = styled.button`
   cursor: pointer;
   user-select: none;
   transition: all 0.3s ease-in-out;
-
-  width: 12rem;
-  min-width: 8rem;
-  flex-grow: 1;
-  padding: 5px 12px;
+  padding: 0.8rem 1.6rem;
   border-radius: 3rem;
-
   border: 2px solid var(--color-grey-500);
   background-color: #f3f4f6;
   color: #353434;
 
   ${({ active }) =>
     active &&
-    `
-    border: 2px solid #34ad5d;
-    background-color: var(--color-active, #c9fad7);
-    color: #06722c;
-  `}
+    css`
+      border: 2px solid #34ad5d;
+      background-color: var(--color-active, #c9fad7);
+      color: #06722c;
+    `}
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: #e0f7e9;
   }
 
@@ -48,58 +44,36 @@ const FilterButton = styled.button`
     outline: none;
   }
 
-  @media (max-width: 900px) {
-    font-size: 1.1rem;
-    width: 9rem;
-    padding: 8px 8px;
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    padding: 0.6rem 1.2rem;
   }
-
-  @media (max-width: 600px) {
-    font-size: 1rem;
-    width: auto;
-    min-width: 7rem;
-    padding: 6px 10px;
-    margin-bottom: 0.5rem;
-  }
-
-  ${({ styles }) =>
-    styles &&
-    css`
-      ${styles}
-    `}
 `;
 
 const FilterButtonsContainer = styled.div`
   display: flex;
   gap: 1rem;
-  padding: 10px 0;
+  padding: 1rem 0;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 
   @media (max-width: 600px) {
-    flex-direction: row;
     gap: 0.5rem;
-    width: 100%;
-    /* Remove align-items: stretch and flex-direction: column */
+    justify-content: center;
   }
 `;
 
 const MainContainer = styled.div`
-  width: 80%;
+  width: 90%;
+  max-width: 100rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 5rem;
+  align-items: stretch;
+  gap: 2rem;
 
-  @media (max-width: 900px) {
+  @media (max-width: 768px) {
     width: 95%;
-    gap: 2rem;
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-    padding: 0 0.5rem;
     gap: 1.5rem;
   }
 `;
@@ -107,10 +81,20 @@ const MainContainer = styled.div`
 const ShowMaterialsContent = () => {
   const [filter, setFilter] = useState("all");
   const { id } = useParams();
-  const { material, isLoading, error } = useGetMaterials(id);
-  if (isLoading) return <Spinner />;
-  if (error)
-    return toast.error("حدث خطأ أثناء تحميل المواد. يرجى المحاولة لاحقًا.");
+  const { material, isPending, error, refetch } = useGetMaterials(id);
+
+  if (isPending) return <Spinner />;
+
+  if (error) {
+    return (
+      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+    );
+  }
+
+  if (!material || material.data.length === 0) {
+    return <Empty resourceName="مواد دراسية" />;
+  }
+
   const groupedByWeek = material.data.reduce((acc, item) => {
     if (!acc[item.week]) acc[item.week] = [];
     acc[item.week].push(item);
@@ -139,11 +123,15 @@ const ShowMaterialsContent = () => {
           </FilterButton>
         ))}
       </FilterButtonsContainer>
-      {Object.entries(groupedByWeek).map(([week, items]) => (
-        <Accordion key={week} type="week" title={`الأسبوع ${week}`}>
-          <SingleMaterialContent data={filterItems(items)} />
-        </Accordion>
-      ))}
+      {Object.entries(groupedByWeek).map(([week, items]) => {
+        const filtered = filterItems(items);
+        if (filtered.length === 0) return null;
+        return (
+          <Accordion key={week} type="week" title={`الأسبوع ${week}`}>
+            <SingleMaterialContent data={filtered} />
+          </Accordion>
+        );
+      })}
     </MainContainer>
   );
 };

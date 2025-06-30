@@ -6,13 +6,14 @@ export function useGetAssignment(courseId) {
     const { token } = useUser()
     const {
         data: assignmentData,
-        isLoading,
+        isPending,
         error,
+        refetch
     } = useQuery({
         queryKey: ["task", token, courseId],
         queryFn: () => getAssignment(token, courseId),
         staleTime: 0,
         enabled: !!token && !!courseId,
     });
-    return { assignmentData, isLoading, error };
+    return { assignmentData, isPending, error,refetch };
 }

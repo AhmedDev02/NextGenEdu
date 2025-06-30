@@ -1,27 +1,36 @@
 import styled from "styled-components";
 import { BEST_WISHES } from "../../../utils/constants";
 
-const H3 = styled.h3`
-  font-size: 1.4rem;
-  font-weight: var(--font-weight-semibold);
-`;
 const MainFooter = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 0 6.5rem;
+  justify-content: flex-start;
+  padding: 0 1rem;
+  margin-top: auto;
 `;
 
-const Div = styled.div``;
+const Signature = styled.div`
+  text-align: right;
+`;
+
+const H3 = styled.h3`
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 0.25rem 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+  }
+`;
 
 function PostFooterManagement({ footerInfo }) {
   const { name } = footerInfo;
 
   return (
     <MainFooter>
-      <Div>
+      <Signature>
         <H3>{BEST_WISHES}</H3>
-        <H3> {name}</H3>
-      </Div>
+        <H3>{name}</H3>
+      </Signature>
     </MainFooter>
   );
 }

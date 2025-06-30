@@ -399,7 +399,7 @@ export default function LoginForm() {
     <Container>
       {wasRedirected}
       <LoginBox>
-        <Logo src="../../../public/logo.png" alt="Logo" />
+        <Logo src="/logo.png" alt="Logo" />
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
             {!watch("email") && (

@@ -4,6 +4,8 @@ import { useStudentProgressContext } from "../../../context/StudentProgressProvi
 import { useReadTable } from "./useReadTable";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const TableContainer = styled.div`
   margin: 0 auto;
@@ -103,19 +105,19 @@ const arabicToEnglishDays = {
 
 function Table() {
   const { selectedDays } = useStudentProgressContext();
-  const { tableData, isPending, error } = useReadTable();
+  const { tableData, isPending, error, refetch } = useReadTable();
 
   if (isPending) return <Spinner />;
 
   if (error) {
-    toast.error("خطأ في تحميل معلومات الجدول يرجي المحاوله لاحقا");
-    return null;
+    return (
+      <ErrorFallback message="خطأ في عرض الجدول الدراسي" onRetry={refetch} />
+    );
   }
-
-  if (!tableData?.data) {
-    return <div>لا توجد بيانات متاحة</div>;
+  if (!tableData || tableData.data.length === 0) {
+    return <Empty resourceName="معلومات" />;
   }
-
+  console.log(error);
   const groupedSessions = {};
 
   tableData.data.forEach((one) => {

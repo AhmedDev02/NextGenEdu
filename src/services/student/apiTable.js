@@ -9,14 +9,10 @@ export const apiReadTable = async (token) => {
         Authorization: `Bearer ${token}`,
     };
     try {
-        const response = await axios.get(`${BASE_URL}/table`, {
-            headers,
-        });
-        // console.log("table data:", response.data);
+        const response = await axios.get(`${BASE_URL}/table`, { headers });
         return response.data;
     } catch (error) {
         console.error("Error fetching table:", error.message);
-        return null;
+        throw error;
     }
 }
-

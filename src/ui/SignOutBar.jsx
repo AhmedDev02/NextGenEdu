@@ -2,7 +2,6 @@ import styled from "styled-components";
 import SignOutToggle from "./SignOutToggle";
 import { useState } from "react";
 import SignOutButton from "./SignOutButton";
-import { useSelector } from "react-redux";
 import { useGetProfile } from "../features/student-features/profile/useGetProfile";
 import Spinner from "./amr/Spinner";
 
@@ -60,8 +59,8 @@ function SignOutBar({ profile }) {
   const [signOutToggle, setSignOut] = useState(false);
   // const user = useSelector((state) => state.auth.user);
   // const { SelectedImage } = useStudentProgressContext();
-  const { ProfileInfo, isLoading } = useGetProfile();
-  if (isLoading) return <Spinner />;
+  const { ProfileInfo, isPending } = useGetProfile();
+  if (isPending) return <Spinner />;
   const { avatar, name, email, type } = ProfileInfo.data;
 
   // handling

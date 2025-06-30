@@ -6,10 +6,11 @@ export const useReadTableTeacher = () => {
   const user = useSelector((state) => state.auth.user); // Get the user from Redux store
   const token = user ? user.token : null;
 
-  const { data: tableData, isPending, error } = useQuery({
+  const { data: tableData, isPending, error, refetch } = useQuery({
     queryKey: ['Admin table', token],
     queryFn: () => apiReadTableTeacher(token),
+    enabled: !!token
   })
-  return { tableData, isPending, error }
+  return { tableData, isPending, error, refetch }
 }
 

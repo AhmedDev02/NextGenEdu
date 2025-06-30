@@ -4,15 +4,12 @@ import { useUser } from "../../../hooks/useUser";
 
 export const useGetProfile = () => {
     const { token, user } = useUser();
-    // const user = useSelector((state) => state.auth.user); 
-    // const token = user ? user.token : null;
-    const queryEnabled = !!token;
-    const { data: ProfileInfo, error, isLoading } = useQuery({
+
+    const { data: ProfileInfo, error, isPending, refetch } = useQuery({
         queryKey: ['Profile', token],
-        queryFn: () => getProfileData({token,user}),
-        enabled: queryEnabled,
-        staleTime: 0
+        queryFn: () => getProfileData({ token, user }),
+        enabled: !!token,
     })
-    return { ProfileInfo, error, isLoading }
+    return { ProfileInfo, error, isPending, refetch }
 }
 

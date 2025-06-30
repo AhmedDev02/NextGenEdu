@@ -5,9 +5,10 @@ import useGetProfile from "./useGetProfile";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
 import useUpdateProfile from "./useUpdateProfile";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
-import { set } from "date-fns";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const Div = styled.div`
   display: flex;
@@ -73,12 +74,22 @@ const ProfileDataContainer = styled.div`
 function AdminProfileContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [password, setPassword] = useState("");
-  const { data: profileInfo, isPending, error } = useGetProfile();
+  const { data: profileInfo, isPending, error, refetch } = useGetProfile();
   const { mutate, isPending: isUpdating } = useUpdateProfile();
   const { setSelectedImage } = useStudentProgressContext();
 
   if (isPending) return <Spinner />;
-  if (error) return toast.error("حدث خطأ في تحميل البيانات");
+  if (error) {
+    return (
+      <ErrorFallback
+        message="حدث خطأ اثناء عرض الملف الشخصي"
+        onRetry={refetch}
+      />
+    );
+  }
+  if (!profileInfo || profileInfo.data.length === 0) {
+    return <Empty resourceName="معلومات" />;
+  }
   const { avatar, department, description, email, id, name, type, uni_code } =
     profileInfo.data;
 

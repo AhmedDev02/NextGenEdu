@@ -2,45 +2,45 @@ import styled from "styled-components";
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 
 const StyledSendButton = styled.button`
-  width: ${({ width }) => width || "100px"};
-  height: ${({ height }) => height || "40px"};
-  border: 2px solid gray;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  width: 100%; 
+  padding: 1.3rem 2rem;
   border-radius: 1rem;
-  cursor: pointer;
+
   color: white;
-  border: none;
-  outline: none;
   background: var(--color-primary-green);
   font-weight: 600;
-  font-family: "Changa";
+  font-family: "Changa", sans-serif;
+  font-size: 1.6rem;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
   transition: all 0.2s;
-  &:focus {
+
+  &:active {
+    transform: scale(0.95);
+    outline: none;
+  }
+  &:focus{
     outline: none;
   }
 
   @media (max-width: 768px) {
-    width: 8rem;
-    height: 3rem;
-    font-size: 0.9rem;
+    padding: 1.5rem 2.5rem;
+    font-size: 1.4rem;
   }
-  &:active {
-    scale: 0.9;
-  }
-`;
-const Div = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
 `;
 
-function SendButton({ width, height, title, type }) {
+function SendButton({ title, type, onClick }) {
   return (
-    <StyledSendButton width={width} height={height} type={type}>
-      <Div>
-        {title}
-        <FaArrowUpRightFromSquare />
-      </Div>
+    <StyledSendButton type={type} onClick={onClick}>
+      <span>{title}</span>
+      <FaArrowUpRightFromSquare />
     </StyledSendButton>
   );
 }

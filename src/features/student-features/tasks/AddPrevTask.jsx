@@ -3,7 +3,6 @@ import SendButton from "../../../ui/amr/SendButton";
 import AddTaskModal from "./AddTaskModal";
 
 function AddPrevTask({ AssId, type }) {
-  console.log(AssId);
   return (
     <Modal>
       <Modal.Open opens="add-task">

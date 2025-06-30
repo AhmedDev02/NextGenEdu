@@ -70,7 +70,7 @@ export async function createAnnouncement(data, token) {
     );
     return response.data; // Return the response data
   } catch (error) {
-    console.error("Error updating course material:", error.message);
+    console.error("Error updating course material:", error.response.data);
     throw new Error(error.message); // Throw an error if the request fails
   }
 }

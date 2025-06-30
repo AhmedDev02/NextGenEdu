@@ -8,80 +8,137 @@ import useUploadTask from "./useUploadTask";
 
 const Container = styled.div`
   height: auto;
-  width: clamp(25rem, 50vw, 50rem);
-  padding: 2rem;
+  width: 100%;
+  max-width: 60rem;
+  padding: 1.5rem;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+    gap: 2rem;
+  }
+`;
+
+const ModalTitle = styled.h2`
+  font-size: 2.2rem;
+  @media (min-width: 768px) {
+    font-size: 2.6rem;
+  }
 `;
 
 const DropArea = styled.div`
   border: 2px dashed #bbbbbb;
   border-radius: 10px;
-  padding: 50px;
+  padding: 2rem;
   background: #f7f7f7;
   cursor: pointer;
   transition: border 0.3s ease-in-out;
+
   &:hover {
     border-color: #30bd58;
   }
+
+  p {
+    font-size: 1.4rem;
+    color: #404040;
+    margin: 0.5rem 0;
+  }
+
+  span {
+    color: #30bd58;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  @media (min-width: 768px) {
+    padding: 3rem;
+    p {
+      font-size: 1.6rem;
+    }
+  }
+`;
+
+const HelperText = styled.p`
+  font-size: 1.2rem !important;
+  color: #777 !important;
 `;
 
 const UploadingContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 1rem;
   text-align: left;
 `;
 
 const ProgressBar = styled.div`
   height: 5px;
   background: #30bd58;
+  border-radius: 5px;
   width: ${({ progress }) => progress}%;
   transition: width 0.3s ease-in-out;
 `;
 
 const FileList = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 const FileItem = styled.div`
   background: #f0fff0;
   border: 1px solid #30bd58;
-  border-radius: 5px;
+  border-radius: 8px;
   padding: 1rem;
   display: flex;
-  gap: 1rem;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
-  font-size: 14px;
+  font-size: 1.4rem;
+  word-break: break-all;
 `;
 
 const DeleteButton = styled.button`
   background: none;
-  border: 1px solid red;
+  border: 1px solid var(--color-red-500, red);
   cursor: pointer;
-  color: red;
-  font-size: 16px;
+  color: var(--color-red-500, red);
+  font-size: 1.8rem;
   border-radius: 0.5rem;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-red-100, #fee2e2);
+  }
 `;
 
 const UploadButton = styled.button`
   background: #30bd58;
   color: white;
   border: none;
-  padding: 12px;
+  padding: 1rem;
   border-radius: 1rem;
-  font-size: 16px;
-  margin-top: 20px;
+  font-size: 1.8rem;
+  margin-top: 1rem;
   cursor: pointer;
   width: 100%;
+  font-family: "Changa", sans-serif;
   transition: all 0.2s;
+
   &:active {
-    scale: 0.95;
+    transform: scale(0.97);
   }
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
   &:focus {
     outline: none;
   }
@@ -90,12 +147,7 @@ const UploadButton = styled.button`
 function AddTaskModal({ onCloseModal, AssId }) {
   const [files, setFiles] = useState([]);
   const [uploadingFiles, setUploadingFiles] = useState([]);
-  //the response that comes from backend after uploading
-  // const handleSuccess = (response) => {
-
-  // };
-
-  const { mutate, isLoading } = useUploadTask(onCloseModal);
+  const { mutate, isPending } = useUploadTask(onCloseModal);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -114,10 +166,7 @@ function AddTaskModal({ onCloseModal, AssId }) {
           "هناك ملفات غير مدعومه الرجاء ارسال الملفات المدعومه امامك"
         );
       }
-      const newFiles = acceptedFiles.map((file) => ({
-        file,
-        progress: 0,
-      }));
+      const newFiles = acceptedFiles.map((file) => ({ file, progress: 0 }));
       setUploadingFiles(newFiles);
       simulateUpload(newFiles);
     },
@@ -147,40 +196,34 @@ function AddTaskModal({ onCloseModal, AssId }) {
     setFiles(files.filter((file) => file.name !== fileName));
   };
 
-  //uploading to server
   const handleUploadFile = () => {
     if (!files || files.length === 0) {
       toast.error("يجب تحميل الملف اولا");
       return;
     }
-    const formData = new FormData();
-    formData.append("file", files[0]);
     if (files.length > 1) {
       toast.error("الرجاء تحميل ملف واحد فقط ");
       return;
     }
+    const formData = new FormData();
+    formData.append("file", files[0]);
     mutate({ AssId, uploadedSolution: formData });
   };
 
   return (
     <Container>
-      <h2>تحميل الملفات</h2>
-      <DropArea {...getRootProps()}>
-        <input {...getInputProps()} />
-        <FaCloudUploadAlt size={50} color="#30bd58" />
-        <p>
-          قم بسحب الملف الي هنا او{" "}
-          <span style={{ color: "#30bd58", cursor: "pointer" }}>
-            قم بالبحث علي جهازك
-          </span>
-        </p>
-        <p style={{ fontSize: "12px", color: "#777" }}>
-          الملفات المدعومة: PDF, Word, PPT
-        </p>
-        <p style={{ fontSize: "12px", color: "#404040" }}>
-          يجب الا يتعدي حجم الملف عن 1 MB
-        </p>
-      </DropArea>
+      <ModalTitle>تحميل الملفات</ModalTitle>
+      {files.length === 0 && (
+        <DropArea {...getRootProps()}>
+          <input {...getInputProps()} />
+          <FaCloudUploadAlt size={50} color="#30bd58" />
+          <p>
+            قم بسحب الملف الي هنا او <span>قم بالبحث علي جهازك</span>
+          </p>
+          <HelperText>الملفات المدعومة: PDF, Word, PPT</HelperText>
+          <HelperText>يجب الا يتعدي حجم الملف عن 1 MB</HelperText>
+        </DropArea>
+      )}
 
       {uploadingFiles.length > 0 && (
         <UploadingContainer>
@@ -197,21 +240,21 @@ function AddTaskModal({ onCloseModal, AssId }) {
       {files.length > 0 && (
         <FileList>
           <p>
-            تم التحميل {files.length} {files.length === 1 ? "file" : "files"}
+            تم تحميل {files.length} {files.length === 1 ? "ملف" : "ملفات"}
           </p>
           {files.map((file, index) => (
             <FileItem key={index}>
+              <span>{file.name}</span>
               <DeleteButton onClick={() => removeFile(file.name)}>
                 <AiOutlineDelete />
               </DeleteButton>
-              {file.name}
             </FileItem>
           ))}
         </FileList>
       )}
 
-      <UploadButton onClick={handleUploadFile} disabled={isLoading}>
-        <p style={{ fontFamily: "Changa", fontSize: "2rem" }}>رفع الملفات</p>
+      <UploadButton onClick={handleUploadFile} disabled={isPending}>
+        {isPending ? "جاري الرفع..." : "رفع الملفات"}
       </UploadButton>
     </Container>
   );

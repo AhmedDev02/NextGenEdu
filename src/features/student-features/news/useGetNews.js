@@ -4,12 +4,12 @@ import { getNews } from "../../../services/student/ApiNews"
 
 const useGetNews = () => {
     const { token } = useUser()
-    const { data, isLoading, error } = useQuery({
+    const { data, isPending, error, refetch } = useQuery({
         queryKey: ['News', token],
         queryFn: () => getNews(token),
         enabled: !!token,
     })
-    return { data, isLoading, error }
+    return { data, isPending, error, refetch }
 }
 
 export default useGetNews

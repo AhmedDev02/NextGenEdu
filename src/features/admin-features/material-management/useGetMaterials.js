@@ -4,12 +4,13 @@ import { getMaterials } from "../../../services/admin/apiCourses"
 
 const useGetMaterials = (courseId) => {
     const { token } = useUser()
-    const { data: material, isLoading, error } = useQuery({
+    const { data: material, isPending, error, refetch } = useQuery({
         queryKey: ['materials', courseId],
-        queryFn: () => getMaterials({ courseId, token })
+        queryFn: () => getMaterials({ courseId, token }),
+        enabled: !!token
     })
 
-    return { material, isLoading, error }
+    return { material, isPending, error, refetch }
 }
 
 export default useGetMaterials

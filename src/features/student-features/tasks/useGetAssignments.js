@@ -6,12 +6,13 @@ export function useGetCourses() {
   const { token } = useUser()
   const {
     data: assignmentsData,
-    isLoading,
+    isPending ,
     error,
+    refetch
   } = useQuery({
     queryKey: ["tasks", token],
     queryFn: () => getCourses(token),
     enabled: !!token
   });
-  return { assignmentsData, isLoading, error };
+  return { assignmentsData, isPending , error,refetch };
 }

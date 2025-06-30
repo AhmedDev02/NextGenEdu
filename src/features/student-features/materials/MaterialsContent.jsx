@@ -2,7 +2,8 @@ import styled from "styled-components";
 import Card from "../../../ui/Card";
 import { useMaterials } from "./useMaterials";
 import Spinner from "../../../ui/amr/Spinner";
-import toast from "react-hot-toast";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const Div = styled.div`
   width: 100%;
@@ -16,13 +17,19 @@ const CardContainer = styled.div`
   flex-wrap: wrap;
 `;
 function MaterialsContent() {
-  const { materials, isLoading, error } = useMaterials();
-  if (isLoading) return <Spinner />;
-  if (error) return toast.error("خطأ في تحميل المواد");
+  const { materials, isPending, error, refetch } = useMaterials();
+  if (isPending) return <Spinner />;
+  if (error) {
+    return (
+      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+    );
+  }
+  if (!materials || materials.data.length === 0) {
+    return <Empty resourceName="معلومات" />;
+  }
   return (
     <>
       <Div>
-
         <CardContainer>
           {materials.data.map((card) => (
             <Card

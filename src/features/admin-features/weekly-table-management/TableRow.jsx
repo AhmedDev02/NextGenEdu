@@ -67,7 +67,6 @@ function TableRow({ data }) {
   const { course, status, from, to, hall, type } = data;
   const updatedStatus = status;
   const formatTime = (timeStr) => timeStr.split(":").slice(0, 2).join(":");
-console.log(data)
   return (
     <TableRowContainer>
       <TableSmallRow>

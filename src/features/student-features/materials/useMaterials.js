@@ -6,11 +6,13 @@ export function useMaterials() {
   const { token } = useUser()
   const {
     data: materials,
-    isLoading,
+    isPending,
     error,
+    refetch
   } = useQuery({
     queryKey: ["materials", token],
     queryFn: () => getCourses(token),
+    enabled: !!token
   });
-  return { materials, isLoading, error };
+  return { materials, isPending, error, refetch };
 }

@@ -5,14 +5,21 @@ import useGetCourses from "./useGetCourses";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const MaterialContainer = styled.div`
-  margin: 50px;
   width: 100%;
+  padding: 2rem;
   display: flex;
   justify-content: center;
-  gap: 7rem;
+  gap: 3rem;
   flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 2rem;
+  }
 `;
 
 const buttonsContent = [
@@ -39,10 +46,18 @@ const buttonsContent = [
 ];
 
 const MaterialManagementContent = () => {
-  const { courses, isPending, error } = useGetCourses();
+  const { courses, isPending, error, refetch } = useGetCourses();
+
   if (isPending) return <Spinner />;
-  if (error)
-    return toast.error("حدث خطأ أثناء تحميل المواد. يرجى المحاولة لاحقًا.");
+
+  if (error) {
+    return <ErrorFallback message="خطأ في تحميل المواد" onRetry={refetch} />;
+  }
+
+  if (!courses || courses.data.length === 0) {
+    return <Empty resourceName="مواد دراسية" />;
+  }
+
   return (
     <MaterialContainer>
       {courses?.data?.map((element) => (

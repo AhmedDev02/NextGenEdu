@@ -3,34 +3,15 @@ import { MdAssignmentAdd } from "react-icons/md";
 import { useReadAssignments } from "./useReadAssignments";
 import { useParams } from "react-router-dom";
 import Modal from "../../../ui/amr/Modal";
-import Button from "../../../ui/Button";
 import { useFileDownloader } from "../../../hooks/useFileDownloader";
 import AssignmentEditWindow from "./AssignmentEditWindow";
 import AssignmentDeleteWindow from "./AssignmentDeleteWindow";
 import { useDeleteAssignment } from "./useDeleteAssignment";
 import { useState } from "react";
 import { FaDownload, FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
+import Spinner from "../../../ui/amr/Spinner";
 
-const assignmentData = [
-  {
-    assignmentDate: "السبت، 2 نوفمبر 2024",
-    assignmentTime: "08:00 مساءً",
-    assignmentNumber: "اسايمنت الاسبوع الرابع",
-    assignmentSubject: "أسايمنت-البرمجة الشيئية(OOP)",
-  },
-  {
-    assignmentDate: "الأحد، 3 نوفمبر 2024",
-    assignmentTime: "08:00 مساءً",
-    assignmentNumber: "اسايمنت الاسبوع الرابع",
-    assignmentSubject: "أسايمنت-البرمجة الشيئية(OOP)",
-  },
-  {
-    assignmentDate: "الإثنين،4 نوفمبر 2024",
-    assignmentTime: "08:00 مساءً",
-    assignmentNumber: "اسايمنت الاسبوع الرابع",
-    assignmentSubject: "أسايمنت-البرمجة الشيئية(OOP)",
-  },
-];
 const TimeContainer = styled.div`
   box-shadow: var(--shadow-primary);
   margin: auto;
@@ -204,19 +185,18 @@ const IconButton = styled.button`
   }
 `;
 function AllAssignments() {
-  const { assignments } = useReadAssignments();
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
+  const downloadFile = useFileDownloader();
+  const { assignments, isPending, error } = useReadAssignments();
   const { taskId: courseId } = useParams();
   const { mutate } = useDeleteAssignment();
-
+  if (isPending) return <Spinner />;
+  if (error) return toast.error("خطأ في تحميل الموارد يرجي المحاوله لاحقا");
   const filteredAssignmentsByCourseId = assignments?.data?.filter(
     (assignment) => {
       return +assignment.course.id === +courseId;
     }
   );
-
-  const [selectedAssignment, setSelectedAssignment] = useState(null);
-
-  const downloadFile = useFileDownloader();
 
   const handleDownloading = (fileUrl, event) => {
     event.stopPropagation();
