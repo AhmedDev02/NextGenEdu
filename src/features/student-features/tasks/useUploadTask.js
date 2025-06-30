@@ -6,7 +6,7 @@ import toast from "react-hot-toast"
 const useUploadTask = (onCloseModal,) => {
     const { token } = useUser()
     const queryClient = useQueryClient()
-    const { mutate, isLoading } = useMutation({
+    const { mutate, isPending  } = useMutation({
         mutationFn: ({ AssId, uploadedSolution }) => uploadSolution(token, AssId, uploadedSolution),
         onSuccess: (data) => {
             queryClient.invalidateQueries(['task']);
@@ -18,7 +18,7 @@ const useUploadTask = (onCloseModal,) => {
             toast.error('حدث خطأ اثناء رفع الملف يرجي المحاولة مجددا')
         }
     })
-    return { mutate, isLoading }
+    return { mutate, isPending  }
 }
 
 export default useUploadTask

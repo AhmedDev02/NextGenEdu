@@ -30,7 +30,7 @@ export async function getCourses(token) {
     return response.data;
   } catch (error) {
     console.error("Error fetching courses:", error.message);
-    return null;
+    throw error;
   }
 }
 
@@ -46,8 +46,8 @@ export async function updateCourseMaterial(materialId, updatedData, token) {
   };
 
   try {
-    const response = await axios.put(
-      `${BASE_URL}/teachers/course-materials/${materialId}`, // Endpoint to update course material
+    const response = await axios.post(
+      `${BASE_URL}/teachers/course-materials/${materialId}/update`, // Endpoint to update course material
       updatedData, // Send the updated data as the body
       { headers }
     );
@@ -77,13 +77,12 @@ export async function getMaterials({ courseId, token }) {
         "حدث خطأ أثناء تحميل البيانات، يرجى المحاولة مرة أخرى لاحقًا."
       );
     }
-    // Return the fetched data
     return response.data;
   } catch (error) {
     console.error("Error fetching material: ", error);
+    throw error
   }
 
-  return null; // Return null if there was an error
 }
 
 export async function getMaterial({ queryKey }) {
@@ -189,5 +188,27 @@ export async function updateLectureStatus(lectureId, newStatus, token) {
   } catch (error) {
     console.error("Error updating lecture status:", error.response.data);
     throw new Error(error.message); // Throw an error if the request fails
+  }
+}
+export async function getSemesters(token) {
+  if (!token) {
+    throw new Error("Token is required");
+  }
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "X-Device-Type": "web",
+    Authorization: `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.get(`${BASE_URL}/teachers/semesters`, { headers });
+    if (response.status !== 200) {
+      toast.error("حدث خطأ أثناء تحميل البيانات، يرجى المحاولة مرة أخرى لاحقًا.");
+      return null;
+    }
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching semesters: ", error.response?.data || error.message);
+    throw error;
   }
 }

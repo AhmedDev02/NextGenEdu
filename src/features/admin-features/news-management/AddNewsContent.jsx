@@ -1,255 +1,299 @@
-import styled from "styled-components";
-import Button from "../../../ui/Button";
-import { useEffect, useState } from "react";
-import { useUser } from "../../../hooks/useUser";
-import DateSelector from "../../../ui/tharwat/DateSelector";
-import HoursSelector from "../../../ui/tharwat/HoursSelector";
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
+import styled from "styled-components";
+import { MdOutlineSubtitles } from "react-icons/md";
+import { useCourses } from "../dashboard/useCourses";
+import Spinner from "../../../ui/amr/Spinner";
+import toast from "react-hot-toast";
 import { useCreateAnnouncement } from "./useCreateAnnouncement";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
-const FormContainer = styled.form`
-  min-width: 80%;
-  margin: auto;
-  border-radius: 12px;
-  padding-bottom: 50px;
-  font-family: "Changa", sans-serif;
-`;
+const breakpoints = {
+  tablet: "768px",
+  desktop: "1024px",
+};
 
-const Input = styled.input`
+const Container = styled.div`
   width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow-primary);
-  ${({ required }) =>
-    required &&
-    `
-    border: 2px solid red;
-  `}
-`;
-
-const Textarea = styled.textarea`
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  height: 120px;
-  resize: none;
-  font-size: 18px;
-
-  box-shadow: var(--shadow-primary);
-  /* Apply red border for required fields */
-  ${({ required }) =>
-    required &&
-    `
-    border: 2px solid red;
-  `}
-`;
-
-const Label = styled.label`
-  margin-bottom: 10px;
-  font-weight: 600;
-
-  /* Add red asterisk for required fields */
-  ${({ required }) =>
-    required &&
-    `
-    &::after {
-      content: " *";
-      color: red;
-    }
-  `}
-`;
-const InputContainer = styled.div`
+  max-width: 100rem;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  min-width: 100%;
-  align-items: flex-start;
 `;
 
-const Dropdown = styled.select`
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  height: 100%;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    gap: 4rem;
+  }
+`;
+
+const TitleContainer = styled.div`
   width: 100%;
-  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const Title = styled.label`
+  font-weight: bold;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const TitleInput = styled.input`
   border: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  box-shadow: var(--shadow-primary);
+  border-radius: 1rem;
+  padding: 1.2rem 4rem 1.2rem 1.5rem;
+  width: 100%;
+
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+`;
+
+const Icon = styled(MdOutlineSubtitles)`
+  position: absolute;
+  right: 1rem;
+  top: ${({ type }) => (type === "textarea" ? "22%" : "50%")};
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: #888;
+`;
+
+const ContentContainer = styled(TitleContainer)``;
+
+const ContentInput = styled.textarea`
+  width: 100%;
+  border: none;
+  box-shadow: var(--shadow-primary);
+  border-radius: 1rem;
+  padding: 1.2rem 4rem 1.2rem 1.5rem;
+  min-height: 10rem;
+  max-height: 30rem;
+  resize: vertical;
+  font-family: inherit;
+
+  &:active,
+  &:focus {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
+`;
+
+const DetailsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+  }
+`;
+
+const YearContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 1rem;
+`;
+
+const Select = styled.select`
+  padding: 1.2rem 1.5rem;
+  border: none;
+  box-shadow: var(--shadow-primary);
+  width: 100%;
+  border-radius: 1rem;
   background-color: white;
-  box-shadow: var(--shadow-primary);
-  ${({ required }) =>
-    required &&
-    `
-    border: 2px solid red;
-  `}
-`;
-const DropDownDiv = styled.div`
-  display: flex;
-  min-width: 100%;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-direction: column;
 
-  gap: 5px;
+  &:focus,
+  &:active {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+  }
 `;
 
-const Option = styled.option``;
-const DateContainer = styled.div`
+const CourseContainer = styled(YearContainer)``;
+
+const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-const Div = styled.div`
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
+  justify-content: center;
+  margin-top: auto;
+
+  @media (min-width: ${breakpoints.tablet}) {
+    justify-content: flex-end;
+  }
 `;
 
-const AddNewsContent = () => {
-  const { user } = useUser();
+const Button = styled.button`
+  background: var(--color-primary-green);
+  border: none;
+  border-radius: 1rem;
+  color: white;
+  padding: 1.2rem 3rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
 
-  const semesters = user?.semesters?.data;
-  const { mutate } = useCreateAnnouncement();
+  &:disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+  }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: auto;
+  }
+`;
+const P = styled.p`
+  color: red;
+`;
+const AddNewsContent = () => {
   const {
-    register,
     handleSubmit,
-    setValue,
+    register,
     formState: { errors },
     reset,
   } = useForm();
-
-  const [courses, setCourses] = useState([]);
-  const [teacherSemesters, setTeacherSemesters] = useState(semesters[0]?.id);
-  const [courseId, setCourseId] = useState(null);
-  const [hours, setHours] = useState(null);
-  const [date, setDate] = useState(null);
-
-  // Filtering courses based on teacher's semester
-  useEffect(() => {
-    const filteredCourses = user?.courses?.data?.filter((course) => {
-      return +course?.semester?.id === +teacherSemesters;
-    });
-    setCourses(filteredCourses);
-    // Automatically select the first course if no courseId is selected
-    if (!courseId && filteredCourses.length > 0) {
-      setCourseId(filteredCourses[0]?.id);
-      setValue("course", filteredCourses[0]?.id); // setting course value
-    }
-  }, [teacherSemesters, user?.courses?.data, courseId, setValue]);
-
+  const { courses, error, isPending, refetch } = useCourses();
+  const { mutate, isPending: isCreating } = useCreateAnnouncement();
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  if (isPending) return <Spinner />;
+  if (error) {
+    return (
+      <ErrorFallback
+        message="خطأ في تحميل الصفحه يرجي المحاولة مجددا"
+        onRetry={refetch}
+      />
+    );
+  }
   const onSubmit = (data) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    const formattedTime = format(hours, "HH:mm");
-    const request = {
-      course_id: courseId,
-      title: data.notice,
-      body: data.content,
-      date: formattedDate,
-      time: formattedTime,
-    };
-    try {
-      mutate({ data: request });
-      reset();
-    } catch (err) {
-      console.log(err);
-    }
+    mutate(
+      {
+        course_id: Number(data.course),
+        title: data.title,
+        body: data.body,
+      },
+      {
+        onSuccess: () => {
+          toast.success("تم اضافة الخبر بنجاح");
+          queryClient.invalidateQueries(["announcements"]);
+          reset();
+          navigate("/admin/news");
+        },
+        onError: () => {
+          toast.error("حدث خطأ اثناء اضافة الخبر:");
+        },
+      }
+    );
   };
 
   return (
-    <FormContainer>
-      <InputContainer>
-        <Label for="title">العنوان</Label>
-
-        <Input
-          name="title"
-          {...register("title", { required: "العنوان مطلوب" })}
-          placeholder="قم بإضافة ملاحظة وتنبيه للطلاب!"
-        />
-      </InputContainer>
-
-      <InputContainer>
-        <Label for="content">الخبر</Label>
-        <Textarea
-          name="content"
-          {...register("content", { required: "الخبر مطلوب" })}
-          placeholder="أضف تفاصيل الخبر لتوضيح المعلومات للطلاب بشكل شامل ودقيق"
-        />
-      </InputContainer>
-
-      <DropDownDiv>
-        <Label for="department">الفرقة الدراسية</Label>
-        <Dropdown
-          name="department"
-          value={teacherSemesters}
-          onChange={(e) => {
-            const semesterId = e.target.value;
-            setTeacherSemesters(semesterId);
-            setValue("department", semesterId); // set department value
-          }}
-        >
-          {semesters.map((semester) => {
-            return (
-              <Option key={semester.id} value={semester.id}>
-                {semester.name}
-              </Option>
-            );
-          })}
-        </Dropdown>
-        {errors.department && <span>{errors.department.message}</span>}
-        {/* Arabic Error Message */}
-        <Label for="course">الفرقة الدراسية</Label>
-        <Dropdown
-          name="course"
-          value={courseId}
-          onChange={(e) => {
-            setCourseId(e.target.value);
-            setValue("course", e.target.value); // set course value
-          }}
-        >
-          {courses.length > 0 && (
-            <Option value="" disabled>
-              Select a course
-            </Option>
-          )}
-          {courses.map((course) => {
-            return (
-              <Option key={course.id} value={course.id}>
-                {course.name}
-              </Option>
-            );
-          })}
-        </Dropdown>
-        {errors.course && <span>{errors.course.message}</span>}
-        {/* Arabic Error Message */}
-      </DropDownDiv>
-
-      <DateContainer>
-        <Div>
-          <Label htmlFor="date">تاريخ النشر</Label>
-          <DateSelector onDate={setDate} name="date" />
-        </Div>
-        {errors.date && <span>{errors.date.message}</span>}{" "}
-        {/* Arabic Error Message */}
-        <Div>
-          <Label htmlFor="hours">وقت النشر</Label>
-          <HoursSelector onHours={setHours} name="hours" />
-        </Div>
-        {errors.hours && <span>{errors.hours.message}</span>}{" "}
-        {/* Arabic Error Message */}
-      </DateContainer>
-
-      <Button
-        onClick={handleSubmit(onSubmit)}
-        variation="danger"
-        style={{ width: "100%" }}
+    <Container>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        style={{ display: "flex", flexDirection: "column", height: "100%" }}
       >
-        نشر !
-      </Button>
-    </FormContainer>
+        <FormContainer>
+          <TitleContainer>
+            <Title htmlFor="title">عنوان الخبر</Title>
+            <InputWrapper>
+              <Icon type="input" />
+              <TitleInput
+                id="title"
+                type="text"
+                placeholder="قم بإضافة عنوان واضح ومباشر..."
+                {...register("title", {
+                  required: "يجب اختيار عنوان الخبر اولا",
+                })}
+              />
+            </InputWrapper>
+            {errors.title && <P>{errors.title.message}</P>}
+          </TitleContainer>
+
+          <ContentContainer>
+            <Title htmlFor="body">محتوي الخبر</Title>
+            <InputWrapper>
+              <Icon type="textarea" />
+              <ContentInput
+                id="body"
+                placeholder="أضف تفاصيل الخبر..."
+                {...register("body", {
+                  required: "يجب اختيار محتوي الخبر اولا",
+                })}
+              />
+            </InputWrapper>
+            {errors.body && <P>{errors.body.message}</P>}
+          </ContentContainer>
+
+          <DetailsContainer>
+            <YearContainer>
+              <Title htmlFor="semester">الفرقة الدراسية</Title>
+              <Select
+                id="semester"
+                {...register("semester", {
+                  required: "يجب اختيار الفرقة اولا",
+                })}
+              >
+                <option value="" disabled selected>
+                  -- اختر الفرقة --
+                </option>
+                {courses?.data?.map((course) => (
+                  <option value={course.semester.id} key={course.semester.id}>
+                    {course.semester.name}
+                  </option>
+                ))}
+              </Select>
+              {errors.semester && <P>{errors.semester.message}</P>}
+            </YearContainer>
+
+            <CourseContainer>
+              <Title htmlFor="course">المادة الدراسية</Title>
+              <Select
+                id="course"
+                {...register("course", {
+                  required: "يجب اختيار المادة الدراسية اولا",
+                })}
+              >
+                <option value="" disabled selected>
+                  -- اختر المادة --
+                </option>
+                {courses?.data?.map((course) => (
+                  <option value={course.id} key={course.id}>
+                    {course.name}
+                  </option>
+                ))}
+              </Select>
+              {errors.course && <P>{errors.course.message}</P>}
+            </CourseContainer>
+          </DetailsContainer>
+
+          <ButtonContainer>
+            <Button disabled={isCreating} type="submit">
+              {isCreating ? "يتم النشر" : "انشر !"}
+            </Button>
+          </ButtonContainer>
+        </FormContainer>
+      </form>
+    </Container>
   );
 };
 

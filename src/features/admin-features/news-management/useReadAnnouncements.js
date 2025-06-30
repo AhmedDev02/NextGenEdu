@@ -26,19 +26,20 @@ export function useAnnouncements() {
       return response.data.data.data; // Assuming data is nested under `data.data.data`
     } catch (error) {
       console.error("Error fetching announcements:", error);
-      return []; // Return an empty array on error
+      throw error; // Return an empty array on error
     }
   };
 
   const {
     data = [],
-    isLoading,
+    isPending,
     error,
+    refetch
   } = useQuery({
     queryKey: ["announcements", token], // Query key depends on the token to refetch if it changes
     queryFn,
     enabled: !!token, // Only run the query if token is available
   });
 
-  return { announcements: data, isLoading, error };
+  return { announcements: data, isPending, error, refetch };
 }

@@ -4,14 +4,16 @@ import { apiShowAssignment } from "../../../services/student/apiTasks"
 
 const useShowAssignment = (assignmentId) => {
     const { token } = useUser()
-    const { data, error, isLoading } = useQuery({
+    const { data, error, isPending, refetch } = useQuery({
         queryKey: ["assignment Answer", assignmentId, token],
         queryFn: () => apiShowAssignment(assignmentId, token),
+        enabled: !!token
     })
     return {
         data,
         error,
-        isLoading,
+        isPending,
+        refetch
     }
 }
 

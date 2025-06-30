@@ -15,7 +15,9 @@ export const getProfileData = async ({ token, user }) => {
                 ? `${BASE_URL}/profile`
                 : role === 'Teacher'
                     ? `${BASE_URL}/teachers/profile`
-                    : `${BASE_URL}/profile`;
+                    : role === 'Super admin'
+                        ? `${BASE_URL}/dashboard/profile` // or the correct endpoint for superadmin
+                        : `${BASE_URL}/profile`
         const response = await axios.get(url, {
             headers,
         });

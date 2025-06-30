@@ -7,7 +7,8 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import useUpdateProfile from "./useUpdateProfile";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
-
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 const Div = styled.div`
   display: flex;
   justify-content: center;
@@ -106,12 +107,18 @@ function ProfileContent() {
   const [isEditing, setIsEditing] = useState(false);
   const [password, setPassword] = useState("");
   const { setSelectedImage } = useStudentProgressContext();
-  const { ProfileInfo, error, isLoading } = useGetProfile();
+  const { ProfileInfo, error, isPending, refetch } = useGetProfile();
   const { mutate } = useUpdateProfile();
 
-  if (error) toast.error("خطأ في تحميل بيانات الملف الشخصي");
-  if (isLoading) return <Spinner />;
-
+  if (isPending) return <Spinner />;
+  if (error) {
+    return (
+      <ErrorFallback message="خطأ في تحميل الملف الشخصي" onRetry={refetch} />
+    );
+  }
+  if (!ProfileInfo) {
+    return <Empty resourceName="معلومات" />;
+  }
   const handleSavePassword = () => {
     if (isEditing) {
       if (!password) {

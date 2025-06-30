@@ -161,7 +161,6 @@ function AssignmentEditWindow({ selectedAssignment }) {
     formData.append("date", date);
     formData.append("time", time + ":00");
     //formData.append("file", data.file); // until gasser fix it.
-    console.log("Sending formData", Object.fromEntries(formData));
     try {
       // Call the mutation function to update the course material
       await mutate({

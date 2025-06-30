@@ -4,11 +4,12 @@ import { getTeacherProfile } from "../../../services/admin/apiTeacherProfile"
 
 const useGetProfile = () => {
     const { token } = useUser()
-    const { data, isPending, error } = useQuery({
+    const { data, isPending, error, refetch } = useQuery({
         queryKey: ['TeacherProfile', token],
-        queryFn: () => getTeacherProfile(token)
+        queryFn: () => getTeacherProfile(token),
+        enabled: !!token
     })
-    return { data, isPending, error }
+    return { data, isPending, error, refetch }
 }
 
 export default useGetProfile

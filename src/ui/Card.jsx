@@ -16,7 +16,7 @@ const StyledCard = styled.div`
 const Img = styled.img`
   width: 100%;
   object-fit: contain;
-  height: 50%;
+  height: 40%;
   /* margin-bottom: auto; */
 `;
 const H4 = styled.h4`

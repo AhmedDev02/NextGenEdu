@@ -4,11 +4,12 @@ import { useUser } from "../../../hooks/useUser";
 
 const useGetCourses = () => {
     const { token } = useUser()
-    const { data, isPending, error } = useQuery({
+    const { data, isPending, error,refetch } = useQuery({
         queryKey: ['Teacher-courses'],
-        queryFn: () => getCourses(token)
+        queryFn: () => getCourses(token),
+        enabled: !!token
     })
-    return { courses: data, isPending, error }
+    return { courses: data, isPending, error,refetch }
 }
 
 export default useGetCourses

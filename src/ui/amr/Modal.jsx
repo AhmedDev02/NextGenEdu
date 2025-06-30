@@ -14,6 +14,21 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
   transition: all 0.5s;
+
+  /* --- RESPONSIVE CHANGES START HERE --- */
+
+  /* 1. Set a percentage-based width for mobile screens */
+  width: 90%; 
+
+  /* 2. Set a maximum width to prevent it from getting too large on desktops */
+  max-width: 50rem; 
+
+  /* 3. Adjust padding on smaller screens to create more space */
+  @media (max-width: 768px) {
+    padding: 2.5rem 2rem;
+  }
+
+  /* --- RESPONSIVE CHANGES END HERE --- */
 `;
 
 const Overlay = styled.div`
@@ -38,6 +53,7 @@ const Button = styled.button`
   position: absolute;
   top: 1.2rem;
   right: 1.9rem;
+  cursor: pointer;
 
   &:hover {
     background-color: var(--color-grey-100);
@@ -46,13 +62,12 @@ const Button = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
-    /* Sometimes we need both */
-    /* fill: var(--color-grey-500);
-      stroke: var(--color-grey-500); */
     color: var(--color-grey-500);
   }
 `;
+
 const ModalContext = createContext();
+
 function Modal({ children }) {
   const [openName, setOpenName] = useState("");
   const close = () => setOpenName("");
@@ -63,6 +78,7 @@ function Modal({ children }) {
     </ModalContext.Provider>
   );
 }
+
 function Open({ children, opens: opensWindowName }) {
   const { open } = useContext(ModalContext);
   return cloneElement(children, { onClick: () => open(opensWindowName) });
@@ -81,7 +97,6 @@ function Window({ children, name }) {
         </Button>
         <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
-      ;
     </Overlay>,
     document.body
   );

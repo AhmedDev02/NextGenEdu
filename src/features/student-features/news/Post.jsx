@@ -6,33 +6,23 @@ import PostFooter from "./PostFooter";
 const PostBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 80%;
-  margin: 0 auto;
-  height: auto;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 80rem; /* Prevents it from being too wide on large screens */
   background-color: white;
-  border-radius: 25px;
-  padding: 10px;
-  margin-bottom: 20px;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
   box-shadow: var(--shadow-primary);
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 1rem;
+  }
 `;
 
-/* Footer consists of only one part*/
-
 function Post({ notice = null, postInformation }) {
-  // children here represents the message
-  const {
-    body,
-    course,
-    date,
-    department,
-    from,
-    id,
-    semester,
-    time,
-    title,
-    user,
-  } = postInformation;
+  const { body, course, date, id, title, user } = postInformation;
+
   return (
     <PostBody>
       <PostHeader date={date} course={course} user={user} />

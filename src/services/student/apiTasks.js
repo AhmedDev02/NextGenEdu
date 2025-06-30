@@ -54,10 +54,10 @@ export const uploadSolution = async (token, AssId, uploadedSolution) => {
             uploadedSolution,
             { headers }
         );
-        return response.data ?? {}; 
+        return response.data ?? {};
     } catch (error) {
         console.error("Error uploading the solution:", error);
-        throw error; 
+        throw error;
     }
 }
 

@@ -10,12 +10,12 @@ export function useReadAssignments() {
 
   const {
     data: assignments = [], // Default to an empty array if no assignments are fetched
-    isLoading,
+    isPending,
     error,
   } = useQuery({
     queryKey: ["assignments", token], // The query key should depend on the token to refetch when it changes
     queryFn: () => getAllAssignments(token), // Fetch assignments only if token is available
   });
 
-  return { assignments, isLoading, error };
+  return { assignments, isPending, error };
 }

@@ -6,6 +6,8 @@ import Accordion from "../../../ui/amr/Accordion";
 import styled, { css } from "styled-components";
 import SingleMaterialContent from "./SingleMaterialContent";
 import { useState } from "react";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const FILTERS = [
   { label: "الكل", value: "all" },
@@ -38,8 +40,8 @@ const FilterButton = styled.button`
     background-color: var(--color-active);
     color: #34ad5d;
   `}
-  &:focus{
-    outline:none
+  &:focus {
+    outline: none;
   }
 
   ${({ styles }) =>
@@ -47,8 +49,6 @@ const FilterButton = styled.button`
     css`
       ${styles}
     `}
-
-
 
   @media (max-width: 900px) {
     font-size: 1.1rem;
@@ -99,16 +99,20 @@ const MainContainer = styled.div`
     gap: 1.5rem;
   }
 `;
-// const AccordionContainer = styled.div`
-//   width: 80%;
-// `;
+
 const MaterialDetails = () => {
   const { materialId } = useParams();
   const [filter, setFilter] = useState("all");
 
-  const { material, isLoading, error } = useMaterial(materialId);
-  if (isLoading) return <Spinner />;
-  if (error) return toast.error("حدث خطأ في تحميل المواد ");
+  const { material, isPending, error, refetch } = useMaterial(materialId);
+  if (isPending) return <Spinner />;
+  if (error)
+    return (
+      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+    );
+
+  if (!material || material.data.length === 0)
+    return <Empty resourceName="معلومات" />;
 
   const groupedByWeek = material.data.reduce((acc, item) => {
     if (!acc[item.week]) acc[item.week] = [];
@@ -124,7 +128,6 @@ const MaterialDetails = () => {
       );
     return items.filter((item) => item.type === filter);
   };
-
   return (
     <MainContainer>
       <FilterButtonsContainer>

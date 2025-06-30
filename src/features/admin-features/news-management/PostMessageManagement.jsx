@@ -1,43 +1,42 @@
 import styled from "styled-components";
-import { ANNOUNCEMENT, NOTICE } from "../../../utils/constants";
+import { ANNOUNCEMENT } from "../../../utils/constants";
 
 const MessagePost = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  /* justify-content: center; */
-  padding: 0 6.5rem;
   text-align: right;
+  gap: 1rem;
+  padding: 0 1rem;
 `;
 
-const MessageAnnouncement = styled.span`
-  font-size: 1.4rem;
+const MessageTitle = styled.h2`
+  font-size: 1.8rem;
   font-weight: var(--font-weight-bold);
-  margin-bottom: 10px;
-`; // This is a fixed component
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
+  }
+`;
 
 const MessageBody = styled.p`
   font-size: 1.6rem;
-  color: var(--color-grey-900);
-  text-align: right;
-`; // This is a dynamic component
+  color: var(--color-grey-800);
+  line-height: 1.7;
+  margin: 0;
+  white-space: pre-wrap;
 
-const MessageNotice = styled.p`
-  margin-top: 10px;
-  font-size: 1.3rem;
-  font-weight: var(--font-weight-semibold);
-`; // This is a fixed component
-
-const Span = styled.span`
-  font-size: 1.3rem;
-  font-weight: var(--font-weight-bold);
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 `;
-function PostMessageManagement({ title, msg, notice }) {
+
+function PostMessageManagement({ title, msg }) {
   return (
     <MessagePost>
-      <MessageAnnouncement>
-        {ANNOUNCEMENT} {title}
-      </MessageAnnouncement>
+      <MessageTitle>
+        {ANNOUNCEMENT}: {title}
+      </MessageTitle>
       <MessageBody>{msg}</MessageBody>
     </MessagePost>
   );

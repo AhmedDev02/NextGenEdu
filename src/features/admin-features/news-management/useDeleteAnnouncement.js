@@ -9,7 +9,7 @@ export function useDeleteAnnouncement() {
 
   const queryClient = useQueryClient(); // Get the queryClient instance
 
-  const mutation = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (id) => {
       // Call the updateCourseMaterial function from apiUpdateCourse.js
       return deleteAnnouncement(id, token);
@@ -25,5 +25,5 @@ export function useDeleteAnnouncement() {
     },
   });
 
-  return mutation;
+  return { mutate, isPending };
 }

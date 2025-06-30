@@ -14,11 +14,7 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 3rem;
-
-  @media (max-width: 900px) {
-    gap: 1.5rem;
-  }
+  gap: 2rem;
 
   @media (max-width: 600px) {
     flex-direction: column;
@@ -28,134 +24,138 @@ const Container = styled.div`
 `;
 
 const MainContainer = styled.div`
-  width: 100%;
+  flex-grow: 1;
   background-color: white;
-  box-shadow: 0 0.5rem 0.5rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  @media (max-width: 900px) {
-    width: 100%;
-    padding: 0.7rem;
-  }
 
-  @media (max-width: 600px) {
-    width: 100%;
-    padding: 0.5rem;
+  @media (max-width: 768px) {
+    padding: 0.8rem;
   }
 `;
 
 const DetailsContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  overflow: hidden;
 
   @media (max-width: 600px) {
-    gap: 0.5rem;
+    gap: 1rem;
   }
 `;
 
 const IconContainer = styled.div`
   color: white;
-  width: 7rem;
-  height: 7rem;
+  width: 5rem;
+  height: 5rem;
   background: var(--color-primary-green);
   border-radius: 0.7rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 
-  @media (max-width: 900px) {
-    width: 5rem;
-    height: 5rem;
-  }
-
-  @media (max-width: 600px) {
-    width: 3.5rem;
-    height: 3.5rem;
+  @media (max-width: 768px) {
+    width: 4rem;
+    height: 4rem;
   }
 `;
 
 const FileIcon = styled(MdOutlineTask)`
-  font-size: 5rem;
-
-  @media (max-width: 900px) {
-    font-size: 3.5rem;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 2rem;
+  font-size: 3rem;
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
   }
 `;
 
-const TitlesContainer = styled.div``;
+const TitlesContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: hidden;
+`;
 
 const Title = styled.p`
   font-weight: bold;
-  font-size: 2rem !important;
+  font-size: 1.8rem;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
-  @media (max-width: 900px) {
-    font-size: 1.5rem !important;
-  }
-  @media (max-width: 600px) {
-    font-size: 1.1rem !important;
+  @media (max-width: 768px) {
+    font-size: 1.6rem;
   }
 `;
 
 const Description = styled.p`
   font-weight: 500;
-  font-size: 1.6rem !important;
+  font-size: 1.4rem;
+  margin: 0;
+  color: var(--color-grey-500);
 
-  @media (max-width: 900px) {
-    font-size: 1.2rem !important;
-  }
-  @media (max-width: 600px) {
-    font-size: 1rem !important;
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
   }
 `;
 
 const ButtonsContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-`;
-const InsideContainer = styled.div`
-  display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-end;
+  }
 `;
 
-const Button = styled.div`
-  padding: 1rem;
+const InsideContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const Button = styled.button`
+  padding: 0.8rem;
   background: var(--color-grey-200);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
   cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+
   &:active {
-    scale: 0.9;
+    transform: scale(0.95);
+  }
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    background-color: var(--color-grey-300);
   }
 
-  @media (max-width: 900px) {
-    width: 9rem;
-    height: 3rem;
-    font-size: 1.2rem;
+  svg {
+    font-size: 2rem;
+    color: var(--color-grey-700);
   }
-
   @media (max-width: 600px) {
-    width: auto;
-    min-width: 6rem;
-    height: 2.5rem;
-    font-size: 1rem;
-    padding: 0.3rem;
+    padding: 0.6rem;
+    svg {
+      font-size: 1.2rem;
+    }
   }
 `;
 
 const SingleMaterialContent = ({ data }) => {
   const { id: courseId } = useParams();
+
   const handleOpenFile = (Url) => {
     window.open(`https://${Url}`, "_blank");
   };
@@ -163,6 +163,7 @@ const SingleMaterialContent = ({ data }) => {
   const DownloadunAvailable = () => {
     toast.error("هذه الميزة غير متاحة حاليا");
   };
+
   return (
     <>
       {data.map((item, idx) => (
@@ -183,33 +184,30 @@ const SingleMaterialContent = ({ data }) => {
                   onClick={() => handleOpenFile(item.file)}
                   title="فتح الملف"
                 >
-                  <IoOpenOutline size={20} />
+                  <IoOpenOutline />
                 </Button>
                 <Button onClick={DownloadunAvailable} title="تحميل الملف">
-                  <FiDownload size={20} />
+                  <FiDownload />
                 </Button>
               </InsideContainer>
               <InsideContainer>
                 <Modal>
-                  <Modal.Open opens="edit-task">
+                  <Modal.Open opens={`edit-task-${item.id}`}>
                     <Button title="تعديل">
-                      <FaRegEdit size={20} />
+                      <FaRegEdit />
                     </Button>
                   </Modal.Open>
-                  <Modal.Open opens="delete-task">
+                  <Modal.Open opens={`delete-task-${item.id}`}>
                     <Button title="حذف">
-                      <AiOutlineDelete size={20} />
+                      <AiOutlineDelete />
                     </Button>
                   </Modal.Open>
-                  <Modal.Window name="edit-task">
-                    <EditMaterial data={item} onCloseModal />
+
+                  <Modal.Window name={`edit-task-${item.id}`}>
+                    <EditMaterial data={item} />
                   </Modal.Window>
-                  <Modal.Window name="delete-task">
-                    <DeleteMaterial
-                      courseId={courseId}
-                      id={item.id}
-                      onCloseModal
-                    />
+                  <Modal.Window name={`delete-task-${item.id}`}>
+                    <DeleteMaterial courseId={courseId} id={item.id} />
                   </Modal.Window>
                 </Modal>
               </InsideContainer>

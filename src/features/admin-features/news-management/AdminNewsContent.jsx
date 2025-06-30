@@ -1,70 +1,116 @@
 import styled from "styled-components";
-import PostManagement from "./PostManagement";
-import Button from "../../../ui/Button";
 import { FaPlus } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Loader from "../../../ui/tharwat/Loader";
 import ListFilterLocally from "../../../ui/ListFilterLocally";
 import { useCourses } from "../dashboard/useCourses";
 import { useAnnouncements } from "./useReadAnnouncements";
+import Spinner from "../../../ui/amr/Spinner";
+import { useNavigate } from "react-router-dom";
+import Empty from "../../../ui/amr/Empty";
+import PostManagement from "./PostManagement";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
-const Div = styled.div`
+const AdminPageLayout = styled.div`
   display: flex;
   flex-direction: column;
-width: 100%;
-`;
-
-const FilterDiv = styled.div`
-  display: flex;
-  width: 80%;
-  flex-direction: column-reverse;
-  justify-content: space-between;
-  @media (max-width: 768px) {
-    min-width: 100%;
-    justify-content: end;
-  }
-  /* this is for mobile */
-  @media (max-width: 1024px) and (min-width: 769px) {
-  }
-`;
-const FilterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
+  gap: 2rem;
   width: 100%;
 `;
 
-const Divider = styled.div`
+const TopActionsContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 2rem;
+  padding: 1rem 0;
+  align-items: center;
+
+  @media (min-width: 1024px) {
+    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+`;
+
+const FiltersWrapper = styled.div`
+  display: flex;
   flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: center;
+  }
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 35rem;
+
+  h3 {
+    font-size: 1.6rem;
+  }
+`;
+
+const AddNewsButton = styled.button`
+  background: var(--color-primary-green);
+  color: white;
+  width: 50%;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border: none;
+  border-radius: 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0;
+  &:focus,
+  &:active {
+    outline: none;
+  }
+  &:active {
+    scale: 0.95;
+  }
+
+  @media (min-width: 768px) {
+    width: auto;
+    min-width: 22rem;
+  }
+`;
+
+const PostsContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 `;
 
 function AdminNewsContent() {
-  const { courses } = useCourses(); // Fetch courses
-  const { announcements } = useAnnouncements(); // Fetch announcements
+  const { courses } = useCourses();
+  const { announcements, isPending, error, refetch } = useAnnouncements();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const [data, setData] = useState({
-    news: [],
-    courses: [],
-  });
-
-  const [filters, setFilters] = useState({
-    level: "",
-    department: "",
-  });
+  const [data, setData] = useState({ news: [], courses: [] });
+  const [filters, setFilters] = useState({ level: "", department: "" });
 
   useEffect(() => {
     if (announcements && courses) {
       setData({
-        news: announcements, // Set news data
-        courses: courses?.data || [], // Access courses.data if it exists, otherwise set an empty array
+        news: announcements,
+        courses: courses?.data || [],
       });
     }
-  }, [announcements, courses]); // Update data whenever announcements or courses change
+  }, [announcements, courses]);
 
   useEffect(() => {
     if (data.news.length > 0) {
@@ -76,49 +122,62 @@ function AdminNewsContent() {
   }, [data.news]);
 
   const handleFilterChange = (filterType, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [filterType]: value,
-    }));
+    setFilters((prevFilters) => ({ ...prevFilters, [filterType]: value }));
   };
 
-  const filteredSemester = data.news.filter((newItem) => {
-    return newItem.semester.id === +filters.level;
-  });
+  const filteredSemester = data.news.filter(
+    (newItem) => newItem.semester.id === +filters.level
+  );
 
-  const mappedSemester = data.courses?.map((level) => {
-    return { label: level.semester.name, value: `${level.semester.id}` };
-  });
+  const mappedSemester = data.courses
+    ?.map((level) => ({
+      label: level.semester.name,
+      value: `${level.semester.id}`,
+    }))
+    .filter(
+      (value, index, self) =>
+        index === self.findIndex((t) => t.value === value.value)
+    );
 
-  const mappedDepartment = filteredSemester
-    .filter((course) => course.department.id === +filters.department)
+  const mappedDepartment = data.courses
+    ?.filter((course) => course.semester.id === +filters.level)
     .map((course) => ({
       label: course.department.name,
       value: `${course.department.id}`,
     }))
     .filter(
       (value, index, self) =>
-        index === self.findIndex((t) => t.value === value.value) 
+        index === self.findIndex((t) => t.value === value.value)
     );
 
-  // Debugging output
+  if (isPending) return <Spinner />;
+  if (error) {
+    return <ErrorFallback message="خطأ في تحميل الاخبار" onRetry={refetch} />;
+  }
+  if (!announcements || announcements.length === 0) {
+    return (
+      <>
+        <AddNewsButton onClick={() => navigate("/admin/news/add")}>
+          <span>اضافة خبر جديد</span>
+          <FaPlus />
+        </AddNewsButton>
+        <Empty resourceName="معلومات" />
+      </>
+    );
+  }
+
   return (
-    <>
-      <FilterDiv>
-        <Button
-          size="custom"
-          style={{ marginTop: "30px" }}
-          paddingTopBottom="15px"
-          navigateTo={"/admin/news/add"}
-        >
-          <FaPlus /> اضافة خبر جديد
-        </Button>
-        <Divider>
+    <AdminPageLayout>
+      <TopActionsContainer>
+        <AddNewsButton onClick={() => navigate("/admin/news/add")}>
+          <span>اضافة خبر جديد</span>
+          <FaPlus />
+        </AddNewsButton>
+        {/* <FiltersWrapper>
           <FilterContainer>
             <h3>إختر الفرقة</h3>
             <ListFilterLocally
               items={mappedSemester}
-              containerStyles={{ padding: "10px" }}
               clickedValue={filters.level}
               onClickItem={(value) => handleFilterChange("level", value)}
             />
@@ -127,15 +186,17 @@ function AdminNewsContent() {
             <h3>أقسام الفرقة</h3>
             <ListFilterLocally
               items={mappedDepartment}
-              containerStyles={{ padding: "10px" }}
               clickedValue={filters.department}
-              onClickItem={(value) => handleFilterChange("department", value)} // Handle subjects filter click
+              onClickItem={(value) => handleFilterChange("department", value)}
             />
           </FilterContainer>
-        </Divider>
-      </FilterDiv>
-      <Div>
-        {!isLoading ? (
+        </FiltersWrapper> */}
+      </TopActionsContainer>
+
+      <PostsContainer>
+        {!announcements || announcements.length === 0 ? (
+          <Empty resourceName="أخبار" />
+        ) : !isLoading ? (
           filteredSemester.map((newItem) => (
             <PostManagement
               key={newItem.id}
@@ -146,8 +207,8 @@ function AdminNewsContent() {
         ) : (
           <Loader />
         )}
-      </Div>
-    </>
+      </PostsContainer>
+    </AdminPageLayout>
   );
 }
 

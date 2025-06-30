@@ -6,89 +6,130 @@ import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
 
 const Container = styled.div`
-  height: auto;
-  width: clamp(25rem, 50vw, 50rem);
+  width: 100%;
+  max-width: 50rem;
   padding: 2rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+`;
+
+const ModalTitle = styled.h2`
+  font-size: 2.6rem;
+  @media (max-width: 768px) {
+    font-size: 2.2rem;
+  }
 `;
 
 const DropArea = styled.div`
   border: 2px dashed #bbbbbb;
   border-radius: 10px;
-  padding: 50px;
+  padding: 3rem;
   background: #f7f7f7;
   cursor: pointer;
   transition: border 0.3s ease-in-out;
+
   &:hover {
     border-color: #30bd58;
   }
+
+  p {
+    font-size: 1.6rem;
+    color: #404040;
+    margin: 0.5rem 0;
+  }
+
+  span {
+    color: #30bd58;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    p {
+      font-size: 1.4rem;
+    }
+  }
 `;
 
-const UploadingContainer = styled.div`
-  margin-top: 20px;
-  text-align: left;
-`;
-
-const ProgressBar = styled.div`
-  height: 5px;
-  background: #30bd58;
-  width: ${({ progress }) => progress}%;
-  transition: width 0.3s ease-in-out;
+const HelperText = styled.p`
+  font-size: 1.2rem !important;
+  color: #777 !important;
 `;
 
 const FileList = styled.div`
-  margin-top: 2rem;
+  margin-top: 1rem;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 `;
 
 const FileItem = styled.div`
   background: #f0fff0;
   border: 1px solid #30bd58;
-  border-radius: 5px;
+  border-radius: 8px;
   padding: 1rem;
   display: flex;
-  gap: 1rem;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
-  font-size: 14px;
+  font-size: 1.4rem;
+  word-break: break-all;
 `;
 
 const DeleteButton = styled.button`
   background: none;
-  border: 1px solid red;
+  border: 1px solid var(--color-red-500, red);
   cursor: pointer;
-  color: red;
-  font-size: 16px;
+  color: var(--color-red-500, red);
+  font-size: 1.8rem;
   border-radius: 0.5rem;
-  padding: 0.25rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--color-red-100, #fee2e2);
+  }
 `;
 
 const UploadButton = styled.button`
   background: #30bd58;
   color: white;
   border: none;
-  padding: 12px;
+  padding: 1.2rem;
   border-radius: 1rem;
-  font-size: 16px;
-  margin-top: 20px;
+  font-size: 1.8rem;
+  margin-top: 1rem;
   cursor: pointer;
   width: 100%;
+  font-family: "Changa", sans-serif;
+  transition: all 0.2s;
+
   &:hover {
-    background: #4b9f4f;
+    background: #29a34d;
+  }
+
+  &:active {
+    transform: scale(0.97);
   }
 `;
 
 function AddFileModal({ onCloseModal, onSelectFile }) {
   const [files, setFiles] = useState([]);
-  const [uploadingFiles, setUploadingFiles] = useState([]);
 
   const setSelectedFile = () => {
     if (files.length > 0) {
-      onSelectFile(files[0]); // single File
+      onSelectFile(files[0]);
     }
   };
 
@@ -114,31 +155,10 @@ function AddFileModal({ onCloseModal, onSelectFile }) {
         return;
       }
       if (acceptedFiles.length > 0) {
-        const file = acceptedFiles[0];
-        const newFiles = [{ file, progress: 0 }];
-        setUploadingFiles(newFiles);
-        simulateUpload(newFiles);
+        setFiles(acceptedFiles);
       }
     },
   });
-
-  const simulateUpload = (filesToUpload) => {
-    filesToUpload.forEach((fileObj, index) => {
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 20;
-        setUploadingFiles((prevUploading) =>
-          prevUploading.map((f, i) => (i === index ? { ...f, progress } : f))
-        );
-
-        if (progress >= 100) {
-          clearInterval(interval);
-          setFiles([fileObj.file]); // single file array
-          setUploadingFiles([]);
-        }
-      }, 300);
-    });
-  };
 
   const removeFile = () => {
     setFiles([]);
@@ -146,45 +166,29 @@ function AddFileModal({ onCloseModal, onSelectFile }) {
 
   return (
     <Container>
-      {uploadingFiles.length > 0 && (
-        <UploadingContainer>
-          <p>Uploading - {uploadingFiles.length} file(s)</p>
-          {uploadingFiles.map((fileObj, index) => (
-            <div key={index}>
-              <p>{fileObj.file.name}</p>
-              <ProgressBar progress={fileObj.progress} />
-            </div>
-          ))}
-        </UploadingContainer>
-      )}
-
       {files.length > 0 ? (
         <FileList>
-          <p>Uploaded {files.length} file</p>
+          <p>تم تحميل {files.length} ملف</p>
           {files.map((file, index) => (
             <FileItem key={index}>
+              <span>{file.name}</span>
               <DeleteButton onClick={() => removeFile()}>
                 <AiOutlineDelete />
               </DeleteButton>
-              {file.name}
             </FileItem>
           ))}
         </FileList>
       ) : (
         <>
-          <h2>Upload</h2>
+          <ModalTitle>تحميل ملف</ModalTitle>
           <DropArea {...getRootProps()}>
             <input {...getInputProps()} />
             <FaCloudUploadAlt size={50} color="#30bd58" />
             <p>
-              Drag & drop files or{" "}
-              <span style={{ color: "#30bd58", cursor: "pointer" }}>
-                Browse
-              </span>
+              قم بسحب الملف الي هنا او <span>قم بالبحث علي جهازك</span>
             </p>
-            <p style={{ fontSize: "12px", color: "#777" }}>
-              Supported formats: PDF, Word, PPT
-            </p>
+            <HelperText>الملفات المدعومة: PDF, Word, PPT</HelperText>
+            <HelperText>يجب الا يتعدي حجم الملف عن 1 MB</HelperText>
           </DropArea>
         </>
       )}
@@ -195,7 +199,7 @@ function AddFileModal({ onCloseModal, onSelectFile }) {
           onCloseModal();
         }}
       >
-        <p style={{ fontFamily: "Changa", fontSize: "2rem" }}>رفع الملفات</p>
+        رفع الملف
       </UploadButton>
     </Container>
   );
