@@ -5,9 +5,9 @@ import { useCourses } from "../dashboard/useCourses";
 import Spinner from "../../../ui/amr/Spinner";
 import toast from "react-hot-toast";
 import { useCreateAnnouncement } from "./useCreateAnnouncement";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const breakpoints = {
   tablet: "768px",
@@ -179,7 +179,7 @@ const AddNewsContent = () => {
   if (isPending) return <Spinner />;
   if (error) {
     return (
-      <ErrorFallback
+      <ErrorFallBack
         message="خطأ في تحميل الصفحه يرجي المحاولة مجددا"
         onRetry={refetch}
       />

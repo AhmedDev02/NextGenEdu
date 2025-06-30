@@ -4,7 +4,7 @@ import { useStudentProgressContext } from "../../../context/StudentProgressProvi
 import { useReadTable } from "./useReadTable";
 import Spinner from "../../../ui/amr/Spinner";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const TableContainer = styled.div`
   margin: 0 auto;
@@ -110,7 +110,7 @@ function Table() {
 
   if (error) {
     return (
-      <ErrorFallback message="خطأ في عرض الجدول الدراسي" onRetry={refetch} />
+      <ErrorFallBack message="خطأ في عرض الجدول الدراسي" onRetry={refetch} />
     );
   }
   if (!tableData || tableData.data.length === 0) {

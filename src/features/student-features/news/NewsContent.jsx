@@ -5,7 +5,7 @@ import useGetNews from "./useGetNews";
 import Spinner from "../../../ui/amr/Spinner";
 import { useSearchParams } from "react-router-dom";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const Div = styled.div`
   width: 100%;
@@ -13,7 +13,6 @@ const Div = styled.div`
   flex-direction: column;
   align-items: center; /* Center the posts container */
   gap: 2rem; /* Add a gap between posts */
-  
 `;
 
 function NewsContent() {
@@ -27,7 +26,7 @@ function NewsContent() {
 
   if (isPending) return <Spinner />;
   if (error) {
-    return <ErrorFallback message="خطأ في عرض الاخبار" onRetry={refetch} />;
+    return <ErrorFallBack message="خطأ في عرض الاخبار" onRetry={refetch} />;
   }
   if (!newsData || newsData.data.length === 0) {
     return <Empty resourceName="معلومات" />;

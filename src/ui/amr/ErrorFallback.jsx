@@ -80,7 +80,7 @@ const RetryButton = styled.button`
   }
 `;
 
-function ErrorFallback({ message = "لم نستطع عرض المعلومات", onRetry }) {
+function ErrorFallBack({ message = "لم نستطع عرض المعلومات", onRetry }) {
   // This side-effect will show a toast notification in addition to the component
   message && toast.error(message);
 
@@ -94,9 +94,9 @@ function ErrorFallback({ message = "لم نستطع عرض المعلومات", 
   );
 }
 
-ErrorFallback.propTypes = {
+ErrorFallBack.propTypes = {
   message: PropTypes.string,
   onRetry: PropTypes.func,
 };
 
-export default ErrorFallback;
+export default ErrorFallBack;

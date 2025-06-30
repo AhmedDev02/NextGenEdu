@@ -4,7 +4,7 @@ import { useGetAssignment } from "./useGetAssignment";
 import Spinner from "../../../ui/amr/Spinner";
 import CurrentAssignment from "./CurrentAssignment";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const Container = styled.div`
   max-width: 100rem;
@@ -31,7 +31,7 @@ function TaskPageContent() {
   if (isPending) return <Spinner />;
 
   if (error) {
-    return <ErrorFallback message="خطأ في عرض المهام" onRetry={refetch} />;
+    return <ErrorFallBack message="خطأ في عرض المهام" onRetry={refetch} />;
   }
 
   if (!assignmentData || assignmentData.data.length === 0) {

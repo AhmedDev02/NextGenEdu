@@ -2,14 +2,13 @@ import styled from "styled-components";
 import { FaPlus } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Loader from "../../../ui/tharwat/Loader";
-import ListFilterLocally from "../../../ui/ListFilterLocally";
 import { useCourses } from "../dashboard/useCourses";
 import { useAnnouncements } from "./useReadAnnouncements";
 import Spinner from "../../../ui/amr/Spinner";
 import { useNavigate } from "react-router-dom";
 import Empty from "../../../ui/amr/Empty";
 import PostManagement from "./PostManagement";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const AdminPageLayout = styled.div`
   display: flex;
@@ -30,32 +29,6 @@ const TopActionsContainer = styled.div`
     justify-content: flex-start;
   }
 `;
-
-const FiltersWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  width: 100%;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-    justify-content: center;
-  }
-`;
-
-const FilterContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  max-width: 35rem;
-
-  h3 {
-    font-size: 1.6rem;
-  }
-`;
-
 const AddNewsButton = styled.button`
   background: var(--color-primary-green);
   color: white;
@@ -152,7 +125,7 @@ function AdminNewsContent() {
 
   if (isPending) return <Spinner />;
   if (error) {
-    return <ErrorFallback message="خطأ في تحميل الاخبار" onRetry={refetch} />;
+    return <ErrorFallBack message="خطأ في تحميل الاخبار" onRetry={refetch} />;
   }
   if (!announcements || announcements.length === 0) {
     return (

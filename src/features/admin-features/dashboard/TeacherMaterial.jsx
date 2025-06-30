@@ -6,7 +6,7 @@ import { useCourses } from "./useCourses";
 import { useUser } from "../../../hooks/useUser";
 import Spinner from "../../../ui/amr/Spinner";
 import Empty from "../../../ui/amr/Empty";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const CardsContainer = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ function TeacherMaterial() {
   if (isLoading) return <Spinner />;
   if (error) {
     return (
-      <ErrorFallback message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+      <ErrorFallBack message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
     );
   }
   if (!courses || courses.data.length === 0) {
