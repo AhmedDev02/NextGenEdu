@@ -2,8 +2,8 @@ import styled from "styled-components";
 import Button from "../../../ui/Button";
 import { useGetCourses } from "./useGetAssignments";
 import Spinner from "../../../ui/amr/Spinner";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const CardFlexContainer = styled.div`
   display: flex;

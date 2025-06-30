@@ -3,8 +3,8 @@ import { useStudentProgressContext } from "../../../context/StudentProgressProvi
 import { useReadTableTeacher } from "./useReadTableTeacher";
 import Spinner from "../../../ui/amr/Spinner";
 import TableRow from "./TableRow";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const TableContainer = styled.div`
   margin: 0 auto;

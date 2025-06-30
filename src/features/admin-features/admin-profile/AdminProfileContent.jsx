@@ -7,8 +7,8 @@ import toast from "react-hot-toast";
 import useUpdateProfile from "./useUpdateProfile";
 import { useState } from "react";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const Div = styled.div`
   display: flex;

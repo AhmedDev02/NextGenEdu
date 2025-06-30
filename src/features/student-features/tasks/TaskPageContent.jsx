@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { useGetAssignment } from "./useGetAssignment";
 import Spinner from "../../../ui/amr/Spinner";
 import CurrentAssignment from "./CurrentAssignment";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const Container = styled.div`
   max-width: 100rem;

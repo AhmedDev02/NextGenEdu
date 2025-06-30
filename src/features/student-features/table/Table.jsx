@@ -3,9 +3,8 @@ import TableRow from "./TableRow";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 import { useReadTable } from "./useReadTable";
 import Spinner from "../../../ui/amr/Spinner";
-import toast from "react-hot-toast";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const TableContainer = styled.div`
   margin: 0 auto;

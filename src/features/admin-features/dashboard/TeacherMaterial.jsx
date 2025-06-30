@@ -5,9 +5,8 @@ import Card from "../../../ui/Card";
 import { useCourses } from "./useCourses";
 import { useUser } from "../../../hooks/useUser";
 import Spinner from "../../../ui/amr/Spinner";
-import toast from "react-hot-toast";
-import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 import Empty from "../../../ui/amr/Empty";
+import ErrorFallback from "../../../ui/amr/ErrorFallBack";
 
 const CardsContainer = styled.div`
   display: flex;
