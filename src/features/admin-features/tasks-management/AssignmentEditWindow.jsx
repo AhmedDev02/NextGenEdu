@@ -3,10 +3,8 @@ import styled from "styled-components";
 // import FileUploader from "./FileUploader";
 import { useEffect, useRef } from "react";
 // import { useUpdateAnnouncement } from "./useUpdateAnnouncement";
-import { format } from "date-fns";
 import { useUpdateAssignment } from "./useUpdateAssignment";
 import FileUploader from "../../../ui/FileUploader";
-import AddFileModal from "../material-management/addFileModal";
 
 const FormContainer = styled.div`
   min-width: 400px;
