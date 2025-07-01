@@ -1,13 +1,7 @@
 import styled from "styled-components";
-import {
-  FiUser,
-  FiEdit2,
-  FiMail,
-  FiKey,
-  FiCheck,
-  FiPhone,
-} from "react-icons/fi";
+import { FiUser, FiEdit2, FiMail, FiCheck } from "react-icons/fi";
 import { useState } from "react";
+import { IoIosEyeOff, IoMdEye } from "react-icons/io";
 
 const Container = styled.div`
   width: 60%;
@@ -89,65 +83,53 @@ const Button = styled.button`
     background: #1c2230;
   }
 `;
-const Textarea = styled.textarea`
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  min-height: 150px;
-  border: none;
+const Div = styled.div`
+  cursor: pointer;
+`;
+const CancelButton = styled.button`
+  border-radius: 1rem;
+  padding: 0.5rem 2rem;
+  margin-top: 1rem;
+  color: #fff;
   outline: none;
-  resize: none;
-  overflow: none;
-  &:hover,
-  :focus,
-  :active {
+  border: none;
+  background: var(--color-danger-red);
+  &:active {
     outline: none;
-    border: none;
+    scale: 0.9;
   }
-  background: ${({ isEditing }) => (!isEditing ? "" : "#1c2230")};
-  cursor: ${({ isEditing }) => (!isEditing ? "" : "not-allowed;")};
+  &:focus {
+    outline: none;
+  }
 `;
 
-const SuperAdminProfileForm = ({ user }) => {
-  const [isEditing, setIsEditing] = useState(false);
+const SuperAdminProfileForm = ({ formInfo, updateFormInfo }) => {
+  const [show, setShow] = useState(false);
+  const { password, setPassword, isEditing, setIsEditing, handleSavePassword } =
+    updateFormInfo;
+  const { name, email } = formInfo;
   const [formData, setFormData] = useState({
-    name: "أحمد ثروت رفاعي خليل",
-    email: "1234567890@zu.edu.eg",
-    phone: "1234567890",
-    autherty: [
-      "إدارة البنية التحتية التقنية للنظام",
-      "صيانة الخوادم وقواعد البيانات",
-      "حل مشكلات النظام والتواصل مع الدعم الفني",
-      "إعدادات الأمان والمصادقة الثنائية",
-      "متابعة أداء النظام والتأكد من عمله بكفاءة",
-    ],
+    name,
+    email,
   });
-  const formatAutherty = (authertyArray) => {
-    return authertyArray.map((item) => `• ${item}`).join("\n");
-  };
-  const formattedText = formatAutherty(formData.autherty);
-
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const toggleEdit = () => {
-    if (isEditing) {
-      console.log("Updated Data:", formData);
-    }
-    setIsEditing(!isEditing);
+  const handleShow = () => {
+    setShow((prev) => !prev);
   };
 
   return (
     <Container>
       {/* Full Name */}
       <Label>الإسم الكامل</Label>
-      <InputWrapper>
+      <InputWrapper isEditing={isEditing}>
         <Input
           type="text"
           name="name"
-          value={user.name}
+          value={formData.name}
           onChange={handleInputChange}
-          readOnly={!isEditing}
+          readOnly
         />
         <Icon>
           <FiUser />
@@ -160,7 +142,7 @@ const SuperAdminProfileForm = ({ user }) => {
         <Input
           type="email"
           name="email"
-          value={user.email}
+          value={formData.email}
           onChange={handleInputChange}
           readOnly
         />
@@ -168,40 +150,40 @@ const SuperAdminProfileForm = ({ user }) => {
           <FiMail />
         </Icon>
       </InputWrapper>
-      <Label>رقم الهاتف</Label>
+
+      <Label>كلمة المرور</Label>
       <InputWrapper>
         <Input
-          type="tel"
-          name="phone"
-          value={user.number || formData.phone}
-          onChange={handleInputChange}
+          type={show ? "text" : "password"}
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           readOnly={!isEditing}
         />
         <Icon>
-          <FiPhone />
+          <Div
+            onClick={handleShow}
+            title={show ? "hide password" : "show password"}
+          >
+            {show ? <IoIosEyeOff size={18} /> : <IoMdEye size={18} />}
+          </Div>
         </Icon>
       </InputWrapper>
-
-      <Label>الصلاحيات</Label>
-      <InputWrapper isEditing={isEditing}>
-        <Textarea
-          type="text"
-          name="autherty"
-          value={formattedText}
-          onChange={handleInputChange}
-          readOnly
-          isEditing={isEditing}
-        />
-        <Icon>
-          <FiKey />
-        </Icon>
-      </InputWrapper>
-
       {/* Edit Button */}
-      <Button onClick={toggleEdit} isEditing={isEditing}>
+      <Button onClick={handleSavePassword} isEditing={isEditing}>
         {isEditing ? <FiCheck /> : <FiEdit2 />}
         {isEditing ? "حفظ التغييرات" : "تعديل"}
       </Button>
+      {isEditing && (
+        <CancelButton
+          onClick={() => {
+            setIsEditing(false);
+            setPassword("");
+          }}
+        >
+          الغاء التعديل
+        </CancelButton>
+      )}
     </Container>
   );
 };
