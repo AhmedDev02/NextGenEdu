@@ -23,11 +23,12 @@ const H3 = styled.h3``;
 
 const Span = styled.span`
   font-size: 1rem;
+  display: block;
   color: var(--color-grey-500);
 `;
 const Divider = styled.div``;
 
-function PervExam() {
+function PervExam({ finishedExam }) {
   return (
     <Div>
       <ExamLogoDiv>
@@ -36,7 +37,8 @@ function PervExam() {
         />
         <Divider>
           <H3>إختبار</H3>
-          <Span>الإسبوع الثاني</Span>
+          <Span>{finishedExam.description}</Span>
+          <Span>{finishedExam.date} </Span>
         </Divider>
       </ExamLogoDiv>
       <Button

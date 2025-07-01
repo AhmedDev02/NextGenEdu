@@ -156,15 +156,20 @@ export async function addQuestion(token, body) {
     const response = await axios.post(
       `${BASE_URL_NODE}/questions/add`,
       { body: body },
-      { headers }
+      {
+        headers,
+      }
     );
-    console.log("This is the res" + response.data);
+
+    console.log(response.data);
     return response.data;
   } catch (error) {
+    console.log(error);
     console.log("مشكله في ارسال السؤال:", error?.response?.data || error);
     throw error; // ✅ Re-throw the error so `onError` in the mutation is triggered
   }
 }
+
 export async function addAnswer(questionID, token, text) {
   if (!token) {
     throw new Error("Token is required");

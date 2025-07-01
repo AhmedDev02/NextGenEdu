@@ -51,20 +51,9 @@ function DiscussionHeader({ questionsNum }) {
     <Header>
       <HeaderDiv>
         <H3>جميع الأسئلة</H3>
-        <Span>{questionsNum} سؤال حتي الآن!</Span>
+        <Span>{questionsNum} سؤال حتى الآن!</Span>
       </HeaderDiv>
       <HeaderFilter>
-        {/* <Button
-          size="custom"
-          paddingLeftRight="30px"
-          paddingTopBottom="10px"
-          fontSize="1.4rem"
-          style={{ paddingBottom: "15px" }}
-          phonePadding={"5px 10px"}
-        >
-          <FiPlus style={{ fontSize: "1.4rem" }} />
-          ضف سؤالك
-        </Button> */}
         <AddQuestionModal />
         <ListFilter
           items={[

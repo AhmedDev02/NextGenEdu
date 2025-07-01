@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
+import { useReadQuizzes } from "./useReadQuizzes";
 
 const StyledCard = styled.div`
   width: 300px;
@@ -45,15 +46,17 @@ const Div = styled.div`
   flex-wrap: wrap;
 `;
 
-function ExamCards({ src, alt, examData }) {
-  console.log(examData, src, alt);
+function ExamCards() {
+  const { exams: data } = useReadQuizzes();
+  const exams = data?.data;
+  console.log(exams);
   return (
     <Div>
-      {examData.map((card, index) => (
+      {exams?.map((card, index) => (
         <StyledCard key={index}>
           <Img src={"../../../public/logo.png"} alt={"logo"} />
-          <H4>{card.subjectName}</H4>
-          <H5>{card.doctorName}</H5>
+          <H4>{card.title}</H4>
+          <H5>{card.teacher}</H5>
           <Br />
           <Div>
             <Button
@@ -62,9 +65,9 @@ function ExamCards({ src, alt, examData }) {
               paddingTopBottom="10px"
               paddingLeftRight="60px"
               styles={"border"}
-              navigateTo={"/exams/1"}
+              navigateTo={`/exams/${card.id}${card.course.id}`}
             >
-              {card.cardButtonName}
+              رؤيةالإختبارات
             </Button>
           </Div>
         </StyledCard>

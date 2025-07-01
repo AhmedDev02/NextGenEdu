@@ -1,9 +1,6 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
 import Modal from "../../../ui/amr/Modal";
-import QuestionWindow from "./QuestionWindow";
-import { FaTrash } from "react-icons/fa";
-import { useAddQuestion } from "./useAddQuestion";
 import AddQuestionModalWindow from "./AddQuestionModalWindow";
 import { FiPlus } from "react-icons/fi";
 

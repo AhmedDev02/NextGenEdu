@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Button from "../../../ui/Button";
 import CustomFaSpinner from "../../../ui/tharwat/CustomFaSpinner";
 import { useAddQuestion } from "./useAddQuestion";
-import { useState } from "react";
+// import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -43,8 +43,8 @@ const StyledTextarea = styled.textarea`
   overflow-wrap: break-word;
 `;
 
-function AddQuestionModalWindow({ onCloseModal, onConfirm }) {
-  const { register, handleSubmit, reset } = useForm();
+function AddQuestionModalWindow({ onCloseModal }) {
+  const { register, handleSubmit } = useForm();
   const { mutate: addQuestion, isPending } = useAddQuestion();
   const queryClient = useQueryClient();
 
