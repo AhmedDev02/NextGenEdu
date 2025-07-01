@@ -1,7 +1,14 @@
 import styled from "styled-components";
 import AdminProfilePic from "./SuperAdminProfilePic";
 import AdminProfileForm from "./SuperAdminProfileForm";
-import { useSelector } from "react-redux";
+import useGetProfile from "./useGetProfile";
+import Spinner from "../../../ui/amr/Spinner";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
+import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import useUpdateProfile from "./useUpdateProfile";
 
 const Div = styled.div`
   display: flex;
@@ -64,8 +71,61 @@ const ProfileDataContainer = styled.div`
   }
 `;
 
-function SuperAdminProfileContent() {
-  const user = useSelector((state) => state.auth.user); // Get the user from Redux store
+const SuperAdminProfileContent = () => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [password, setPassword] = useState("");
+  const { setSelectedImage } = useStudentProgressContext();
+  const { mutate, isPending: isUpdating } = useUpdateProfile();
+  const {
+    data: ProfileData,
+    isPending: isGettingProfileData,
+    error,
+    refetch,
+  } = useGetProfile();
+  if (isGettingProfileData) return <Spinner />;
+  if (error) {
+    return (
+      <ErrorFallBack message="خطأ في تحميل الصفحه الشخصيه" onRetry={refetch} />
+    );
+  }
+  if (!ProfileData || ProfileData.data.length === 0) {
+    return <Empty resourceName="معلومات" />;
+  }
+  const { name, email, avatar } = ProfileData.data;
+  const handleSavePassword = () => {
+    if (isEditing) {
+      if (!password) {
+        toast.error("الرجاء إدخال كلمة المرور قبل الحفظ");
+        return;
+      }
+      mutate({
+        password: password,
+      });
+      setIsEditing(false);
+    } else {
+      setIsEditing(true);
+    }
+  };
+  const handleSaveAvatar = (selectedFile) => {
+    if (selectedFile) {
+      mutate({
+        avatar: selectedFile,
+      });
+    } else {
+      toast.error("اختر صورة قبل الحفظ");
+    }
+    setSelectedImage(null);
+    setIsEditing(false);
+  };
+  const updateFormInfo = {
+    password,
+    setPassword,
+    isEditing,
+    setIsEditing,
+    handleSavePassword,
+  };
+  const formInfo = { name, email };
+  const profilePicInfo = { name, avatar };
 
   return (
     <Div>
@@ -74,12 +134,16 @@ function SuperAdminProfileContent() {
       </Header>
       <Breaker />
       <ProfileDataContainer>
-        <AdminProfilePic user={user} />
-        <AdminProfileForm user={user} />
+        <AdminProfilePic
+          handleSave={handleSaveAvatar}
+          profilePicInfo={profilePicInfo}
+          isUpdating={isUpdating}
+        />
+        <AdminProfileForm formInfo={formInfo} updateFormInfo={updateFormInfo} />
       </ProfileDataContainer>
       <Breaker />
     </Div>
   );
-}
+};
 
 export default SuperAdminProfileContent;

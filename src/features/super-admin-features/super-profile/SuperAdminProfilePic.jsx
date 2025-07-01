@@ -1,5 +1,7 @@
 import { FiEdit } from "react-icons/fi";
 import styled from "styled-components";
+import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
+import { useState } from "react";
 
 const Div = styled.div`
   display: flex;
@@ -60,7 +62,7 @@ const ImgEditor = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  top: 80px;
+  top: 50px;
   right: 120px;
   /* For screens between 769px and 1024px */
   @media (max-width: 1024px) and (min-width: 769px) {
@@ -72,24 +74,6 @@ const ImgEditor = styled.div`
     right: 190px;
   }
 `;
-const Span = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 35px;
-  width: 35px;
-  border-radius: 50%;
-  &:hover {
-    box-shadow: var(--shadow-primary);
-  }
-
-  background-color: #fff;
-`;
-const P = styled.p`
-  font-size: 1.2rem;
-  color: #fff;
-`;
-
 const StyledIcon = styled(FiEdit)`
   height: 20px;
   width: 20px;
@@ -98,32 +82,81 @@ const StyledIcon = styled(FiEdit)`
     transform: scale(1.1);
   }
 `;
-
-function SuperAdminProfilePic({ user }) {
-  const student = {
-    name: "أحمد ثروت رفاعي خليل",
+const SendButton = styled.button`
+  background: ${({ type }) =>
+    type === "cancel"
+      ? "var(--color-danger-red)"
+      : "var(--color-primary-green)"};
+  width: ${({ type }) => (type === "cancel" ? "9rem" : "15rem")};
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  &:active,
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    scale: 0.9;
+  }
+`;
+const Label = styled.label`
+  cursor: pointer;
+`;
+const Input = styled.input`
+  display: none;
+  cursor: pointer;
+`;
+function SuperAdminProfilePic({ profilePicInfo, handleSave }) {
+  const { SelectedImage, setSelectedImage } = useStudentProgressContext();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const { name, avatar } = profilePicInfo;
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const previewUrl = URL.createObjectURL(file);
+    setSelectedImage(previewUrl);
+    setSelectedFile(file);
   };
-  const { name } = student;
   return (
     <Div>
       <H3>الصورة الشخصية</H3>
-      <ProfileImg src="../../../public/download.jpeg" alt="user" />
-      <Name>أ.د/ {user.name}</Name>
+      <ProfileImg
+        src={SelectedImage || `https://${avatar}` || "/download.jpeg"}
+        alt="user"
+      />
+
+      <Name>{name}</Name>
       <Breaker />
-      <Divider>
-        <P>
-          أستاذ متميز في قسم علوم الحاسب، تخرج عام 1941 وما زال ينبض بالحيوية
-          وكأنه في ريعان الشباب بخبرة 39 عامًا ليس علي كوكب الأرض، بل امتدت إلى
-          المريخ وزحل، حيث استلهم من عوالمهما تقنيات لم تصل إليها البشرية بعد.
-          عاد إلينا بتواضعه المعهود ليشارك معرفته، ويدفع طلابه للأمام، نحو آفاق
-          لم يسبقهم إليها أحد!
-        </P>
-      </Divider>
+      <Divider></Divider>
+
       <ImgEditor>
-        <Span>
+        <Label htmlFor="avatar-upload">
           <StyledIcon />
-        </Span>
+          <Input
+            onChange={handleImageUpload}
+            type="file"
+            id="avatar-upload"
+            accept="image/*"
+          />
+        </Label>
       </ImgEditor>
+      <SendButton
+        disabled={selectedFile === null}
+        onClick={() => handleSave(selectedFile, setSelectedFile)}
+      >
+        حفظ الصوره
+      </SendButton>
+      {SelectedImage && (
+        <SendButton
+          onClick={() => {
+            setSelectedImage(null);
+          }}
+          type="cancel"
+        >
+          الغاء الحفظ
+        </SendButton>
+      )}
     </Div>
   );
 }
