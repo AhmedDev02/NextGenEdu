@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import PervExam from "./PervExam";
 import NextExam from "./NextExam";
+import { useReadQuizzes } from "./useReadQuizzes";
+import { useParams } from "react-router-dom";
 
 const Div = styled.div`
   display: flex;
@@ -39,14 +41,17 @@ const Divider = styled.div`
   margin: 10px 0;
 `;
 function MaterialExamContent() {
+  const { exams: data } = useReadQuizzes();
+  const exams = data?.data;
+  const { examId } = useParams(); // 👈 Get "3258" from URL
+  const courseId = parseInt(examId.slice(-2)); // 👈 Extract last 2 digits (e.g., "58")
+
+  const filteredFinishedExams = exams?.filter(
+    (exam) => exam.course.id === courseId && exam.status === "finished"
+  );
+  // const prevExam =
   return (
     <Div>
-      <PrevExamsDiv>
-        <PervExam />
-        <PervExam />
-        <PervExam />
-      </PrevExamsDiv>
-      <Divider />
       <NextExamsDiv>
         <NextExam
           examGoal={
@@ -56,6 +61,13 @@ function MaterialExamContent() {
           endTime={"الخميس 31 أكتوبر 2024 ، الساعة 01:14 صباحاً"}
         />
       </NextExamsDiv>
+      <Divider />
+      <PrevExamsDiv>
+        {filteredFinishedExams?.map((finishedExam, index) => {
+          console.log(finishedExam);
+          return <PervExam finishedExam={finishedExam} key={index} />;
+        })}
+      </PrevExamsDiv>
     </Div>
   );
 }

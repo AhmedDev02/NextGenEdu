@@ -9,6 +9,7 @@ export function useAddQuestion() {
 
   const mutation = useMutation({
     mutationFn: async ({ body }) => {
+      console.log(body);
       return addQuestion(token, body);
     },
     onSuccess: () => {
