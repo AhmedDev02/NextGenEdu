@@ -155,7 +155,10 @@ function App() {
               />
               <Route path="tasks" element={<Tasks />} />
               <Route path="tasks/:courseId" element={<TaskPage />} />
-              <Route path="student-progress" element={<StudentProgress />} />
+
+              {/* <Route path="student-progress" element={<StudentProgress />} /> */}
+              <Route path="student-progress" element={<MaintenancePage />} />
+
               <Route path="final-results" element={<FinalResults />} />
               <Route path="profile" element={<StudentProfile />} />
             </Route>

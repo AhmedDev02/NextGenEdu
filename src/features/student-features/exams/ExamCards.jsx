@@ -65,7 +65,8 @@ function ExamCards() {
               paddingTopBottom="10px"
               paddingLeftRight="60px"
               styles={"border"}
-              navigateTo={`/exams/${card.id}${card.course.id}`}
+              // navigateTo={`/exams/${card.id}${card.course.id}`}
+              navigateTo={`/exams/${card.id}`}
             >
               رؤيةالإختبارات
             </Button>
