@@ -82,6 +82,7 @@ import SubSuperAdminAppLayout from "./ui/SubSuperAdminAppLayout";
 import SubSuperAdminProfile from "./pages/sub-super-admin-pages/SubSuperAdminProfile";
 import SubSuperAdminDashboard from "./pages/sub-super-admin-pages/SubSuperAdminDashboard";
 import SubSuperAdminUsersManagement from "./pages/sub-super-admin-pages/SubSuperAdminUsersManagement";
+import MaintenancePage from "./pages/general-pages/MaintenancePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -135,7 +136,8 @@ function App() {
                 element={<Material />}
               />
 
-              <Route path="chat" element={<Chat />} />
+              {/* <Route path="chat" element={<Chat />} /> */}
+              <Route path="chat" element={<MaintenancePage />} />
 
               <Route path="discussion" element={<Discussion />} />
               <Route path="discussion/:questionID" element={<Answers />} />
@@ -144,6 +146,7 @@ function App() {
               <Route path="projects-timeline" element={<ProjectsTimeline />} />
 
               <Route path="exams" element={<Exams />} />
+              {/* <Route path="exams" element={<MaintenancePage />} /> */}
               <Route path="exams/:examId" element={<Exam />} />
 
               <Route
@@ -172,7 +175,9 @@ function App() {
               <Route path="dashboard/:curriculumId" element={<Curriculum />} />
 
               <Route path="profile" element={<AdminProfile />} />
-              <Route path="discussion" element={<DiscussionManagement />} />
+              {/* <Route path="discussion" element={<DiscussionManagement />} /> */}
+              <Route path="discussion" element={<MaintenancePage />} />
+
               <Route path="final-result" element={<FinalResultsManagement />} />
               <Route path="materials" element={<MaterialsManagement />} />
               <Route
@@ -186,11 +191,14 @@ function App() {
               <Route path="news" element={<NewsManagement />} />
               <Route path="news/add" element={<AddNews />} />
 
-              <Route path="quizzes" element={<QuizzesManagement />} />
+              {/* <Route path="quizzes" element={<QuizzesManagement />} /> */}
+              <Route path="quizzes" element={<MaintenancePage />} />
+
               <Route
                 path="quizzes/create-quizzes/:id"
                 element={<CreateQuiz />}
               />
+
               <Route
                 path="quizzes/scheduled-quizzes/:id"
                 element={<ScheduledQuiz />}

@@ -119,12 +119,12 @@ function StudentNav() {
             <span>{STUDENTS_ITEMS.WEEKLY_SCHEDULE}</span>
           </StyledNavLink>
         </li>
-        <li>
+        {/* <li>
           <StyledNavLink to="/projects-timeline">
             <MdTimeline />
             <span>{STUDENTS_ITEMS.TIMELINE}</span>
           </StyledNavLink>
-        </li>
+        </li> */}
         <li>
           <StyledNavLink to="/exams">
             <MdOutlineQuiz />
@@ -143,12 +143,12 @@ function StudentNav() {
             <span>{STUDENTS_ITEMS.STUDENT_PROGRESS}</span>
           </StyledNavLink>
         </li>
-        <li>
+        {/* <li>
           <StyledNavLink to="/final-results">
             <FaRegClipboard />
             <span>{STUDENTS_ITEMS.FINAL_RESULTS}</span>
           </StyledNavLink>
-        </li>
+        </li> */}
         <Button
           variation="secondary"
           size="custom"
