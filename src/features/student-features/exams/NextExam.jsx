@@ -3,6 +3,7 @@ import Button from "../../../ui/Button";
 import { toggleSidebar } from "../../../store/sideBarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useStartQuiz } from "./useStartQuiz";
 
 const Div = styled.div`
   display: flex;
@@ -212,14 +213,21 @@ const AdviceNumber = styled.span`
     font-size: 2.5rem !important;
   }
 `;
-function NextExam({ examGoal, startTime, endTime }) {
+function NextExam({ examGoal, startTime, endTime, examID }) {
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // handle toggle
+
+  const {
+    exam: { data },
+    isPending,
+  } = useStartQuiz(examID);
+  const exam = data;
+  console.log(exam);
   function handleToggle() {
     if (isSidebarOpen) dispatch(toggleSidebar());
-    navigate("/exams/1/1");
+    if (exam.status == "started") navigate(`/exams/${examID}/started`);
   }
 
   return (
@@ -251,9 +259,9 @@ function NextExam({ examGoal, startTime, endTime }) {
         </LabelDiv>
         <Breaker style={{ marginTop: "35px", width: "100%" }} />
         <LabelDetailsDiv>
-          <LabelDetails>{"لم يبدأ بعد"}</LabelDetails>
+          <LabelDetails>{exam.status}</LabelDetails>
           <LabelDetails>{"أعمال سنة"}</LabelDetails>
-          <LabelDetails>{"15 دقيقة"}</LabelDetails>
+          <LabelDetails>{`${exam.duration} دقيقة `}</LabelDetails>
           <LabelDetails style={{ borderLeft: "none" }}>
             {"مرة واحدة"}
           </LabelDetails>

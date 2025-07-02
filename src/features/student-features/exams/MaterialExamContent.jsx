@@ -3,6 +3,7 @@ import PervExam from "./PervExam";
 import NextExam from "./NextExam";
 import { useReadQuizzes } from "./useReadQuizzes";
 import { useParams } from "react-router-dom";
+import Spinner from "../../../ui/amr/Spinner";
 
 const Div = styled.div`
   display: flex;
@@ -41,7 +42,7 @@ const Divider = styled.div`
   margin: 10px 0;
 `;
 function MaterialExamContent() {
-  const { exams: data } = useReadQuizzes();
+  const { exams: data, isPending } = useReadQuizzes();
   const exams = data?.data;
   const { examId } = useParams(); // 👈 Get "3258" from URL
   const courseId = parseInt(examId.slice(-2)); // 👈 Extract last 2 digits (e.g., "58")
@@ -49,11 +50,17 @@ function MaterialExamContent() {
   const filteredFinishedExams = exams?.filter(
     (exam) => exam.course.id === courseId && exam.status === "finished"
   );
+
+  console.log(examId);
+  if (isPending) {
+    <Spinner />;
+  }
   // const prevExam =
   return (
     <Div>
       <NextExamsDiv>
         <NextExam
+          examID={examId}
           examGoal={
             " يركز الاختبار على قدرة الطالب على إنشاء الدوال واستخدامها داخل الفئات (Classes) بشكل فعال، مع فهم كيفية تمرير البيانات (Parameters) وإرجاع القيم (Return Values)."
           }
