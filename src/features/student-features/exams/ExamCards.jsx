@@ -58,8 +58,8 @@ function ExamCards() {
       {exams?.map((card, index) => (
         <StyledCard key={index}>
           <Img src={"../../../public/logo.png"} alt={"logo"} />
-          <H4>{card.title}</H4>
-          <H5>{card.teacher}</H5>
+          <H4>{card?.title}</H4>
+          <H5>{card?.teacher}</H5>
           <Br />
           <Div>
             <Button
@@ -69,7 +69,7 @@ function ExamCards() {
               paddingLeftRight="60px"
               styles={"border"}
               // navigateTo={`/exams/${card.id}${card.course.id}`}
-              navigateTo={`/exams/${card.id}`}
+              navigateTo={`/exams/${card?.id}`}
             >
               رؤيةالإختبارات
             </Button>
