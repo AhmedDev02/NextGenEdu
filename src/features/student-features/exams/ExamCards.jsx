@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
 import { useReadQuizzes } from "./useReadQuizzes";
+import Spinner from "../../../ui/amr/Spinner";
 
 const StyledCard = styled.div`
   width: 300px;
@@ -47,9 +48,11 @@ const Div = styled.div`
 `;
 
 function ExamCards() {
-  const { exams: data } = useReadQuizzes();
+  const { exams: data, isPending } = useReadQuizzes();
+
   const exams = data?.data;
   console.log(exams);
+  if (isPending) return <Spinner />;
   return (
     <Div>
       {exams?.map((card, index) => (

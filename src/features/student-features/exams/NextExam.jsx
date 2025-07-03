@@ -213,23 +213,23 @@ const AdviceNumber = styled.span`
     font-size: 2.5rem !important;
   }
 `;
-function NextExam({ examGoal, startTime, endTime, examID }) {
+function NextExam({ examGoal, startTime, endTime, examId }) {
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {
-    exam: { data },
-    isPending,
-  } = useStartQuiz(examID);
-  const exam = data;
+  const { exam: data, isPending } = useStartQuiz(examId);
+  console.log(data);
+  const exam = data?.data;
+
   console.log(exam);
   function handleToggle() {
     if (isSidebarOpen) dispatch(toggleSidebar());
-    if (exam.status == "started") navigate(`/exams/${examID}/started`);
+    console.log(exam?.status);
+    if (exam?.status == "started") navigate(`/exams/${examId}/started`);
   }
-
+  console.log(exam);
   return (
     <Div>
       <Container>
@@ -259,9 +259,9 @@ function NextExam({ examGoal, startTime, endTime, examID }) {
         </LabelDiv>
         <Breaker style={{ marginTop: "35px", width: "100%" }} />
         <LabelDetailsDiv>
-          <LabelDetails>{exam.status}</LabelDetails>
+          <LabelDetails>{exam?.status || "مجدول"}</LabelDetails>
           <LabelDetails>{"أعمال سنة"}</LabelDetails>
-          <LabelDetails>{`${exam.duration} دقيقة `}</LabelDetails>
+          <LabelDetails>{`${exam?.duration || 15} دقيقة `}</LabelDetails>
           <LabelDetails style={{ borderLeft: "none" }}>
             {"مرة واحدة"}
           </LabelDetails>

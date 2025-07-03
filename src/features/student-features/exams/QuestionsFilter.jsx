@@ -24,15 +24,18 @@ const Divider = styled.div`
 const H3 = styled.h3`
   text-align: start;
 `;
-function QuestionsFilter() {
+function QuestionsFilter({ questions }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const questionNumber = searchParams.get("questionNumber") || 1;
+  const questionNumber = Number(searchParams.get("questionNumber")) || 1;
+
   const updateQuestion = (newQuestion) => {
     setSearchParams({ questionNumber: newQuestion });
   };
-  const isFinished = searchParams.get("finished") || false;
 
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const isFinished = searchParams.get("finished") === "true";
+
+  // Dynamically generate question numbers
+  const data = Array.from({ length: questions?.length || 0 }, (_, i) => i + 1);
 
   return (
     <Div>
@@ -49,7 +52,7 @@ function QuestionsFilter() {
               background: !isFinished
                 ? question > questionNumber
                   ? "transparent"
-                  : +question === +questionNumber
+                  : question === questionNumber
                   ? "var(--color-primary-green)"
                   : "var(--color-secondary-darkblue)"
                 : "var(--color-secondary-darkblue)",
@@ -58,7 +61,6 @@ function QuestionsFilter() {
                   ? "var(--color-secondary-darkblue)"
                   : "#fff"
                 : "#fff",
-
               border: "none",
               outline: "none",
             }}
