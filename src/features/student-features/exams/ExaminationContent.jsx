@@ -54,13 +54,12 @@ const ExamDetailsDiv = styled.div`
   border-radius: 10px;
   margin-bottom: 20px;
 `;
-function ExaminationContent({ timeLeft }) {
+function ExaminationContent({ timeLeft, questions, examId }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const questionNumber = searchParams.get("questionNumber") || 1;
+  // const questionNumber = searchParams.get("questionNumber") || 1;
   const isFinished = searchParams.get("finished") || false;
-  console.log(isFinished);
+  console.log(questions);
 
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
     <Div>
       <ExamLogoDiv>
@@ -90,37 +89,18 @@ function ExaminationContent({ timeLeft }) {
           <P>الوقت المتبقي </P> {timeLeft}
         </Button>
       </ExamLogoDiv>
-      <QuestionsFilter />
+      <QuestionsFilter questions={questions} />
       <ExamDetailsDiv>
         {!isFinished ? (
-          <ExaminationQuestionsPage
-            examDetails={{
-              questionText:
-                "What is the main purpose of encapsulation in Object-Oriented Programming (OOP)?",
-
-              answers: [
-                {
-                  A: "To hide the implementation details of a class",
-                },
-                {
-                  B: "To make the code more readable",
-                },
-                {
-                  C: "To improve the performance of the code",
-                },
-                {
-                  D: "To make the code more secure",
-                },
-              ],
-              correctAnswer: "B",
-            }}
-          />
+          <ExaminationQuestionsPage examId={examId} examQuestions={questions} />
         ) : (
-          <ExaminationFinishForm />
+          <ExaminationFinishForm examId={examId} questions={questions} />
         )}
       </ExamDetailsDiv>
 
-      {!isFinished && <QuestionsButtons />}
+      {!isFinished && (
+        <QuestionsButtons examId={examId} questions={questions} />
+      )}
     </Div>
   );
 }

@@ -43,6 +43,7 @@ const Divider = styled.div`
 `;
 function MaterialExamContent() {
   const { exams: data, isPending } = useReadQuizzes();
+  console.log(data.data);
   const exams = data?.data;
   const { examId } = useParams(); // 👈 Get "3258" from URL
   const courseId = parseInt(examId.slice(-2)); // 👈 Extract last 2 digits (e.g., "58")
@@ -55,12 +56,11 @@ function MaterialExamContent() {
   if (isPending) {
     <Spinner />;
   }
-  // const prevExam =
   return (
     <Div>
       <NextExamsDiv>
         <NextExam
-          examID={examId}
+          examId={examId}
           examGoal={
             " يركز الاختبار على قدرة الطالب على إنشاء الدوال واستخدامها داخل الفئات (Classes) بشكل فعال، مع فهم كيفية تمرير البيانات (Parameters) وإرجاع القيم (Return Values)."
           }
