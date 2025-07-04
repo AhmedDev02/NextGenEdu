@@ -119,9 +119,9 @@ function App() {
             <Route
               path="/"
               element={
-                // <StudentProtector>
-                <StudentAppLayout />
-                // </StudentProtector>
+                <StudentProtector>
+                  <StudentAppLayout />
+                </StudentProtector>
               }
             >
               <Route index element={<Navigate replace to="news" />} />
@@ -167,9 +167,9 @@ function App() {
             <Route
               path="/admin"
               element={
-                // <Protector>
-                <AdminAppLayout />
-                // </Protector>
+                <Protector>
+                  <AdminAppLayout />
+                </Protector>
               }
             >
               <Route index element={<Navigate replace to="dashboard" />} />
@@ -236,9 +236,9 @@ function App() {
             <Route
               path="/super-admin"
               element={
-                // <Protector>
-                <SuperAdminAppLayout />
-                // </Protector>
+                <Protector>
+                  <SuperAdminAppLayout />
+                </Protector>
               }
             >
               <Route index element={<Navigate replace to="dashboard" />} />
@@ -268,9 +268,9 @@ function App() {
             <Route
               path="/sub-super-admin"
               element={
-                // <Protector>
-                <SubSuperAdminAppLayout />
-                // </Protector>
+                <Protector>
+                  <SubSuperAdminAppLayout />
+                </Protector>
               }
             >
               <Route index element={<Navigate replace to="dashboard" />} />
