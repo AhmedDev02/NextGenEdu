@@ -1,96 +1,77 @@
 import styled from "styled-components";
-import TableRow from "./TableRow";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 import { useReadTable } from "./useReadTable";
 import Spinner from "../../../ui/amr/Spinner";
+import TableRow from "./TableRow";
 import Empty from "../../../ui/amr/Empty";
 import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
 const TableContainer = styled.div`
+  width: 100%;
+  max-width: 1000px;
   margin: 0 auto;
-  width: 1000px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  gap: 3rem;
 `;
 
 const TableHeader = styled.div`
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   width: 100%;
-  height: auto;
   background-color: white;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   padding: 1rem;
-  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(7, 1fr);
-    padding: 0.8rem;
+    display: none;
   }
 `;
 
 const TableHeaderCell = styled.div`
-  background-color: #eb3958;
-  padding: 10px;
-  border-radius: 1.5rem;
-  box-shadow: var(--shadow-primary);
-  min-width: 8rem;
+  background-color: #ef4444;
+  padding: 1rem;
+  border-radius: 0.75rem;
   color: white;
-  font-family: "Changa";
+  font-family: "Changa", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--color-danger-red);
   text-align: center;
-  height: 5rem;
-
-  @media (max-width: 768px) {
-    padding: 8px;
-    min-width: 6rem;
-    font-size: 1rem;
-    height: auto;
-  }
+  font-size: 1.6rem;
+  font-weight: 600;
 `;
 
-const P = styled.p`
-  font-size: clamp(1.4rem, 2vw, 2rem);
-  font-weight: 500;
-  text-align: center;
-  margin: 0.5rem 0;
-`;
 const TableBody = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: auto;
+  margin-top: 2rem;
+  gap: 2rem;
 `;
+
 const DayHeaderRow = styled.div`
   background-color: #30bd58;
-  border-radius: 1.5rem;
-  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  margin-bottom: 0.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1.2rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 1.6rem;
-  font-weight: bold;
-  font-family: "Changa";
 `;
 
 const DayHeaderText = styled.p`
   margin: 0;
-  font-size: clamp(1.4rem, 2vw, 2rem);
-  font-weight: 500;
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: "Changa", sans-serif;
 `;
-const Div = styled.div`
-  margin-bottom: 3rem;
+
+const DayGroup = styled.div`
+  margin-bottom: 1rem;
 `;
 
 const arabicToEnglishDays = {
@@ -102,12 +83,11 @@ const arabicToEnglishDays = {
   السبت: "saturday",
 };
 
-function Table() {
+function StudentTable() {
   const { selectedDays } = useStudentProgressContext();
   const { tableData, isPending, error, refetch } = useReadTable();
 
   if (isPending) return <Spinner />;
-
   if (error) {
     return (
       <ErrorFallBack message="خطأ في عرض الجدول الدراسي" onRetry={refetch} />
@@ -116,9 +96,7 @@ function Table() {
   if (!tableData || tableData.data.length === 0) {
     return <Empty resourceName="معلومات" />;
   }
-  console.log(error);
   const groupedSessions = {};
-
   tableData.data.forEach((one) => {
     Object.entries(one.sessions || {}).forEach(([dayKey, daySessions]) => {
       const arabicDay = Object.keys(arabicToEnglishDays).find(
@@ -134,10 +112,7 @@ function Table() {
           groupedSessions[arabicDay] = [];
         }
         groupedSessions[arabicDay].push(
-          ...daySessions.map((session) => ({
-            ...session,
-            day: arabicDay,
-          }))
+          ...daySessions.map((session) => ({ ...session, day: arabicDay }))
         );
       }
     });
@@ -155,40 +130,28 @@ function Table() {
   return (
     <TableContainer>
       <TableHeader>
-        <TableHeaderCell>
-          <P>أسم المادة</P>
-        </TableHeaderCell>
-        <TableHeaderCell>
-          <P>من الساعة</P>
-        </TableHeaderCell>
-        <TableHeaderCell>
-          <P>حتي الساعة</P>
-        </TableHeaderCell>
-        <TableHeaderCell>
-          <P>النوع</P>
-        </TableHeaderCell>
-        <TableHeaderCell>
-          <P>المكان</P>
-        </TableHeaderCell>
-        <TableHeaderCell>
-          <P>الحالة</P>
-        </TableHeaderCell>
+        <TableHeaderCell>أسم المادة</TableHeaderCell>
+        <TableHeaderCell>من الساعة</TableHeaderCell>
+        <TableHeaderCell>حتي الساعة</TableHeaderCell>
+        <TableHeaderCell>النوع</TableHeaderCell>
+        <TableHeaderCell>المكان</TableHeaderCell>
+        <TableHeaderCell>الحالة</TableHeaderCell>
       </TableHeader>
 
       <TableBody>
         {orderedDays.map((day) => (
-          <Div key={day}>
+          <DayGroup key={day}>
             <DayHeaderRow>
               <DayHeaderText>{day}</DayHeaderText>
             </DayHeaderRow>
             {groupedSessions[day].map((session) => (
               <TableRow key={session.id} data={session} />
             ))}
-          </Div>
+          </DayGroup>
         ))}
       </TableBody>
     </TableContainer>
   );
 }
 
-export default Table;
+export default StudentTable;

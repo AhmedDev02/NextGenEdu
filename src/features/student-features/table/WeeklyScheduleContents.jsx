@@ -1,16 +1,22 @@
 import styled from "styled-components";
 import FilterButtons from "./FilterButton";
-import Table from "./Table";
+import StudentTable from "./StudentTable";
+
 const ScheduleContainer = styled.div`
-  padding: 20px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 function WeeklyScheduleContents() {
-
   return (
     <ScheduleContainer>
       <FilterButtons />
-      <Table />
+      <StudentTable />
     </ScheduleContainer>
   );
 }

@@ -14,13 +14,11 @@ import News from "./pages/student-pages/News";
 import EnrolledMaterials from "./pages/student-pages/EnrolledMaterials";
 import Material from "./features/student-features/materials/Material";
 
-import Chat from "./pages/student-pages/Chat";
 import Discussion from "./pages/student-pages/Discussion";
 import Exams from "./pages/student-pages/Exams";
 import FinalResults from "./pages/student-pages/FinalResults";
 import ProjectsTimeline from "./pages/student-pages/ProjectsTimeline";
 import StudentProfile from "./pages/student-pages/StudentProfile";
-import StudentProgress from "./pages/student-pages/StudentProgress";
 import Tasks from "./pages/student-pages/Tasks";
 import WeeklySchedule from "./pages/student-pages/WeeklySchedule";
 import Answers from "./features/student-features/discussion/Answers";

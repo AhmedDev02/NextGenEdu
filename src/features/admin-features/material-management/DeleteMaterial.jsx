@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import useDeleteMaterial from "./useDeleteMaterial";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const Container = styled.div`
   display: flex;
@@ -57,10 +59,17 @@ const Cancel = styled(ButtonBase)`
 const DeleteMaterial = ({ id, onCloseModal, courseId }) => {
   const { mutate: deleting, isPending: isDeleting } =
     useDeleteMaterial(courseId);
+  const queryClient = useQueryClient();
 
   const handleDelete = () => {
     deleting(id, {
-      onSuccess: () => onCloseModal?.(),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["materials", courseId] });
+        toast.success("تم حذف المادة بنجاح");
+      },
+      onError: (err) => {
+        toast.error(err || "حدث خطأ أثناء حذف المادة، يرجى المحاولة مرة أخرى");
+      },
     });
   };
 
