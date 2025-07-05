@@ -1,162 +1,174 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const FormContainer = styled.form`
-  min-width: 80%;
-  margin: auto;
-  border-radius: 12px;
-  padding-bottom: 50px;
-  font-family: "Changa", sans-serif;
-`;
+import QuizScheduler from "./QuizScheduler";
+import QuestionsBuilder from "./QuestionsBuilder";
+import {
+  FormContainer,
+  CreateContainer,
+  InputContainer,
+  Label,
+  Input,
+  Textarea,
+  P,
+  ControlledContainer,
+  Div,
+  ControlledInput,
+  SubmitButton,
+} from "./CreateQuizStyles";
+import "react-datepicker/dist/react-datepicker.css";
+import useCreateQuiz from "./useCreateQuiz";
 
-const Input = styled.input`
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow-primary);
-`;
+const formatTime = (date) => {
+  return date.toTimeString().split(" ")[0];
+};
 
-const Textarea = styled.textarea`
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  height: 120px;
-  resize: none;
-  font-size: 18px;
-  box-shadow: var(--shadow-primary);
-`;
-
-const Label = styled.label`
-  margin-bottom: 10px;
-  font-weight: 600;
-`;
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-width: 100%;
-  align-items: flex-start;
-`;
-const CreateContainer = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  min-width: 80%;
-  margin: auto;
-  border-radius: 12px;
-  /* padding-bottom: 50px; */
-  font-family: "Changa", sans-serif;
-`;
-
-const ControlledContainer = styled.div`
-  display: grid;
-  grid-template-columns: 0.5fr 0.5fr;
-  gap: 10px;
-  width: 100%;
-  min-width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
-`;
-const ControlledInput = styled.input`
-  min-width: 40%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  margin-bottom: 15px;
-  box-shadow: var(--shadow-primary);
-`;
-const Div = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-`;
+const formatDate = (date) => {
+  return date.toISOString().split("T")[0];
+};
 
 const CreateQuizContent = () => {
-  const [questions, setQuestions] = useState(10);
-  const [questionDegree, setQuestionDegree] = useState(2);
-  const [time, setTime] = useState(10);
+  const { id } = useParams();
 
-  const handleQuestionChange = (e) => {
-    setQuestions(Math.max(5, parseInt(e.target.value, 10)));
+  const { mutate: createQuizMutation, isCreating } = useCreateQuiz();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      duration: 10,
+      question_degree: 2,
+      startDate: new Date(),
+      endDate: new Date(new Date().getTime() + 10 * 60000),
+      questions: [],
+    },
+  });
+
+  const questionDegree = watch("question_degree");
+  const questionsCount = watch("questions").length;
+  const finalGrade = (questionsCount || 0) * (questionDegree || 0);
+  const durationInMinutes = watch("duration");
+  const startTime = watch("startDate");
+
+  useEffect(() => {
+    if (startTime && durationInMinutes > 0) {
+      const durationInMs = durationInMinutes * 60 * 1000;
+      const newEndDate = new Date(startTime.getTime() + durationInMs);
+      setValue("endDate", newEndDate, { shouldValidate: true });
+    }
+  }, [startTime, durationInMinutes, setValue]);
+  const onSubmit = (formData) => {
+    const data = {
+      course_id: id,
+      title: formData.title,
+      description: formData.description,
+      total_degree: finalGrade,
+      date: formatDate(formData.startDate),
+      start_time: formatTime(formData.startDate),
+      duration: formData.duration,
+      question_degree: formData.question_degree,
+      new_questions: formData.questions.map((question) => ({
+        question: question.text,
+        answers: question.options.map((option, index) => ({
+          answer: option.value,
+          is_correct: index === question.correctAnswerIndex ? 1 : 0,
+        })),
+      })),
+    };
+
+    createQuizMutation(data, {
+      onSuccess: () => reset(),
+    });
   };
-
-  const handleDegreeChange = (e) => {
-    setQuestionDegree(Math.max(0.5, parseFloat(e.target.value)));
-  };
-
-  const handleTimeChange = (e) => {
-    setTime(parseInt(e.target.value, 10));
-  };
-
-  const finalGrade = questions * questionDegree;
 
   return (
-    <CreateContainer>
-      <InputContainer>
-        <Label for="title">الخبر</Label>
-        <Input
-          name="title"
-          // value={details}
-          // onChange={(e) => setDetails(e.target.value)}
-          placeholder="أضف تفاصيل الخبر لتوضيح المعلومات للطلاب بشكل شامل ودقيق"
+    <FormContainer onSubmit={handleSubmit(onSubmit)}>
+      <CreateContainer>
+        <InputContainer>
+          <Label htmlFor="title">عنوان الكويز</Label>
+          <Input
+            id="title"
+            placeholder="ادخل عنواناً واضحاً للكويز"
+            {...register("title", { required: "يجب كتابة عنوان للكويز" })}
+            disabled={isCreating}
+          />
+          {errors.title && <P>{errors.title.message}</P>}
+        </InputContainer>
+        <InputContainer>
+          <Label htmlFor="description">وصف الكويز</Label>
+          <Textarea
+            id="description"
+            placeholder="أضف وصفاً موجزاً يوضح محتوى الكويز وأهدافه"
+            {...register("description", { required: "يجب كتابة وصف للكويز" })}
+            disabled={isCreating}
+          />
+          {errors.description && <P>{errors.description.message}</P>}
+        </InputContainer>
+        <ControlledContainer>
+          <Div>
+            <Label htmlFor="duration">تحديد الوقت (بالدقائق)</Label>
+            <ControlledInput
+              id="duration"
+              type="number"
+              min="1"
+              {...register("duration", { required: "يجب تحديد وقت الاختبار" })}
+              disabled={isCreating}
+            />
+            {errors.duration && <P>{errors.duration.message}</P>}
+          </Div>
+          <Div>
+            <Label htmlFor="question_degree">درجة السؤال</Label>
+            <ControlledInput
+              id="question_degree"
+              type="number"
+              min="0.5"
+              step="0.5"
+              {...register("question_degree", {
+                required: "يجب اختيار درجة لكل سؤال",
+              })}
+              disabled={isCreating}
+            />
+            {errors.question_degree && <P>{errors.question_degree.message}</P>}
+          </Div>
+          <Div>
+            <Label htmlFor="questions_count">عدد الأسئلة</Label>
+            <ControlledInput
+              id="questions_count"
+              value={questionsCount}
+              readOnly
+            />
+          </Div>
+          <Div>
+            <Label htmlFor="final_grade">الدرجة النهائية</Label>
+            <ControlledInput id="final_grade" value={finalGrade} readOnly />
+          </Div>
+          <QuizScheduler
+            control={control}
+            watch={watch}
+            setValue={setValue}
+            errors={errors}
+          />
+        </ControlledContainer>
+        <QuestionsBuilder
+          control={control}
+          register={register}
+          watch={watch}
+          setValue={setValue}
         />
-      </InputContainer>
-      <InputContainer>
-        <Label for="description">الخبر</Label>
-        <Textarea
-          name="description"
-          // value={details}
-          // onChange={(e) => setDetails(e.target.value)}
-          placeholder="أضف تفاصيل الخبر لتوضيح المعلومات للطلاب بشكل شامل ودقيق"
-        />
-      </InputContainer>
-      <ControlledContainer>
-        <Div>
-          <Label for="time">تحديد الوقت</Label>
-          <ControlledInput
-            name="time"
-            type="number"
-            value={time}
-            onChange={handleTimeChange}
-            min="0"
-          />
-        </Div>
-        <Div>
-          <Label for="QuestionsNumber">عدد الأسئلة</Label>
-          <ControlledInput
-            name="QuestionsNumber"
-            type="number"
-            value={questions}
-            onChange={handleQuestionChange}
-            min="5"
-            step="5"
-          />
-        </Div>
-
-        <Div>
-          <Label for="grade">درجة السؤال</Label>
-          <ControlledInput
-            name="grade"
-            type="number"
-            value={questionDegree}
-            onChange={handleDegreeChange}
-            min="0.5"
-            step="0.5"
-          />
-        </Div>
-        <Div>
-          <Label for="final">الدرجة النهائية</Label>
-          <ControlledInput
-            name="final"
-            value={finalGrade || "حدد عدد الأسئلة"}
-            readonly
-          ></ControlledInput>
-        </Div>
-      </ControlledContainer>
-    </CreateContainer>
+        <SubmitButton type="submit" disabled={isCreating}>
+          {isCreating ? "جاري الإنشاء..." : "!نشر"}
+        </SubmitButton>
+      </CreateContainer>
+    </FormContainer>
   );
 };
 

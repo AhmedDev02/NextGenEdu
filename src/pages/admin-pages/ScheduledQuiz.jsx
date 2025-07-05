@@ -8,7 +8,7 @@ const ScheduledQuiz = () => {
       <ContentHeader
         title={ADMIN_PAGES_PROPERTIES.SCHEDULED_QUIZ.title}
         description={ADMIN_PAGES_PROPERTIES.SCHEDULED_QUIZ.description}
-        button={false}
+        button={true}
       />
       <ScheduledQuizContent />
     </>

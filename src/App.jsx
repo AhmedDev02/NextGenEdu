@@ -41,7 +41,6 @@ import AdminProfile from "./pages/admin-pages/AdminProfile";
 import CreateQuiz from "./pages/admin-pages/CreateQuiz";
 import LastQuiz from "./pages/admin-pages/LastQuiz";
 import ScheduledQuiz from "./pages/admin-pages/ScheduledQuiz";
-import QuizResult from "./pages/admin-pages/QuizResult";
 import TasksResults from "./pages/admin-pages/TasksResults";
 
 import SuperAdminDashboard from "./pages/super-admin-pages/SuperAdminDashboard";
@@ -82,6 +81,10 @@ import SubSuperAdminAppLayout from "./ui/SubSuperAdminAppLayout";
 import SubSuperAdminProfile from "./pages/sub-super-admin-pages/SubSuperAdminProfile";
 import SubSuperAdminDashboard from "./pages/sub-super-admin-pages/SubSuperAdminDashboard";
 import SubSuperAdminUsersManagement from "./pages/sub-super-admin-pages/SubSuperAdminUsersManagement";
+import QuizDetailsPage from "./pages/admin-pages/QuizDetailsPage";
+import QuizResultPage from "./pages/admin-pages/QuizResultPage";
+import StudentAnswersPage from "./pages/admin-pages/StudentAnswersPage";
+import EditQuizPage from "./pages/admin-pages/editQuizPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -196,8 +199,20 @@ function App() {
                 element={<ScheduledQuiz />}
               />
               <Route
-                path="quizzes/old-quizzes/1/result"
-                element={<QuizResult />}
+                path="quizzes/scheduled-quizzes/:id/edit-quiz/:quizId"
+                element={<EditQuizPage />}
+              />
+              <Route
+                path="quizzes/old-quizzes/:id/results/:quizId"
+                element={<QuizResultPage />}
+              />
+              <Route
+                path="quizzes/old-quizzes/:id/results/:quizId/:studentId"
+                element={<StudentAnswersPage />}
+              />
+              <Route
+                path="quizzes/scheduled-quizzes/:id/quiz-details/:quizId"
+                element={<QuizDetailsPage />}
               />
               <Route path="quizzes/old-quizzes/:id" element={<LastQuiz />} />
               <Route path="students" element={<StudentsManagement />} />
