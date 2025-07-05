@@ -5,6 +5,7 @@ import { useAddQuestion } from "./useAddQuestion";
 // import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const StyledExamModal = styled.div`
   height: auto;
@@ -44,19 +45,25 @@ const StyledTextarea = styled.textarea`
 `;
 
 function AddQuestionModalWindow({ onCloseModal }) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm(); // Add reset
   const { mutate: addQuestion, isPending } = useAddQuestion();
   const queryClient = useQueryClient();
 
   const onSubmit = (data) => {
     const body = data.question?.trim();
     if (!body) return;
+
     addQuestion(
       { body },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries(["questions"]);
-          onCloseModal?.();
+          toast.success("تم إرسال السؤال بنجاح");
+          queryClient.invalidateQueries({ queryKey: ["questions"] });
+          onCloseModal();
+          reset();
+        },
+        onError: (err) => {
+          toast.error(err.message || "حدث خطأ أثناء إرسال السؤال");
         },
       }
     );
@@ -71,14 +78,19 @@ function AddQuestionModalWindow({ onCloseModal }) {
           placeholder="اسأل سؤالاً..."
           {...register("question", { required: true })}
           rows={3}
-        />{" "}
+          disabled={isPending}
+        />
         {!isPending ? (
           <Divider>
-            <Button variation="primary" size="small" onClick={handleSubmit}>
+            <Button variation="primary" size="small" type="submit">
               إرسال
             </Button>
-
-            <Button variation="transparent" size="small" onClick={onCloseModal}>
+            <Button
+              type="button"
+              variation="transparent"
+              size="small"
+              onClick={onCloseModal}
+            >
               إلغاء
             </Button>
           </Divider>

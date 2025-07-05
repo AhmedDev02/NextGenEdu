@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import QuizScheduler from "./QuizScheduler";
 import QuestionsBuilder from "./QuestionsBuilder";

@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import styled, { css } from "styled-components";
 import { useMaterial } from "./useMaterial";
 import Spinner from "../../../ui/amr/Spinner";
 import Accordion from "../../../ui/amr/Accordion";
-import styled, { css } from "styled-components";
 import SingleMaterialContent from "./SingleMaterialContent";
 import { useState } from "react";
 import Empty from "../../../ui/amr/Empty";
@@ -16,30 +16,31 @@ const FILTERS = [
 ];
 
 const FilterButton = styled.button`
-  padding: ${({ padding }) => padding || "8px 16px"};
-  border: ${({ border }) => border || "2px solid var(--color-grey-500)"};
-  border-radius: ${({ borderRadius }) => borderRadius || "20px"};
-  cursor: pointer;
-  transition: all 0.3s ease;
-  user-select: none;
-  font-family: "Changa";
   font-size: 1.4rem;
+  font-family: "Changa", sans-serif;
   text-align: center;
-  background-color: transparent;
-  color: #353434;
-
-  &:hover {
-    background-color: #e0f7e9;
-  }
+  user-select: none;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  flex-grow: 1;
+  min-width: 110px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #374151;
 
   ${({ active }) =>
     active &&
     `
-    border: 2px solid #34ad5d;
-    background-color: var(--color-active);
-    color: #34ad5d;
+    border-color: #10b981;
+    background-color: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
   `}
-  &:focus {
+
+  &:focus,
+  &:focus-visible {
     outline: none;
   }
 
@@ -48,20 +49,6 @@ const FilterButton = styled.button`
     css`
       ${styles}
     `}
-
-  @media (max-width: 900px) {
-    font-size: 1.1rem;
-    width: 9rem;
-    padding: 8px 8px;
-  }
-
-  @media (max-width: 600px) {
-    font-size: 1rem;
-    width: auto;
-    min-width: 7rem;
-    padding: 6px 10px;
-    margin-bottom: 0.5rem;
-  }
 `;
 
 const FilterButtonsContainer = styled.div`
@@ -70,13 +57,7 @@ const FilterButtonsContainer = styled.div`
   padding: 10px 0;
   flex-wrap: wrap;
   justify-content: flex-start;
-
-  @media (max-width: 600px) {
-    flex-direction: row;
-    gap: 0.5rem;
-    width: 100%;
-    /* Remove align-items: stretch and flex-direction: column */
-  }
+  width: 100%;
 `;
 
 const MainContainer = styled.div`
@@ -140,11 +121,16 @@ const MaterialDetails = () => {
           </FilterButton>
         ))}
       </FilterButtonsContainer>
-      {Object.entries(groupedByWeek).map(([week, items]) => (
-        <Accordion key={week} type="week" title={`الأسبوع ${week}`}>
-          <SingleMaterialContent data={filterItems(items)} />
-        </Accordion>
-      ))}
+      {Object.entries(groupedByWeek).map(([week, items]) => {
+        const filteredItems = filterItems(items);
+        if (filteredItems.length === 0) return null;
+
+        return (
+          <Accordion key={week} type="week" title={`الأسبوع ${week}`}>
+            <SingleMaterialContent data={filteredItems} />
+          </Accordion>
+        );
+      })}
     </MainContainer>
   );
 };

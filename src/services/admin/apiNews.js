@@ -22,7 +22,7 @@ export async function updateAnnouncement(announcementId, updatedData, token) {
     return response.data;
   } catch (error) {
     console.log("Error updating ", error.response.data);
-    throw new Error(error.message);
+    throw error;
   }
 }
 

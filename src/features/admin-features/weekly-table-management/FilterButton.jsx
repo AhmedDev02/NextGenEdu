@@ -36,11 +36,6 @@ const FilterButton = styled.button`
     font-weight: 600;
   `}
 
-  &:hover:not(:disabled) {
-    background-color: #f3f4f6;
-    border-color: #9ca3af;
-  }
-
   &:focus {
     outline: none;
   }
