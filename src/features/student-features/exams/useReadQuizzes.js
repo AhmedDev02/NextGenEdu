@@ -9,7 +9,7 @@ export function useReadQuizzes() {
     isPending,
     error,
   } = useQuery({
-    queryKey: ["News", token],
+    queryKey: ["quizzes", token],
     queryFn: () => getQuizzes(token),
   });
   return { exams, isPending, error };

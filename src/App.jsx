@@ -85,6 +85,7 @@ import QuizDetailsPage from "./pages/admin-pages/QuizDetailsPage";
 import QuizResultPage from "./pages/admin-pages/QuizResultPage";
 import StudentAnswersPage from "./pages/admin-pages/StudentAnswersPage";
 import EditQuizPage from "./pages/admin-pages/editQuizPage";
+import MaintenancePage from "./pages/general-pages/MaintenancePage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -138,7 +139,8 @@ function App() {
                 element={<Material />}
               />
 
-              <Route path="chat" element={<Chat />} />
+              {/* <Route path="chat" element={<Chat />} /> */}
+              <Route path="chat" element={<MaintenancePage />} />
 
               <Route path="discussion" element={<Discussion />} />
               <Route path="discussion/:questionID" element={<Answers />} />
@@ -147,6 +149,7 @@ function App() {
               <Route path="projects-timeline" element={<ProjectsTimeline />} />
 
               <Route path="exams" element={<Exams />} />
+              {/* <Route path="exams" element={<MaintenancePage />} /> */}
               <Route path="exams/:examId" element={<Exam />} />
 
               <Route
@@ -155,7 +158,10 @@ function App() {
               />
               <Route path="tasks" element={<Tasks />} />
               <Route path="tasks/:courseId" element={<TaskPage />} />
-              <Route path="student-progress" element={<StudentProgress />} />
+
+              {/* <Route path="student-progress" element={<StudentProgress />} /> */}
+              <Route path="student-progress" element={<MaintenancePage />} />
+
               <Route path="final-results" element={<FinalResults />} />
               <Route path="profile" element={<StudentProfile />} />
             </Route>
@@ -175,7 +181,9 @@ function App() {
               <Route path="dashboard/:curriculumId" element={<Curriculum />} />
 
               <Route path="profile" element={<AdminProfile />} />
-              <Route path="discussion" element={<DiscussionManagement />} />
+              {/* <Route path="discussion" element={<DiscussionManagement />} /> */}
+              <Route path="discussion" element={<MaintenancePage />} />
+
               <Route path="final-result" element={<FinalResultsManagement />} />
               <Route path="materials" element={<MaterialsManagement />} />
               <Route
@@ -189,11 +197,14 @@ function App() {
               <Route path="news" element={<NewsManagement />} />
               <Route path="news/add" element={<AddNews />} />
 
-              <Route path="quizzes" element={<QuizzesManagement />} />
+              {/* <Route path="quizzes" element={<QuizzesManagement />} /> */}
+              <Route path="quizzes" element={<MaintenancePage />} />
+
               <Route
                 path="quizzes/create-quizzes/:id"
                 element={<CreateQuiz />}
               />
+
               <Route
                 path="quizzes/scheduled-quizzes/:id"
                 element={<ScheduledQuiz />}

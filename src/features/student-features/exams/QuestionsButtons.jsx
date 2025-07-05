@@ -1,6 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../../ui/Button";
+import { useDispatch } from "react-redux";
+import { clearAnswer } from "../../../store/answersSlice";
 
 const Div = styled.div`
   display: flex;
@@ -16,19 +18,30 @@ const Div = styled.div`
   margin-bottom: 10px;
 `;
 
-function QuestionsButtons() {
+function QuestionsButtons({ questions, examId }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const questionNumber = searchParams.get("questionNumber") || 1;
   // const isFinished = searchParams.get("finished") || false;
   const updateQuestion = (newQuestion) => {
     setSearchParams({ questionNumber: newQuestion });
   };
+  const dispatch = useDispatch();
+  const currentQuestion = questions[questionNumber - 1];
+
+  const handleClear = () => {
+    dispatch(
+      clearAnswer({
+        examId,
+        questionId: currentQuestion.id,
+      })
+    );
+  };
 
   const finishExam = () => {
     setSearchParams({ finished: true });
   };
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+  const data = questions;
   return (
     <Div>
       <Button
@@ -44,7 +57,7 @@ function QuestionsButtons() {
         السابق
       </Button>
       <Button
-        onClick={() => console.log("question")}
+        onClick={handleClear}
         variation="secondary"
         size="medium"
         style={{

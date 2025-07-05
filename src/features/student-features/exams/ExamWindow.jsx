@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
+import { useSubmitQuiz } from "./useSubmitQuiz";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const StyledExamModal = styled.div`
   height: auto;
@@ -26,13 +29,37 @@ const text = `
               "إلغاء" للعودة ومراجعتها.
 `;
 
-function ExamWindow({ onCloseModal, onConfirm }) {
+function ExamWindow({ onCloseModal, onConfirm, answers }) {
+  const { examId } = useParams();
+  const allAnswers = useSelector((state) => state.answers?.[examId] || {});
+  const { mutate: submitQuiz, isPending, isSuccess, error } = useSubmitQuiz();
+
+  const handleSubmit = () => {
+    const formattedAnswers = Object.entries(answers).map(
+      ([questionId, answerId]) => ({
+        question: questionId,
+        answer: answerId,
+      })
+    );
+
+    submitQuiz(
+      { quizId: examId, answers: formattedAnswers },
+      {
+        onSuccess: () => {
+          onConfirm?.(); // Optional callback
+        },
+        onError: (err) => {
+          console.error("Submission failed", err);
+        },
+      }
+    );
+  };
   return (
     <StyledExamModal>
       <H4> 🔔 إرسال جميع الإجابات والإنهاء؟</H4>
       <H5> {text}</H5>
       <Divider>
-        <Button variation="primary" size="small" onClick={onConfirm}>
+        <Button variation="primary" size="small" onClick={handleSubmit}>
           تأكيد
         </Button>
         <Button variation="transparent" size="small" onClick={onCloseModal}>

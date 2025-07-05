@@ -4,6 +4,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../../../store/sideBarSlice";
 import ExamModal from "./ExamModal";
+import { markSubmitted } from "../../../store/statusSlice";
 
 const Div = styled.div`
   display: flex;
@@ -57,17 +58,20 @@ const H4 = styled.h4`
   font-size: 1.5rem;
 `;
 
-function ExaminationFinishForm() {
+function ExaminationFinishForm({ questions, examId }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
   const navigate = useNavigate();
-  const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const answers = useSelector((state) => state.answers?.[examId] || {});
 
   const finishExam = () => {
+    navigate(-1);
     setSearchParams({ finished: false });
   };
+
   const examIsFinished = () => {
+    dispatch(markSubmitted({ examId }));
     if (!isSidebarOpen) dispatch(toggleSidebar());
     navigate("/exams/");
   };
@@ -78,7 +82,7 @@ function ExaminationFinishForm() {
         <H4>
           مازال متبقي وقت، يمكنك العودة إلى انتهاء الوقت المحدد للإختبار !
         </H4>
-        <Button variation="danger" navigateTo={-1} onCLick={() => finishExam()}>
+        <Button variation="danger" onClick={() => finishExam()}>
           العودة إلى الإختبار!
         </Button>
       </Reminder>
@@ -103,23 +107,20 @@ function ExaminationFinishForm() {
             الحالة
           </QuestionStat>
         </Row>
-        {data.map((question, index) => (
-          <Row key={index}>
-            <Question> السؤال رقم: {question}</Question>
-            <QuestionStat
-              style={{
-                color: index === 3 || index === 8 ? "red" : "green",
-              }}
-            >
-              {index !== 3 && index !== 8
-                ? "تم حفظ الإجابة"
-                : "لم يتم حفظ الإجابة"}
-            </QuestionStat>
-          </Row>
-        ))}
+        {questions.map((q, index) => {
+          const answered = String(q.id) in answers;
+          return (
+            <Row key={q.id}>
+              <Question>السؤال رقم: {index + 1}</Question>
+              <QuestionStat style={{ color: answered ? "green" : "red" }}>
+                {answered ? "تم حفظ الإجابة" : "لم يتم حفظ الإجابة"}
+              </QuestionStat>
+            </Row>
+          );
+        })}
       </Container>
 
-      <ExamModal onConfirm={() => examIsFinished()} />
+      <ExamModal answers={answers} onConfirm={() => examIsFinished()} />
     </Div>
   );
 }

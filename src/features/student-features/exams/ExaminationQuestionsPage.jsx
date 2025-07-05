@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import { clearAnswer, setAnswer } from "../../../store/answersSlice";
 
 const Div = styled.div`
   direction: ltr;
@@ -45,35 +47,59 @@ const Input = styled.input`
     background-color: #252e45; /* Dark blue */
   }
 `;
-
-function ExaminationQuestionsPage({ examDetails }) {
-  const { questionText, answers, correctAnswer } = examDetails;
+function ExaminationQuestionsPage({ examQuestions, examId }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const questionNumber = searchParams.get("questionNumber") || 1;
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const questionNumber = Number(searchParams.get("questionNumber")) || 1;
+  const dispatch = useDispatch();
+
+  // ✅ Fix: define this before using it below
+  const currentQuestion = examQuestions[questionNumber - 1];
+
+  const selectedAnswer = useSelector(
+    (state) => state.answers?.[examId]?.[currentQuestion?.id]
+  );
+  const isSubmitted = useSelector((state) => state.status?.[examId]?.submitted);
+
+  const optionLabels = ["A", "B", "C", "D"];
+
+  if (!currentQuestion) return <p>No question found.</p>;
+
+  const handleSelect = (answerId) => {
+    if (!isSubmitted) {
+      dispatch(
+        setAnswer({
+          examId,
+          questionId: currentQuestion.id,
+          answerId,
+        })
+      );
+    }
+  };
+
   return (
     <Div>
       <ExamQuestionDiv>
         <H4>Question {questionNumber}</H4>
-        <ExamQuestion>{questionText}</ExamQuestion>
+        <ExamQuestion>{currentQuestion?.question}</ExamQuestion>
       </ExamQuestionDiv>
+
       <ExamAnswersUl>
-        {answers.map((answer, index) => {
-          const key = Object.keys(answer)[0]; // Extract "A", "B", "C", or "D"
-          const value = answer[key]; // Extract the answer text
+        {currentQuestion?.answers?.map((answer, index) => {
+          const label = optionLabels[index] || `Option ${index + 1}`;
           return (
             <ExamAnswer
-              key={index}
-              selected={selectedAnswer === key}
-              onClick={() => setSelectedAnswer(key)}
+              key={answer.id}
+              selected={selectedAnswer === answer.id}
+              onClick={() => handleSelect(answer.id)}
             >
               <Input
                 type="radio"
-                name="answer"
-                checked={selectedAnswer === key}
-                onChange={() => setSelectedAnswer(key)}
+                name={`question-${currentQuestion.id}`}
+                checked={selectedAnswer === answer.id}
+                onChange={() => handleSelect(answer.id)}
+                disabled={isSubmitted}
               />
-              {`${key}) ${value}`}
+              {`${label}) ${answer.answer}`}
             </ExamAnswer>
           );
         })}
@@ -81,5 +107,4 @@ function ExaminationQuestionsPage({ examDetails }) {
     </Div>
   );
 }
-
 export default ExaminationQuestionsPage;

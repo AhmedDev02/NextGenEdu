@@ -10,7 +10,7 @@ const ExamButton = styled.div`
   width: 100%;
 `;
 
-function ExamModal({ onConfirm, onCloseModal }) {
+function ExamModal({ onConfirm, onCloseModal, answers }) {
   return (
     <div>
       <Modal>
@@ -26,7 +26,11 @@ function ExamModal({ onConfirm, onCloseModal }) {
           </ExamButton>
         </Modal.Open>
         <Modal.Window name="submit-exam">
-          <ExamWindow onConfirm={onConfirm} onCloseModal={onCloseModal} />
+          <ExamWindow
+            answers={answers}
+            onConfirm={onConfirm}
+            onCloseModal={onCloseModal}
+          />
         </Modal.Window>
       </Modal>
     </div>
