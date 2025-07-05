@@ -1,58 +1,53 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { days } from "./data";
 import { useStudentProgressContext } from "../../../context/StudentProgressProvider";
 
 const ButtonsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  width: 1000px;
-  gap: 20px;
-  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 `;
 
 const FilterButton = styled.button`
   font-size: 1.4rem;
-  font-family: "Changa";
+  font-family: "Changa", sans-serif;
   text-align: center;
   user-select: none;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
-
-  width: 12rem;
   flex-grow: 1;
-  padding: 5px 12px;
-  border-radius: 3rem;
-
-  border: 2px solid var(--color-grey-500);
-  background-color: #eae8e8;
-  color: #353434;
+  min-width: 110px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #374151;
 
   ${({ active }) =>
     active &&
     `
-    border: 2px solid #34ad5d;
-    background-color: var(--color-active, #c9fad7);
-    color: #06722c;
+    border-color: #10b981;
+    background-color: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
   `}
 
-  &:hover {
-    background-color: #e0f7e9;
+  &:hover:not(:disabled) {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
   }
 
   &:focus {
     outline: none;
   }
 
-  @media (max-width: 600px) {
-    font-size: 1rem;
-    padding: 6px 10px;
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3);
   }
-
-  ${({ styles }) =>
-    styles &&
-    css`
-      ${styles}
-    `}
 `;
 
 function FilterButtons() {
@@ -63,6 +58,7 @@ function FilterButtons() {
       prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
     );
   };
+
   return (
     <ButtonsContainer>
       {days.map((day, index) => (

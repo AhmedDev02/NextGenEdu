@@ -199,8 +199,8 @@ const AddNewsContent = () => {
           reset();
           navigate("/admin/news");
         },
-        onError: () => {
-          toast.error("حدث خطأ اثناء اضافة الخبر:");
+        onError: (err) => {
+          toast.error(err.message || "حدث خطأ اثناء اضافة الخبر:");
         },
       }
     );

@@ -202,9 +202,10 @@ const EditMaterial = ({ data, onCloseModal }) => {
           queryClient.invalidateQueries({ queryKey: ["materials", courseId] });
           onCloseModal?.();
         },
-        onError: (error) => {
-          console.error("Error updating material:", error);
-          toast.error("حدث خطأ أثناء تحديث المادة، يرجى المحاولة مرة أخرى");
+        onError: (err) => {
+          toast.error(
+            err.message || "حدث خطأ أثناء تحديث المادة، يرجى المحاولة مرة أخرى"
+          );
         },
       }
     );

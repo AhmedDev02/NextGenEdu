@@ -1,111 +1,123 @@
-import { GoDotFill } from "react-icons/go";
 import styled from "styled-components";
+import { GoDotFill } from "react-icons/go";
 
 const TableRowContainer = styled.div`
   background-color: white;
-  border-radius: 2rem;
-  box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.1);
-  overflow-x: auto;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1rem;
+  overflow: hidden;
+
+  @media (min-width: 769px) {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+    text-align: center;
+  }
 `;
 
-const TableSmallRow = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  align-items: center;
-  text-align: center;
+const Cell = styled.div`
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #374151;
+
+  @media (min-width: 769px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    min-height: 60px;
+    border-left: 1px solid #f3f4f6;
+    &:first-child {
+      border-left: none;
+    }
+  }
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(6, 1fr);
-    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid #f3f4f6;
+    &:last-child {
+      border-bottom: none;
+    }
   }
 `;
 
-const TableSmallRowCell = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 1rem;
-  height: 100%;
-  color: black;
-  border: 1px solid #e0e0e0;
+const CellLabel = styled.span`
+  font-weight: 600;
+  color: #6b7280;
 
-  &:last-child {
-    border-right: none;
+  @media (min-width: 769px) {
+    display: none;
   }
-
-  ${({ type }) =>
-    type === "day" &&
-    `
-    background-color: #30BD58;
-    color: white;
-    border-top-right-radius: 2rem;
-    border-bottom-right-radius: 2rem;
-  `}
 `;
 
-const P = styled.p`
-  font-size: clamp(1.2rem, 1.4rem, 1.6rem);
+const CellContent = styled.div`
+  font-family: "Changa", sans-serif;
   font-weight: 500;
-  text-align: center;
-  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #374151;
 `;
 
 const Icon = styled(GoDotFill)`
+  font-size: 2rem;
   color: ${({ type }) =>
     type === "inTime"
-      ? "green"
+      ? "#22c55e"
       : type === "postpone"
-      ? "yellow"
+      ? "#f59e0b"
       : type === "cancel"
-      ? "red"
-      : "black"};
-  font-size: 1.8rem;
+      ? "#ef4444"
+      : "#6b7280"};
 `;
+
 function TableRow({ data }) {
   const { course, status, from, to, hall, type } = data;
-  const updatedStatus = status;
   const formatTime = (timeStr) => timeStr.split(":").slice(0, 2).join(":");
+
+  const statusMap = {
+    "in time": { text: "في موعدها", type: "inTime" },
+    "تم التأجيل": { text: "تم التأجيل", type: "postpone" },
+    "تم الالغاء": { text: "تم الالغاء", type: "cancel" },
+  };
+
+  const currentStatus = statusMap[status] || statusMap["تم الالغاء"];
 
   return (
     <TableRowContainer>
-      <TableSmallRow>
-        <TableSmallRowCell>
-          <P>{course}</P>
-        </TableSmallRowCell>
-        <TableSmallRowCell>
-          <P>{formatTime(from)} صباحا</P>
-        </TableSmallRowCell>
-        <TableSmallRowCell>
-          <P>{formatTime(to)} صباحا</P>
-        </TableSmallRowCell>
-        <TableSmallRowCell>
-          <P>{type}</P>
-        </TableSmallRowCell>
-        <TableSmallRowCell>
-          <P>{hall.hall_code}</P>
-        </TableSmallRowCell>
-        <TableSmallRowCell>
-          {updatedStatus === "in time" ? (
-            <>
-              <Icon type="inTime" />
-              <P>في موعدها</P>
-            </>
-          ) : updatedStatus === "تم التأجيل" ? (
-            <>
-              <Icon type="postpone" />
-              <P>تم التأجيل</P>
-            </>
-          ) : (
-            <>
-              <Icon type="cancel" />
-              <P>تم الالغاء</P>
-            </>
-          )}
-        </TableSmallRowCell>
-      </TableSmallRow>
+      <Cell>
+        <CellLabel>أسم المادة</CellLabel>
+        <CellContent>{course}</CellContent>
+      </Cell>
+      <Cell>
+        <CellLabel>من الساعة</CellLabel>
+        <CellContent>{formatTime(from)} صباحا</CellContent>
+      </Cell>
+      <Cell>
+        <CellLabel>حتي الساعة</CellLabel>
+        <CellContent>{formatTime(to)} صباحا</CellContent>
+      </Cell>
+      <Cell>
+        <CellLabel>النوع</CellLabel>
+        <CellContent>{type}</CellContent>
+      </Cell>
+      <Cell>
+        <CellLabel>المكان</CellLabel>
+        <CellContent>{hall.hall_code}</CellContent>
+      </Cell>
+      <Cell>
+        <CellLabel>الحالة</CellLabel>
+        <CellContent>
+          <Icon type={currentStatus.type} />
+          {currentStatus.text}
+        </CellContent>
+      </Cell>
     </TableRowContainer>
   );
 }
+
 export default TableRow;

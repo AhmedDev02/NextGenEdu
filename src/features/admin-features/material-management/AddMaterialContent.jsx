@@ -100,8 +100,10 @@ const AddMaterialContent = () => {
           setSelectedFile(null);
           reset();
         },
-        onError: () => {
-          toast.error("حدث خطأ أثناء إضافة الملف، يرجى المحاولة مرة أخرى");
+        onError: (err) => {
+          toast.error(
+            err.message || "حدث خطأ أثناء إضافة الملف، يرجى المحاولة مرة أخرى"
+          );
         },
       }
     );

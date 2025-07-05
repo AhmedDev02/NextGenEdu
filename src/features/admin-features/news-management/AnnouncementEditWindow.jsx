@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useUpdateAnnouncement } from "./useUpdateAnnouncement";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const FormContainer = styled.div`
   width: 100%;
@@ -113,6 +115,7 @@ function AnnouncementEditWindow({ selectedAnnouncement, onCloseModal }) {
     formState: { errors },
     setValue,
   } = useForm();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useUpdateAnnouncement();
 
@@ -137,7 +140,12 @@ function AnnouncementEditWindow({ selectedAnnouncement, onCloseModal }) {
       },
       {
         onSuccess: () => {
-          onCloseModal?.();
+          queryClient.invalidateQueries(["announcements"]);
+          toast.success("تم تعديل الخبر بنجاح");
+          onCloseModal();
+        },
+        onError: (err) => {
+          toast.error(err.message || "حدث خطأ اثناء تحديث الخبر:");
         },
       }
     );
