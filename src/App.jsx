@@ -84,7 +84,7 @@ import SubSuperAdminUsersManagement from "./pages/sub-super-admin-pages/SubSuper
 import QuizDetailsPage from "./pages/admin-pages/QuizDetailsPage";
 import QuizResultPage from "./pages/admin-pages/QuizResultPage";
 import StudentAnswersPage from "./pages/admin-pages/StudentAnswersPage";
-import EditQuizPage from "./pages/admin-pages/editQuizPage";
+import EditQuizPage from "./pages/admin-pages/EditQuizPage";
 import MaintenancePage from "./pages/general-pages/MaintenancePage";
 
 const queryClient = new QueryClient({
