@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Button from "../../../ui/Button";
 import { useReadQuizzes } from "./useReadQuizzes";
 import Spinner from "../../../ui/amr/Spinner";
+import { groupExamsByCourse } from "../../../utils/helpers";
 
 const StyledCard = styled.div`
   width: 300px;
@@ -51,14 +52,15 @@ function ExamCards() {
   const { exams: data, isPending } = useReadQuizzes();
 
   const exams = data?.data;
-  console.log(exams);
+
   if (isPending) return <Spinner />;
+  const finalData = groupExamsByCourse(exams);
   return (
     <Div>
-      {exams?.map((card, index) => (
+      {finalData?.map((card, index) => (
         <StyledCard key={index}>
           <Img src={"../../../public/logo.png"} alt={"logo"} />
-          <H4>{card?.title}</H4>
+          <H4>{card?.course?.name}</H4>
           <H5>{card?.teacher}</H5>
           <Br />
           <Div>
@@ -68,8 +70,7 @@ function ExamCards() {
               paddingTopBottom="10px"
               paddingLeftRight="60px"
               styles={"border"}
-              // navigateTo={`/exams/${card.id}${card.course.id}`}
-              navigateTo={`/exams/${card?.id}`}
+              navigateTo={`/exams/${card?.course?.id}`}
             >
               رؤيةالإختبارات
             </Button>
