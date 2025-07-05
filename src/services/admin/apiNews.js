@@ -46,7 +46,7 @@ export async function deleteAnnouncement(id, token) {
     return response.data; // Return the response data
   } catch (error) {
     console.error("Error updating course material:", error.message);
-    throw new Error(error.message); // Throw an error if the request fails
+    throw error; // Throw an error if the request fails
   }
 }
 
@@ -71,7 +71,7 @@ export async function createAnnouncement(data, token) {
     return response.data; // Return the response data
   } catch (error) {
     console.error("Error updating course material:", error.response.data);
-    throw new Error(error.message); // Throw an error if the request fails
+    throw error; // Throw an error if the request fails
   }
 }
 
@@ -91,6 +91,6 @@ export async function getAnnouncement(token) {
     return response.data;
   } catch (error) {
     console.error("Error fetching courses:", error.message);
-    return null;
+    throw error;
   }
 }

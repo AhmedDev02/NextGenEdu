@@ -3,6 +3,10 @@ import MyCard from "../../../ui/amr/MyCard";
 import courses from "../material-management/courses";
 import { FaHourglassEnd, FaPlus } from "react-icons/fa";
 import { LuClock3 } from "react-icons/lu";
+import useGetCourses from "../material-management/useGetCourses";
+import Spinner from "../../../ui/amr/Spinner";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
+import Empty from "../../../ui/amr/Empty";
 
 const Container = styled.div`
   margin: 50px;
@@ -37,9 +41,19 @@ const buttonsContent = [
   },
 ];
 const QuizManagementContent = () => {
+  const { courses, isPending, error, refetch } = useGetCourses();
+  if (isPending) return <Spinner />;
+  if (error) {
+    return (
+      <ErrorFallBack message="خطأ في عرض المواد الدراسية" onRetry={refetch} />
+    );
+  }
+  if (!courses || courses.data.length === 0) {
+    return <Empty resourceName="معلومات" />;
+  }
   return (
     <Container>
-      {courses.map((element, index) => (
+      {courses.data.map((element, index) => (
         <MyCard key={index} data={element} buttonsContent={buttonsContent} />
       ))}
     </Container>

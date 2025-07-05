@@ -8,7 +8,7 @@ const LastQuiz = () => {
       <ContentHeader
         title={ADMIN_PAGES_PROPERTIES.OLD_QUIZ.title}
         description={ADMIN_PAGES_PROPERTIES.OLD_QUIZ.description}
-        button={false}
+        button={true}
       />
       <LastQuizContent />
     </>
