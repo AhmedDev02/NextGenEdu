@@ -27,3 +27,25 @@ export function getStudentYear(semester) {
     return "Invalid semester"; // If semester number is outside the valid range
   }
 }
+
+export function groupExamsByCourse(exams) {
+  const grouped = {};
+
+  exams.forEach((exam) => {
+    const courseId = exam.course?.id;
+
+    if (!courseId) return;
+
+    if (!grouped[courseId]) {
+      grouped[courseId] = {
+        course: exam.course,
+        teacher: exam.teacher, // ✅ add teacher
+        exams: [],
+      };
+    }
+
+    grouped[courseId].exams.push(exam);
+  });
+
+  return Object.values(grouped);
+}

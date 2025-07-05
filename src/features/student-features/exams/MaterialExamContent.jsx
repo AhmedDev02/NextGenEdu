@@ -43,10 +43,15 @@ const Divider = styled.div`
 `;
 function MaterialExamContent() {
   const { exams: data, isPending } = useReadQuizzes();
-  console.log(data.data);
+
   const exams = data?.data;
   const { examId } = useParams(); // 👈 Get "3258" from URL
+
   const courseId = parseInt(examId.slice(-2)); // 👈 Extract last 2 digits (e.g., "58")
+  function filterExamsByCourseId(exams, courseId) {
+    return exams.filter((exam) => String(exam.course?.id) === String(courseId));
+  }
+  const filteredExams = filterExamsByCourseId(exams, courseId);
 
   const filteredFinishedExams = exams?.filter(
     (exam) => exam.course.id === courseId && exam.status === "finished"
