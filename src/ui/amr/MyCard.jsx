@@ -77,7 +77,7 @@ function MyCard({ data, buttonsContent }) {
   return (
     <Modal>
       <StyledCard>
-        <Img src="../../../public/logo.png" alt="logo" />
+        <Img src="/logo.png" alt="logo" />
         <H4>{name}</H4>
         <H5> {semester?.name}</H5>
         <Br />

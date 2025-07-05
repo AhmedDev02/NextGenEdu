@@ -155,7 +155,7 @@ export async function addQuestion(token, body) {
   try {
     const response = await axios.post(
       `${BASE_URL_NODE}/questions/add`,
-      { body: body },
+      body,
       {
         headers,
       }
@@ -164,7 +164,6 @@ export async function addQuestion(token, body) {
     console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
     console.log("مشكله في ارسال السؤال:", error?.response?.data || error);
     throw error; // ✅ Re-throw the error so `onError` in the mutation is triggered
   }

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import MyCard from "../../../ui/amr/MyCard";
-import courses from "../material-management/courses";
 import { FaHourglassEnd, FaPlus } from "react-icons/fa";
 import { LuClock3 } from "react-icons/lu";
 import useGetCourses from "../material-management/useGetCourses";

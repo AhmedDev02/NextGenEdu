@@ -3,9 +3,9 @@ import styled, { css } from "styled-components";
 
 const FilterMenuContainer = styled.ul`
   display: flex;
-  gap: 10px;
-  flex-direction: ${({ direction }) => direction || "row"};
-  padding: ${({ padding }) => padding || ""};
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -15,39 +15,42 @@ const FilterMenuContainer = styled.ul`
     css`
       ${styles}
     `}
-  @media (max-width: 768px) {
-    min-width: 80%;
-    display: flex;
-    margin: 0 auto;
-    justify-content: space-around;
-    align-items: center;
-    position: relative;
-  }
-  /* this is for mobile */
-  @media (max-width: 1024px) and (min-width: 769px) {
-  }
-  /* this is for tablets */
 `;
 
 const FilterItem = styled.li`
-  padding: ${({ padding }) => padding || "8px 16px"};
-  border: ${({ border }) => border || "2px solid var(--color-grey-500)"};
-  border-radius: ${({ borderRadius }) => borderRadius || "20px"};
-
-  cursor: pointer;
-  transition: all 0.3s ease;
+  font-size: 1.4rem;
+  font-family: "Changa", sans-serif;
+  text-align: center;
   user-select: none;
-
-  &:hover {
-    background-color: #e0f7e9;
-  }
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  flex-grow: 1;
+  min-width: 110px;
+  padding: 0.8rem 1.2rem;
+  border-radius: 50px;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #374151;
 
   ${({ active }) =>
     active &&
-    `border: 2px solid #34ad5d;
-    background-color: var(--color-active);
-    color: #34ad5d;
+    `
+    border-color: #10b981;
+    background-color: #d1fae5;
+    color: #065f46;
+    font-weight: 600;
   `}
+
+  &:hover {
+    background-color: #f3f4f6;
+    border-color: #9ca3af;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.3);
+  }
 
   ${({ styles }) =>
     styles &&
@@ -70,7 +73,7 @@ function ListFilter({
   const selectedItems = searchParams.get(param)?.split("-") || [defaultItem];
 
   const toggleItem = (day) => {
-    const currentParams = new URLSearchParams(searchParams); // Clone current search params
+    const currentParams = new URLSearchParams(searchParams);
     let updatedItems;
 
     if (multipleChoose) {
@@ -83,17 +86,17 @@ function ListFilter({
         updatedItems = selectedItems.filter((d) => d !== defaultItem);
         updatedItems.push(day);
       }
-
-      currentParams.set(param, encodeURIComponent(updatedItems.join("-"))); // Update only the desired param
+      currentParams.set(param, updatedItems.join("-"));
     } else {
-      currentParams.set(param, encodeURIComponent(day)); // Update the selected item for non-multiple
+      currentParams.set(param, day);
     }
 
-    setSearchParams(currentParams, { replace: true }); // Update search params with all existing params and the updated one
+    setSearchParams(currentParams, { replace: true });
   };
+
   return (
     <FilterMenuContainer {...containerProps} styles={containerStyles}>
-      {items?.map(({ label, value, id }) => (
+      {items?.map(({ label, value }) => (
         <FilterItem
           key={value}
           active={selectedItems.includes(value)}

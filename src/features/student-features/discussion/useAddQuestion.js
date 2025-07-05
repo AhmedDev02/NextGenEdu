@@ -1,25 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
 import { useUser } from "../../../hooks/useUser";
 import { addQuestion } from "../../../services/student/apiDiscussion";
 
 export function useAddQuestion() {
   const { token } = useUser();
-  const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: async ({ body }) => {
-      console.log(body);
-      return addQuestion(token, body);
-    },
-    onSuccess: () => {
-      toast.success("تم إرسال السؤال بنجاح");
-      queryClient.invalidateQueries(["questions"]);
-    },
-    onError: () => {
-      toast.error("حدث خطأ أثناء إرسال السؤال");
-    },
-  });
-
-  return mutation;
+  const { mutate, isPending } = useMutation({
+    mutationFn: (body) => addQuestion(token, body)
+  })
+  return { mutate, isPending };
 }
