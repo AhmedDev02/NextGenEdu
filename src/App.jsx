@@ -181,8 +181,8 @@ function App() {
               <Route path="dashboard/:curriculumId" element={<Curriculum />} />
 
               <Route path="profile" element={<AdminProfile />} />
-              {/* <Route path="discussion" element={<DiscussionManagement />} /> */}
-              <Route path="discussion" element={<MaintenancePage />} />
+              <Route path="discussion" element={<DiscussionManagement />} />
+              {/* <Route path="discussion" element={<MaintenancePage />} /> */}
 
               <Route path="final-result" element={<FinalResultsManagement />} />
               <Route path="materials" element={<MaterialsManagement />} />
@@ -197,8 +197,8 @@ function App() {
               <Route path="news" element={<NewsManagement />} />
               <Route path="news/add" element={<AddNews />} />
 
-              {/* <Route path="quizzes" element={<QuizzesManagement />} /> */}
-              <Route path="quizzes" element={<MaintenancePage />} />
+              <Route path="quizzes" element={<QuizzesManagement />} />
+              {/* <Route path="quizzes" element={<MaintenancePage />} /> */}
 
               <Route
                 path="quizzes/create-quizzes/:id"
