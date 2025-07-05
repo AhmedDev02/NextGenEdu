@@ -4,6 +4,7 @@ import NextExam from "./NextExam";
 import { useReadQuizzes } from "./useReadQuizzes";
 import { useParams } from "react-router-dom";
 import Spinner from "../../../ui/amr/Spinner";
+import ScheduledExams from "./ScheduledExams";
 
 const Div = styled.div`
   display: flex;
@@ -52,12 +53,18 @@ function MaterialExamContent() {
     return exams.filter((exam) => String(exam.course?.id) === String(courseId));
   }
   const filteredExams = filterExamsByCourseId(exams, courseId);
-
+  console.log(filteredExams);
   const filteredFinishedExams = exams?.filter(
     (exam) => exam.course.id === courseId && exam.status === "finished"
   );
+  const filteredScheduledExams = exams?.filter(
+    (exam) => exam.course.id === courseId && exam.status === "scheduled"
+  );
+  const filteredStartedExams = exams?.filter(
+    (exam) => exam.course.id === courseId && exam.status === "started"
+  );
 
-  console.log(examId);
+  console.log(filteredScheduledExams, filteredStartedExams);
   if (isPending) {
     <Spinner />;
   }
@@ -75,8 +82,12 @@ function MaterialExamContent() {
       </NextExamsDiv>
       <Divider />
       <PrevExamsDiv>
+        {filteredScheduledExams?.map((scheduledExams, index) => {
+          return <ScheduledExams ScheduledExams={scheduledExams} key={index} />;
+        })}
+      </PrevExamsDiv>
+      <PrevExamsDiv>
         {filteredFinishedExams?.map((finishedExam, index) => {
-          console.log(finishedExam);
           return <PervExam finishedExam={finishedExam} key={index} />;
         })}
       </PrevExamsDiv>
