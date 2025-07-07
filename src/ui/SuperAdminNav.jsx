@@ -105,9 +105,15 @@ function SuperAdminNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="users">
+          <StyledNavLink to="students">
             <HiOutlineQuestionMarkCircle />
-            <span>{SUPER_ADMIN_ITEMS.USERS_MANAGEMENT}</span>
+            <span>{SUPER_ADMIN_ITEMS.STUDENTS_MANAGEMENT}</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="teachers">
+            <HiOutlineQuestionMarkCircle />
+            <span>{SUPER_ADMIN_ITEMS.TEACHERS_MANAGEMENT}</span>
           </StyledNavLink>
         </li>
         <li>

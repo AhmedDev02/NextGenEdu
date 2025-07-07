@@ -1,18 +1,18 @@
-import SuperDepartmentContent from "../../features/super-admin-features/super-department-management/SuperDepartmentContent";
+import AddDepartment from "../../features/super-admin-features/super-department-management/AddDepartment";
 import ContentHeader from "../../ui/ContentHeader";
 import { SUPER_ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
 
-function SuperAdminDepartmentsManagement() {
+const AddDepartmentPage = () => {
   return (
     <>
       <ContentHeader
         title={SUPER_ADMIN_PAGES_PROPERTIES.DEPARTMENT.title}
         description={SUPER_ADMIN_PAGES_PROPERTIES.DEPARTMENT.description}
-        button={false}
+        button={true}
       />
-      <SuperDepartmentContent />
+      <AddDepartment />
     </>
   );
-}
+};
 
-export default SuperAdminDepartmentsManagement;
+export default AddDepartmentPage;
