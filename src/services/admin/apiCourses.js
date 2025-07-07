@@ -187,7 +187,7 @@ export async function updateLectureStatus(lectureId, newStatus, token) {
     return response.data; // Return the response data
   } catch (error) {
     console.error("Error updating lecture status:", error.response.data);
-    throw new Error(error.message); // Throw an error if the request fails
+    throw error
   }
 }
 export async function getSemesters(token) {

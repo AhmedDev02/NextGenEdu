@@ -49,7 +49,6 @@ import SuperAdminNewsManagement from "./pages/super-admin-pages/SuperAdminNewsMa
 import SuperAdminNotificationsManagement from "./pages/super-admin-pages/SuperAdminNotificationsManagement";
 import SuperAdminReports from "./pages/super-admin-pages/SuperAdminReports";
 import SuperAdminSchedulesManagement from "./pages/super-admin-pages/SuperAdminSchedulesManagement";
-import SuperAdminUsersManagement from "./pages/super-admin-pages/SuperAdminUsersManagement";
 
 import Forbidden from "./features/auth/Forbidden";
 import ForgotPassword from "./features/auth/ForgotPassword";
@@ -84,6 +83,13 @@ import QuizResultPage from "./pages/admin-pages/QuizResultPage";
 import StudentAnswersPage from "./pages/admin-pages/StudentAnswersPage";
 import EditQuizPage from "./pages/admin-pages/EditQuizPage";
 import MaintenancePage from "./pages/general-pages/MaintenancePage";
+import EditDepartmentPage from "./pages/super-admin-pages/EditDepartmentPage";
+import AddDepartmentPage from "./pages/super-admin-pages/AddDepartmentPage";
+import CourseDetailsPage from "./pages/super-admin-pages/CourseDetailsPage";
+import AddCoursePage from "./pages/super-admin-pages/AddCoursePage";
+import EditCourse from "./pages/super-admin-pages/EditCourse";
+import SuperStudentManagementPage from "./pages/super-admin-pages/SuperStudentManagementPage";
+import SuperTeacherManagementPage from "./pages/super-admin-pages/SuperTeacherManagementPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -263,9 +269,26 @@ function App() {
                 element={<SuperAdminDepartmentsManagement />}
               />
               <Route
+                path="departments/add-department"
+                element={<AddDepartmentPage />}
+              />
+              <Route
+                path="departments/edit-department/:departmentId"
+                element={<EditDepartmentPage />}
+              />
+              <Route
                 path="materials"
                 element={<SuperAdminMaterialsManagement />}
               />
+              <Route
+                path="materials/course-details-display/:courseId"
+                element={<CourseDetailsPage />}
+              />
+              <Route
+                path="materials/update-course/:courseId"
+                element={<EditCourse />}
+              />
+              <Route path="materials/add-course" element={<AddCoursePage />} />
               <Route
                 path="notifications"
                 element={<SuperAdminNotificationsManagement />}
@@ -275,7 +298,9 @@ function App() {
                 path="schedules"
                 element={<SuperAdminSchedulesManagement />}
               />
-              <Route path="users" element={<SuperAdminUsersManagement />} />
+              <Route path="students" element={<SuperStudentManagementPage />} />
+
+              <Route path="teachers" element={<SuperTeacherManagementPage />} />
               <Route path="news" element={<SuperAdminNewsManagement />} />
             </Route>
             <Route
