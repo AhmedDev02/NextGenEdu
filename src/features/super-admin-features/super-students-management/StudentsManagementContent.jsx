@@ -97,12 +97,13 @@ const StudentsManagementContent = () => {
   const [department, setDepartment] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const page = 1;
+  const page = 5;
   const { students, error, isPending, refetch } = useGetStudents(
     department,
     semester,
     page
   );
+  
   const {
     data: departments,
     isPending: isLoading,

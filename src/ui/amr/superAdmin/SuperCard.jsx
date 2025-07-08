@@ -66,7 +66,14 @@ const P = styled.p`
 `;
 
 const SuperCard = ({ Buttons, data }) => {
-  const { id, name, description, teachers, courses, students } = data;
+  const {
+    id,
+    name,
+    description,
+    teachers,
+    courses,
+    students,
+  } = data;
   return (
     <StyledCard>
       <Img src="/logo.png" alt="logo" />

@@ -47,7 +47,6 @@ import SuperAdminMaterialsManagement from "./pages/super-admin-pages/SuperAdminM
 import SuperAdminDepartmentsManagement from "./pages/super-admin-pages/SuperAdminDepartmentsManagement";
 import SuperAdminNewsManagement from "./pages/super-admin-pages/SuperAdminNewsManagement";
 import SuperAdminNotificationsManagement from "./pages/super-admin-pages/SuperAdminNotificationsManagement";
-import SuperAdminReports from "./pages/super-admin-pages/SuperAdminReports";
 import SuperAdminSchedulesManagement from "./pages/super-admin-pages/SuperAdminSchedulesManagement";
 
 import Forbidden from "./features/auth/Forbidden";
@@ -94,6 +93,10 @@ import EditStudentPage from "./pages/super-admin-pages/EditStudentPage";
 import CreateStudentPage from "./pages/super-admin-pages/CreateStudentPage";
 import EditTeacherPage from "./pages/super-admin-pages/EditTeacherPage";
 import CreateTeacherPage from "./pages/super-admin-pages/CreateTeacherPage";
+import SuperAdminBuildings from "./pages/super-admin-pages/SuperAdminBuildings";
+import AddBuildingPage from "./pages/super-admin-pages/AddBuildingPage";
+import AddHallPage from "./pages/super-admin-pages/AddHallPage";
+import BuildingDetailsPage from "./pages/super-admin-pages/BuildingDetailsPage";
 import Chat from "./pages/student-pages/Chat";
 import StudentProgress from "./pages/student-pages/StudentProgress";
 
@@ -299,7 +302,16 @@ function App() {
                 path="notifications"
                 element={<SuperAdminNotificationsManagement />}
               />
-              <Route path="reports" element={<SuperAdminReports />} />
+              <Route path="buildings" element={<SuperAdminBuildings />} />
+              <Route
+                path="buildings/add-building"
+                element={<AddBuildingPage />}
+              />
+              <Route path="buildings/add-hall" element={<AddHallPage />} />
+              <Route
+                path="buildings/details/:buildingId"
+                element={<BuildingDetailsPage />}
+              />
               <Route
                 path="schedules"
                 element={<SuperAdminSchedulesManagement />}
