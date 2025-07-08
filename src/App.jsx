@@ -82,7 +82,7 @@ import QuizDetailsPage from "./pages/admin-pages/QuizDetailsPage";
 import QuizResultPage from "./pages/admin-pages/QuizResultPage";
 import StudentAnswersPage from "./pages/admin-pages/StudentAnswersPage";
 import EditQuizPage from "./pages/admin-pages/EditQuizPage";
-import MaintenancePage from "./pages/general-pages/MaintenancePage";
+// import MaintenancePage from "./pages/general-pages/MaintenancePage";
 import EditDepartmentPage from "./pages/super-admin-pages/EditDepartmentPage";
 import AddDepartmentPage from "./pages/super-admin-pages/AddDepartmentPage";
 import CourseDetailsPage from "./pages/super-admin-pages/CourseDetailsPage";
@@ -94,6 +94,8 @@ import EditStudentPage from "./pages/super-admin-pages/EditStudentPage";
 import CreateStudentPage from "./pages/super-admin-pages/CreateStudentPage";
 import EditTeacherPage from "./pages/super-admin-pages/EditTeacherPage";
 import CreateTeacherPage from "./pages/super-admin-pages/CreateTeacherPage";
+import Chat from "./pages/student-pages/Chat";
+import StudentProgress from "./pages/student-pages/StudentProgress";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -147,8 +149,8 @@ function App() {
                 element={<Material />}
               />
 
-              {/* <Route path="chat" element={<Chat />} /> */}
-              <Route path="chat" element={<MaintenancePage />} />
+              <Route path="chat" element={<Chat />} />
+              {/* <Route path="chat" element={<MaintenancePage />} /> */}
 
               <Route path="discussion" element={<Discussion />} />
               <Route path="discussion/:questionID" element={<Answers />} />
@@ -167,8 +169,8 @@ function App() {
               <Route path="tasks" element={<Tasks />} />
               <Route path="tasks/:courseId" element={<TaskPage />} />
 
-              {/* <Route path="student-progress" element={<StudentProgress />} /> */}
-              <Route path="student-progress" element={<MaintenancePage />} />
+              <Route path="student-progress" element={<StudentProgress />} />
+              {/* <Route path="student-progress" element={<MaintenancePage />} /> */}
 
               <Route path="final-results" element={<FinalResults />} />
               <Route path="profile" element={<StudentProfile />} />
