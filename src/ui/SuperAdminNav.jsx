@@ -7,10 +7,8 @@ import {
   HiOutlineChatAlt2, // Materials Management
   HiOutlineQuestionMarkCircle, // Users Management
   HiOutlineCalendar, // Study Schedules
-  HiOutlineUserGroup, // Reports
-  HiOutlineSpeakerphone, // News & Announcements
-  HiOutlineClock, // Notifications
 } from "react-icons/hi";
+import { TbBuildings } from "react-icons/tb";
 
 import Button from "./Button";
 
@@ -123,21 +121,9 @@ function SuperAdminNav() {
           </StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="reports">
-            <HiOutlineUserGroup />
-            <span>{SUPER_ADMIN_ITEMS.REPORTS}</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="news">
-            <HiOutlineSpeakerphone />
-            <span>{SUPER_ADMIN_ITEMS.NEWS_ANNOUNCEMENTS}</span>
-          </StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="notifications">
-            <HiOutlineClock />
-            <span>{SUPER_ADMIN_ITEMS.NOTIFICATIONS}</span>
+          <StyledNavLink to="buildings">
+            <TbBuildings />
+            <span>{SUPER_ADMIN_ITEMS.BUILDINGS}</span>
           </StyledNavLink>
         </li>
         <Button
