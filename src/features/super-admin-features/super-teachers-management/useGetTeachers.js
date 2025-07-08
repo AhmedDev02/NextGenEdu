@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query"
 import { useUser } from "../../../hooks/useUser"
 import { getTeachers } from "../../../services/superAdmin/apiTeachers"
 
-const useGetTeachers = (department) => {
+const useGetTeachers = (department, page) => {
     const { token } = useUser()
     const { data: teachers, isPending, error, refetch } = useQuery({
-        queryKey: ['students', department],
-        queryFn: () => getTeachers(token, department)
+        queryKey: ['teachers', department, page],
+        queryFn: () => getTeachers(token, department, page)
     })
     return { teachers, isPending, error, refetch }
 }

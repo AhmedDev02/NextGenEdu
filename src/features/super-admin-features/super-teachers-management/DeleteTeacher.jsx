@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import useDeleteStudent from "./useDeleteStudent";
+import useDeleteTeacher from "./useDeleteTeacher";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -71,24 +71,23 @@ const Button = styled.button`
   }
 `;
 
-const DeleteStudent = ({ onCloseModal, studentId }) => {
-  const { mutate, isPending } = useDeleteStudent();
+const DeleteStudent = ({ onCloseModal, teacherId }) => {
+  const { mutate, isPending } = useDeleteTeacher();
   const navigate = useNavigate();
-
   const handleDelete = () => {
-    mutate(studentId, {
+    mutate(teacherId, {
       onSuccess: () => {
-        toast.success("تم حذف الطالب بنجاح");
-        navigate("/super-admin/students");
+        toast.success("تم حذف الدكتور بنجاح");
+        navigate("/super-admin/teachers");
       },
       onError: (err) => {
-        toast.error(err.message || "خطأ في حذف الطالب ");
+        toast.error(err.message || "خطأ اثناء حذف الدكتور");
       },
     });
   };
   return (
     <ConfirmationContainer>
-      <p>هل أنت متأكد من حذف الطالب لا يمكن التراجع عن هذا الإجراء.</p>
+      <p>هل أنت متأكد من حذف الدكتور لا يمكن التراجع عن هذا الإجراء.</p>
       <ButtonGroup>
         <Button
           disabled={isPending}

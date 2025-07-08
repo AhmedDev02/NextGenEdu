@@ -90,6 +90,10 @@ import AddCoursePage from "./pages/super-admin-pages/AddCoursePage";
 import EditCourse from "./pages/super-admin-pages/EditCourse";
 import SuperStudentManagementPage from "./pages/super-admin-pages/SuperStudentManagementPage";
 import SuperTeacherManagementPage from "./pages/super-admin-pages/SuperTeacherManagementPage";
+import EditStudentPage from "./pages/super-admin-pages/EditStudentPage";
+import CreateStudentPage from "./pages/super-admin-pages/CreateStudentPage";
+import EditTeacherPage from "./pages/super-admin-pages/EditTeacherPage";
+import CreateTeacherPage from "./pages/super-admin-pages/CreateTeacherPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -299,8 +303,24 @@ function App() {
                 element={<SuperAdminSchedulesManagement />}
               />
               <Route path="students" element={<SuperStudentManagementPage />} />
+              <Route
+                path="students/edit-student/:studentId"
+                element={<EditStudentPage />}
+              />
+              <Route
+                path="students/create-student"
+                element={<CreateStudentPage />}
+              />
 
               <Route path="teachers" element={<SuperTeacherManagementPage />} />
+              <Route
+                path="teachers/edit-teacher/:teacherId"
+                element={<EditTeacherPage />}
+              />
+              <Route
+                path="teachers/create-teacher"
+                element={<CreateTeacherPage />}
+              />
               <Route path="news" element={<SuperAdminNewsManagement />} />
             </Route>
             <Route
