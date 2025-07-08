@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query"
 import { useUser } from "../../../hooks/useUser"
 import { getStudents } from "../../../services/superAdmin/apiStudents"
 
-const useGetStudents = (department, semester) => {
+const useGetStudents = (department, semester, page) => {
     const { token } = useUser()
     const { data: students, isPending, error, refetch } = useQuery({
-        queryKey: ['students', department, semester],
-        queryFn: () => getStudents(token, department, semester)
+        queryKey: ['students', department, semester,page],
+        queryFn: () => getStudents(token, department, semester,page)
     })
     return { students, isPending, error, refetch }
 }

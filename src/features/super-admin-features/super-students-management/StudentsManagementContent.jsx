@@ -27,10 +27,10 @@ import {
   ButtonsContainer,
   EditButton,
   EmptyStateContainer,
-  AddButton,
   ActionsContainer,
   ActionButton,
 } from "./SharedStyles";
+import useExportFileStudent from "./useExportFileStudent";
 
 const semesterTerms = [
   { label: "فرقة أعدادية / ترم اول", value: 1 },
@@ -75,7 +75,6 @@ const StudentRow = styled.div`
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    transform: scale(1.02);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
       0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
@@ -87,16 +86,22 @@ const StudentRow = styled.div`
     text-align: center;
   }
 `;
-
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+`;
+const Pagination = styled.div``;
 const StudentsManagementContent = () => {
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
+  const page = 1;
   const { students, error, isPending, refetch } = useGetStudents(
     department,
-    semester
+    semester,
+    page
   );
   const {
     data: departments,
@@ -104,9 +109,10 @@ const StudentsManagementContent = () => {
     error: errorDept,
     refetch: refetchDept,
   } = useGetDepartments();
-
+  const { studentsFile } = useExportFileStudent();
+  // console.log(studentsFile);
   const handleExport = () => {
-    alert("تصدير البيانات...");
+    // studentsFile();
   };
 
   const handleImport = () => {
@@ -138,6 +144,13 @@ const StudentsManagementContent = () => {
       <Header>
         <Title>إدارة الطلاب</Title>
         <ActionsContainer>
+          <ActionButton
+            onClick={() => navigate("create-student")}
+            bgColor="#0d825b"
+          >
+            <FaPlus />
+            <span>إضافة طالب</span>
+          </ActionButton>
           <ActionButton onClick={handleImport} bgColor="#3b82f6">
             <FaFileImport />
             <span>استيراد ملف</span>
@@ -195,33 +208,46 @@ const StudentsManagementContent = () => {
               <div>الإسم والرمز الجامعي</div>
               <div>القسم</div>
               <div>الفرقة</div>
-              <div>إجراءات</div>
             </ListHeader>
             {filteredStudents.map((student) => (
               <StudentRow key={student.id}>
                 <UserInfo>
+                  <Avatar
+                    src={`https://${student.avatar}`}
+                    alt="Student Avatar"
+                  />
                   <UserName>{student.name}</UserName>
                   <UserId>({student.uni_code})</UserId>
                 </UserInfo>
                 <Department>{student.department}</Department>
                 <Department>{student.class}</Department>
                 <ButtonsContainer>
-                  <EditButton title="تعديل بيانات الطالب">
+                  <EditButton
+                    onClick={() => navigate(`edit-student/${student.id}`)}
+                    title="تعديل بيانات الطالب"
+                  >
                     <CiEdit />
                   </EditButton>
                 </ButtonsContainer>
               </StudentRow>
             ))}
+            <Pagination></Pagination>
           </ContentContainer>
         </>
       ) : (
         <EmptyStateContainer>
           <h3>لا يوجد طلاب يطابقون هذا البحث.</h3>
-          <p>حاول تغيير الفلاتر أو قم بإضافة بعض الطلاب.</p>
-          <AddButton onClick={() => navigate("add-students")}>
-            <FaPlus size="2rem" />
-            <span>إضافة طلاب جدد</span>
-          </AddButton>
+          <p>
+            حاول تغيير الفلاتر أو قم بإضافة بعض الطلاب باستخدام الازار بالأعلي
+            سواء عن طريق ملف او يدوي
+          </p>
+          {/* <ActionButton
+            onClick={() => navigate("create-student")}
+            bgColor="#0d825b"
+          >
+            <FaPlus />
+            <span>إضافة طالب</span>
+          </ActionButton> */}
         </EmptyStateContainer>
       )}
     </PageContainer>

@@ -27,14 +27,13 @@ import {
   ButtonsContainer,
   EditButton,
   EmptyStateContainer,
-  AddButton,
   ActionsContainer,
   ActionButton,
 } from "../super-students-management/SharedStyles";
 
 const ListHeader = styled.div`
   display: grid;
-  grid-template-columns: 3fr 2fr 1fr;
+  grid-template-columns: 3fr 1.5fr 1fr 1fr;
   padding: 1rem 1.5rem;
   color: #6b7280;
   font-weight: 600;
@@ -49,7 +48,7 @@ const ListHeader = styled.div`
 
 const TeacherRow = styled.div`
   display: grid;
-  grid-template-columns: 3fr 2fr 1fr;
+  grid-template-columns: 3fr 1.5fr 1fr 1fr;
   align-items: center;
   background-color: #fff;
   border-radius: 10px;
@@ -61,7 +60,6 @@ const TeacherRow = styled.div`
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    transform: scale(1.02);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
       0 4px 6px -2px rgba(0, 0, 0, 0.05);
   }
@@ -73,13 +71,22 @@ const TeacherRow = styled.div`
     text-align: center;
   }
 `;
+const Avatar = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+`;
 
 const TeachersManagementContent = () => {
   const [department, setDepartment] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-
-  const { teachers, error, isPending, refetch } = useGetTeachers(department);
+  console.log(department);
+  const page = 1;
+  const { teachers, error, isPending, refetch } = useGetTeachers(
+    department,
+    page
+  );
 
   const {
     data: departments,
@@ -87,6 +94,7 @@ const TeachersManagementContent = () => {
     error: errorDept,
   } = useGetDepartments();
 
+  console.log(departments);
   const handleExport = () => {
     alert("تصدير بيانات أعضاء هيئة التدريس...");
   };
@@ -115,12 +123,19 @@ const TeachersManagementContent = () => {
       />
     );
   }
-
+  console.log(teachers);
   return (
     <PageContainer>
       <Header>
         <Title>إدارة أعضاء هيئة التدريس</Title>
         <ActionsContainer>
+          <ActionButton
+            onClick={() => navigate("create-teacher")}
+            bgColor="#0d825b"
+          >
+            <FaPlus />
+            <span>إضافة دكتور</span>
+          </ActionButton>
           <ActionButton onClick={handleImport} bgColor="#3b82f6">
             <FaFileImport />
             <span>استيراد ملف</span>
@@ -166,17 +181,25 @@ const TeachersManagementContent = () => {
             <ListHeader>
               <div>الإسم والرمز الجامعي</div>
               <div>القسم</div>
-              <div>إجراءات</div>
+              <div>الوصف</div>
             </ListHeader>
             {filteredTeachers.map((teacher) => (
               <TeacherRow key={teacher.id}>
                 <UserInfo>
+                  <Avatar
+                    src={`https://${teacher.avatar}`}
+                    alt="teacher Avatar"
+                  />
                   <UserName>{teacher.name}</UserName>
                   <UserId>({teacher.uni_code})</UserId>
                 </UserInfo>
                 <Department>{teacher.department}</Department>
+                <Department>{teacher.description || "لا يوجد"}</Department>
                 <ButtonsContainer>
-                  <EditButton title="تعديل البيانات">
+                  <EditButton
+                    onClick={() => navigate(`edit-teacher/${teacher.id}`)}
+                    title="تعديل البيانات"
+                  >
                     <CiEdit />
                   </EditButton>
                 </ButtonsContainer>
@@ -187,11 +210,10 @@ const TeachersManagementContent = () => {
       ) : (
         <EmptyStateContainer>
           <h3>لا يوجد أعضاء هيئة تدريس يطابقون هذا البحث.</h3>
-          <p>حاول تغيير الفلاتر أو قم بإضافة عضو هيئة تدريس جديد.</p>
-          <AddButton onClick={() => navigate("add-teacher")}>
-            <FaPlus size="2rem" />
-            <span>إضافة عضو هيئة تدريس</span>
-          </AddButton>
+          <p>
+            حاول تغيير الفلاتر أو قم بإضافة عضو هيئة تدريس جديد يدويا او عن طريق
+            ملف
+          </p>
         </EmptyStateContainer>
       )}
     </PageContainer>
