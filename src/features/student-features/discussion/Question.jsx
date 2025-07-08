@@ -76,7 +76,7 @@ function Question({ interested, isUser, body, questionDetails }) {
           name={questionDetails.user.name}
           date={getTimeFormatted(questionDetails.createdAt)}
           question={body}
-          avatar={`https://${questionDetails?.user?.avatar}`}
+          avatar={` ${questionDetails?.user?.avatar}`}
         />
         <QuestionStatus
           likes={questionDetails.likes}
