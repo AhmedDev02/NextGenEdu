@@ -1,4 +1,4 @@
-import UpdateStudentForm from "../../features/super-admin-features/super-students-management/updateStudentForm";
+import UpdateStudentForm from "../../features/super-admin-features/super-students-management/UpdateStudentForm";
 import ContentHeader from "../../ui/ContentHeader";
 import { SUPER_ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
 
