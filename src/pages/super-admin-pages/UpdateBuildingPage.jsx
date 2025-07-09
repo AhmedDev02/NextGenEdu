@@ -1,20 +1,18 @@
-import UpdateHall from "../../features/super-admin-features/super-halls/UpdateHall";
+import UpdateBuilding from "../../features/super-admin-features/super-buildings/UpdateBuilding";
 import ContentHeader from "../../ui/ContentHeader";
 import { SUPER_ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
 
-const UpdateHallPage = () => {
+const UpdateBuildingPage = () => {
   return (
     <>
       <ContentHeader
         title={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_HALL.title}
-        description={
-          SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_HALL.description
-        }
+        description={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_HALL.description}
         button={true}
       />
-      <UpdateHall />
+      <UpdateBuilding />
     </>
   );
 };
 
-export default UpdateHallPage;
+export default UpdateBuildingPage;

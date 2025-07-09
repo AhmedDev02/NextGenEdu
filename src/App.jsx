@@ -102,6 +102,7 @@ import StudentProgress from "./pages/student-pages/StudentProgress";
 import SuperAdminHallsPage from "./pages/super-admin-pages/SuperAdminHallsPage";
 import UpdateHallPage from "./pages/super-admin-pages/UpdateHallPage";
 import HallDetailsPage from "./pages/super-admin-pages/HallDetailsPage";
+import UpdateBuildingPage from "./pages/super-admin-pages/UpdateBuildingPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -313,6 +314,10 @@ function App() {
               <Route
                 path="buildings/details/:buildingId"
                 element={<BuildingDetailsPage />}
+              />
+              <Route
+                path="buildings/update-building/:buildingId"
+                element={<UpdateBuildingPage />}
               />
               <Route path="halls" element={<SuperAdminHallsPage />} />
               <Route path="halls/create-hall" element={<AddHallPage />} />

@@ -32,6 +32,22 @@ export const getOneBuildings = async (token, buildingId) => {
         throw error;
     }
 }
+export const updateBuilding = async (token, buildingId, updatedData) => {
+    const headers = {
+        "Content-Type": "application/json",
+        "X-Requested-With": "XMLHttpRequest",
+        "X-Device-Type": "web",
+        Authorization: `Bearer ${token}`,
+    };
+    try {
+        const response = await axios.patch(`${BASE_URL}/dashboard/building/${buildingId}`, updatedData, { headers })
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching building:", error.message);
+        throw error;
+    }
+}
+
 export const deleteBuilding = async (token, buildingId) => {
     const headers = {
         "Content-Type": "application/json",

@@ -154,6 +154,14 @@ const Buttons = [
     variation: "primary",
     size: "medium",
   },
+  {
+    label: "تعديل تفاصيل المبني",
+    logo: <TbBuildings size={20} />,
+    state: "page with id",
+    path: "/super-admin/buildings/update-building",
+    variation: "primary",
+    size: "medium",
+  },
 ];
 
 const BuildingsContent = () => {

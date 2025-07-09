@@ -6,8 +6,8 @@ const HallDetailsPage = () => {
   return (
     <>
       <ContentHeader
-        title={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_HALL.title}
-        description={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_HALL.description}
+        title={SUPER_ADMIN_PAGES_PROPERTIES.HALL_DETAILS.title}
+        description={SUPER_ADMIN_PAGES_PROPERTIES.HALL_DETAILS.description}
         button={true}
       />
       <HallDetails />
