@@ -5,16 +5,12 @@ import { toast } from "react-hot-toast";
 import styled from "styled-components";
 import { FaBuilding, FaMapMarkerAlt } from "react-icons/fa";
 
-// --- Leaflet Imports ---
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// --- Assumed Project Imports ---
 import useCreateBuilding from "./useCreateBuilding";
-import Spinner from "../../../ui/amr/Spinner";
 
-// Fix for default Leaflet icon issue with bundlers like Webpack
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -23,10 +19,9 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-// --- Styled Components ---
 
 const FormPageContainer = styled.div`
-  max-width: 800px; /* Responsive max-width */
+  max-width: 800px; 
   width: 100%;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -154,7 +149,6 @@ const SubmitButton = styled.button`
 
 const defaultCenter = [30.5878, 31.4836];
 
-// Helper component to handle map clicks
 function MapClickHandler({ setPosition, setFormValue }) {
   useMapEvents({
     click(e) {

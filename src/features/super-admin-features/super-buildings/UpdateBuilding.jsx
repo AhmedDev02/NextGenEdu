@@ -166,10 +166,8 @@ function UpdateBuilding() {
     refetch,
   } = useGetOneBuilding(buildingId);
   const queryClient = useQueryClient();
-  // 2. State for the map marker
   const [markerPosition, setMarkerPosition] = useState(null);
 
-  // 3. Form setup
   const {
     register,
     handleSubmit,

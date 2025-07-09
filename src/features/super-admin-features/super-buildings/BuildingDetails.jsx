@@ -8,19 +8,16 @@ import {
 } from "react-icons/tb";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-// --- Leaflet Imports ---
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// --- Assumed Project Imports ---
 import Spinner from "../../../ui/amr/Spinner";
 import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 import useGetOneBuilding from "./useGetOneBuilding";
 import Modal from "../../../ui/amr/Modal";
 import DeleteBuilding from "./DeleteBuilding";
 
-// Fix for default Leaflet icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -29,7 +26,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-// --- Styled Components ---
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -146,7 +142,6 @@ const ButtonsContainer = styled.div`
   align-items: center;
   gap: 2rem;
 `;
-// --- BuildingMap Component (for display only) ---
 function BuildingMap({ position }) {
   return (
     <MapWrapper>
@@ -154,7 +149,7 @@ function BuildingMap({ position }) {
         center={position}
         zoom={16}
         style={{ height: "100%", width: "100%" }}
-        scrollWheelZoom={false} // Optional: disable zoom on scroll
+        scrollWheelZoom={false}
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
