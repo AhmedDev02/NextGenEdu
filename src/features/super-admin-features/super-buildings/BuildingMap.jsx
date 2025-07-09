@@ -1,4 +1,3 @@
-// src/features/buildings/BuildingDetails.jsx
 
 import styled, { keyframes } from "styled-components";
 import { useParams } from "react-router-dom";
@@ -29,7 +28,7 @@ const DetailsCard = styled.div`
   background-color: #ffffff;
   border-radius: 18px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  overflow: hidden; // Important for the iframe's corners
+  overflow: hidden; 
 `;
 
 const Header = styled.div`
@@ -98,7 +97,6 @@ function BuildingDetails() {
 
   const { name, code, latitude, longitude } = building.data;
 
-  // 🚨 IMPORTANT: Replace this with your actual key
   const API_KEY = "YOUR_Maps_API_KEY";
 
   const mapSrc = `http://googleusercontent.com/maps.google.com/4${API_KEY}&q=${latitude},${longitude}&zoom=17&output=embed`;
@@ -134,7 +132,6 @@ function BuildingDetails() {
           </InfoRow>
         </ContentGrid>
 
-        {/* --- Embedded Google Maps Iframe --- */}
         <iframe
           width="100%"
           height="400"
