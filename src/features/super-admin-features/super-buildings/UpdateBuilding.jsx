@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import styled from "styled-components";
 import { FaBuilding, FaMapMarkerAlt } from "react-icons/fa";
 
-// --- Leaflet Imports ---
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// --- Assumed Project Imports ---
-import useCreateBuilding from "./useCreateBuilding";
+import useGetOneBuilding from "./useGetOneBuilding";
+import useUpdateBuilding from "./useUpdateBuilding";
 import Spinner from "../../../ui/amr/Spinner";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
+import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
 
-// Fix for default Leaflet icon issue with bundlers like Webpack
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -23,10 +23,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-// --- Styled Components ---
-
 const FormPageContainer = styled.div`
-  max-width: 800px; /* Responsive max-width */
+  max-width: 800px;
   width: 100%;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -40,10 +38,6 @@ const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-
-  @media (max-width: 600px) {
-    padding: 1.5rem;
-  }
 `;
 
 const FormTitle = styled.h2`
@@ -56,10 +50,6 @@ const FormTitle = styled.h2`
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-
-  @media (max-width: 600px) {
-    font-size: 1.5rem;
-  }
 `;
 
 const FormRow = styled.div`
@@ -147,14 +137,13 @@ const SubmitButton = styled.button`
   }
 
   &:disabled {
-    background-color: #a7f3d0;
+    opacity: 0.7;
     cursor: not-allowed;
   }
 `;
 
-const defaultCenter = [30.5878, 31.4836];
+// --- Helper Components ---
 
-// Helper component to handle map clicks
 function MapClickHandler({ setPosition, setFormValue }) {
   useMapEvents({
     click(e) {
@@ -167,10 +156,20 @@ function MapClickHandler({ setPosition, setFormValue }) {
   return null;
 }
 
-function AddBuildingContent() {
-  const [markerPosition, setMarkerPosition] = useState(null);
-  const navigate = useNavigate();
+function UpdateBuilding() {
+  const { buildingId } = useParams();
 
+  const {
+    data: buildingData,
+    isPending: isLoading,
+    error,
+    refetch,
+  } = useGetOneBuilding(buildingId);
+  const queryClient = useQueryClient();
+  // 2. State for the map marker
+  const [markerPosition, setMarkerPosition] = useState(null);
+
+  // 3. Form setup
   const {
     register,
     handleSubmit,
@@ -179,25 +178,38 @@ function AddBuildingContent() {
     reset,
   } = useForm();
 
-  const { mutate: createBuilding, isPending } = useCreateBuilding();
+  const { update, isUpdating } = useUpdateBuilding();
+
+  useEffect(() => {
+    if (buildingData?.data) {
+      const { name, code, latitude, longitude } = buildingData.data;
+      reset({ name, code, latitude, longitude });
+      setMarkerPosition([parseFloat(latitude), parseFloat(longitude)]);
+    }
+  }, [buildingData, reset, setValue]);
 
   const onSubmit = (data) => {
-    createBuilding(data, {
-      onSuccess: () => {
-        toast.success("تم إنشاء المبنى بنجاح");
-        reset();
-        navigate("/super-admin/buildings");
-      },
-      onError: (err) => toast.error(err.message),
-    });
+    update(
+      { buildingId, updatedData: data },
+      {
+        onSuccess: () => {
+          toast.success("تم تحديث المبنى بنجاح");
+          queryClient.invalidateQueries(["building", buildingId]);
+        },
+        onError: (err) => toast.error(err.message),
+      }
+    );
   };
+
+  if (isLoading) return <Spinner />;
+  if (error) return <ErrorFallBack message={error.message} onRetry={refetch} />;
 
   return (
     <FormPageContainer>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <FormTitle>
           <FaBuilding />
-          <span>إنشاء مبنى جديد</span>
+          <span>تعديل بيانات المبنى</span>
         </FormTitle>
 
         <FormRow>
@@ -205,8 +217,8 @@ function AddBuildingContent() {
           <Input
             type="text"
             id="name"
-            disabled={isPending}
-            {...register("name", { required: "هذا الحقل مطلوب" })}
+            disabled={isUpdating}
+            {...register("name", { required: "يجب كتابة اسم المبني" })}
           />
           {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
         </FormRow>
@@ -216,8 +228,8 @@ function AddBuildingContent() {
           <Input
             type="text"
             id="code"
-            disabled={isPending}
-            {...register("code", { required: "هذا الحقل مطلوب" })}
+            disabled={isUpdating}
+            {...register("code", { required: "يجب كتابة كود المبني" })}
           />
           {errors.code && <ErrorMessage>{errors.code.message}</ErrorMessage>}
         </FormRow>
@@ -226,27 +238,29 @@ function AddBuildingContent() {
 
         <FormTitle style={{ fontSize: "1.5rem" }}>
           <FaMapMarkerAlt />
-          <span>تحديد الموقع</span>
+          <span>تحديث الموقع</span>
         </FormTitle>
         <MapWrapper>
-          <MapContainer
-            center={defaultCenter}
-            zoom={15}
-            style={{ height: "100%", width: "100%" }}
-          >
-            <TileLayer
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
-            <MapClickHandler
-              setPosition={setMarkerPosition}
-              setFormValue={setValue}
-            />
-            {markerPosition && <Marker position={markerPosition}></Marker>}
-          </MapContainer>
+          {markerPosition && (
+            <MapContainer
+              center={markerPosition}
+              zoom={16}
+              style={{ height: "100%", width: "100%" }}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <MapClickHandler
+                setPosition={setMarkerPosition}
+                setFormValue={setValue}
+              />
+              <Marker position={markerPosition}></Marker>
+            </MapContainer>
+          )}
         </MapWrapper>
         <InstructionText>
-          انقر على الخريطة لتحديد إحداثيات المبنى
+          انقر على الخريطة لتغيير إحداثيات المبنى
         </InstructionText>
 
         <InputGrid>
@@ -255,7 +269,7 @@ function AddBuildingContent() {
             <Input
               type="text"
               id="latitude"
-              disabled={isPending}
+              disabled={isUpdating}
               {...register("latitude", {
                 required: "هذا الحقل مطلوب",
                 pattern: {
@@ -274,7 +288,7 @@ function AddBuildingContent() {
             <Input
               type="text"
               id="longitude"
-              disabled={isPending}
+              disabled={isUpdating}
               {...register("longitude", {
                 required: "هذا الحقل مطلوب",
                 pattern: {
@@ -290,8 +304,8 @@ function AddBuildingContent() {
         </InputGrid>
 
         <ButtonContainer>
-          <SubmitButton type="submit" disabled={isPending}>
-            {isPending ? "جاري الإنشاء..." : "إنشاء المبنى"}
+          <SubmitButton type="submit" disabled={isUpdating}>
+            {isUpdating ? "جاري التحديث..." : "تحديث المبنى"}
           </SubmitButton>
         </ButtonContainer>
       </FormContainer>
@@ -299,4 +313,4 @@ function AddBuildingContent() {
   );
 }
 
-export default AddBuildingContent;
+export default UpdateBuilding;
