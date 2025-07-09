@@ -126,6 +126,12 @@ function SuperAdminNav() {
             <span>{SUPER_ADMIN_ITEMS.BUILDINGS}</span>
           </StyledNavLink>
         </li>
+        <li>
+          <StyledNavLink to="halls">
+            <TbBuildings />
+            <span>{SUPER_ADMIN_ITEMS.HALLS}</span>
+          </StyledNavLink>
+        </li>
         <Button
           variation="secondary"
           size="custom"

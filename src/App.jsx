@@ -99,6 +99,9 @@ import AddHallPage from "./pages/super-admin-pages/AddHallPage";
 import BuildingDetailsPage from "./pages/super-admin-pages/BuildingDetailsPage";
 import Chat from "./pages/student-pages/Chat";
 import StudentProgress from "./pages/student-pages/StudentProgress";
+import SuperAdminHallsPage from "./pages/super-admin-pages/SuperAdminHallsPage";
+import UpdateHallPage from "./pages/super-admin-pages/UpdateHallPage";
+import HallDetailsPage from "./pages/super-admin-pages/HallDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -307,10 +310,19 @@ function App() {
                 path="buildings/add-building"
                 element={<AddBuildingPage />}
               />
-              <Route path="buildings/add-hall" element={<AddHallPage />} />
               <Route
                 path="buildings/details/:buildingId"
                 element={<BuildingDetailsPage />}
+              />
+              <Route path="halls" element={<SuperAdminHallsPage />} />
+              <Route path="halls/create-hall" element={<AddHallPage />} />
+              <Route
+                path="halls/update-hall/:hallId"
+                element={<UpdateHallPage />}
+              />
+              <Route
+                path="halls/details/:hallId"
+                element={<HallDetailsPage />}
               />
               <Route
                 path="schedules"
