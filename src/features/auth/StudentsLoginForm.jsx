@@ -298,19 +298,19 @@ export default function LoginForm() {
             )}
           </InputContainer>
           {errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
-
+          {/* 
           <ForgotPassword href="/forgot-password">
             نسيت كلمة المرور؟
-          </ForgotPassword>
+          </ForgotPassword> */}
 
           {isLoading ? <Loader /> : <Button type="submit">تسجيل الدخول</Button>}
-          {
+          {/* {
             <TempSign>
               <Button type="submit" onClick={onStudent}>
                 Student
               </Button>
             </TempSign>
-          }
+          } */}
         </form>
       </LoginBox>
     </Container>

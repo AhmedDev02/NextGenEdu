@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
+import { useSignOut } from "../features/auth/useSignOut";
+import { useUser } from "../hooks/useUser";
 
 const LogoutContainer = styled(animated.button)`
   position: absolute;
@@ -77,7 +79,8 @@ const H3 = styled.h3`
 function SignOutButton({ isVisible, path }) {
   const [shouldRender, setShouldRender] = useState(isVisible);
   const navigate = useNavigate();
-
+  const { signOut, isLoading } = useSignOut();
+  const { token } = useUser();
   const dispatch = useDispatch();
 
   const fadeInDown = useSpring({
@@ -97,8 +100,7 @@ function SignOutButton({ isVisible, path }) {
   return (
     <LogoutContainer
       onClick={function () {
-        dispatch(logout());
-        navigate(path);
+        return signOut(token);
       }}
       style={fadeInDown}
     >
