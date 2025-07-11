@@ -433,12 +433,12 @@ export default function LoginForm() {
           </InputContainer>
           {errors.password && <ErrorMsg>{errors.password.message}</ErrorMsg>}
 
-          <ForgotPassword href="/forgot-password">
+          {/* <ForgotPassword href="/forgot-password">
             نسيت كلمة المرور؟
-          </ForgotPassword>
+          </ForgotPassword> */}
 
           {isLoading ? <Loader /> : <Button type="submit">تسجيل الدخول</Button>}
-          {
+          {/* {
             <TempSign>
               <Button type="submit" size="small" onClick={onSuperAdmin}>
                 Super admin
@@ -450,7 +450,7 @@ export default function LoginForm() {
                 Teacher
               </Button>
             </TempSign>
-          }
+          } */}
         </form>
       </LoginBox>
     </Container>

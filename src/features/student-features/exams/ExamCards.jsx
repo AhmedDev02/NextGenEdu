@@ -59,7 +59,7 @@ function ExamCards() {
     <Div>
       {finalData?.map((card, index) => (
         <StyledCard key={index}>
-          <Img src={"../../../public/logo.png"} alt={"logo"} />
+          <Img src={"./logo.png"} alt={"logo"} />
           <H4>{card?.course?.name}</H4>
           <H5>{card?.teacher}</H5>
           <Br />
