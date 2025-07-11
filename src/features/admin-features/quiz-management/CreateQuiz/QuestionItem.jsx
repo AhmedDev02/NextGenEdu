@@ -13,7 +13,6 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 const QuestionItem = ({ field, index, remove, register, watch, setValue }) => {
   const correctAnswer = watch(`questions.${index}.correctAnswerIndex`);
-console.log(field)
   return (
     <QuestionBox>
       <QuestionContent>

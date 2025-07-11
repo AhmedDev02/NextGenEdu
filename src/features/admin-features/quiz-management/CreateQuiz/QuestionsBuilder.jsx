@@ -16,7 +16,6 @@ const QuestionsBuilder = ({ control, register, watch, setValue }) => {
       correctAnswerIndex: 0,
     });
   };
-  console.log(fields)
 
   return (
     <QuestionsSection>
