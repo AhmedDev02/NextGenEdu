@@ -69,16 +69,18 @@ export const ActionButton = styled.button`
 
 const SearchContainer = styled.div`
   position: relative;
-  width: 100%;
-  max-width: 400px; /* Or adjust as needed */
+  background-color: #fff;
+  padding: 2rem;
   margin-bottom: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07);
 `;
 
 const SearchInput = styled.input`
   width: 100%;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  padding: 0.75rem 4rem 0.75rem 2.5rem; // Left padding for icon
+  padding: 0.75rem 4rem 0.75rem 2.5rem;
   transition: all 0.2s ease;
   font-size: 1rem;
   background-color: #fff;
@@ -93,7 +95,7 @@ const SearchInput = styled.input`
 const StyledSearchIcon = styled(IoSearch)`
   position: absolute;
   top: 50%;
-  right: 0.85rem;
+  right: 3rem;
   transform: translateY(-50%);
   color: #9ca3af;
 `;

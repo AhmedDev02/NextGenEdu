@@ -6,8 +6,8 @@ const BuildingDetailsPage = () => {
   return (
     <>
       <ContentHeader
-        title={SUPER_ADMIN_PAGES_PROPERTIES.DEPARTMENT.title}
-        description={SUPER_ADMIN_PAGES_PROPERTIES.DEPARTMENT.description}
+        title={SUPER_ADMIN_PAGES_PROPERTIES.ADD_BUILDING.title}
+        description={SUPER_ADMIN_PAGES_PROPERTIES.ADD_BUILDING.description}
         button={true}
       />
       <BuildingDetails />

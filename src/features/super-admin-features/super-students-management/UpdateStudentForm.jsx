@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import useGetDepartments from "../super-department-management/useGetDepartments";
 import useUpdateStudent from "./useUpdateStudent";
@@ -195,7 +195,7 @@ const nationalities = [
   { label: "اجنبي", value: "international" },
 ];
 
-function UpdateStudentForm({ onCancel }) {
+function UpdateStudentForm() {
   const { studentId } = useParams();
   const queryClient = useQueryClient();
 
@@ -239,7 +239,7 @@ function UpdateStudentForm({ onCancel }) {
       nationality: data.nationality,
       semester_id: data.semester,
     };
-
+    console.log(updatedData);
     mutate(
       { studentId, updatedData },
       {
@@ -368,9 +368,6 @@ function UpdateStudentForm({ onCancel }) {
           </Modal>
         </DeleteContainer>
         <Buttons>
-          <Button type="button" onClick={onCancel} disabled={isWorking}>
-            إلغاء
-          </Button>
           <SubmitButton type="submit" disabled={!isDirty || isWorking}>
             {isWorking ? "جاري الحفظ..." : "حفظ التغييرات"}
           </SubmitButton>

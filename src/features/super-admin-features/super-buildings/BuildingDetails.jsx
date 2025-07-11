@@ -26,7 +26,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
 });
 
-
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -61,6 +60,9 @@ const TitleGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+  }
 `;
 
 const Title = styled.h1`
@@ -141,6 +143,9 @@ const ButtonsContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 2rem;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 function BuildingMap({ position }) {
   return (
@@ -184,7 +189,7 @@ function BuildingDetails() {
           <TitleGroup>
             <Title>{name}</Title>
             <IconWrapper>
-              <TbBuilding size={32} />
+              <TbBuilding size={28} />
             </IconWrapper>
           </TitleGroup>
           <ButtonsContainer>
@@ -192,7 +197,7 @@ function BuildingDetails() {
               <Modal.Open opens="delete-building">
                 <ActionButton type="button" bgColor="#fa5451">
                   <FaTrash />
-                  <span>حذف المبني</span>
+                  <span>حذف</span>
                 </ActionButton>
               </Modal.Open>
               <Modal.Window name="delete-building">
@@ -207,7 +212,7 @@ function BuildingDetails() {
               bgColor="#5157fa"
             >
               <FaEdit />
-              <span>تعديل بيانات المبني</span>
+              <span>تعديل</span>
             </ActionButton>
           </ButtonsContainer>
         </Header>

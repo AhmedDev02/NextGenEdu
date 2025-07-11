@@ -8,16 +8,18 @@ import { PiDoorDuotone } from "react-icons/pi";
 // Assumed custom hooks
 import useGetOneHall from "./useGetOneHall";
 import useUpdateHall from "./useUpdateHall";
+import useGetBuildings from "../super-buildings/useGetBuildings";
 
 // UI Components
 import Spinner from "../../../ui/amr/Spinner";
-import useGetBuildings from "../super-buildings/useGetBuildings";
 import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
-// --- Styled Components ---
+// --- Styled Components (with Responsive Updates) ---
 
 const FormPageContainer = styled.div`
-  width: 100rem;
+  /* ✅ Changed from fixed width to responsive max-width */
+  max-width: 800px;
+  width: 100%;
   margin: 2rem auto;
   padding: 0 1rem;
 `;
@@ -30,6 +32,11 @@ const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  /* ✅ Added media query for smaller padding on mobile */
+  @media (max-width: 600px) {
+    padding: 1.5rem;
+  }
 `;
 
 const FormTitle = styled.h2`
@@ -130,14 +137,16 @@ function UpdateHall() {
   const { hallId } = useParams();
   const navigate = useNavigate();
 
-  const { hall, isPending, error, refetch } = useGetOneHall(hallId);
-
+  // ✅ Renamed destructured variables for clarity
   const {
-    data,
-    isPending: isLoadingBuildings,
-  } = useGetBuildings();
-
-  const { update, isUpdating } = useUpdateHall();
+    data: hallData,
+    isPending: isLoadingHall,
+    error,
+    refetch,
+  } = useGetOneHall(hallId);
+  const { data: buildingsData, isPending: isLoadingBuildings } =
+    useGetBuildings();
+  const { mutate: updateHall, isPending: isUpdating } = useUpdateHall();
 
   const {
     register,
@@ -147,18 +156,18 @@ function UpdateHall() {
   } = useForm();
 
   useEffect(() => {
-    if (hall?.data) {
-      const { code, floor, building } = hall.data;
+    if (hallData?.data) {
+      const { code, floor, building } = hallData.data;
       reset({
         code,
         floor,
         building_id: building.id,
       });
     }
-  }, [hall, reset]);
+  }, [hallData, reset]);
 
   const onSubmit = (data) => {
-    update(
+    updateHall(
       { hallId, updatedData: data },
       {
         onSuccess: () => {
@@ -170,9 +179,9 @@ function UpdateHall() {
     );
   };
 
-  const isWorking = isPending || isLoadingBuildings || isUpdating;
+  const isWorking = isLoadingHall || isLoadingBuildings || isUpdating;
 
-  if (isPending || isLoadingBuildings) return <Spinner />;
+  if (isLoadingHall || isLoadingBuildings) return <Spinner />;
 
   if (error) {
     return <ErrorFallBack message={error.message} onRetry={refetch} />;
@@ -222,7 +231,7 @@ function UpdateHall() {
             })}
           >
             <option value="">-- اختر المبنى --</option>
-            {data?.data?.map((building) => (
+            {buildingsData?.data?.map((building) => (
               <option key={building.id} value={building.id}>
                 {building.name}
               </option>

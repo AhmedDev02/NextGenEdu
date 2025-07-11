@@ -83,10 +83,10 @@ export const updateTeacher = async (token, teacherId, updatedData) => {
 
 export const importFileTeachers = async (token, file) => {
     const headers = {
-        "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "X-Device-Type": "web",
         Authorization: `Bearer ${token}`,
+        "Accept": "application/json"
     };
     try {
         const response = await axios.post(`${BASE_URL}/dashboard/teachers/import`, file, { headers })
@@ -98,13 +98,12 @@ export const importFileTeachers = async (token, file) => {
 }
 export const exportFileTeachers = async (token) => {
     const headers = {
-        "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "X-Device-Type": "web",
         Authorization: `Bearer ${token}`,
     };
     try {
-        const response = await axios.get(`${BASE_URL}/dashboard/teachers/export`, { headers })
+        const response = await axios.get(`${BASE_URL}/dashboard/teachers/export`, { headers, responseType: 'blob' })
         return response.data;
     } catch (error) {
         console.error("Error exporting file", error.message);

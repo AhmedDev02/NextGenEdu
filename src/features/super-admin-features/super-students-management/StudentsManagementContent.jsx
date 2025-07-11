@@ -1,13 +1,16 @@
-import { useState, useMemo } from "react";
-import useGetStudents from "./useGetStudents";
-import useGetDepartments from "../super-department-management/useGetDepartments";
-import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
-import Spinner from "../../../ui/amr/Spinner";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaPlus, FaFileImport, FaFileExport } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import { CiEdit } from "react-icons/ci";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { toast } from "react-hot-toast";
 
+import useGetStudents from "./useGetStudents";
+import useGetDepartments from "../super-department-management/useGetDepartments";
+import useExportFileStudent from "./useExportFileStudent";
+import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
+import Spinner from "../../../ui/amr/Spinner";
 import {
   PageContainer,
   Header,
@@ -30,7 +33,7 @@ import {
   ActionsContainer,
   ActionButton,
 } from "./SharedStyles";
-import useExportFileStudent from "./useExportFileStudent";
+import useImportFileStudents from "./useImportFileStudent";
 
 const semesterTerms = [
   { label: "فرقة أعدادية / ترم اول", value: 1 },
@@ -45,7 +48,8 @@ const semesterTerms = [
   { label: "فرقة رابعة / ترم ثاني", value: 10 },
 ];
 
-// Styles specific to this component
+// --- Styles ---
+
 const ListHeader = styled.div`
   display: grid;
   grid-template-columns: 3fr 1.5fr 1fr 1fr;
@@ -69,14 +73,13 @@ const StudentRow = styled.div`
   border-radius: 10px;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07);
   text-align: right;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07),
-      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07);
   }
 
   @media (max-width: 768px) {
@@ -86,46 +89,150 @@ const StudentRow = styled.div`
     text-align: center;
   }
 `;
+
 const Avatar = styled.img`
   width: 40px;
   height: 40px;
   border-radius: 50%;
 `;
-const Pagination = styled.div``;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0 1rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1.5rem;
+  direction: ltr; /* Set direction for correct button order */
+`;
+
+const PaginationButton = styled.button`
+  background-color: ${(props) => (props.active ? "#0d825b" : "#fff")};
+  color: ${(props) => (props.active ? "#fff" : "#374151")};
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  &:hover:not(:disabled) {
+    background-color: #0a6847;
+    color: #fff;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+`;
+
+const PaginationNavButton = styled(PaginationButton)`
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+`;
+
+// --- Component ---
+
+const STUDENTS_PER_PAGE = 10;
+
 const StudentsManagementContent = () => {
   const [semester, setSemester] = useState("");
   const [department, setDepartment] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  const page = 5;
+  const fileInputRef = useRef(null);
+
   const { students, error, isPending, refetch } = useGetStudents(
     department,
-    semester,
-    page
+    semester
   );
-  
+
   const {
     data: departments,
     isPending: isLoading,
     error: errorDept,
-    refetch: refetchDept,
   } = useGetDepartments();
-  const { studentsFile } = useExportFileStudent();
-  // console.log(studentsFile);
-  const handleExport = () => {
-    // studentsFile();
+
+  const { mutate: addFile, isPending: isAddingFile } = useImportFileStudents();
+
+  const { exportFile, isExporting } = useExportFileStudent();
+
+  const handleExport = async () => {
+    if (isExporting) return;
+
+    try {
+      const blob = await exportFile();
+
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "students.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      toast.error("Failed to export file.");
+    }
   };
 
-  const handleImport = () => {
-    alert("استيراد البيانات...");
+  const handleImportClick = () => {
+    fileInputRef.current.click();
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      addFile(formData, {
+        onSuccess: () => {
+          toast.success("تم رفع الملف بنجاح، جاري معالجة الطلاب");
+          refetch();
+        },
+        onError: (err) => {
+          toast.error(err.message || "فشل رفع الملف");
+        },
+      });
+    }
+  };
+
+  // 1. Filter students by search query on the client-side
   const filteredStudents = useMemo(() => {
     if (!students?.data) return [];
     return students.data.filter((student) =>
       student.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [students, searchQuery]);
+
+  // 2. Calculate total pages based on the filtered list
+  const totalPages = Math.ceil(filteredStudents.length / STUDENTS_PER_PAGE);
+
+  // 3. Paginate the filtered list
+  const paginatedStudents = useMemo(() => {
+    const startIndex = (currentPage - 1) * STUDENTS_PER_PAGE;
+    const endIndex = startIndex + STUDENTS_PER_PAGE;
+    return filteredStudents.slice(startIndex, endIndex);
+  }, [filteredStudents, currentPage]);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
+  // Reset page to 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [department, semester, searchQuery]);
+
+  const isWorking = isPending || isLoading || isAddingFile;
 
   if (isPending || isLoading) return <Spinner />;
 
@@ -135,28 +242,46 @@ const StudentsManagementContent = () => {
         message={
           error?.message || errorDept?.message || "خطأ في تحميل البيانات"
         }
-        onRetry={error ? refetch : refetchDept}
+        onRetry={error ? refetch : refetch}
       />
     );
   }
 
   return (
     <PageContainer>
+      {/* Hidden file input */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        style={{ display: "none" }}
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+      />
+
       <Header>
         <Title>إدارة الطلاب</Title>
         <ActionsContainer>
           <ActionButton
             onClick={() => navigate("create-student")}
             bgColor="#0d825b"
+            disabled={isWorking}
           >
             <FaPlus />
             <span>إضافة طالب</span>
           </ActionButton>
-          <ActionButton onClick={handleImport} bgColor="#3b82f6">
+          <ActionButton
+            onClick={handleImportClick}
+            bgColor="#3b82f6"
+            disabled={isWorking}
+          >
             <FaFileImport />
-            <span>استيراد ملف</span>
+            <span>{isAddingFile ? "جاري الرفع..." : "استيراد ملف"}</span>
           </ActionButton>
-          <ActionButton onClick={handleExport} bgColor="#10b981">
+          <ActionButton
+            onClick={handleExport}
+            bgColor="#10b981"
+            disabled={isWorking}
+          >
             <FaFileExport />
             <span>تصدير ملف</span>
           </ActionButton>
@@ -168,6 +293,7 @@ const StudentsManagementContent = () => {
           <FilterSelect
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
+            disabled={isWorking}
           >
             <option value="">-- اختر القسم --</option>
             {departments?.data?.map((dept) => (
@@ -179,6 +305,7 @@ const StudentsManagementContent = () => {
           <FilterSelect
             value={semester}
             onChange={(e) => setSemester(e.target.value)}
+            disabled={isWorking}
           >
             <option value="">-- اختر الفرقة / الترم --</option>
             {semesterTerms.map((sem) => (
@@ -193,6 +320,7 @@ const StudentsManagementContent = () => {
             placeholder="ابحث باستخدام اسم الطالب..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            disabled={isWorking}
           />
           <StyledSearchIcon />
         </SearchContainer>
@@ -210,8 +338,12 @@ const StudentsManagementContent = () => {
               <div>القسم</div>
               <div>الفرقة</div>
             </ListHeader>
-            {filteredStudents.map((student) => (
-              <StudentRow key={student.id}>
+            {/* Map over the paginated list */}
+            {paginatedStudents.map((student) => (
+              <StudentRow
+                key={student.id}
+                onClick={() => navigate(`edit-student/${student.id}`)}
+              >
                 <UserInfo>
                   <Avatar
                     src={`https://${student.avatar}`}
@@ -223,32 +355,50 @@ const StudentsManagementContent = () => {
                 <Department>{student.department}</Department>
                 <Department>{student.class}</Department>
                 <ButtonsContainer>
-                  <EditButton
-                    onClick={() => navigate(`edit-student/${student.id}`)}
-                    title="تعديل بيانات الطالب"
-                  >
+                  <EditButton title="تعديل بيانات الطالب">
                     <CiEdit />
                   </EditButton>
                 </ButtonsContainer>
               </StudentRow>
             ))}
-            <Pagination></Pagination>
           </ContentContainer>
+
+          {totalPages > 1 && (
+            <PaginationContainer>
+              <PaginationNavButton
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <GrFormPrevious />
+                <span>السابق</span>
+              </PaginationNavButton>
+
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <PaginationButton
+                    key={page}
+                    active={page === currentPage}
+                    onClick={() => handlePageChange(page)}
+                  >
+                    {page}
+                  </PaginationButton>
+                )
+              )}
+
+              <PaginationNavButton
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <GrFormNext />
+                <span>التالي</span>
+              </PaginationNavButton>
+            </PaginationContainer>
+          )}
         </>
       ) : (
         <EmptyStateContainer>
           <h3>لا يوجد طلاب يطابقون هذا البحث.</h3>
-          <p>
-            حاول تغيير الفلاتر أو قم بإضافة بعض الطلاب باستخدام الازار بالأعلي
-            سواء عن طريق ملف او يدوي
-          </p>
-          {/* <ActionButton
-            onClick={() => navigate("create-student")}
-            bgColor="#0d825b"
-          >
-            <FaPlus />
-            <span>إضافة طالب</span>
-          </ActionButton> */}
+          <p>حاول تغيير الفلاتر أو قم بإضافة بعض الطلاب.</p>
         </EmptyStateContainer>
       )}
     </PageContainer>

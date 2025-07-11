@@ -2,11 +2,12 @@ import styled from "styled-components";
 import SuperButton from "./SuperButton";
 
 const StyledCard = styled.div`
+  border-top: 5px solid #30BD58;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: var(--shadow-primary);
-  border-radius: var(--border-radius-lg);
+  border-radius: 1rem;
   padding: 1rem;
   gap: 1rem;
   background-color: #fff;
@@ -66,14 +67,7 @@ const P = styled.p`
 `;
 
 const SuperCard = ({ Buttons, data }) => {
-  const {
-    id,
-    name,
-    description,
-    teachers,
-    courses,
-    students,
-  } = data;
+  const { id, name, description, teachers, courses, students } = data;
   return (
     <StyledCard>
       <Img src="/logo.png" alt="logo" />

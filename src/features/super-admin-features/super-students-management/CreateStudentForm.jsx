@@ -4,12 +4,11 @@ import { toast } from "react-hot-toast";
 import styled from "styled-components";
 
 import useGetDepartments from "../super-department-management/useGetDepartments";
-import useCreateStudent from "./useCreateStudent"; // You will need to create this hook
+import useCreateStudent from "./useCreateStudent"; 
 
 import Spinner from "../../../ui/amr/Spinner";
 import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
 
-// --- Styled Components ---
 
 const FormContainer = styled.form`
   width: 100%;

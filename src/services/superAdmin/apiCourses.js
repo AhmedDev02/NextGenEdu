@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../../utils/apiConstant";
 
-export const getCourses = async (token, department, semester) => {
+export const getCourses = async (token, department = 1, semester = 1) => {
     const headers = {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",

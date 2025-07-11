@@ -6,8 +6,8 @@ const UpdateBuildingPage = () => {
   return (
     <>
       <ContentHeader
-        title={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_HALL.title}
-        description={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_HALL.description}
+        title={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_BUILDING.title}
+        description={SUPER_ADMIN_PAGES_PROPERTIES.UPDATE_BUILDING.description}
         button={true}
       />
       <UpdateBuilding />

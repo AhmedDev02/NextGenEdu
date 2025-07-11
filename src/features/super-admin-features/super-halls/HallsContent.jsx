@@ -175,7 +175,6 @@ const HallsContent = () => {
     data: buildingsData,
     isPending: isLoadingBuildings,
     error: errorBuildings,
-    refetch,
   } = useGetBuildings();
 
   const { halls, isLoadingHalls, errorFetchingHall, refetchHalls } =
@@ -207,7 +206,6 @@ const HallsContent = () => {
       state: "page with id",
     },
   ];
-  console.log(halls);
 
   return (
     <PageContainer>

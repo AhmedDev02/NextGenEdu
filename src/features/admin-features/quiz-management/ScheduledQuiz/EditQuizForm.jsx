@@ -26,7 +26,6 @@ import {
   Input,
   InputContainer,
   Label,
-  P,
   QuestionBox,
   QuestionContent,
   QuestionSidebar,
@@ -43,7 +42,11 @@ import {
 } from "../CreateQuiz/CreateQuizStyles";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import styled from "styled-components";
 
+const ErrorMessage = styled.p`
+  color: red;
+`;
 function EditQuizForm() {
   const { quizId } = useParams();
   const { quiz, isPending: isFetching, error, refetch } = useShowQuiz(quizId);
@@ -163,6 +166,9 @@ function EditQuizForm() {
             {...register("description")}
             disabled={isWorking}
           />
+          {errors.description && (
+            <ErrorMessage>{errors.description.message}</ErrorMessage>
+          )}
         </InputContainer>
         <ControlledContainer>
           <Div>
@@ -173,6 +179,9 @@ function EditQuizForm() {
               {...register("duration")}
               disabled={isWorking || isPublished}
             />
+            {errors.duration && (
+              <ErrorMessage>{errors.duration.message}</ErrorMessage>
+            )}
           </Div>
           <Div>
             <Label htmlFor="question_degree">درجة السؤال</Label>
@@ -183,6 +192,9 @@ function EditQuizForm() {
               {...register("question_degree")}
               disabled={isWorking}
             />
+            {errors.question_degree && (
+              <ErrorMessage>{errors.question_degree.message}</ErrorMessage>
+            )}
           </Div>
           <Div>
             <Label>عدد الأسئلة</Label>

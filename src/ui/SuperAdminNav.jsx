@@ -11,6 +11,7 @@ import {
 import { TbBuildings } from "react-icons/tb";
 
 import Button from "./Button";
+import { PiDoorDuotone } from "react-icons/pi";
 
 const NavList = styled.ul`
   display: flex;
@@ -128,7 +129,7 @@ function SuperAdminNav() {
         </li>
         <li>
           <StyledNavLink to="halls">
-            <TbBuildings />
+            <PiDoorDuotone />
             <span>{SUPER_ADMIN_ITEMS.HALLS}</span>
           </StyledNavLink>
         </li>
