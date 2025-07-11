@@ -46,39 +46,44 @@ function MaterialExamContent() {
   const { exams: data, isPending } = useReadQuizzes();
 
   const exams = data?.data;
-  const { examId } = useParams(); // 👈 Get "3258" from URL
+  console.log(exams);
+  const { examId: courseId } = useParams();
 
-  const courseId = parseInt(examId.slice(-2)); // 👈 Extract last 2 digits (e.g., "58")
-  function filterExamsByCourseId(exams, courseId) {
-    return exams.filter((exam) => String(exam.course?.id) === String(courseId));
-  }
-  const filteredExams = filterExamsByCourseId(exams, courseId);
-  console.log(filteredExams);
   const filteredFinishedExams = exams?.filter(
-    (exam) => exam.course.id === courseId && exam.status === "finished"
+    (exam) => +exam?.course?.id === +courseId && exam?.status === "finished"
   );
+  console.log(filteredFinishedExams);
   const filteredScheduledExams = exams?.filter(
-    (exam) => exam.course.id === courseId && exam.status === "scheduled"
+    (exam) => +exam?.course?.id === +courseId && exam?.status === "scheduled"
   );
   const filteredStartedExams = exams?.filter(
-    (exam) => exam.course.id === courseId && exam.status === "started"
+    (exam) => +exam?.course?.id === +courseId && exam?.status === "started"
   );
 
   console.log(filteredScheduledExams, filteredStartedExams);
+  // console.log(filteredStartedExams[0].start_time);
+
   if (isPending) {
     <Spinner />;
   }
   return (
     <Div>
       <NextExamsDiv>
-        <NextExam
-          examId={examId}
-          examGoal={
-            " يركز الاختبار على قدرة الطالب على إنشاء الدوال واستخدامها داخل الفئات (Classes) بشكل فعال، مع فهم كيفية تمرير البيانات (Parameters) وإرجاع القيم (Return Values)."
-          }
-          startTime={"الخميس 31 أكتوبر 2024 ، الساعة 12:59 صباحاً"}
-          endTime={"الخميس 31 أكتوبر 2024 ، الساعة 01:14 صباحاً"}
-        />
+        {filteredStartedExams?.map((startedExam) => {
+          console.log(startedExam);
+          return (
+            <NextExam
+              examId={courseId}
+              key={startedExam.id}
+              startedExam={startedExam}
+              examGoal={
+                " يركز الاختبار على قدرة الطالب على إنشاء الدوال واستخدامها داخل الفئات (Classes) بشكل فعال، مع فهم كيفية تمرير البيانات (Parameters) وإرجاع القيم (Return Values)."
+              }
+              startTime={"الخميس 31 أكتوبر 2024 ، الساعة 12:59 صباحاً"}
+              endTime={"الخميس 31 أكتوبر 2024 ، الساعة 01:14 صباحاً"}
+            />
+          );
+        })}
       </NextExamsDiv>
       <Divider />
       <PrevExamsDiv>
