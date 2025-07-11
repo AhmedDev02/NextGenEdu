@@ -148,18 +148,15 @@ export async function addQuestion(token, body) {
   if (!token) {
     throw new Error("Token is required");
   }
+  console.log(token);
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
   try {
-    const response = await axios.post(
-      `${BASE_URL_NODE}/questions/add`,
-      body,
-      {
-        headers,
-      }
-    );
+    const response = await axios.post(`${BASE_URL_NODE}/questions/add`, body, {
+      headers,
+    });
 
     console.log(response.data);
     return response.data;

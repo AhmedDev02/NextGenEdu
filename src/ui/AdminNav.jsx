@@ -117,12 +117,12 @@ function StudentNav() {
             <span>{ADMIN_ITEMS.TASKS_MANAGEMENT}</span>
           </StyledNavLink>
         </li>
-        <li>
+        {/* <li>
           <StyledNavLink to="students">
             <HiOutlineUserGroup />
             <span>{ADMIN_ITEMS.STUDENTS_MANAGEMENT}</span>
           </StyledNavLink>
-        </li>
+        </li> */}
         <li>
           <StyledNavLink to="discussion">
             <HiOutlineLockClosed />
@@ -135,12 +135,12 @@ function StudentNav() {
             <span>{ADMIN_ITEMS.WEEKLY_SCHEDULE}</span>
           </StyledNavLink>
         </li>
-        <li>
+        {/* <li>
           <StyledNavLink to="final-result">
             <HiOutlineCheckCircle />
             <span>{ADMIN_ITEMS.FINAL_GRADES}</span>
           </StyledNavLink>
-        </li>
+        </li> */}
         <Button
           variation="secondary"
           size="custom"

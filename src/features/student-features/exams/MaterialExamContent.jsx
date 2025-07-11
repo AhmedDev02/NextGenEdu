@@ -123,7 +123,7 @@ function MaterialExamContent() {
       <Divider />
       <PrevExamsDiv>
         {filteredScheduledExams?.map((scheduledExams, index) => {
-          return <ScheduledExams ScheduledExams={scheduledExams} key={index} />;
+          return <ScheduledExams scheduledExams={scheduledExams} key={index} />;
         })}
       </PrevExamsDiv>
       <PrevExamsDiv>

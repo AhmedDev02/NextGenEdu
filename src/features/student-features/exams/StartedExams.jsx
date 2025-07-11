@@ -44,6 +44,7 @@ function StartedExams({ startedExam, onStart }) {
           <H3>إختبار {startedExam?.title} </H3>
           <Span>{startedExam?.description}</Span>
           <Span>{startedExam?.date} </Span>
+          <Span>{startedExam?.total_degree} </Span>
         </Divider>
       </ExamLogoDiv>
       <Button
