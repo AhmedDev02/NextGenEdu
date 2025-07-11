@@ -55,15 +55,15 @@ const ScoreSummary = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #e0f2f7; /* خلفية زرقاء فاتحة لجذب الانتباه */
-  color: #007bff; /* لون أزرق أساسي */
+  background-color: #e0f2f7;
+  color: #007bff;
   padding: 18px 30px;
   border-radius: 10px;
-  font-size: 1.6em; /* حجم أكبر للدرجة */
+  font-size: 1.6em;
   font-weight: bold;
   margin-bottom: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* ظل خفيف */
-  border: 1px solid #b3e0ff; /* حدود خفيفة */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #b3e0ff;
 
   span {
     margin: 0 7px;
@@ -78,22 +78,22 @@ const QuestionBlock = styled.div`
   padding: 25px;
   margin-bottom: 25px;
   width: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07); /* ظل أوضح للبطاقة */
-  transition: transform 0.2s ease-in-out; /* إضافة تأثير عند التفاعل */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  transition: transform 0.2s ease-in-out;
 
   &:hover {
-    transform: translateY(-3px); /* رفع البطاقة قليلاً عند المرور عليها */
+    transform: translateY(-3px);
   }
 `;
 
 // تصميم نص السؤال
 const QuestionText = styled.h3`
-  font-size: 1.5em; /* حجم أكبر لنص السؤال */
-  color: #2c3e50; /* لون أغمق وأكثر وضوحًا */
+  font-size: 1.5em;
+  color: #2c3e50;
   margin-bottom: 20px;
   line-height: 1.6;
   padding-bottom: 15px;
-  border-bottom: 1px dashed #e0e0e0; /* خط منقط فاصل */
+  border-bottom: 1px dashed #e0e0e0;
 `;
 
 // حاوية الخيارات
@@ -121,9 +121,9 @@ const OptionItem = styled.li`
   ${(props) =>
     props.$status === "correct" &&
     `
-    background-color: #eaf7ed; /* أخضر فاتح جداً */
-    border-color: #a6e6a6; /* حدود خضراء */
-    color: #28a745; /* نص أخضر */
+    background-color: #eaf7ed; 
+    border-color: #a6e6a6;
+    color: #28a745;
   `}
 
   // حالة: الطالب اختار إجابة خاطئة
@@ -195,6 +195,30 @@ function ShowExamAnswersContent() {
   }
 
   const examData = answers.data;
+  let calculatedStudentDegree = 0;
+  let questionPointValue = 0;
+
+  if (examData.questions && examData.questions.length > 0) {
+    // Calculate the points per question based on total max_degree
+    // This assumes all questions have equal point values
+    questionPointValue = examData.max_degree / examData.questions.length;
+
+    examData.questions.forEach((question) => {
+      const studentAnswerId = question.student_answer;
+      const correctAnswer = question.answers.find((ans) => ans.correct === 1);
+
+      // Check if student provided an answer and if that answer is correct
+      if (
+        studentAnswerId !== null &&
+        studentAnswerId !== undefined &&
+        correctAnswer &&
+        studentAnswerId === correctAnswer.id
+      ) {
+        calculatedStudentDegree += questionPointValue;
+      }
+    });
+  }
+  // --- End of Frontend Calculation Logic ---
 
   return (
     <Container>
@@ -206,7 +230,9 @@ function ShowExamAnswersContent() {
 
       <ScoreSummary>
         <span>درجتك:</span>
-        <span>{examData.student_degree}</span>
+        {/* <span>{examData.student_degree}</span> */}
+        <span>{calculatedStudentDegree}</span>
+
         <span>/</span>
         <span>{examData.max_degree}</span>
       </ScoreSummary>
