@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
 import { MdAssignmentAdd } from "react-icons/md";
+import { useSearchParams } from "react-router-dom";
+import { useGetAnswers } from "./useGetAnswers";
 
 const Div = styled.div`
   display: flex;
@@ -31,6 +33,7 @@ const Span = styled.span`
 const Divider = styled.div``;
 
 function StartedExams({ startedExam, onStart }) {
+  const { answers } = useGetAnswers(startedExam?.id);
   return (
     <Div>
       <ExamLogoDiv>
