@@ -4,6 +4,7 @@ import AnswerForm from "./AnswerForm";
 import AnswerModal from "./AnswerModal";
 import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
 import useDeleteAnswer from "./useDeleteAnswer";
+import { useUser } from "../../../hooks/useUser";
 
 const Container = styled.div`
   position: relative;
@@ -129,6 +130,7 @@ const AnswerStatusContainer = styled.div`
 `;
 
 function AnswersContainer({ id, answers, questionID }) {
+  const { user } = useUser();
   return (
     <Container>
       <H3>أحدث الإجابات</H3>
@@ -137,7 +139,7 @@ function AnswersContainer({ id, answers, questionID }) {
           <AnswerTextDiv>
             <AnswerHead>
               <AvatarDiv>
-                <Avatar src={"https://" + answer.user.avatar} alt="user" />
+                <Avatar src={answer.user.avatar} alt="user" />
                 <AnswerUserInfoDiv>
                   <Name first={index === 0}>{answer.user.name}</Name>
                   <StudentLevel>
@@ -149,7 +151,8 @@ function AnswersContainer({ id, answers, questionID }) {
             </AnswerHead>
             <AnswerBody>{answer.body}</AnswerBody>
           </AnswerTextDiv>
-          {answer.user.id == id && (
+
+          {(answer.user.id == id || user.role === "Teacher") && (
             <AnswerStatusContainer>
               <AnswerStatus
                 liked={answer.user.liked}
@@ -160,7 +163,7 @@ function AnswersContainer({ id, answers, questionID }) {
               <AnswerModal answerID={answer._id} />
             </AnswerStatusContainer>
           )}
-          {answer.user.id !== id && (
+          {user.role !== "Teacher" && answer.user.id !== id && (
             <AnswerStatus
               answerID={answer._id}
               first={+index === 0}

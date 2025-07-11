@@ -136,6 +136,7 @@ function App() {
             <Route path="*" element={<PageNotFound />} />
             <Route path="403" element={<Forbidden />} />
             {/* Student */}
+
             <Route
               path="/"
               element={
@@ -160,7 +161,6 @@ function App() {
               {/* <Route path="chat" element={<MaintenancePage />} /> */}
 
               <Route path="discussion" element={<Discussion />} />
-              <Route path="discussion/:questionID" element={<Answers />} />
 
               <Route path="weekly-schedule" element={<WeeklySchedule />} />
               <Route path="projects-timeline" element={<ProjectsTimeline />} />
@@ -181,6 +181,7 @@ function App() {
 
               <Route path="final-results" element={<FinalResults />} />
               <Route path="profile" element={<StudentProfile />} />
+              <Route path="discussion/:questionID" element={<Answers />} />
             </Route>
 
             {/* Admin */}
@@ -193,7 +194,7 @@ function App() {
               }
             >
               <Route index element={<Navigate replace to="dashboard" />} />
-
+              <Route path="discussion/:questionID" element={<Answers />} />
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="dashboard/:curriculumId" element={<Curriculum />} />
 
