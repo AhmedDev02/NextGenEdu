@@ -79,9 +79,12 @@ const H3 = styled.h3`
 function SignOutButton({ isVisible, path }) {
   const [shouldRender, setShouldRender] = useState(isVisible);
   const navigate = useNavigate();
-  const { signOut, isLoading } = useSignOut();
-  const { token } = useUser();
-  const dispatch = useDispatch();
+  const { mutate, isLoading } = useSignOut();
+  const { token, user } = useUser();
+  const role = user?.role;
+  let url;
+
+  // const dispatch = useDispatch();
 
   const fadeInDown = useSpring({
     opacity: isVisible ? 1 : 0,
@@ -97,14 +100,23 @@ function SignOutButton({ isVisible, path }) {
 
   if (!shouldRender) return null; // Completely remove from DOM
 
+  switch (role) {
+    case "Student":
+      url = "/students/login";
+      break;
+    default:
+      url = "/teachers/login";
+
+      break;
+  }
   return (
     <LogoutContainer
       onClick={function () {
-        return signOut(token);
+        return mutate(token);
       }}
       style={fadeInDown}
     >
-      <H3>تسجيل الخروج</H3>
+      <H3>{isLoading ? "جاري تسجيل الخروج..." : "تسجيل الخروج"}</H3>
       <IconWrapper>
         <FiLogOut />
       </IconWrapper>

@@ -1,36 +1,46 @@
+import axios from "axios";
 import { BASE_URL } from "../../utils/apiConstant";
 
-export async function signOut(token) {
+export async function signOut(token, teacher) {
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest", // Custom headers are fine if backend expects them
+    "X-Device-Type": "web", // Custom headers are fine if backend expects them
+    Authorization: `Bearer ${token}`,
+  };
+
   try {
-    // Construct the full URL for the logout endpoint
-    const response = await fetch(`${BASE_URL}/logout`, {
-      method: "POST", // Use POST or DELETE, as shown in your Postman image (DELETE is ideal)
-      headers: {
-        "Content-Type": "application/json", // Or 'application/x-www-form-urlencoded' if your backend expects it
-        Accept: "application/json", // Generally good practice for API responses
-        Authorization: `Bearer ${token}`, // Send the token for invalidation
-      },
+    const url = teacher
+      ? `https://nextgenedu-database.azurewebsites.net/api/logout`
+      : `${BASE_URL}/logout`;
+
+    console.log(url);
+    const response = await axios.delete(url, {
+      headers: headers, // Pass your headers directly in the config object
     });
 
-    if (!response.ok) {
-      // If the server returns an error (e.g., 401 Unauthorized if token is invalid, 500 etc.)
-      const errorData = await response
-        .json()
-        .catch(() => ({ message: "Unknown error" }));
-      throw new Error(
-        `Logout failed: ${response.status} - ${
-          errorData.message || response.statusText
-        }`
-      );
-    }
-
-    const data = await response
-      .json()
-      .catch(() => ({ message: "Logout successful" }));
-    return data; // Or simply return true/void if no specific data is expected
+    console.log("Sign out successful:", response.data);
+    return response.data;
   } catch (error) {
     console.error("Sign out error:", error);
-    // Rethrow the error so the calling hook/component can handle it
-    throw error;
+
+    if (error.response) {
+      console.error("Error response data:", error.response.data);
+      console.error("Error response status:", error.response.status);
+      console.error("Error response headers:", error.response.headers);
+      throw new Error(
+        `Logout failed: ${error.response.status} - ${
+          error.response.data.message ||
+          error.response.statusText ||
+          "Unknown error"
+        }`
+      );
+    } else if (error.request) {
+      console.error("Error request:", error.request);
+      throw new Error("Logout failed: No response received from server.");
+    } else {
+      console.error("Error message:", error.message);
+      throw new Error(`Logout failed: ${error.message}`);
+    }
   }
 }
