@@ -9,10 +9,21 @@ export async function signOut(token, teacher) {
     Authorization: `Bearer ${token}`,
   };
 
+  let url;
+
   try {
-    const url = teacher
-      ? `https://nextgenedu-database.azurewebsites.net/api/logout`
-      : `${BASE_URL}/logout`;
+    switch (teacher) {
+      case "Student":
+        url = `${BASE_URL}/logout`;
+        break;
+      case "Teacher":
+        url = `${BASE_URL}/teachers/logout`;
+        break;
+      default:
+        url = `${BASE_URL}/dashboard/logout`;
+
+        break;
+    }
 
     console.log(url);
     const response = await axios.delete(url, {
