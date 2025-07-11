@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -5,12 +6,16 @@ import {
   TbCode,
   TbWorldLatitude,
   TbWorldLongitude,
+  TbRoute,
 } from "react-icons/tb";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { toast } from "react-hot-toast";
 
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import L from "leaflet";
+import "leaflet-routing-machine";
 
 import Spinner from "../../../ui/amr/Spinner";
 import ErrorFallBack from "../../../ui/amr/ErrorFallBack";
@@ -54,15 +59,13 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+  flex-wrap: wrap;
 `;
 
 const TitleGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  @media (max-width: 768px) {
-    gap: 0.5rem;
-  }
 `;
 
 const Title = styled.h1`
@@ -135,36 +138,44 @@ export const ActionButton = styled.button`
 `;
 
 const MapWrapper = styled.div`
-  height: 400px;
+  height: 500px;
   width: 100%;
 `;
+
 const ButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
+  gap: 1rem;
 `;
-function BuildingMap({ position }) {
-  return (
-    <MapWrapper>
-      <MapContainer
-        center={position}
-        zoom={16}
-        style={{ height: "100%", width: "100%" }}
-        scrollWheelZoom={false}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        />
-        <Marker position={position}></Marker>
-      </MapContainer>
-    </MapWrapper>
-  );
-}
+
+const RoutingMachine = ({ start, end }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!map || !start || !end) return;
+
+    const routingControl = L.Routing.control({
+      waypoints: [L.latLng(start[0], start[1]), L.latLng(end[0], end[1])],
+      routeWhileDragging: false,
+      lineOptions: {
+        styles: [{ color: "#0d825b", weight: 4 }],
+      },
+      show: true,
+      addWaypoints: false,
+      draggableWaypoints: false,
+      fitSelectedRoutes: true,
+      showAlternatives: false,
+      createMarker: function () {
+        return null;
+      },
+    }).addTo(map);
+
+    return () => map.removeControl(routingControl);
+  }, [map, start, end]);
+
+  return null;
+};
 
 function BuildingDetails() {
   const { buildingId } = useParams();
@@ -176,12 +187,34 @@ function BuildingDetails() {
     refetch,
   } = useGetOneBuilding(buildingId);
 
+  const [userPosition, setUserPosition] = useState(null);
+  const [showRoute, setShowRoute] = useState(false);
+
+  const handleGetDirections = () => {
+    if (!navigator.geolocation) {
+      return toast.error("Geolocation is not supported by your browser.");
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserPosition([position.coords.latitude, position.coords.longitude]);
+        setShowRoute(true);
+        toast.success("تم تحديد موقعك! جاري حساب المسار");
+      },
+      () => {
+        toast.error(
+          "غير قادر على الوصول لموقعك. الرجاء تفعيل خدمة تحديد المواقع."
+        );
+      }
+    );
+  };
+
   if (isPending) return <Spinner />;
   if (error) return <ErrorFallBack message={error.message} onRetry={refetch} />;
 
   const { name, code, latitude, longitude } = building.data;
+  const buildingPosition = [parseFloat(latitude), parseFloat(longitude)];
 
-  const position = [parseFloat(latitude), parseFloat(longitude)];
   return (
     <DetailsPageContainer>
       <DetailsCard>
@@ -193,6 +226,10 @@ function BuildingDetails() {
             </IconWrapper>
           </TitleGroup>
           <ButtonsContainer>
+            <ActionButton onClick={handleGetDirections} bgColor="#10b981">
+              <TbRoute />
+              <span>اظهر الطريق</span>
+            </ActionButton>
             <Modal>
               <Modal.Open opens="delete-building">
                 <ActionButton type="button" bgColor="#fa5451">
@@ -238,7 +275,25 @@ function BuildingDetails() {
           </InfoRow>
         </ContentGrid>
 
-        <BuildingMap position={position} />
+        <MapWrapper>
+          <MapContainer
+            center={buildingPosition}
+            zoom={16}
+            style={{ height: "100%", width: "100%" }}
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+            <Marker position={buildingPosition}></Marker>
+
+            {userPosition && <Marker position={userPosition}></Marker>}
+
+            {showRoute && userPosition && (
+              <RoutingMachine start={userPosition} end={buildingPosition} />
+            )}
+          </MapContainer>
+        </MapWrapper>
       </DetailsCard>
     </DetailsPageContainer>
   );
