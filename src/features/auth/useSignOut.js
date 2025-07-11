@@ -23,7 +23,7 @@ export function useSignOut() {
 
       break;
   }
-  const isTeacher = role === "Teacher";
+
   const { mutate, isPending: isLoading } = useMutation({
     mutationFn: () => signOutApi(token, role), // The function that performs the sign-out API call
     onSuccess: () => {
