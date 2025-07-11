@@ -46,7 +46,7 @@ const CreateQuizContent = () => {
       title: "",
       description: "",
       duration: 10,
-      question_degree: 2,
+      question_degree: 1,
       startDate: new Date(),
       endDate: new Date(new Date().getTime() + 10 * 60000),
       questions: [],
@@ -119,7 +119,7 @@ const CreateQuizContent = () => {
             <ControlledInput
               id="duration"
               type="number"
-              min="1"
+              min="5"
               {...register("duration", { required: "يجب تحديد وقت الاختبار" })}
               disabled={isCreating}
             />
@@ -130,8 +130,8 @@ const CreateQuizContent = () => {
             <ControlledInput
               id="question_degree"
               type="number"
-              min="0.5"
-              step="0.5"
+              min="1"
+              step="1"
               {...register("question_degree", {
                 required: "يجب اختيار درجة لكل سؤال",
               })}

@@ -348,9 +348,6 @@ function UpdateTeacherForm() {
           </Modal>
         </div>
         <Buttons>
-          <Button type="button" disabled={isWorking}>
-            إلغاء
-          </Button>
           <SubmitButton type="submit" disabled={!isDirty || isWorking}>
             {isWorking ? "جاري الحفظ..." : "حفظ التغييرات"}
           </SubmitButton>

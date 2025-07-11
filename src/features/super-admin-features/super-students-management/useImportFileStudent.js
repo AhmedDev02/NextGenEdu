@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query"
-import {  importFileStudent } from "../../../services/superAdmin/apiStudents"
+import { importFileStudent } from "../../../services/superAdmin/apiStudents"
 import { useUser } from "../../../hooks/useUser"
 
 const useImportFileStudents = () => {

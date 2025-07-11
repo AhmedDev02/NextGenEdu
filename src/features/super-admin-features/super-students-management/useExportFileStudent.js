@@ -1,14 +1,16 @@
-import { useQuery } from "@tanstack/react-query"
-import { useUser } from "../../../hooks/useUser"
-import { exportFileStudent } from "../../../services/superAdmin/apiStudents"
+
+import { useMutation } from "@tanstack/react-query";
+import { useUser } from "../../../hooks/useUser";
+import { exportFileStudent } from "../../../services/superAdmin/apiStudents";
 
 const useExportFileStudent = () => {
-    const { token } = useUser()
-    const { data: studentsFile, isPending, error, refetch } = useQuery({
-        queryKey: ['students-file'],
-        queryFn: () => exportFileStudent(token)
-    })
-    return { studentsFile, isPending, error, refetch }
-}
+    const { token } = useUser();
 
-export default useExportFileStudent
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: () => exportFileStudent(token),
+    });
+
+    return { exportFile: mutateAsync, isExporting: isPending };
+};
+
+export default useExportFileStudent;

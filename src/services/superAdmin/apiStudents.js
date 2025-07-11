@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL } from "../../utils/apiConstant";
 
-export const getStudents = async (token, department, semester, page) => {
+export const getStudents = async (token, department, semester) => {
     const headers = {
         "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
@@ -9,7 +9,7 @@ export const getStudents = async (token, department, semester, page) => {
         Authorization: `Bearer ${token}`,
     };
     try {
-        const response = await axios.get(`${BASE_URL}/dashboard/students?department=${department}&semester=${semester}&page=${page}`, { headers })
+        const response = await axios.get(`${BASE_URL}/dashboard/students?department=${department}&semester=${semester}`, { headers })
         return response.data;
     } catch (error) {
         console.error("Error fetching students:", error.message);
@@ -82,32 +82,38 @@ export const updateStudent = async (token, studentId, updatedData) => {
 
 export const importFileStudent = async (token, file) => {
     const headers = {
-        "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "X-Device-Type": "web",
         Authorization: `Bearer ${token}`,
+        "Accept": "application/json"
     };
     try {
-        const response = await axios.post(`${BASE_URL}/dashboard/students/import`, file, { headers })
+        const response = await axios.post(`${BASE_URL}/dashboard/students/import`, file, { headers });
         return response.data;
     } catch (error) {
         console.error("Error importing file:", error.message);
+        if (error.response) {
+            console.error("Error response:", error.response.data);
+        }
         throw error;
     }
-}
+};
+
+
 export const exportFileStudent = async (token) => {
     const headers = {
-        "Content-Type": "application/json",
         "X-Requested-With": "XMLHttpRequest",
         "X-Device-Type": "web",
         Authorization: `Bearer ${token}`,
     };
     try {
-        const response = await axios.get(`${BASE_URL}/dashboard/students/export`, { headers })
+        const response = await axios.get(`${BASE_URL}/dashboard/students/export`, {
+            headers,
+            responseType: 'blob',
+        });
         return response.data;
     } catch (error) {
         console.error("Error exporting file:", error.message);
         throw error;
     }
-}
-
+};

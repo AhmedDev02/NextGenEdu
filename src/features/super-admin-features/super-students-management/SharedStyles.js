@@ -60,7 +60,7 @@ export const FilterSelect = styled.select`
 
   &:focus {
     outline: none;
-    box-shadow: var(--shadow-primary);
+    border-color: #10b981;
   }
 `;
 
@@ -136,8 +136,8 @@ export const SearchInput = styled.input`
 
   &:focus {
     outline: none;
-    border: 1px solid black;
-    box-shadow: var(--shadow-primary);
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px #dcfce7;
   }
 `;
 

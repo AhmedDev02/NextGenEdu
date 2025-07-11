@@ -151,6 +151,7 @@ export async function addQuestion(token, body) {
   console.log(token);
   const headers = {
     "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
     Authorization: `Bearer ${token}`,
   };
   try {
@@ -162,7 +163,7 @@ export async function addQuestion(token, body) {
     return response.data;
   } catch (error) {
     console.log("مشكله في ارسال السؤال:", error?.response?.data || error);
-    throw error; // ✅ Re-throw the error so `onError` in the mutation is triggered
+    throw error;
   }
 }
 
@@ -170,7 +171,6 @@ export async function addAnswer(questionID, token, text) {
   if (!token) {
     throw new Error("Token is required");
   }
-  console.log(token);
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,

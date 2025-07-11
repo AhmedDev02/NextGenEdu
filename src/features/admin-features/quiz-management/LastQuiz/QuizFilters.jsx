@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { SlArrowDown } from "react-icons/sl";
 import { IoIosSearch } from "react-icons/io";
 
 const StyledTimeContainer = styled.div`
@@ -15,18 +14,6 @@ const StyledTimeContainer = styled.div`
   align-items: center;
   @media (max-width: 760px) {
     width: 95%;
-  }
-`;
-const StyledButton = styled.button`
-  padding-inline: 16px;
-  background: linear-gradient(to bottom, #30bd58, #399f63);
-  border-radius: 12px;
-  width: 30%;
-  height: 46px;
-  color: #ffffff;
-  border: 0;
-  @media (max-width: 760px) {
-    width: 33%;
   }
 `;
 const StyledSearchButton = styled.input`

@@ -15,7 +15,7 @@ const sizes = {
     font-size: 1.4rem;
     padding: 1rem 5rem;
     font-weight: var(--font-weight-semibold);
-    border-radius: var(--border-radius-md);
+    border-radius: 1rem;
   `,
   large: css`
     font-size: 1.6rem;

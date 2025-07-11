@@ -13,14 +13,14 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 const QuestionItem = ({ field, index, remove, register, watch, setValue }) => {
   const correctAnswer = watch(`questions.${index}.correctAnswerIndex`);
-
+console.log(field)
   return (
     <QuestionBox>
       <QuestionContent>
         <QuestionTextarea
           placeholder={`نص السؤال ${index + 1}...`}
           {...register(`questions.${index}.text`, {
-            required: "Question text is required.",
+            required: "يجب كتابة السؤال",
           })}
         />
         <AnswerOptionsGrid>
@@ -39,7 +39,7 @@ const QuestionItem = ({ field, index, remove, register, watch, setValue }) => {
                 placeholder={`إجابة ${optionIndex + 1}`}
                 {...register(
                   `questions.${index}.options.${optionIndex}.value`,
-                  { required: "Answer can't be empty." }
+                  { required: "الاجابة يجب الا تكون فارغة" }
                 )}
               />
             </AnswerOption>
