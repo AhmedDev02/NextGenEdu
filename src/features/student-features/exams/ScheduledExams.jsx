@@ -28,8 +28,7 @@ const Span = styled.span`
 `;
 const Divider = styled.div``;
 
-function ScheduledExams({ ScheduledExams }) {
-  console.log(ScheduledExams);
+function ScheduledExams({ scheduledExams }) {
   return (
     <Div>
       <ExamLogoDiv>
@@ -38,8 +37,9 @@ function ScheduledExams({ ScheduledExams }) {
         />
         <Divider>
           <H3>إختبار</H3>
-          <Span>{ScheduledExams?.description}</Span>
-          <Span>{ScheduledExams?.date} </Span>
+          <Span>{scheduledExams?.description}</Span>
+          <Span>{scheduledExams?.date} </Span>
+          <Span> الدرجة العظمى : {scheduledExams?.total_degree} </Span>
         </Divider>
       </ExamLogoDiv>
       <Button
@@ -48,7 +48,7 @@ function ScheduledExams({ ScheduledExams }) {
         disabled={true}
         style={{ boxShadow: "none", fontWeight: "700", fontSize: "1.4rem" }}
       >
-        لم يبدأ بعد
+        يبدأ في تمام الساعة <Span>{scheduledExams?.start_time} </Span>
       </Button>
     </Div>
   );

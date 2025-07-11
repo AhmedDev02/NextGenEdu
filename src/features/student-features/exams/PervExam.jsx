@@ -44,8 +44,9 @@ function PervExam({ finishedExam }) {
         />
         <Divider>
           <H3>إختبار</H3>
-          <Span>{finishedExam.description}</Span>
-          <Span>{finishedExam.date} </Span>
+          <Span>{finishedExam?.description}</Span>
+          <Span>{finishedExam?.date} </Span>
+          <Span> الدرجة العظمى : {finishedExam?.total_degree} </Span>
         </Divider>
       </ExamLogoDiv>
       <ButtonDiv>

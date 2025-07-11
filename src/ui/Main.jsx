@@ -14,7 +14,7 @@ const AnimatedMain = styled(animated.main)`
   flex: 1;
   @media (max-width: 1024px) and (min-width: 769px) {
     min-width: 100%; /* Fixes width-related issues */
-    background-color: orange;
+    /* background-color: orange; */
     width: 100%; /* Ensures full width */
     margin-right: 0;
     flex: 1;
@@ -24,7 +24,7 @@ const AnimatedMain = styled(animated.main)`
 
   @media (max-width: 768px) {
     min-width: 100%; /* Fixes width-related issues */
-    background-color: red;
+    /* background-color: red; */
     width: 100%; /* Ensures full width */
     margin-right: 0;
     flex: 1;

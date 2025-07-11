@@ -101,12 +101,12 @@ function StudentNav() {
             <span>{STUDENTS_ITEMS.ENROLLED_MATERIALS}</span>
           </StyledNavLink>
         </li>
-        <li>
+        {/* <li>
           <StyledNavLink to="/chat">
             <HiChatAlt2 />
             <span>{STUDENTS_ITEMS.CHAT}</span>
           </StyledNavLink>
-        </li>
+        </li> */}
         <li>
           <StyledNavLink to="/discussion">
             <HiOutlineAcademicCap />
@@ -137,12 +137,12 @@ function StudentNav() {
             <span>{STUDENTS_ITEMS.TASKS}</span>
           </StyledNavLink>
         </li>
-        <li>
+        {/* <li>
           <StyledNavLink to="/student-progress">
             <FaRegChartBar />
             <span>{STUDENTS_ITEMS.STUDENT_PROGRESS}</span>
           </StyledNavLink>
-        </li>
+        </li> */}
         {/* <li>
           <StyledNavLink to="/final-results">
             <FaRegClipboard />
