@@ -11,8 +11,9 @@ import { setSubmitted } from "../../../store/statusSlice";
 
 function Examination() {
   const { examId } = useParams();
+  console.log(examId);
   const { exam: data } = useStartQuiz(examId);
-
+  console.log(data);
   const dispatch = useDispatch();
   const reduxEndTime = useSelector((state) => state.timers[examId]?.endTime);
 
@@ -78,6 +79,7 @@ function Examination() {
         examId={examId}
         questions={questions}
         timeLeft={formatTime(timeLeft)}
+        examData={data?.data}
       />
     </>
   );

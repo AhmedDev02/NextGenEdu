@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Button from "../../ui/Button";
+import { useUser } from "../../hooks/useUser";
 
 const Container = styled.div`
   display: flex;
@@ -25,12 +26,25 @@ const H3 = styled.h3``;
 const P = styled.p``;
 
 const Forbidden = () => {
+  const { user } = useUser();
+  let URL = "";
+  switch (user.role) {
+    case "Student":
+      URL = "/";
+      break;
+    case "Teacher":
+      URL = "/admin";
+      break;
+    default:
+      URL = "/super-admin";
+      break;
+  }
   return (
     <Container>
       <ForbiddenBox>
         <H3>403 - لا توجد صلاحية</H3>
         <P>ليس لديك صلاحية للوصول إلى هذه الصفحة.</P>
-        <Button navigateTo="/login">العودة إلى تسجيل الدخول</Button>
+        <Button navigateTo={URL}>العودةالصفحة الرئيسية</Button>
       </ForbiddenBox>
     </Container>
   );

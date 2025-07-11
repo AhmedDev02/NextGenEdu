@@ -38,7 +38,7 @@ function DashboardContent() {
   return (
     <Div>
       <TeacherMaterial />
-      <TextDivider>
+      {/* <TextDivider>
         <Text>
           📊 تتبع نسبة حضور الطلاب في المحاضرات والسكاشن لمعرفة مدى التزامهم
           بالحضور.
@@ -55,7 +55,7 @@ function DashboardContent() {
       </TextDivider>
       <QuizContainer>
         <ResultChart />
-      </QuizContainer>
+      </QuizContainer> */}
     </Div>
   );
 }

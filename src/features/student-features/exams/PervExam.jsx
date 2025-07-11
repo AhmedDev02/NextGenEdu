@@ -27,7 +27,14 @@ const Span = styled.span`
   color: var(--color-grey-500);
 `;
 const Divider = styled.div``;
-
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 100px;
+`;
 function PervExam({ finishedExam }) {
   return (
     <Div>
@@ -37,18 +44,30 @@ function PervExam({ finishedExam }) {
         />
         <Divider>
           <H3>إختبار</H3>
-          <Span>{finishedExam.description}</Span>
-          <Span>{finishedExam.date} </Span>
+          <Span>{finishedExam?.description}</Span>
+          <Span>{finishedExam?.date} </Span>
+          <Span> الدرجة العظمى : {finishedExam?.total_degree} </Span>
         </Divider>
       </ExamLogoDiv>
-      <Button
-        variation="transparent"
-        size="small"
-        disabled={true}
-        style={{ boxShadow: "none", fontWeight: "700", fontSize: "1.4rem" }}
-      >
-        إنتهى
-      </Button>
+      <ButtonDiv>
+        <Button
+          variation="transparent"
+          size="small"
+          disabled={true}
+          style={{ boxShadow: "none", fontWeight: "700", fontSize: "1.4rem" }}
+        >
+          إنتهى
+        </Button>
+        <Button
+          variation="primary"
+          size="custom"
+          paddingLeftRight="4px"
+          style={{ boxShadow: "none", fontWeight: "700", fontSize: "1.4rem" }}
+          navigateTo={`/exam/answers/${finishedExam?.id}`}
+        >
+          أظهر الإجابات
+        </Button>
+      </ButtonDiv>
     </Div>
   );
 }

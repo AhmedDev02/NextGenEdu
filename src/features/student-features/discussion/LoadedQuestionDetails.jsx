@@ -72,7 +72,7 @@ const Span = styled.span`
 `;
 
 function LoadedQuestionDetails({ allQuestions, loadedQuestionID }) {
-  const filteredQuestion = allQuestions.questions
+  const filteredQuestion = allQuestions?.questions
     .filter((question) => question._id == loadedQuestionID)
     .at(0);
   const { user, body, createdAt: date } = filteredQuestion;
@@ -81,7 +81,7 @@ function LoadedQuestionDetails({ allQuestions, loadedQuestionID }) {
     <QuestionContainer>
       <QuestionHead>
         <AvatarDiv>
-          <Avatar src={"https://" + avatar} alt="user" />
+          <Avatar src={avatar} alt="user" />
           <QuestionUserInfoDiv>
             <Name>{name}</Name>
             <StudentLevel>

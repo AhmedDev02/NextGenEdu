@@ -103,6 +103,7 @@ import SuperAdminHallsPage from "./pages/super-admin-pages/SuperAdminHallsPage";
 import UpdateHallPage from "./pages/super-admin-pages/UpdateHallPage";
 import HallDetailsPage from "./pages/super-admin-pages/HallDetailsPage";
 import UpdateBuildingPage from "./pages/super-admin-pages/UpdateBuildingPage";
+import ExamAnswers from "./pages/student-pages/ExamAnswers";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -136,6 +137,7 @@ function App() {
             <Route path="*" element={<PageNotFound />} />
             <Route path="403" element={<Forbidden />} />
             {/* Student */}
+
             <Route
               path="/"
               element={
@@ -160,7 +162,6 @@ function App() {
               {/* <Route path="chat" element={<MaintenancePage />} /> */}
 
               <Route path="discussion" element={<Discussion />} />
-              <Route path="discussion/:questionID" element={<Answers />} />
 
               <Route path="weekly-schedule" element={<WeeklySchedule />} />
               <Route path="projects-timeline" element={<ProjectsTimeline />} />
@@ -173,6 +174,7 @@ function App() {
                 path="exams/:examId/:realExamId"
                 element={<Examination />}
               />
+              <Route path="exam/answers/:examId" element={<ExamAnswers />} />
               <Route path="tasks" element={<Tasks />} />
               <Route path="tasks/:courseId" element={<TaskPage />} />
 
@@ -181,6 +183,7 @@ function App() {
 
               <Route path="final-results" element={<FinalResults />} />
               <Route path="profile" element={<StudentProfile />} />
+              <Route path="discussion/:questionID" element={<Answers />} />
             </Route>
 
             {/* Admin */}
@@ -193,7 +196,7 @@ function App() {
               }
             >
               <Route index element={<Navigate replace to="dashboard" />} />
-
+              <Route path="discussion/:questionID" element={<Answers />} />
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="dashboard/:curriculumId" element={<Curriculum />} />
 

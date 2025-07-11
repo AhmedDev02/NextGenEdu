@@ -54,12 +54,12 @@ const ExamDetailsDiv = styled.div`
   border-radius: 10px;
   margin-bottom: 20px;
 `;
-function ExaminationContent({ timeLeft, questions, examId }) {
+function ExaminationContent({ timeLeft, questions, examId, examData }) {
   const [searchParams, setSearchParams] = useSearchParams();
   // const questionNumber = searchParams.get("questionNumber") || 1;
   const isFinished = searchParams.get("finished") || false;
-  console.log(questions);
-
+  console.log(examId);
+  console.log(examData);
   return (
     <Div>
       <ExamLogoDiv>
@@ -68,8 +68,8 @@ function ExaminationContent({ timeLeft, questions, examId }) {
             style={{ fontSize: "4rem", color: "var(--color-red)" }}
           />
           <Divider>
-            <H3>إختبار</H3>
-            <Span>الإسبوع الثاني</Span>
+            <H3>إختبار {examData?.title}</H3>
+            <Span>درجة الإمتحان من {examData?.total_degree}</Span>
           </Divider>
         </Divider>
         <Button

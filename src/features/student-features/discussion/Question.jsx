@@ -8,6 +8,7 @@ import QuestionModal from "./QuestionModal";
 import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
 import { useLikeQuestion } from "./useLikeQuestion";
 import CustomFaSpinner from "../../../ui/tharwat/CustomFaSpinner";
+import { useUser } from "../../../hooks/useUser";
 
 const IMAGE_URL = "https://nextgenedu-database.azurewebsites.net/storage/";
 
@@ -64,6 +65,8 @@ const Break = styled.div`
 
 function Question({ interested, isUser, body, questionDetails }) {
   const { mutate, isPending } = useLikeQuestion(); // Destructure mutate from the hook
+  const { user } = useUser();
+  console.log(user.role);
   const handleLike = (event) => {
     event.stopPropagation(); // prevents bubbling up to parent
     mutate({ questionID: questionDetails._id });
@@ -76,7 +79,7 @@ function Question({ interested, isUser, body, questionDetails }) {
           name={questionDetails.user.name}
           date={getTimeFormatted(questionDetails.createdAt)}
           question={body}
-          avatar={` ${questionDetails?.user?.avatar}`}
+          avatar={`${questionDetails?.user?.avatar}`}
         />
         <QuestionStatus
           likes={questionDetails.likes}
@@ -85,14 +88,22 @@ function Question({ interested, isUser, body, questionDetails }) {
         />
       </QuestionsDiv>
       <ButtonsDiv isUser={isUser}>
-        {isUser && <QuestionModal questionID={questionDetails._id} />}
+        {(isUser || user.role === "Teacher") && (
+          <QuestionModal questionID={questionDetails._id} />
+        )}
         <Button
           variation="secondary"
           size="custom"
-          paddingLeftRight={isUser ? "208px" : "258px"}
+          paddingLeftRight={
+            isUser || user.role === "Teacher" ? "208px" : "258px"
+          }
           paddingTopBottom="10px"
           style={{ borderRadius: "15px", border: "2px white solid" }}
-          navigateTo={`/discussion/${questionDetails._id}`}
+          navigateTo={
+            user.role === "Teacher"
+              ? `/admin/discussion/${questionDetails._id}`
+              : `/discussion/${questionDetails._id}`
+          }
           phonePadding={isUser ? "10px 30px" : "10px 90px"}
           tabPadding={!isUser ? "15px 267px" : "10px 200px"}
         >

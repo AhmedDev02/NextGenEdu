@@ -36,7 +36,7 @@ export const P = styled.p`
   margin-bottom: 1.5rem;
   font-weight: bold;
   font-size: 1.6rem;
-  
+
   @media (max-width: 768px) {
     margin-bottom: 1rem;
     font-size: 1.4rem;
@@ -51,7 +51,7 @@ export const TitleInput = styled.input`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   font-size: 1.6rem;
   padding: 0.8rem;
-box-shadow: var(--shadow-primary);
+  box-shadow: var(--shadow-primary);
   &:focus {
     outline: 2px solid var(--color-primary-green);
     border-color: transparent;
@@ -191,9 +191,9 @@ export const Select = styled.select`
   transition: all 0.3s;
   background-color: #f9f9f9;
   box-shadow: var(--shadow-primary);
- &:hover{
-  box-shadow:  none;
- }
+  &:hover {
+    box-shadow: none;
+  }
   &:focus {
     outline: 2px solid var(--color-primary-green);
     border-color: transparent;

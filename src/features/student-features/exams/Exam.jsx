@@ -7,8 +7,8 @@ function Exam() {
   return (
     <>
       <ContentHeader
-        title={STUDENT_PAGES_PROPERTIES.MATERIAL_EXAM.title}
-        subject={"البرمجة الكونية"}
+        // title={STUDENT_PAGES_PROPERTIES.MATERIAL_EXAM.title}
+        subject={"الإختبارات"}
         description={STUDENT_PAGES_PROPERTIES.MATERIAL_EXAM.description}
         button={true}
       />

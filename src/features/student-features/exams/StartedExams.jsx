@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import Button from "../../../ui/Button";
 import { MdAssignmentAdd } from "react-icons/md";
+import { useSearchParams } from "react-router-dom";
+import { useGetAnswers } from "./useGetAnswers";
 
 const Div = styled.div`
   display: flex;
@@ -19,7 +21,9 @@ const ExamLogoDiv = styled.div`
   gap: 20px;
 `;
 
-const H3 = styled.h3``;
+const H3 = styled.h3`
+  direction: rtl;
+`;
 
 const Span = styled.span`
   font-size: 1rem;
@@ -28,7 +32,8 @@ const Span = styled.span`
 `;
 const Divider = styled.div``;
 
-function ScheduledExams({ scheduledExams }) {
+function StartedExams({ startedExam, onStart }) {
+  const { answers } = useGetAnswers(startedExam?.id);
   return (
     <Div>
       <ExamLogoDiv>
@@ -36,22 +41,22 @@ function ScheduledExams({ scheduledExams }) {
           style={{ fontSize: "4rem", color: "var(--color-red)" }}
         />
         <Divider>
-          <H3>إختبار</H3>
-          <Span>{scheduledExams?.description}</Span>
-          <Span>{scheduledExams?.date} </Span>
-          <Span> الدرجة العظمى : {scheduledExams?.total_degree} </Span>
+          <H3>إختبار {startedExam?.title} </H3>
+          <Span>{startedExam?.description}</Span>
+          <Span>{startedExam?.date} </Span>
+          <Span>{startedExam?.total_degree} </Span>
         </Divider>
       </ExamLogoDiv>
       <Button
-        variation="transparent"
+        variation="primary"
         size="small"
-        disabled={true}
         style={{ boxShadow: "none", fontWeight: "700", fontSize: "1.4rem" }}
+        onClick={onStart}
       >
-        يبدأ في تمام الساعة <Span>{scheduledExams?.start_time} </Span>
+        إختبر الأن
       </Button>
     </Div>
   );
 }
 
-export default ScheduledExams;
+export default StartedExams;
