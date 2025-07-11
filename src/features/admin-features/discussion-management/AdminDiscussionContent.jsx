@@ -28,7 +28,7 @@ function AdminDiscussionContent() {
   return (
     <Div>
       <DiscussionHeader
-        isTeacher={user?.role !== "Teacher"}
+        isTeacherFromAdmin={user?.role === "Teacher"}
         questionsNum={data.length}
       />
 

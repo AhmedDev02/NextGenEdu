@@ -23,6 +23,7 @@ const Div = styled.div`
 function DiscussionContent() {
   const { questions, isLoading, error, id } = useReadQuestions();
   const data = questions?.questions ? questions?.questions : [];
+  const { user } = useUser();
 
   if (isLoading) return <Spinner />;
   return (
@@ -36,6 +37,7 @@ function DiscussionContent() {
             interested={item.user.liked}
             body={item.body}
             questionDetails={item}
+            isStudentFromStudent={user?.role === "Student"}
           />
         );
       })}
