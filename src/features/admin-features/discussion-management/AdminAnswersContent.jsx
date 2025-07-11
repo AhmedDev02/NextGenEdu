@@ -1,13 +1,13 @@
-import styled from "styled-components";
-import QuestionDetails from "./QuestionDetails";
-import AnswersContainer from "./AnswersContainer";
 import { useParams } from "react-router-dom";
-import { useReadOneQuestion } from "./useReadOneQuestion";
-import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
+import styled from "styled-components";
+import { useReadOneQuestion } from "../../student-features/discussion/useReadOneQuestion";
+import { useReadQuestions } from "../../student-features/discussion/useReadQuestions";
 import { useUser } from "../../../hooks/useUser";
 import Spinner from "../../../ui/amr/Spinner";
-import LoadedQuestionDetails from "./LoadedQuestionDetails";
-import { useReadQuestions } from "./useReadQuestions";
+import QuestionDetails from "../../student-features/discussion/QuestionDetails";
+import { getStudentYear, getTimeFormatted } from "../../../utils/helpers";
+import LoadedQuestionDetails from "../../student-features/discussion/LoadedQuestionDetails";
+import AnswersContainer from "../../student-features/discussion/AnswersContainer";
 
 const Div = styled.div`
   display: flex;
@@ -28,7 +28,7 @@ const Div = styled.div`
   /* this is for tablets */
 `;
 
-function AnswersContent() {
+function AdminAnswersContent() {
   const { questionID } = useParams(); // `userId` is the parameter from the URL
   console.log(questionID);
   const { question, isLoading } = useReadOneQuestion(questionID) || {};
@@ -62,4 +62,4 @@ function AnswersContent() {
   );
 }
 
-export default AnswersContent;
+export default AdminAnswersContent;

@@ -1,3 +1,4 @@
+import AdminDiscussionContent from "../../features/admin-features/discussion-management/AdminDiscussionContent";
 import ContentHeader from "../../ui/ContentHeader";
 import { ADMIN_PAGES_PROPERTIES } from "../../utils/constants";
 
@@ -9,6 +10,7 @@ function DiscussionManagement() {
         description={ADMIN_PAGES_PROPERTIES.DISCUSSION_ADMIN.description}
         button={false}
       />
+      <AdminDiscussionContent />
     </>
   );
 }
