@@ -20,12 +20,18 @@ import {
 import "react-datepicker/dist/react-datepicker.css";
 import useCreateQuiz from "./useCreateQuiz";
 
-const formatTime = (date) => {
-  return date.toTimeString().split(" ")[0];
+const formatDate = (date) => {
+  const yyyy = date.getFullYear();
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
 };
 
-const formatDate = (date) => {
-  return date.toISOString().split("T")[0];
+const formatTime = (date) => {
+  const hh = String(date.getHours()).padStart(2, "0");
+  const mm = String(date.getMinutes()).padStart(2, "0");
+  const ss = String(date.getSeconds()).padStart(2, "0");
+  return `${hh}:${mm}:${ss}`;
 };
 
 const CreateQuizContent = () => {

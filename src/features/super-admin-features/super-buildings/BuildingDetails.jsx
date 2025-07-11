@@ -40,6 +40,7 @@ const DetailsPageContainer = styled.div`
   max-width: 1200px;
   width: 100%;
   margin: 2rem auto;
+  height: 100vh;
   padding: 0 1rem;
   animation: ${fadeIn} 0.5s ease-out;
 `;
@@ -134,6 +135,12 @@ export const ActionButton = styled.button`
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  &:focus{
+    outline: none;
+  }
+  &:active{
+    scale: 0.95;
   }
 `;
 
