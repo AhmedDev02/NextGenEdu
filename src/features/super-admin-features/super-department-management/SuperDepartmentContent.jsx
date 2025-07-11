@@ -133,22 +133,6 @@ const EmptyState = styled.div`
 
 const Buttons = [
   {
-    label: "عرض المناهج الدراسية",
-    logo: <IoBookOutline size={20} />,
-    state: "page no id",
-    path: "/super-admin/materials",
-    variation: "primary",
-    size: "medium",
-  },
-  {
-    label: "عرض الطلبة المسجلين",
-    logo: <PiStudent size={20} />,
-    state: "page no id",
-    path: "/super-admin/students",
-    variation: "primary",
-    size: "medium",
-  },
-  {
     label: "تعديل قسم",
     logo: <CiEdit size={20} />,
     state: "page with id",
