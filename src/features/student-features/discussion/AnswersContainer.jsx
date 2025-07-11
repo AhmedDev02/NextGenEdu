@@ -62,15 +62,13 @@ const AnswerTextDiv = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #f1f1f1;
-  background-color: #ffd90044;
-
+  background-color: ${({ isTeacher }) => (isTeacher ? "#ffd90044" : "#f1f1f1")};
   padding: 5px 15px;
   border-radius: 15px;
   border: 1px solid var(--color-secondary-darkblue);
   margin: 10px 0;
   border: ${({ isTeacher }) =>
-    !isTeacher && "5px solid #FFD700;"}; /* Hex code for gold */
+    isTeacher && "5px solid #FFD700;"}; /* Hex code for gold */
 `;
 const AnswerHead = styled.div`
   display: flex;
@@ -135,12 +133,14 @@ const AnswerStatusContainer = styled.div`
 
 function AnswersContainer({ id, answers, questionID }) {
   const { user } = useUser();
+  const isTeacher = user?.role === "Teacher";
+  console.log(isTeacher);
   return (
     <Container>
       <H3>أحدث الإجابات</H3>
       {answers?.map((answer, index) => (
-        <AnswerRow isTeacher={user?.role !== "Teacher"} key={answer._id}>
-          <AnswerTextDiv>
+        <AnswerRow key={answer._id}>
+          <AnswerTextDiv isTeacher={!answer?.user?.semester}>
             <AnswerHead>
               <AvatarDiv>
                 <Avatar src={answer.user.avatar} alt="user" />
