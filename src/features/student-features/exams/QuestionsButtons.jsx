@@ -16,6 +16,13 @@ const Div = styled.div`
   gap: 20px;
   width: 100%;
   margin-bottom: 10px;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    padding: 40px;
+    /* display: none; */
+  }
 `;
 
 function QuestionsButtons({ questions, examId }) {

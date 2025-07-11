@@ -42,7 +42,7 @@ const ButtonsDiv = styled.div`
   width: 100%;
   @media (max-width: 768px) {
     max-width: 72%;
-    flex-direction: row;
+    flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
     justify-content: ${({ isUser }) => isUser && "space-between"};
@@ -56,6 +56,9 @@ const ButtonsDiv = styled.div`
 const Span = styled.span`
   display: inline-block;
   margin: 0 10px;
+  @media (max-width: 768px) {
+    font-size: 15px;
+  }
 `;
 const Break = styled.div`
   width: 80%;

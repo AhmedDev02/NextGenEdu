@@ -10,6 +10,7 @@ const SearchContainer = styled.div`
   padding: 8px 12px;
   height: 25px;
   width: 300px;
+
   position: relative;
   @media (max-width: 768px) {
     padding: 0;
