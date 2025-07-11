@@ -46,7 +46,11 @@ const Span = styled.span`
 
 const P = styled.p``;
 
-function DiscussionHeader({ questionsNum, isTeacher }) {
+function DiscussionHeader({
+  questionsNum,
+  isTeacherFromAdmin,
+  isStudentFromStudent,
+}) {
   return (
     <Header>
       <HeaderDiv>
@@ -54,7 +58,9 @@ function DiscussionHeader({ questionsNum, isTeacher }) {
         <Span>{questionsNum} سؤال حتى الآن!</Span>
       </HeaderDiv>
       <HeaderFilter>
-        {isTeacher && <AddQuestionModal />}
+        {!isTeacherFromAdmin && <AddQuestionModal />}
+        {isStudentFromStudent && <AddQuestionModal />}
+
         <ListFilter
           items={[
             { label: "Academic Questions", value: "academic" },

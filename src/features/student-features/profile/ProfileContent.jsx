@@ -50,6 +50,16 @@ const StudentStatus = styled.div`
   display: flex;
   padding: 20px 0;
   border-radius: 20px;
+  @media (max-width: 1024px) {
+    min-width: 80%;
+    padding: 20px;
+    display: none;
+  }
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 40px;
+    display: none;
+  }
 `;
 const StudentStat = styled.div`
   display: flex;
