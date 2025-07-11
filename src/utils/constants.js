@@ -374,8 +374,6 @@ export const SUPER_ADMIN_PAGES_PROPERTIES = {
   UPDATE_BUILDING: {
     title: "إدارة المباني / تحديث بيانات مبني",
     description: "يمكنك تحديث تفاصيل المبني بكل سهوله"
-  }
-    description: "يمكنك رؤية تفاصيل القاعده",
   },
 };
 export const CHAT_WELCOME =
