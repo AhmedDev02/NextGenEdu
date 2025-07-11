@@ -11,8 +11,9 @@ import { setSubmitted } from "../../../store/statusSlice";
 
 function Examination() {
   const { examId } = useParams();
+  console.log(examId);
   const { exam: data } = useStartQuiz(examId);
-
+  console.log(data);
   const dispatch = useDispatch();
   const reduxEndTime = useSelector((state) => state.timers[examId]?.endTime);
 
@@ -67,17 +68,6 @@ function Examination() {
     return `${mins}:${secs}`;
   };
 
-  const filteredFinishedExams = data?.filter(
-    (exam) => +exam?.course?.id === +examId && exam?.status === "finished"
-  );
-  console.log(filteredFinishedExams);
-  const filteredScheduledExams = data?.filter(
-    (exam) => +exam?.course?.id === +examId && exam?.status === "scheduled"
-  );
-  const filteredStartedExams = data?.filter(
-    (exam) => +exam?.course?.id === +examId && exam?.status === "started"
-  );
-
   return (
     <>
       <ContentHeader
@@ -89,6 +79,7 @@ function Examination() {
         examId={examId}
         questions={questions}
         timeLeft={formatTime(timeLeft)}
+        examData={data?.data}
       />
     </>
   );

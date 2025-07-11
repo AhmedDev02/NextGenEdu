@@ -103,6 +103,7 @@ import SuperAdminHallsPage from "./pages/super-admin-pages/SuperAdminHallsPage";
 import UpdateHallPage from "./pages/super-admin-pages/UpdateHallPage";
 import HallDetailsPage from "./pages/super-admin-pages/HallDetailsPage";
 import UpdateBuildingPage from "./pages/super-admin-pages/UpdateBuildingPage";
+import ExamAnswers from "./pages/student-pages/ExamAnswers";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -173,6 +174,7 @@ function App() {
                 path="exams/:examId/:realExamId"
                 element={<Examination />}
               />
+              <Route path="exam/answers/:examId" element={<ExamAnswers />} />
               <Route path="tasks" element={<Tasks />} />
               <Route path="tasks/:courseId" element={<TaskPage />} />
 

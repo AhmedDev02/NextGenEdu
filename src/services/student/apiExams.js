@@ -17,6 +17,24 @@ export const getQuizzes = async (token) => {
   }
 };
 
+export const getAnswers = async (token, examId) => {
+  const headers = {
+    "Content-Type": "application/json",
+    "X-Requested-With": "XMLHttpRequest",
+    "X-Device-Type": "web",
+    Authorization: `Bearer ${token}`,
+  };
+  try {
+    const response = await axios.get(`${BASE_URL}/quizzes/answers/${examId}`, {
+      headers,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching table:", error.message);
+    throw error;
+  }
+};
+
 export const startQuiz = async (token, examId) => {
   console.log(examId);
   const headers = {

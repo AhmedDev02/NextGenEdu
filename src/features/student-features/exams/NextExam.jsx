@@ -232,8 +232,8 @@ function NextExam({ examId, startedExam }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(startedExam);
-  const { exam: data, isPending } = useStartQuiz(examId);
+  console.log(startedExam, examId);
+  const { exam: data, isPending } = useStartQuiz(startedExam?.id);
 
   const exam = data?.data;
 
@@ -253,7 +253,8 @@ function NextExam({ examId, startedExam }) {
   function handleToggle() {
     if (isSidebarOpen) dispatch(toggleSidebar());
     console.log(startedExam?.status);
-    if (startedExam?.status == "started") navigate(`/exams/${examId}/started`);
+    if (startedExam?.status == "started")
+      navigate(`/exams/${startedExam?.id}/started`);
   }
 
   return (
