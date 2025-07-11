@@ -67,6 +67,17 @@ function Examination() {
     return `${mins}:${secs}`;
   };
 
+  const filteredFinishedExams = data?.filter(
+    (exam) => +exam?.course?.id === +examId && exam?.status === "finished"
+  );
+  console.log(filteredFinishedExams);
+  const filteredScheduledExams = data?.filter(
+    (exam) => +exam?.course?.id === +examId && exam?.status === "scheduled"
+  );
+  const filteredStartedExams = data?.filter(
+    (exam) => +exam?.course?.id === +examId && exam?.status === "started"
+  );
+
   return (
     <>
       <ContentHeader

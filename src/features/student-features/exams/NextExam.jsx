@@ -4,6 +4,8 @@ import { toggleSidebar } from "../../../store/sideBarSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useStartQuiz } from "./useStartQuiz";
+import StartedExams from "./StartedExams";
+import moment from "moment-timezone";
 
 const Div = styled.div`
   display: flex;
@@ -53,6 +55,8 @@ const Container = styled.div`
 `;
 const ExamGoal = styled.p`
   font-size: 1.4rem;
+  text-align: left;
+  margin-left: auto;
 `;
 const Start = styled.h5`
   font-size: 1.4rem;
@@ -213,40 +217,68 @@ const AdviceNumber = styled.span`
     font-size: 2.5rem !important;
   }
 `;
-function NextExam({ examGoal, startTime, endTime, examId }) {
+
+const StartedExamsDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+`;
+function NextExam({ examId, startedExam }) {
   const isSidebarOpen = useSelector((state) => state.sidebar.isSidebarOpen);
+  let startExamTime, endExamTime;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  console.log(startedExam);
   const { exam: data, isPending } = useStartQuiz(examId);
-  console.log(data);
+
   const exam = data?.data;
 
-  console.log(exam);
+  const startDateTimeString = `${startedExam?.date} ${startedExam?.start_time}`;
+
+  const examStartTime = moment(startDateTimeString, "YYYY-MM-DD HH:mm:ss");
+
+  const examEndTime = examStartTime
+    .clone()
+    .add(startedExam?.duration, "minutes");
+
+  moment.locale("ar");
+
+  startExamTime = examStartTime.format(" Do MMMM YYYY ، الساعة hh:mm A");
+  endExamTime = examEndTime.format(" Do MMMM YYYY ، الساعة hh:mm A");
+
   function handleToggle() {
     if (isSidebarOpen) dispatch(toggleSidebar());
-    console.log(exam?.status);
-    if (exam?.status == "started") navigate(`/exams/${examId}/started`);
+    console.log(startedExam?.status);
+    if (startedExam?.status == "started") navigate(`/exams/${examId}/started`);
   }
-  console.log(exam);
+
   return (
     <Div>
       <Container>
         <H4>وصف الإختبار</H4>
         <ExamDescriptionDiv>
-          <ExamGoal>{examGoal} </ExamGoal>
+          <ExamGoal>{startedExam?.description} </ExamGoal>
           <Breaker />
           <Start>
-            {" الإختبار يبدأ في:"} {startTime}
+            {" الإختبار يبدأ في:"} {startExamTime}
           </Start>
           <End>
-            {" الإختبار ينتهي في:"} {endTime}
+            {" الإختبار ينتهي في:"} {endExamTime}
           </End>
         </ExamDescriptionDiv>
-        <Button style={{ marginTop: "10px" }} onClick={handleToggle}>
-          ابدأ الإختبار الآن!
-        </Button>
+        <StartedExamsDiv>
+          <StartedExams
+            examDate={startedExam?.date}
+            startedExam={startedExam}
+            examStartTime={startedExam?.start_time}
+            key={startedExam.id}
+            onStart={handleToggle}
+          />
+        </StartedExamsDiv>
       </Container>
       <ExamDetailsDiv>
         <H4>تفاصيل الإختبار</H4>
@@ -259,9 +291,9 @@ function NextExam({ examGoal, startTime, endTime, examId }) {
         </LabelDiv>
         <Breaker style={{ marginTop: "35px", width: "100%" }} />
         <LabelDetailsDiv>
-          <LabelDetails>{exam?.status || "مجدول"}</LabelDetails>
+          <LabelDetails>{startedExam?.status}</LabelDetails>
           <LabelDetails>{"أعمال سنة"}</LabelDetails>
-          <LabelDetails>{`${exam?.duration || 15} دقيقة `}</LabelDetails>
+          <LabelDetails>{`${startedExam?.duration || 15} دقيقة `}</LabelDetails>
           <LabelDetails style={{ borderLeft: "none" }}>
             {"مرة واحدة"}
           </LabelDetails>
