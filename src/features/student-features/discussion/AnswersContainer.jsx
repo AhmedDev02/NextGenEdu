@@ -63,10 +63,14 @@ const AnswerTextDiv = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: #f1f1f1;
+  background-color: #ffd90044;
+
   padding: 5px 15px;
   border-radius: 15px;
   border: 1px solid var(--color-secondary-darkblue);
   margin: 10px 0;
+  border: ${({ isTeacher }) =>
+    !isTeacher && "5px solid #FFD700;"}; /* Hex code for gold */
 `;
 const AnswerHead = styled.div`
   display: flex;
@@ -135,7 +139,7 @@ function AnswersContainer({ id, answers, questionID }) {
     <Container>
       <H3>أحدث الإجابات</H3>
       {answers?.map((answer, index) => (
-        <AnswerRow key={answer._id}>
+        <AnswerRow isTeacher={user?.role !== "Teacher"} key={answer._id}>
           <AnswerTextDiv>
             <AnswerHead>
               <AvatarDiv>

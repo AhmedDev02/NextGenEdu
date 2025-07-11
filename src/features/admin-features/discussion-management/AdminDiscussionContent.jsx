@@ -3,6 +3,7 @@ import { useReadQuestions } from "../../student-features/discussion/useReadQuest
 import DiscussionHeader from "../../student-features/discussion/DiscussionHeader";
 import Question from "../../student-features/discussion/Question";
 import Spinner from "../../../ui/amr/Spinner";
+import { useUser } from "../../../hooks/useUser";
 
 const Div = styled.div`
   display: flex;
@@ -22,11 +23,15 @@ const Div = styled.div`
 function AdminDiscussionContent() {
   const { questions, isLoading, id } = useReadQuestions();
   const data = questions?.questions ? questions?.questions : [];
-
+  const { user } = useUser();
   if (isLoading) return <Spinner />;
   return (
     <Div>
-      <DiscussionHeader questionsNum={data.length} />
+      <DiscussionHeader
+        isTeacher={user?.role !== "Teacher"}
+        questionsNum={data.length}
+      />
+
       {data.map((item, index) => {
         return (
           <Question

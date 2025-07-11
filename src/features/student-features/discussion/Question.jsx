@@ -64,9 +64,9 @@ const Break = styled.div`
 `;
 
 function Question({ interested, isUser, body, questionDetails }) {
-  const { mutate, isPending } = useLikeQuestion(); // Destructure mutate from the hook
+  const { mutate, isPending } = useLikeQuestion();
   const { user } = useUser();
-  console.log(user.role);
+
   const handleLike = (event) => {
     event.stopPropagation(); // prevents bubbling up to parent
     mutate({ questionID: questionDetails._id });
