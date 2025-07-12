@@ -56,6 +56,9 @@ const Input = styled.input`
     opacity: 0.85;
   }
 `;
+const H1 = styled.h1`
+  color: #fff;
+`;
 const InputContainer = styled.div`
   position: relative;
   width: 100%;
@@ -266,6 +269,7 @@ export default function LoginForm() {
       {wasRedirected}
       <LoginBox>
         <Logo src="/logo.png" alt="Logo" />
+        <H1>صفحة دخول الطلاب</H1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
             {!watch("email") && (

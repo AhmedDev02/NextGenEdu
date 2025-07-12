@@ -110,6 +110,9 @@ const TempSign = styled.div`
   margin: 10px;
   align-items: center;
 `;
+const H1 = styled.h1`
+  color: #fff;
+`;
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -400,6 +403,7 @@ export default function LoginForm() {
       {wasRedirected}
       <LoginBox>
         <Logo src="/logo.png" alt="Logo" />
+        <H1>صفحة دخول المعلمين</H1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <InputContainer>
             {!watch("email") && (
